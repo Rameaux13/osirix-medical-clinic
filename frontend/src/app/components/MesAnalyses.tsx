@@ -1,0 +1,406 @@
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { useCurrentUser } from '@/store/auth';
+import analysesService, { LabOrder, AnalysesStats } from '../../services/analysesService';
+
+// Icônes SVG
+const Stethoscope = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+  </svg>
+);
+
+const User = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+  </svg>
+);
+
+const Calendar = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+);
+
+const Download = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+  </svg>
+);
+
+const AlertCircle = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const FileText = ({ className }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+  </svg>
+);
+
+interface MesAnalysesProps {
+  onNavigateToNewAppointment?: () => void;
+}
+
+export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesProps) {
+  const { user } = useCurrentUser();
+
+  // États
+  const [analyses, setAnalyses] = useState<LabOrder[]>([]);
+  const [recentAnalyses, setRecentAnalyses] = useState<LabOrder[]>([]);
+  const [stats, setStats] = useState<AnalysesStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedView, setSelectedView] = useState<'all' | 'recent'>('recent');
+
+  // Chargement des données
+  const loadAnalyses = useCallback(async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const [allAnalyses, recentAnalysesData, statsData] = await Promise.all([
+        analysesService.getMyAnalyses(),
+        analysesService.getRecentAnalyses(),
+        analysesService.getAnalysesStats(),
+      ]);
+
+      setAnalyses(allAnalyses);
+      setRecentAnalyses(recentAnalysesData);
+      setStats(statsData);
+
+    } catch (error: any) {
+      console.error('Erreur chargement analyses:', error);
+      setError(error.message || 'Impossible de charger vos analyses');
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      loadAnalyses();
+    }
+  }, [user, loadAnalyses]);
+
+  // Télécharger les résultats
+  const handleDownloadResults = async (analysis: LabOrder) => {
+    try {
+      const results = await analysesService.downloadAnalysisResults(analysis.id);
+      
+      const content = `
+RÉSULTATS D'ANALYSE - OSIRIX CLINIQUE MÉDICAL
+=============================================
+
+Patient: ${user?.firstName} ${user?.lastName}
+Date de prescription: ${analysesService.formatDate(analysis.orderDate)}
+Type d'examen: ${analysis.examType}
+Médecin prescripteur: ${analysesService.formatDoctorName(analysis.doctor)}
+Priorité: ${analysesService.translatePriority(analysis.priority)}
+
+INSTRUCTIONS:
+${analysis.instructions || 'Aucune instruction spécifique'}
+
+RÉSULTATS:
+${results.results || 'Résultats non disponibles'}
+
+Date des résultats: ${results.resultsDate ? analysesService.formatDate(results.resultsDate) : 'Non disponible'}
+
+---
+Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
+      `.trim();
+
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Analyse_${analysis.examType.replace(/\s+/g, '_')}_${analysesService.formatDate(analysis.orderDate).replace(/\//g, '-')}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+    } catch (error: any) {
+      console.error('Erreur téléchargement:', error);
+      alert('Impossible de télécharger les résultats');
+    }
+  };
+
+  // Rendu d'une analyse
+  const renderAnalysisItem = (analysis: LabOrder) => (
+    <div key={analysis.id} className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          {/* En-tête */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-[#006D65] rounded-full flex items-center justify-center">
+                <Stethoscope className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 text-xl">{analysis.examType}</h4>
+                <p className="text-base text-gray-600">
+                  Prescrit le {analysesService.formatDate(analysis.orderDate)}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-end space-y-2">
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${analysesService.getStatusColor(analysis.status)}`}>
+                {analysesService.translateStatus(analysis.status)}
+              </span>
+              <span className={`px-3 py-1 rounded-full text-xs font-medium ${analysesService.getPriorityColor(analysis.priority)}`}>
+                {analysesService.translatePriority(analysis.priority)}
+              </span>
+            </div>
+          </div>
+
+          {/* Médecin */}
+          {analysis.doctor && (
+            <div className="flex items-center space-x-3 mb-4 bg-gray-100 rounded-lg p-3">
+              <div className="w-8 h-8 bg-[#006D65] rounded-full flex items-center justify-center">
+                <User className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <p className="text-base font-medium text-gray-900">
+                  {analysesService.formatDoctorName(analysis.doctor)}
+                </p>
+                <p className="text-sm text-gray-600">Médecin prescripteur</p>
+              </div>
+            </div>
+          )}
+
+          {/* Instructions */}
+          {analysis.instructions && (
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-2 font-medium">Instructions :</p>
+              <p className="text-base text-gray-800 bg-blue-50 rounded-lg p-3 border-l-4 border-blue-200">
+                {analysis.instructions}
+              </p>
+            </div>
+          )}
+
+          {/* Résultats */}
+          <div className="mb-4">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-gray-600 font-medium">Résultats :</p>
+              {analysis.resultsDate && (
+                <p className="text-sm text-gray-500">
+                  Disponibles le {analysesService.formatDate(analysis.resultsDate)}
+                </p>
+              )}
+            </div>
+
+          
+            {analysesService.hasResults(analysis) ? (
+              <div className="bg-green-50 rounded-lg p-3 border-l-4 border-green-200">
+                <p className="text-base text-gray-800 mb-3">{analysis.results}</p>
+                <button
+                  onClick={() => handleDownloadResults(analysis)}
+                  className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Télécharger les résultats</span>
+                </button>
+              </div>
+            ) : (
+              <div className="bg-orange-50 rounded-lg p-3 border-l-4 border-orange-200">
+                <p className="text-base text-orange-800">Résultats en attente</p>
+                <p className="text-sm text-orange-600 mt-1">
+                  {analysis.status === 'ordered' ? 'Analyse non encore effectuée' : 'Résultats en cours de traitement'}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* FICHIERS JOINTS */}
+          {analysis.resultFiles && Array.isArray(analysis.resultFiles) && analysis.resultFiles.length > 0 && (
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 font-medium mb-2">Fichiers joints ({analysis.resultFiles.length}) :</p>
+              <div className="space-y-2">
+                {analysis.resultFiles.map((filePath: any, index: number) => {
+                  // Si c'est un string direct, utiliser directement
+                  const fileUrl = typeof filePath === 'string' ? filePath : filePath.url;
+                  const fileName = typeof filePath === 'string' 
+                    ? filePath.split('/').pop() || `Document ${index + 1}`
+                    : filePath.name || `Document ${index + 1}`;
+                  const fileType = typeof filePath === 'string'
+                    ? (filePath.endsWith('.pdf') ? 'PDF' : 'Image')
+                    : filePath.type || 'Fichier médical';
+
+                  return (
+                    <a
+                      key={index}
+                      href={`http://localhost:3001${fileUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group"
+                    >
+                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors">
+                        <FileText className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-purple-900">{fileName}</p>
+                        <p className="text-xs text-purple-600">{fileType}</p>
+                      </div>
+                      <Download className="w-5 h-5 text-purple-600 group-hover:text-purple-800" />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+            <div className="flex items-center text-sm text-gray-500">
+              <Calendar className="w-4 h-4 mr-1" />
+              <span>ID: {analysis.id.substring(0, 8)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div className="animate-pulse space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+            <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+          </div>
+          <div className="h-24 bg-gray-200 rounded-xl"></div>
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-32 bg-gray-200 rounded-xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-semibold text-gray-900">Mes Analyses Médicales</h2>
+        <Stethoscope className="w-6 h-6 text-[#006D65]" />
+      </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <div className="flex items-center">
+            <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
+            <p className="text-red-700 font-medium">{error}</p>
+          </div>
+        </div>
+      )}
+
+      {stats && (
+        <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 rounded-xl p-6 mb-6 border border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-[#006D65]">{stats.total}</p>
+              <p className="text-sm text-gray-600 font-medium">Total analyses</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-green-600">{stats.byStatus.completed || 0}</p>
+              <p className="text-sm text-gray-600 font-medium">Terminées</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-blue-600">{stats.byStatus.in_progress || 0}</p>
+              <p className="text-sm text-gray-600 font-medium">En cours</p>
+            </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-orange-600">{stats.byStatus.ordered || 0}</p>
+              <p className="text-sm text-gray-600 font-medium">Prescrites</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="flex items-center space-x-4 mb-6">
+        <button
+          onClick={() => setSelectedView('recent')}
+          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+            selectedView === 'recent'
+              ? 'bg-[#006D65] text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Analyses récentes
+        </button>
+        <button
+          onClick={() => setSelectedView('all')}
+          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+            selectedView === 'all'
+              ? 'bg-[#006D65] text-white'
+              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+          }`}
+        >
+          Toutes mes analyses ({analyses.length})
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        {selectedView === 'recent' ? (
+          recentAnalyses.length > 0 ? (
+            recentAnalyses.map(renderAnalysisItem)
+          ) : (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Stethoscope className="w-8 h-8 text-gray-500" />
+              </div>
+              <p className="text-xl text-gray-600 mb-2">Aucune analyse récente</p>
+              <p className="text-base text-gray-500 mb-6">Vos analyses prescrites apparaîtront ici</p>
+              {onNavigateToNewAppointment && (
+                <button
+                  onClick={onNavigateToNewAppointment}
+                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base"
+                >
+                  Prendre rendez-vous
+                </button>
+              )}
+            </div>
+          )
+        ) : (
+          analyses.length > 0 ? (
+            analyses.map(renderAnalysisItem)
+          ) : (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Stethoscope className="w-8 h-8 text-gray-500" />
+              </div>
+              <p className="text-xl text-gray-600 mb-2">Aucune analyse disponible</p>
+              <p className="text-base text-gray-500 mb-6">Vos analyses médicales apparaîtront ici une fois prescrites</p>
+              {onNavigateToNewAppointment && (
+                <button
+                  onClick={onNavigateToNewAppointment}
+                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base"
+                >
+                  Prendre rendez-vous
+                </button>
+              )}
+            </div>
+          )
+        )}
+      </div>
+
+      <div className="mt-6 text-center">
+        <button
+          onClick={loadAnalyses}
+          disabled={loading}
+          className="text-[#006D65] hover:text-[#005a54] font-medium text-base transition-colors disabled:opacity-50"
+        >
+          {loading ? 'Rechargement...' : 'Actualiser mes analyses'}
+        </button>
+      </div>
+    </div>
+  );
+}

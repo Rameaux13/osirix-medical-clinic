@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+/* Import Google Fonts - Montserrat pour un look médical plus premium */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+
+@theme {
+  /* Couleurs OSIRIX EXACTES en HEX */
+  --color-primary-50: #f0fdfc;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-300: #5eead4;
+  --color-primary-400: #2dd4bf;
+  --color-primary-500: #006D65; /* Vert OSIRIX EXACT */
+  --color-primary-600: #005a54;
+  --color-primary-700: #004d47;
+  --color-primary-800: #003d39;
+  --color-primary-900: #00312e;
+
+  --color-secondary-50: #fffbeb;
+  --color-secondary-100: #fef3c7;
+  --color-secondary-200: #fde68a;
+  --color-secondary-300: #fcd34d;
+  --color-secondary-400: #fbbf24;
+  --color-secondary-500: #E6A930; /* Orange OSIRIX EXACT */
+  --color-secondary-600: #d97706;
+  --color-secondary-700: #b45309;
+  --color-secondary-800: #92400e;
+  --color-secondary-900: #78350f;
+
+  --color-neutral-50: #F8F9FA;  /* Gris clair OSIRIX EXACT */
+  --color-neutral-100: #f1f3f4;
+  --color-neutral-200: #e8eaed;
+  --color-neutral-300: #dadce0;
+  --color-neutral-400: #bdc1c6;
+  --color-neutral-500: #9aa0a6;
+  --color-neutral-600: #80868b;
+  --color-neutral-700: #5f6368;
+  --color-neutral-800: #343A40; /* Gris foncé OSIRIX EXACT */
+  --color-neutral-900: #202124;
+
+  /* Police Montserrat pour un look plus médical et premium */
+  --font-family-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  
+  /* Border radius */
+  --radius-medical: 12px;
+  
+  /* Shadows */
+  --shadow-medical: 0 4px 6px -1px rgb(0 109 101 / 0.1), 0 2px 4px -1px rgb(0 109 101 / 0.06);
+}
+
+/* Styles de base avec Montserrat */
+body {
+  font-family: var(--font-family-sans);
+  background-color: white;
+  color: var(--color-neutral-800);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  font-weight: 400;
+}
+
+/* Navigation Links avec couleurs exactes */
+.nav-link {
+  color: var(--color-neutral-800);
+  text-decoration: none;
+  position: relative;
+  padding: 5px 0;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  transition: color 0.35s ease;
+  letter-spacing: 0.5px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: #E6A930;  /* Orange OSIRIX exact */
+  border-radius: 8px;
+  transition: width 0.35s ease, left 0.35s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover {
+  color:#006d65;  /* Vert OSIRIX exact */
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  left: 50%;
+}
+
+/* Boutons avec couleurs exactes */
+.btn-primary {
+  background: #E6A930;  /* Orange OSIRIX exact */
+  color: white;
+  border: 2px solid #E6A930;
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(230, 169, 48, 0.3);
+}
+
+.btn-primary:hover {
+  background: #d4941f;
+  border-color: #d4941f;
+  box-shadow: 0 6px 20px rgba(212, 148, 31, 0.6);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #006D65;  /* Vert OSIRIX exact */
+  border: 2px solid #006D65;
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.4s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: #006D65;
+  color: white;
+  box-shadow: 0 5px 20px rgba(0, 109, 101, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Cards médicales */
+.card-medical {
+  background-color: white;
+  border-radius: var(--radius-medical);
+  padding: 24px;
+  box-shadow: var(--shadow-medical);
+  border: 1px solid var(--color-neutral-200);
+}
+
+/* Animation Hero */
+.animate-fade-in {
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(3rem);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Styles Footer exactes comme dans l'HTML original */
+footer {
+  background: #006d65 !important;
+  color: #b0e0dc;
+  padding: 3rem 3rem 2rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+}
+
+.footer-section h3 {
+  color: #e6a930;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.footer-section p,
+.footer-section a {
+  color: #b0e0dc;
+  text-decoration: none;
+  margin-bottom: 0.6rem;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #fff;
+}
+/* Responsive mobile - Boutons auth */
+@media (max-width: 768px) {
+  .auth-buttons-mobile {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-buttons-mobile .btn-outline,
+  .auth-buttons-mobile .btn-primary {
+    flex: 1;
+    text-align: center;
+  }
+}
