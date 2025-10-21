@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSIRIX Clinique Médical - Votre santé, notre priorité</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #343a40;
+      background-color: #fff;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 109, 101, 0.12);
+      z-index: 1100;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .logo img {
+      height: 70px;
+      width: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 109, 101, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover img {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .logo h1 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #006d65;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .nav-menu a {
+      color: #343a40;
+      text-decoration: none;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.35s ease;
+    }
+
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: #e6a930;
+      border-radius: 8px;
+      transition: width 0.35s ease, left 0.35s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-menu a:hover {
+      color: #006d65;
+    }
+
+    .nav-menu a:hover::after {
+      width: 100%;
+      left: 50%;
+    }
+
+    /* Auth Buttons */
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 0.7rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      user-select: none;
+      border: 2px solid transparent;
+      transition: all 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.06em;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #006d65;
+      border-color: #006d65;
+    }
+
+    .btn-outline:hover {
+      background: #006d65;
+      color: #fff;
+      box-shadow: 0 5px 20px rgba(0, 109, 101, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: #e6a930;
+      color: #fff;
+      border-color: #e6a930;
+      box-shadow: 0 4px 12px rgba(230, 169, 48, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: #d4941f;
+      border-color: #d4941f;
+      box-shadow: 0 6px 20px rgba(212, 148, 31, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #006d65;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu-toggle:active {
+      transform: scale(0.9);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(
+          rgba(0, 109, 101, 0.85),
+          rgba(0, 109, 101, 0.85)
+        ), url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(3rem);
+      user-select: none;
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.02em;
+    }
+
+    .hero p {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+      line-height: 1.5;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.22);
+    }
+
+    .btn-hero {
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #e6a930, #d4941f);
+      color: #fff;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(230, 169, 48, 0.45);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      user-select: none;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(230, 169, 48, 0.6);
+    }
+
+    /* Présentation */
+    .presentation {
+      max-width: 1200px;
+      margin: 6rem auto 4rem;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      color: #006d65;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      text-align: center;
+      margin-bottom: 3.5rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+      line-height: 1.6;
+      text-transform: none;
+      font-style: normal;
+    }
+
+    /* Services Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.7rem;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 2.5rem 2rem 3rem;
+      box-shadow: 0 5px 30px rgba(0, 0, 0, 0.09);
+      border-top: 6px solid #e6a930;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    }
+
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 1.7rem;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #006d65, #008b7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 2.1rem;
+      filter: drop-shadow(0 0 3px rgba(0, 141, 122, 0.5));
+      transition: background 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      background: linear-gradient(135deg, #004d47, #006d65);
+    }
+
+    .service-card h3 {
+      font-size: 1.45rem;
+      margin-bottom: 1rem;
+      color: #006d65;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .service-card p {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    /* Section for Doctors - creative circle cards */
+    .doctors-section {
+      background: #f8f9fa;
+      padding: 4rem 2rem 6rem;
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      border-radius: 20px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+    }
+
+    .doctors-title {
+      text-align: center;
+      font-size: 2.7rem;
+      font-weight: 900;
+      color: #006d65;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+
+    .doctors-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.8rem;
+    }
+
+    .doctor-card {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem 1rem 2rem 1rem;
+      box-shadow: 0 7px 30px rgba(0, 0, 0, 0.11);
+      text-align: center;
+      position: relative;
+      overflow: visible;
+      user-select: none;
+      transition: transform 0.33s ease, box-shadow 0.33s ease;
+      cursor: default;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Circle for photo */
+    .doctor-photo-wrapper {
+      --circle-size: 110px;
+      width: var(--circle-size);
+      height: var(--circle-size);
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(230, 169, 48, 0.5);
+      position: relative;
+      border: 5px solid #e6a930;
+      background: #006d65;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .doctor-card:hover .doctor-photo-wrapper {
+      border-color: #d4941f;
+      box-shadow: 0 8px 24px rgba(212, 148, 31, 0.75);
+    }
+
+    .doctor-photo-wrapper img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+      border-radius: 50%;
+      user-select: none;
+    }
+
+    .doctor-name {
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #006d65;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
+    }
+
+    .doctor-specialty {
+      font-size: 1rem;
+      color: #555;
+      font-style: italic;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .doctor-description {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.4;
+      padding: 0 0.7rem;
+    }
+
+    /* Nouvelle section avec photo de médecin souriant */
+    .doctor-highlight {
+      display: flex;
+      align-items: center;
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 2rem;
+      gap: 4rem;
+    }
+
+    .doctor-image {
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .doctor-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .doctor-image:hover img {
+      transform: scale(1.03);
+    }
+
+    .doctor-message {
+      flex: 1;
+    }
+
+    .doctor-message h2 {
+      font-size: 2.5rem;
+      color: #006d65;
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+    }
+
+    .doctor-message p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 2rem;
+    }
+
+    .doctor-signature {
+      font-style: italic;
+      color: #e6a930;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: #f8f9fa;
+      padding: 5rem 3% 6rem;
+      user-select: none;
+    }
+
+    .testimonials-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 2.5rem 2rem 2.5rem 2rem;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      position: relative;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: default;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+    }
+
+    .testimonial-card::before {
+      content: '“';
+      font-size: 3rem; /* Reduced size for better aesthetics */
+      color: #e6a930;
+      position: absolute;
+      top: -10px; /* Moved up to align better with card */
+      left: 15px; /* Slightly adjusted for balance */
+      opacity: 0.6; /* Lower opacity for subtlety */
+      font-family: Georgia, serif;
+      user-select: none;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      color: #555;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+      padding-top: 1rem; /* Added padding to avoid overlap with quote */
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .author-avatar {
+      background: linear-gradient(135deg, #006d65, #e6a930);
+      color: white;
+      font-weight: 900;
+      font-size: 1.3rem;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 14px rgba(0, 109, 101, 0.5);
+      user-select: none;
+    }
+
+    .author-info h4 {
+      color: #006d65;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+
+    .author-info span {
+      color: #666;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    /* Footer */
+    .footer {
+      background: #006d65;
+      color: #b0e0dc;
+      padding: 3rem 3rem 2rem;
+      user-select: none;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-section h3 {
+      color: #e6a930;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #b0e0dc;
+      text-decoration: none;
+      margin-bottom: 0.6rem;
+      display: block;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #fff;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .social-links a {
+      width: 42px;
+      height: 42px;
+      background: #e6a930;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(230, 169, 48, 0.5);
+      transition: background 0.3s ease, transform 0.3s ease;
+      user-select: none;
+    }
+
+    .social-links a:hover {
+      background: #d4941f;
+      transform: scale(1.1);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid #004d47;
+      color: #b0e0dc;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-bottom a {
+      color: #e6a930;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-bottom a:hover {
+      color: #fff;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .navbar {
+        padding: 1rem 2rem;
+      }
+
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .presentation {
+        margin: 5rem 1rem 3rem;
+        padding: 0 1rem;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .testimonials-grid,
+      .doctors-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .doctor-highlight {
+        flex-direction: column;
+        gap: 2rem;
+      }
+    }
+
+    /* Mobile menu */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        box-shadow: 0 8px 30px rgba(0, 109, 101, 0.12);
+        padding: 1rem 0;
+        flex-direction: column;
+        display: none;
+        z-index: 1200;
+        border-radius: 0 0 15px 15px;
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .nav-menu li {
+        width: 100%;
+      }
+
+      .nav-menu a {
+        padding: 1rem 2.5rem;
+        display: block;
+        font-size: 1.1rem;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+        order: 3;
+      }
+
+      .auth-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem; /* Reduced gap for compactness */
+        width: 100%;
+        margin-top: 0.8rem;
+        order: 4;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem; /* Reduced padding for smaller buttons */
+        font-size: 0.85rem; /* Smaller font size */
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0.8rem 1rem;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo img {
+        height: 50px;
+      }
+
+      .mobile-menu-toggle {
+        font-size: 1.5rem;
+      }
+
+      .auth-buttons {
+        gap: 0.3rem; /* Further reduced gap */
+      }
+
+      .btn {
+        padding: 0.4rem 0.8rem; /* Further reduced padding */
+        font-size: 0.8rem; /* Smaller font size for very small screens */
+      }
+
+      .testimonial-card::before {
+        font-size: 2.5rem; /* Smaller quote size on very small screens */
+        top: -8px;
+        left: 10px;
+      }
+
+      .testimonial-text {
+        padding-top: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar" role="navigation" aria-label="Navigation principale">
+      <a href="#accueil" class="logo" tabindex="0">
+        <img src="logo.jpg" alt="Logo OSIRIX Clinique Médical" />
+        <h1>OSIRIX</h1>
+      </a>
+      <button class="mobile-menu-toggle" aria-label="Afficher le menu navigation">☰</button>
+      <ul class="nav-menu" role="menubar">
+        <li role="none"><a href="#accueil" role="menuitem" tabindex="0">Accueil</a></li>
+        <li role="none"><a href="#services" role="menuitem" tabindex="0">Services</a></li>
+        <li role="none"><a href="#rendez-vous" role="menuitem" tabindex="0">Rendez-vous</a></li>
+        <li role="none"><a href="#contact" role="menuitem" tabindex="0">Contact</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="#" class="btn btn-outline" tabindex="0">Connexion</a>
+        <a href="#" class="btn btn-primary" tabindex="0">Inscription</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="accueil" role="banner">
+    <div class="hero-content" aria-label="Présentation de la clinique OSIRIX">
+      <h1>Votre santé, notre priorité</h1>
+      <p>Une équipe médicale d'excellence à votre service pour des soins de qualité dans un environnement moderne
+        et bienveillant.</p>
+      <a href="#rendez-vous" class="btn-hero" tabindex="0">Prendre rendez-vous</a>
+    </div>
+  </section>
+
+  <!-- Nouvelle section avec médecin souriant -->
+  <section class="doctor-highlight">
+    <div class="doctor-image">
+      <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Docteur souriant de la clinique OSIRIX">
+    </div>
+    <div class="doctor-message">
+      <h2>Des soins d'exception par des professionnels dévoués</h2>
+      <p>À la clinique OSIRIX, nous mettons tout en œuvre pour vous offrir des soins médicaux de la plus haute qualité. Notre équipe de professionnels expérimentés et bienveillants est là pour vous accompagner à chaque étape de votre parcours de santé.</p>
+      <p>Nous combinons expertise médicale, technologies de pointe et approche humaine pour vous garantir une expérience de soin optimale et rassurante.</p>
+      <p class="doctor-signature">— L'équipe médicale OSIRIX</p>
+    </div>
+  </section>
+
+  <!-- Présentation -->
+  <section class="presentation" id="services" aria-labelledby="services-title">
+    <h2 class="section-title" id="services-title">Nos Services</h2>
+    <p class="section-subtitle">OSIRIX Clinique Médical vous offre une gamme complète de services médicaux avec des
+      équipements de pointe et une équipe qualifiée.</p>
+    <div class="services-grid">
+      <article class="service-card" tabindex="0" aria-label="Consultation Générale">
+        <div class="service-icon" aria-hidden="true">
+          <!-- SVG Icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path
+              d="M19 8l-4 4h3c0 3.31-2.69 6-6 6a5.87 5.87 0 01-2.8-.7l-1.46 1.46A7.93 7.93 0 0012 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 .79 0 1.53.20 2.14.54l1.46-1.46A7.93 7.93 0 0012 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z" />
+          </svg>
+        </div>
+        <h3>Consultation Générale</h3>
+        <p>Consultations médicales générales avec nos médecins expérimentés pour un suivi personnalisé de votre santé.
+        </p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Analyses Médicales">
+        <div class="service-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path
+              d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z" />
+          </svg>
+        </div>
+        <h3>Analyses Médicales</h3>
+        <p>Laboratoire d'analyses complet avec résultats rapides et fiables pour tous vos examens biologiques.</p>
+      </article>
+      <article class="service-card" tabindex="0" aria-label="Imagerie Médicale">
+        <div class="service-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path
+              d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
+          </svg>
+        </div>
+        <h3>Imagerie Médicale</h3>
+        <p>Équipements d'imagerie moderne : radiologie, échographie, scanner pour des diagnostics précis.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Section Médecins (exemple créatif) -->
+  <section class="doctors-section" aria-labelledby="doctors-title">
+    <h2 class="doctors-title" id="doctors-title">Notre Équipe Médicale</h2>
+    <p class="doctors-subtitle">Rencontrez nos experts passionnés, dédiés à votre bien-être et à votre santé.</p>
+    <div class="doctors-grid">
+      <article class="doctor-card" tabindex="0" aria-label="Dr. Marie Dupont, Cardiologue">
+        <div class="doctor-photo-wrapper" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Portrait de Dr. Marie Dupont" />
+        </div>
+        <h3 class="doctor-name">Dr. Marie Dupont</h3>
+        <p class="doctor-specialty">Cardiologue</p>
+        <p class="doctor-description">Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience et une approche humaine.</p>
+      </article>
+      <article class="doctor-card" tabindex="0" aria-label="Dr. Karim Ba, Radiologue">
+        <div class="doctor-photo-wrapper" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Portrait de Dr. Karim Ba" />
+        </div>
+        <h3 class="doctor-name">Dr. Karim Ba</h3>
+        <p class="doctor-specialty">Radiologue</p>
+        <p class="doctor-description">Expert en techniques d'imagerie avancées, il assure des diagnostics précis et rapides.</p>
+      </article>
+      <article class="doctor-card" tabindex="0" aria-label="Dr. Aminata Diarra, Médecine Générale">
+        <div class="doctor-photo-wrapper" aria-hidden="true">
+          <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Portrait de Dr. Aminata Diarra" />
+        </div>
+        <h3 class="doctor-name">Dr. Aminata Diarra</h3>
+        <p class="doctor-specialty">Médecin Généraliste</p>
+        <p class="doctor-description">Une approche douce et personnalisée pour assurer un suivi complet de votre santé.</p>
+      </article>
+    </div>
+  </section>
+  <!-- Témoignages -->
+  <section class="testimonials" aria-labelledby="testimonial-title">
+    <div class="testimonials-container">
+      <h2 class="section-title" id="testimonial-title">Ce que disent nos patients</h2>
+      <p class="section-subtitle">La satisfaction de nos patients est notre plus grande récompense</p>
+      <div class="testimonials-grid">
+        <article class="testimonial-card" tabindex="0" aria-label="Témoignage d'Aminata Mbaye">
+          <p class="testimonial-text">Excellent service médical ! L'équipe est très professionnelle et à l'écoute. Les
+            installations sont modernes et l'accueil chaleureux.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" aria-hidden="true">AM</div>
+            <div class="author-info">
+              <h4>Aminata Mbaye</h4>
+              <span>Patiente depuis 2 ans</span>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card" tabindex="0" aria-label="Témoignage de Kouassi Désirée">
+          <p class="testimonial-text">Je recommande vivement cette clinique. Les médecins sont compétents et le personnel
+            administratif très efficace pour les rendez-vous.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" aria-hidden="true">KD</div>
+            <div class="author-info">
+              <h4>Kouassi Désirée</h4>
+              <span>Patiente depuis 1 an</span>
+            </div>
+          </div>
+        </article>
+        <article class="testimonial-card" tabindex="0" aria-label="Témoignage de Jean Baptiste">
+          <p class="testimonial-text">Une clinique d'excellence ! Les analyses sont rapides et les résultats précis.
+            L'équipe médicale inspire confiance.</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" aria-hidden="true">JB</div>
+            <div class="author-info">
+              <h4>Jean Baptiste</h4>
+              <span>Patient depuis 3 ans</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact" role="contentinfo" aria-label="Contact et informations">
+    <div class="footer-content">
+      <section class="footer-section" aria-labelledby="footer-about">
+        <h3 id="footer-about">OSIRIX Clinique Médical</h3>
+        <p>Cocody, Abidjan, Côte d'Ivoire</p>
+        <p>+225 27 22 XX XX XX</p>
+        <p>contact@osirix-clinique.ci</p>
+        <p>Lun-Sam: 7h-20h | Dim: 8h-18h</p>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-services">
+        <h3 id="footer-services">Services</h3>
+        <a href="#">Consultation générale</a>
+        <a href="#">Analyses médicales</a>
+        <a href="#">Imagerie médicale</a>
+        <a href="#">Urgences 24h/24</a>
+        <a href="#">Prise de rendez-vous</a>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-info">
+        <h3 id="footer-info">Informations</h3>
+        <a href="#">À propos</a>
+        <a href="#">Notre équipe</a>
+        <a href="#">Horaires</a>
+        <a href="#">Tarifs</a>
+        <a href="#">Assurances</a>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-social">
+        <h3 id="footer-social">Suivez-nous</h3>
+        <div class="social-links">
+          <a href="#" title="Facebook" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+          </a>
+          <a href="#" title="Instagram" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+          </a>
+          <a href="#" title="LinkedIn" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </a>
+          <a href="#" title="Twitter" aria-label="Twitter">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+            </svg>
+          </a>
+        </div>
+        <p style="margin-top: 1rem;">Restez informé de nos actualités et conseils santé.</p>
+      </section>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 OSIRIX Clinique Médical. Tous droits réservés. |
+        <a href="#">Mentions légales</a> |
+        <a href="#">Politique de confidentialité</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    mobileMenuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+        header.style.boxShadow = '0 4px 12px rgba(0, 109, 101, 0.15)';
+      } else {
+        header.style.background = '#fff';
+        header.style.backdropFilter = 'none';
+        header.style.boxShadow = '0 4px 12px rgba(0, 109, 101, 0.12)';
+      }
+    });
+
+    // Animate hero content on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroContent = document.querySelector('.hero-content');
+      heroContent.style.opacity = "1";
+      heroContent.style.transform = "translateY(0)";
+    });
+  </script>
+</body>
+
+</html>

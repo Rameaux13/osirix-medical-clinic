@@ -1,0 +1,371 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 🆕 NOUVEAU : Enum pour les rôles utilisateurs
+enum UserRole {
+  PATIENT
+  SECRETARY
+  DOCTOR
+  LABORANTIN
+  ADMIN
+}
+
+// Table des utilisateurs (patients + staff) - VERSION MODIFIÉE
+model User {
+  id              String   @id @default(uuid())
+  email           String   @unique
+  passwordHash    String
+  firstName       String
+  lastName        String
+  phone           String?  @unique
+  role            UserRole @default(PATIENT)  // 🆕 NOUVEAU
+  gender          String?                      // 🆕 NOUVEAU (Homme/Femme/Autre)
+  dateOfBirth     DateTime?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  reviews         Review[]
+
+  // Relations
+  appointments            Appointment[]
+  consultations           Consultation[]
+  prescriptions           Prescription[]
+  payments                Payment[]
+  medicalRecords          MedicalRecord[]
+  physicalRecordOrders    PhysicalRecordOrder[]
+  notifications           Notification[]
+  labOrders               LabOrder[]
+
+  @@map("users")
+}
+
+// Table des médecins - VERSION SIMPLE
+model Doctor {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  passwordHash  String
+  firstName     String
+  lastName      String
+  speciality    String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  appointments  Appointment[]
+  consultations Consultation[]
+  prescriptions Prescription[]
+  labOrders     LabOrder[]
+  medicalRecords MedicalRecord[]
+
+  @@map("doctors")
+}
+
+// Table des administrateurs - VERSION SIMPLE
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  role         String   @default("admin")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admins")
+}
+
+// Table des types de consultation
+model ConsultationType {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  description   String?
+  price         Int      @default(0)
+  category      String   @default("consultation")
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  appointments  Appointment[]
+
+  @@map("consultation_types")
+}
+
+// Table des créneaux de rendez-vous
+model AppointmentSlot {
+  id                  String   @id @default(uuid())
+  date                DateTime
+  startTime           String
+  endTime             String
+  maxAppointments     Int      @default(1)
+  currentAppointments Int      @default(0)
+  isAvailable         Boolean  @default(true)
+  generatedAt         DateTime @default(now())
+
+  // Relations
+  appointments        Appointment[]
+
+  @@map("appointment_slots")
+}
+
+// Table des rendez-vous - VERSION MODIFIÉE
+model Appointment {
+  id                    String   @id @default(uuid())
+  userId                String
+  doctorId              String?
+  consultationTypeId    String?
+  slotId                String?
+  appointmentDate       DateTime
+  appointmentTime       String
+  status                String   @default("EN_ATTENTE")    // 🔄 MODIFIÉ (avant: "scheduled")
+  paymentStatus         String   @default("pending")
+  paymentMethod         String   @default("SUR_PLACE")     // 🆕 NOUVEAU: "SUR_PLACE" | "EN_LIGNE"
+  isInsured             Boolean  @default(false)           // 🆕 NOUVEAU
+  insuranceStatus       String   @default("NON_RENSEIGNE") // 🆕 NOUVEAU
+  amount                Float    @default(50.0)
+  urgencyLevel          String   @default("normal")
+  notes                 String?
+
+  // Données du formulaire patient (fiche pré-consultation)
+  chiefComplaint        String?
+  symptoms              String?
+  painLevel             Int?
+  painLocation          String?
+  symptomsDuration      String?
+  medicalHistory        String?
+  currentMedications    String?
+  allergies             String?
+  familyMedicalHistory  String?
+  lifestyleInfo         String?
+  additionalInfo        String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  user                  User              @relation(fields: [userId], references: [id])
+  doctor                Doctor?           @relation(fields: [doctorId], references: [id])
+  consultationType      ConsultationType? @relation(fields: [consultationTypeId], references: [id])
+  slot                  AppointmentSlot?  @relation(fields: [slotId], references: [id])
+  consultation          Consultation?
+  payments              Payment[]
+
+  @@map("appointments")
+}
+
+// Table des consultations (ce que remplit le médecin)
+model Consultation {
+  id                  String    @id @default(uuid())
+  appointmentId       String    @unique
+  userId              String
+  doctorId            String?
+  consultationDate    DateTime  @default(now())
+  vitalSigns          String?
+  physicalExamination String?
+  diagnosis           String?
+  treatmentPlan       String?
+  recommendations     String?
+  followUpNeeded      Boolean   @default(false)
+  followUpDate        DateTime?
+  consultationNotes   String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Relations
+  appointment         Appointment    @relation(fields: [appointmentId], references: [id])
+  user                User           @relation(fields: [userId], references: [id])
+  doctor              Doctor?        @relation(fields: [doctorId], references: [id])
+  prescriptions       Prescription[]
+  labOrders           LabOrder[]
+
+  @@map("consultations")
+}
+
+// Table des prescriptions
+model Prescription {
+  id               String   @id @default(uuid())
+  consultationId   String
+  userId           String
+  doctorId         String?
+  prescriptionDate DateTime @default(now())
+  medications      String?
+  instructions     String?
+  pharmacyNotes    String?
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  // Relations
+  consultation     Consultation @relation(fields: [consultationId], references: [id])
+  user             User         @relation(fields: [userId], references: [id])
+  doctor           Doctor?      @relation(fields: [doctorId], references: [id])
+
+  @@map("prescriptions")
+}
+
+// Table des analyses/examens prescrits
+model LabOrder {
+  id             String    @id @default(uuid())
+  consultationId String?   // ✅ MODIFIÉ - maintenant optionnel
+  userId         String
+  doctorId       String?
+  orderDate      DateTime  @default(now())
+  examType       String
+  instructions   String?
+  priority       String    @default("normal")
+  status         String    @default("ordered")
+  results        String?
+  resultFiles    Json?
+  resultsDate    DateTime?
+  createdAt      DateTime  @default(now())
+
+  // Relations
+  consultation   Consultation? @relation(fields: [consultationId], references: [id]) // ✅ MODIFIÉ
+  user           User         @relation(fields: [userId], references: [id])
+  doctor         Doctor?      @relation(fields: [doctorId], references: [id])
+
+  @@map("lab_orders")
+}
+
+// Table des paiements
+model Payment {
+  id                     String    @id @default(uuid())
+  appointmentId          String?
+  userId                 String?
+  stripePaymentIntentId  String?
+  amount                 Float
+  currency               String    @default("EUR")
+  status                 String    @default("pending")
+  paymentMethod          String?
+  transactionFee         Float?
+  netAmount              Float?
+  paymentDate            DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+
+  // Relations
+  appointment            Appointment? @relation(fields: [appointmentId], references: [id])
+  user                   User?        @relation(fields: [userId], references: [id])
+
+  @@map("payments")
+}
+
+// Table du carnet médical numérique
+model MedicalRecord {
+  id                   String    @id @default(uuid())
+  userId               String
+  doctorId             String?
+  consultationId       String?
+  recordType           String
+  title                String
+  content              String?
+  fileUrl              String?
+  fileName             String?
+  fileSize             Int?
+  fileType             String?
+  recordDate           DateTime  @default(now())
+  isVisibleToPatient   Boolean   @default(true)
+  tags                 String?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  // Relations
+  user                 User      @relation(fields: [userId], references: [id])
+  doctor               Doctor?   @relation(fields: [doctorId], references: [id])
+
+  @@map("medical_records")
+}
+
+// Table des commandes de carnet médical physique
+model PhysicalRecordOrder {
+  id              String    @id @default(uuid())
+  userId          String
+  shippingAddress String
+  contactPhone    String?
+  status          String    @default("ordered")
+  orderDate       DateTime  @default(now())
+  shippingDate    DateTime?
+  trackingNumber  String?
+  shippingCost    Float?
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  user            User      @relation(fields: [userId], references: [id])
+
+  @@map("physical_record_orders")
+}
+
+// Table des notifications
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String?
+  doctorId  String?
+  adminId   String?
+  title     String
+  message   String
+  type      String?
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  // Relations
+  user      User?     @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+// Table de configuration des horaires
+model ClinicSchedule {
+  id                      String   @id @default(uuid())
+  dayOfWeek               Int?
+  startTime               String   @default("00:00")
+  endTime                 String   @default("23:59")
+  slotDuration            Int      @default(30)
+  maxAppointmentsPerSlot  Int      @default(1)
+  isActive                Boolean  @default(true)
+  createdAt               DateTime @default(now())
+
+  @@map("clinic_schedule")
+}
+
+// Table des fermetures exceptionnelles
+model ClinicClosure {
+  id          String    @id @default(uuid())
+  closureDate DateTime
+  startTime   String?
+  endTime     String?
+  reason      String?
+  isFullDay   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+
+  @@map("clinic_closures")
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  userId      String
+  rating      Int
+  comment     String?
+  type        String   @default("clinic")
+  isVisible   Boolean  @default(true)
+  emailSent   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id])
+  
+  @@map("reviews")
+}

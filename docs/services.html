@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSIRIX Clinique Médical - Nos Services Spécialisés</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #343a40;
+      background-color: #fff;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0, 109, 101, 0.12);
+      z-index: 1100;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .logo-placeholder {
+      height: 60px;
+      width: 60px;
+      background: linear-gradient(135deg, #006d65, #008b7a);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.5rem;
+      box-shadow: 0 0 10px rgba(0, 109, 101, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover .logo-placeholder {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .logo h1 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #006d65;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+    }
+
+    .nav-menu a {
+      color: #343a40;
+      text-decoration: none;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.35s ease;
+    }
+
+    .nav-menu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background: #e6a930;
+      border-radius: 8px;
+      transition: width 0.35s ease, left 0.35s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-menu a:hover {
+      color: #006d65;
+    }
+
+    .nav-menu a:hover::after {
+      width: 100%;
+      left: 50%;
+    }
+
+    /* Auth Buttons */
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 0.7rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 20px;
+      cursor: pointer;
+      user-select: none;
+      border: 2px solid transparent;
+      transition: all 0.4s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.06em;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #006d65;
+      border-color: #006d65;
+    }
+
+    .btn-outline:hover {
+      background: #006d65;
+      color: #fff;
+      box-shadow: 0 5px 20px rgba(0, 109, 101, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: #e6a930;
+      color: #fff;
+      border-color: #e6a930;
+      box-shadow: 0 4px 12px rgba(230, 169, 48, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: #d4941f;
+      border-color: #d4941f;
+      box-shadow: 0 6px 20px rgba(212, 148, 31, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      color: #006d65;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    /* Hero Section pour Services */
+    .services-hero {
+      min-height: 60vh;
+      background: linear-gradient(
+          rgba(0, 109, 101, 0.88),
+          rgba(0, 109, 101, 0.88)
+        ), url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+      color: #fff;
+      position: relative;
+      margin-top: 80px;
+    }
+
+    .services-hero-content {
+      max-width: 800px;
+      animation: fadeInUp 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(3rem);
+      user-select: none;
+    }
+
+    .services-hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.02em;
+    }
+
+    .services-hero p {
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      line-height: 1.5;
+      text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.22);
+    }
+
+    /* Services Grid */
+    .services-section {
+      max-width: 1200px;
+      margin: 6rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-intro {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      color: #006d65;
+      margin-bottom: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+    }
+
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 650px;
+      margin: 0 auto;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 109, 101, 0.1);
+      text-align: left;
+      transition: all 0.4s ease;
+      cursor: default;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #e6a930, #d4941f);
+      border-radius: 20px 20px 0 0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      border-color: rgba(230, 169, 48, 0.3);
+    }
+
+    .service-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .service-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #006d65, #008b7a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 15px rgba(0, 109, 101, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover .service-icon {
+      background: linear-gradient(135deg, #004d47, #006d65);
+      transform: scale(1.1);
+    }
+
+    .service-price {
+      text-align: right;
+    }
+
+    .price-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #e6a930;
+      display: block;
+      line-height: 1;
+    }
+
+    .price-duration {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    .service-title {
+      font-size: 1.6rem;
+      color: #006d65;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .service-description {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .service-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .service-features li {
+      padding: 0.4rem 0;
+      color: #444;
+      position: relative;
+      padding-left: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .service-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      color: #e6a930;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .service-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-service {
+      flex: 1;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-book {
+      background: linear-gradient(135deg, #e6a930, #d4941f);
+      color: #fff;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 15px rgba(230, 169, 48, 0.3);
+    }
+
+    .btn-book:hover {
+      background: linear-gradient(135deg, #d4941f, #c8861a);
+      box-shadow: 0 6px 20px rgba(212, 148, 31, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-info {
+      background: transparent;
+      color: #006d65;
+      border: 2px solid #006d65;
+    }
+
+    .btn-info:hover {
+      background: #006d65;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 109, 101, 0.3);
+    }
+
+    /* Emergency Service Highlight */
+    .emergency-card {
+      background: linear-gradient(135deg, rgba(220, 53, 69, 0.05), rgba(255, 107, 107, 0.05));
+      border: 2px solid #dc3545;
+      position: relative;
+    }
+
+    .emergency-card::before {
+      background: linear-gradient(90deg, #dc3545, #ff6b6b);
+    }
+
+    .emergency-card .service-icon {
+      background: linear-gradient(135deg, #dc3545, #ff6b6b);
+      animation: pulse 2s infinite;
+    }
+
+    /* Premium Service Highlight */
+    .premium-card {
+      background: linear-gradient(135deg, rgba(139, 69, 19, 0.05), rgba(205, 133, 63, 0.05));
+      border: 2px solid #8b4513;
+    }
+
+    .premium-card::before {
+      background: linear-gradient(90deg, #8b4513, #cd853f);
+    }
+
+    .premium-card .service-icon {
+      background: linear-gradient(135deg, #8b4513, #cd853f);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, #006d65, #008b7a);
+      color: #fff;
+      text-align: center;
+      padding: 4rem 2rem;
+      margin: 4rem auto 0;
+      max-width: 1200px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 109, 101, 0.2);
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-cta {
+      background: #e6a930;
+      color: #fff;
+      padding: 1rem 3rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 8px 25px rgba(230, 169, 48, 0.4);
+      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-cta:hover {
+      background: #d4941f;
+      box-shadow: 0 12px 35px rgba(212, 148, 31, 0.6);
+      transform: translateY(-3px);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    /* Footer */
+    .footer {
+      background: #006d65;
+      color: #b0e0dc;
+      padding: 3rem 3rem 2rem;
+      user-select: none;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      font-weight: 400;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+
+    .footer-section h3 {
+      color: #e6a930;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #b0e0dc;
+      text-decoration: none;
+      margin-bottom: 0.6rem;
+      display: block;
+      transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+      color: #fff;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid #004d47;
+      color: #b0e0dc;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .services-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .service-cta {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-wrap: wrap;
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        box-shadow: 0 8px 30px rgba(0, 109, 101, 0.12);
+        padding: 1rem 0;
+        flex-direction: column;
+        display: none;
+        z-index: 1200;
+        border-radius: 0 0 15px 15px;
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .mobile-menu-toggle {
+        display: block;
+        order: 3;
+      }
+
+      .auth-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        width: 100%;
+        margin-top: 0.8rem;
+        order: 4;
+      }
+
+      .services-hero {
+        margin-top: 100px;
+        min-height: 50vh;
+      }
+
+      .services-hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .services-section {
+        margin: 4rem auto;
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <nav class="navbar" role="navigation" aria-label="Navigation principale">
+      <a href="#accueil" class="logo" tabindex="0">
+        <div class="logo-placeholder">O</div>
+        <h1>OSIRIX</h1>
+      </a>
+      <button class="mobile-menu-toggle" aria-label="Afficher le menu navigation">☰</button>
+      <ul class="nav-menu" role="menubar">
+        <li role="none"><a href="#accueil" role="menuitem" tabindex="0">Accueil</a></li>
+        <li role="none"><a href="#services" role="menuitem" tabindex="0">Services</a></li>
+        <li role="none"><a href="#rendez-vous" role="menuitem" tabindex="0">Rendez-vous</a></li>
+        <li role="none"><a href="#contact" role="menuitem" tabindex="0">Contact</a></li>
+      </ul>
+      <div class="auth-buttons">
+        <a href="#" class="btn btn-outline" tabindex="0">Connexion</a>
+        <a href="#" class="btn btn-primary" tabindex="0">Inscription</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section Services -->
+  <section class="services-hero" role="banner">
+    <div class="services-hero-content">
+      <h1>Nos Services Médicaux</h1>
+      <p>Une expertise médicale complète avec des spécialistes qualifiés pour tous vos besoins de santé</p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services-section" id="services">
+    <div class="section-intro">
+      <h2 class="section-title">Spécialités Médicales</h2>
+      <p class="section-subtitle">Découvrez notre gamme complète de services médicaux spécialisés, assurés par une équipe de professionnels expérimentés dans un environnement moderne et accueillant.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Consultation Générale -->
+      <article class="service-card">
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Rhumatologie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">🦴</div>
+          <div class="service-price">
+            <span class="price-amount">70€</span>
+            <span class="price-duration">30 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Rhumatologie</h3>
+        <p class="service-description">Prise en charge des pathologies articulaires et des troubles musculo-squelettiques.</p>
+        <ul class="service-features">
+          <li>Pathologies articulaires</li>
+          <li>Troubles musculo-squelettiques</li>
+          <li>Traitements personnalisés</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Psychiatrie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">🧘</div>
+          <div class="service-price">
+            <span class="price-amount">90€</span>
+            <span class="price-duration">60 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Psychiatrie</h3>
+        <p class="service-description">Accompagnement psychiatrique pour les troubles mentaux et émotionnels avec une approche humaine.</p>
+        <ul class="service-features">
+          <li>Troubles psychiatriques</li>
+          <li>Thérapies individuelles</li>
+          <li>Suivi à long terme</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Cancérologie -->
+      <article class="service-card premium-card">
+        <div class="service-header">
+          <div class="service-icon">🎗️</div>
+          <div class="service-price">
+            <span class="price-amount">100€</span>
+            <span class="price-duration">45 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Cancérologie</h3>
+        <p class="service-description">Prise en charge oncologique complète avec une équipe spécialisée dans le traitement du cancer.</p>
+        <ul class="service-features">
+          <li>Oncologie médicale</li>
+          <li>Équipe pluridisciplinaire</li>
+          <li>Accompagnement personnalisé</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Urodynamique -->
+      <article class="service-card premium-card">
+        <div class="service-header">
+          <div class="service-icon">📊</div>
+          <div class="service-price">
+            <span class="price-amount">100€</span>
+            <span class="price-duration">45 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Urodynamique</h3>
+        <p class="service-description">Examens spécialisés pour évaluer le fonctionnement de la vessie et des voies urinaires.</p>
+        <ul class="service-features">
+          <li>Examens fonctionnels</li>
+          <li>Diagnostic précis</li>
+          <li>Équipements modernes</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Endoscopie -->
+      <article class="service-card premium-card">
+        <div class="service-header">
+          <div class="service-icon">🔍</div>
+          <div class="service-price">
+            <span class="price-amount">120€</span>
+            <span class="price-duration">60 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Endoscopie</h3>
+        <p class="service-description">Examens endoscopiques avancés pour le diagnostic et le traitement des pathologies internes.</p>
+        <ul class="service-features">
+          <li>Techniques endoscopiques</li>
+          <li>Diagnostic précis</li>
+          <li>Interventions mini-invasives</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Urgence -->
+      <article class="service-card emergency-card">
+        <div class="service-header">
+          <div class="service-icon">🚨</div>
+          <div class="service-price">
+            <span class="price-amount">80€</span>
+            <span class="price-duration">30 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Urgence</h3>
+        <p class="service-description">Prise en charge immédiate des urgences médicales avec une équipe disponible 24h/24.</p>
+        <ul class="service-features">
+          <li>Disponible 24h/24</li>
+          <li>Prise en charge rapide</li>
+          <li>Équipe d'urgentistes</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Urgence</a>
+          <a href="#" class="btn-service btn-info">Contact</a>
+        </div>
+      </article>
+
+      <!-- Pédiatrie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">👶</div>
+          <div class="service-price">
+            <span class="price-amount">60€</span>
+            <span class="price-duration">45 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Pédiatrie</h3>
+        <p class="service-description">Soins spécialisés pour les enfants et adolescents avec une approche bienveillante et adaptée.</p>
+        <ul class="service-features">
+          <li>Spécialiste enfants 0-18 ans</li>
+          <li>Vaccinations</li>
+          <li>Suivi de croissance</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Neurologie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">🧠</div>
+          <div class="service-price">
+            <span class="price-amount">80€</span>
+            <span class="price-duration">45 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Neurologie</h3>
+        <p class="service-description">Diagnostic et traitement des troubles du système nerveux par nos neurologues spécialisés.</p>
+        <ul class="service-features">
+          <li>Troubles neurologiques</li>
+          <li>Examens spécialisés</li>
+          <li>Suivi neurologique</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Urologie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">🔬</div>
+          <div class="service-price">
+            <span class="price-amount">70€</span>
+            <span class="price-duration">30 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Urologie</h3>
+        <p class="service-description">Prise en charge des pathologies urologiques avec des techniques modernes et peu invasives.</p>
+        <ul class="service-features">
+          <li>Pathologies urinaires</li>
+          <li>Techniques modernes</li>
+          <li>Suivi spécialisé</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Andrologie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">⚕️</div>
+          <div class="service-price">
+            <span class="price-amount">75€</span>
+            <span class="price-duration">30 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Andrologie</h3>
+        <p class="service-description">Spécialité dédiée à la santé masculine et au traitement des troubles andrologiques.</p>
+        <ul class="service-features">
+          <li>Santé masculine</li>
+          <li>Troubles andrologiques</li>
+          <li>Consultations confidentielles</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+      <!-- Sexologie -->
+      <article class="service-card">
+        <div class="service-header">
+          <div class="service-icon">💭</div>
+          <div class="service-price">
+            <span class="price-amount">70€</span>
+            <span class="price-duration">45 min</span>
+          </div>
+        </div>
+        <h3 class="service-title">Sexologie</h3>
+        <p class="service-description">Accompagnement et thérapie pour les difficultés liées à la sexualité dans un cadre bienveillant.</p>
+        <ul class="service-features">
+          <li>Thérapie sexuelle</li>
+          <li>Accompagnement personnel</li>
+          <li>Cadre confidentiel</li>
+        </ul>
+        <div class="service-cta">
+          <a href="#" class="btn-service btn-book">Réserver</a>
+          <a href="#" class="btn-service btn-info">Info</a>
+        </div>
+      </article>
+
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Prêt à prendre soin de votre santé ?</h2>
+    <p>Prenez rendez-vous dès maintenant avec nos spécialistes et bénéficiez d'un accompagnement médical personnalisé dans notre clinique moderne.</p>
+    <a href="#" class="btn-cta">Prendre rendez-vous</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact" role="contentinfo" aria-label="Contact et informations">
+    <div class="footer-content">
+      <section class="footer-section" aria-labelledby="footer-about">
+        <h3 id="footer-about">OSIRIX Clinique Médical</h3>
+        <p>Cocody, Abidjan, Côte d'Ivoire</p>
+        <p>+225 27 22 XX XX XX</p>
+        <p>contact@osirix-clinique.ci</p>
+        <p>Lun-Sam: 7h-20h | Dim: 8h-18h</p>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-services">
+        <h3 id="footer-services">Services</h3>
+        <a href="#">Consultation générale</a>
+        <a href="#">Spécialités médicales</a>
+        <a href="#">Urgences 24h/24</a>
+        <a href="#">Examens spécialisés</a>
+        <a href="#">Prise de rendez-vous</a>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-info">
+        <h3 id="footer-info">Informations</h3>
+        <a href="#">À propos</a>
+        <a href="#">Notre équipe</a>
+        <a href="#">Horaires</a>
+        <a href="#">Tarifs</a>
+        <a href="#">Assurances</a>
+      </section>
+      <section class="footer-section" aria-labelledby="footer-contact">
+        <h3 id="footer-contact">Contact</h3>
+        <a href="#">Nous contacter</a>
+        <a href="#">Plan d'accès</a>
+        <a href="#">Urgences</a>
+        <a href="#">Feedback</a>
+        <p style="margin-top: 1rem;">Votre santé, notre engagement.</p>
+      </section>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 OSIRIX Clinique Médical. Tous droits réservés. |
+        <a href="#">Mentions légales</a> |
+        <a href="#">Politique de confidentialité</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (mobileMenuToggle && navMenu) {
+      mobileMenuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+    }
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('.header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(255, 255, 255, 0.95)';
+        header.style.backdropFilter = 'blur(10px)';
+        header.style.boxShadow = '0 4px 12px rgba(0, 109, 101, 0.15)';
+      } else {
+        header.style.background = '#fff';
+        header.style.backdropFilter = 'none';
+        header.style.boxShadow = '0 4px 12px rgba(0, 109, 101, 0.12)';
+      }
+    });
+
+    // Animate hero content on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroContent = document.querySelector('.services-hero-content');
+      if (heroContent) {
+        heroContent.style.opacity = "1";
+        heroContent.style.transform = "translateY(0)";
+      }
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add hover effects for service cards
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  </script>
+</body>
