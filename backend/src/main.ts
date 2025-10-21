@@ -7,11 +7,14 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
    
+  // CORS pour production et développement
   app.enableCors({
     origin: [
       'http://localhost:3000',
       'http://192.168.1.9:3000',
-      'http://127.0.0.1:3000'
+      'http://127.0.0.1:3000',
+      'https://osirix-frontend.vercel.app', // Frontend en production
+      /\.vercel\.app$/ // Tous les domaines Vercel
     ],
     credentials: true,
   });
@@ -22,13 +25,19 @@ async function bootstrap() {
     transform: true,
   }));
 
-  // Servir les fichiers statiques
-  app.useStaticAssets(join(process.cwd(), 'uploads'), {
-    prefix: '/uploads/',
-  });
+  // Servir les fichiers statiques (ne fonctionne pas sur Vercel serverless)
+  // On utilisera Cloudinary plus tard pour les uploads
+  if (process.env.NODE_ENV !== 'production') {
+    app.useStaticAssets(join(process.cwd(), 'uploads'), {
+      prefix: '/uploads/',
+    });
+  }
 
-  await app.listen(3001);
-  console.log('🚀 Backend on http://localhost:3001');
-  console.log('📁 Uploads: ' + join(process.cwd(), 'uploads'));
+  // Port dynamique pour Vercel
+  const port = process.env.PORT || 3001;
+  await app.listen(port);
+  
+  console.log(`🚀 Backend on port ${port}`);
+  console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
 }
 bootstrap();
