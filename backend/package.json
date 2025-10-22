@@ -21,6 +21,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -38,7 +39,7 @@
     "class-validator": "^0.14.2",
     "libphonenumber-js": "^1.12.15",
     "multer": "^2.0.2",
-    "nodemailer": "^7.0.6",
+    "nodemailer": "^7.0.9",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.3",
@@ -59,7 +60,7 @@
     "@types/jest": "^30.0.0",
     "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
-    "@types/nodemailer": "^7.0.1",
+    "@types/nodemailer": "^7.0.2",
     "@types/passport-jwt": "^4.0.1",
     "@types/pg": "^8.15.5",
     "@types/supertest": "^6.0.2",
