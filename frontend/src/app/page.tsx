@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   // État pour le formulaire d'avis
   const [feedbackForm, setFeedbackForm] = useState({
     name: '',
@@ -29,7 +29,7 @@ export default function HomePage() {
   const handleFeedbackSubmit = async (e: any) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`, {
         method: 'POST',
@@ -49,7 +49,7 @@ export default function HomePage() {
       }
 
       await response.json();
-      
+
       setSubmitMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
       setFeedbackForm({ name: '', email: '', rating: 5, message: '' });
     } catch (error) {
@@ -113,50 +113,72 @@ export default function HomePage() {
           {mobileMenuOpen && (
             <div className="md:hidden absolute top-20 sm:top-24 left-0 right-0 bg-white shadow-2xl rounded-b-2xl border-t border-neutral-200">
               <div className="px-6 py-6 space-y-4">
-                <Link 
-                  href="#accueil" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block nav-link text-xl py-3"
+                <a
+                  href="#accueil"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="block nav-link text-xl py-3 cursor-pointer"
                 >
                   Accueil
-                </Link>
-                <Link 
-                  href="#services" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block nav-link text-xl py-3"
+                </a>
+                <a
+                  href="#services"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="block nav-link text-xl py-3 cursor-pointer"
                 >
                   Services
-                </Link>
-                <Link 
-                  href="#avis" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block nav-link text-xl py-3"
+                </a>
+                <a
+                  href="#avis"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    document.getElementById('avis')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="block nav-link text-xl py-3 cursor-pointer"
                 >
                   Avis
-                </Link>
-                <Link 
-                  href="#rendez-vous" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block nav-link text-xl py-3"
+                </a>
+                <a
+                  href="#rendez-vous"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="block nav-link text-xl py-3 cursor-pointer"
                 >
                   Rendez-vous
-                </Link>
-                <Link 
-                  href="#contact" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block nav-link text-xl py-3"
+                </a>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMobileMenuOpen(false);
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="block nav-link text-xl py-3 cursor-pointer"
                 >
                   Contact
-                </Link>
+                </a>
                 <div className="pt-4 space-y-3 border-t border-neutral-200">
-                  <Link 
+                  <Link
                     href="/login"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="w-full btn-outline text-xl py-4 block text-center"
                   >
                     Connexion
                   </Link>
-                  <Link 
+                  <Link
                     href="/register"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="w-full btn-primary text-xl py-4 block text-center"
                   >
                     Inscription
@@ -169,8 +191,8 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section 
-        id="accueil" 
+      <section
+        id="accueil"
         className="min-h-screen bg-gradient-to-br from-primary-600/90 to-primary-700/90 bg-cover bg-center bg-fixed flex items-center justify-center text-white relative overflow-hidden"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 109, 101, 0.85), rgba(0, 109, 101, 0.85)), url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80')`
@@ -181,10 +203,10 @@ export default function HomePage() {
             Votre santé, notre priorité
           </h1>
           <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-12 opacity-95 leading-relaxed drop-shadow-sm font-medium">
-            Une équipe médicale d'excellence à votre service pour des soins de qualité 
+            Une équipe médicale d'excellence à votre service pour des soins de qualité
             dans un environnement moderne et bienveillant.
           </p>
-          <Link 
+          <Link
             href="/login"
             className="inline-block bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white font-bold py-5 px-10 rounded-full text-2xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-300"
           >
@@ -210,12 +232,12 @@ export default function HomePage() {
               Des soins d'exception par des professionnels dévoués
             </h2>
             <p className="text-xl md:text-2xl text-neutral-700 mb-8 leading-relaxed">
-              À la clinique OSIRIX, nous mettons tout en œuvre pour vous offrir des soins médicaux 
-              de la plus haute qualité. Notre équipe de professionnels expérimentés et bienveillants 
+              À la clinique OSIRIX, nous mettons tout en œuvre pour vous offrir des soins médicaux
+              de la plus haute qualité. Notre équipe de professionnels expérimentés et bienveillants
               est là pour vous accompagner à chaque étape de votre parcours de santé.
             </p>
             <p className="text-xl md:text-2xl text-neutral-700 mb-10 leading-relaxed">
-              Nous combinons expertise médicale, technologies de pointe et approche humaine pour vous 
+              Nous combinons expertise médicale, technologies de pointe et approche humaine pour vous
               garantir une expérience de soin optimale et rassurante.
             </p>
             <p className="text-2xl md:text-3xl text-secondary-500 font-semibold italic">
@@ -236,7 +258,7 @@ export default function HomePage() {
               Services Médicaux d'Excellence
             </h2>
             <p className="text-xl md:text-2xl lg:text-3xl text-neutral-700 max-w-5xl mx-auto leading-relaxed">
-              OSIRIX Clinique Médical vous offre une gamme complète de services médicaux 
+              OSIRIX Clinique Médical vous offre une gamme complète de services médicaux
               avec des équipements de pointe et une équipe qualifiée pour votre bien-être.
             </p>
           </div>
@@ -245,7 +267,7 @@ export default function HomePage() {
             {/* Service 1 */}
             <div className="group bg-white rounded-3xl p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
+
               <div className="relative z-10">
                 <div className="w-24 h-24 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -260,9 +282,9 @@ export default function HomePage() {
                 <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-6 group-hover:text-primary-600 transition-colors">
                   Consultation Générale
                 </h3>
-                
+
                 <p className="text-neutral-700 leading-relaxed mb-8 text-lg md:text-xl">
-                  Consultations médicales générales avec nos médecins expérimentés 
+                  Consultations médicales générales avec nos médecins expérimentés
                   pour un suivi personnalisé et complet de votre santé.
                 </p>
 
@@ -275,7 +297,7 @@ export default function HomePage() {
             {/* Service 2 */}
             <div className="group bg-white rounded-3xl p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-secondary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
+
               <div className="relative z-10">
                 <div className="w-24 h-24 bg-gradient-to-br from-secondary-500 via-secondary-600 to-secondary-700 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -290,9 +312,9 @@ export default function HomePage() {
                 <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-6 group-hover:text-primary-600 transition-colors">
                   Analyses Médicales
                 </h3>
-                
+
                 <p className="text-neutral-700 leading-relaxed mb-8 text-lg md:text-xl">
-                  Laboratoire d'analyses complet avec résultats rapides et fiables 
+                  Laboratoire d'analyses complet avec résultats rapides et fiables
                   pour tous vos examens biologiques et diagnostics précis.
                 </p>
 
@@ -305,7 +327,7 @@ export default function HomePage() {
             {/* Service 3 */}
             <div className="group bg-white rounded-3xl p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden md:col-span-2 lg:col-span-1">
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
+
               <div className="relative z-10">
                 <div className="w-24 h-24 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -320,9 +342,9 @@ export default function HomePage() {
                 <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-6 group-hover:text-primary-600 transition-colors">
                   Imagerie Médicale
                 </h3>
-                
+
                 <p className="text-neutral-700 leading-relaxed mb-8 text-lg md:text-xl">
-                  Équipements d'imagerie moderne : radiologie, échographie, scanner 
+                  Équipements d'imagerie moderne : radiologie, échographie, scanner
                   pour des diagnostics précis et une prise en charge optimale.
                 </p>
 
@@ -362,7 +384,7 @@ export default function HomePage() {
               <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-3 tracking-wide">Dr. Kouame</h3>
               <p className="text-neutral-600 italic font-medium mb-6 text-lg md:text-xl">Cardiologue</p>
               <p className="text-neutral-700 text-lg md:text-xl leading-relaxed">
-                Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience 
+                Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience
                 et une approche humaine.
               </p>
             </div>
@@ -381,7 +403,7 @@ export default function HomePage() {
               <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-3 tracking-wide">Dr. Karim Ba</h3>
               <p className="text-neutral-600 italic font-medium mb-6 text-lg md:text-xl">Radiologue</p>
               <p className="text-neutral-700 text-lg md:text-xl leading-relaxed">
-                Expert en techniques d'imagerie avancées, il assure des diagnostics précis 
+                Expert en techniques d'imagerie avancées, il assure des diagnostics précis
                 et rapides.
               </p>
             </div>
@@ -400,7 +422,7 @@ export default function HomePage() {
               <h3 className="text-2xl md:text-3xl font-bold text-primary-500 mb-3 tracking-wide">Dr.Diarra</h3>
               <p className="text-neutral-600 italic font-medium mb-6 text-lg md:text-xl">Médecin Généraliste</p>
               <p className="text-neutral-700 text-lg md:text-xl leading-relaxed">
-                Une approche douce et personnalisée pour assurer un suivi complet de 
+                Une approche douce et personnalisée pour assurer un suivi complet de
                 votre santé.
               </p>
             </div>
@@ -425,7 +447,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
               <div className="text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
               <p className="text-neutral-700 italic mb-8 pt-10 leading-relaxed text-lg md:text-xl">
-                Excellent service médical ! L'équipe est très professionnelle et à l'écoute. 
+                Excellent service médical ! L'équipe est très professionnelle et à l'écoute.
                 Les installations sont modernes et l'accueil chaleureux.
               </p>
               <div className="flex items-center gap-4">
@@ -443,7 +465,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
               <div className="text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
               <p className="text-neutral-700 italic mb-8 pt-10 leading-relaxed text-lg md:text-xl">
-                Je recommande vivement cette clinique. Les médecins sont compétents et le personnel 
+                Je recommande vivement cette clinique. Les médecins sont compétents et le personnel
                 administratif très efficace pour les rendez-vous.
               </p>
               <div className="flex items-center gap-4">
@@ -461,7 +483,7 @@ export default function HomePage() {
             <div className="bg-white rounded-2xl p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
               <div className="text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
               <p className="text-neutral-700 italic mb-8 pt-10 leading-relaxed text-lg md:text-xl">
-                Une clinique d'excellence ! Les analyses sont rapides et les résultats précis. 
+                Une clinique d'excellence ! Les analyses sont rapides et les résultats précis.
                 L'équipe médicale inspire confiance.
               </p>
               <div className="flex items-center gap-4">
@@ -491,21 +513,21 @@ export default function HomePage() {
             <div className="inline-block px-8 py-3 bg-secondary-100 text-secondary-700 rounded-full text-base md:text-lg font-semibold uppercase tracking-wider mb-6">
               Votre Opinion Compte
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-primary-600 mb-8 leading-tight">
               Partagez votre Expérience OSIRIX
             </h2>
-            
+
             <p className="text-xl md:text-2xl lg:text-3xl text-neutral-800 max-w-3xl mx-auto leading-relaxed">
-              Votre avis nous aide à améliorer continuellement nos services. 
-              Partagez votre expérience avec notre équipe et aidez-nous à offrir 
+              Votre avis nous aide à améliorer continuellement nos services.
+              Partagez votre expérience avec notre équipe et aidez-nous à offrir
               des soins toujours plus adaptés à vos besoins.
             </p>
           </div>
 
           <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-primary-100 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
-            
+
             <form onSubmit={handleFeedbackSubmit} className="space-y-8 md:space-y-10">
               <div className="text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -522,11 +544,10 @@ export default function HomePage() {
               </div>
 
               {submitMessage && (
-                <div className={`p-5 rounded-xl text-center font-medium text-lg md:text-xl ${
-                  submitMessage.includes('Merci') 
-                    ? 'bg-green-100 text-green-700 border border-green-200' 
+                <div className={`p-5 rounded-xl text-center font-medium text-lg md:text-xl ${submitMessage.includes('Merci')
+                    ? 'bg-green-100 text-green-700 border border-green-200'
                     : 'bg-red-100 text-red-700 border border-red-200'
-                }`}>
+                  }`}>
                   {submitMessage}
                 </div>
               )}
@@ -576,11 +597,10 @@ export default function HomePage() {
                         key={star}
                         type="button"
                         onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
-                        className={`w-12 h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center ${
-                          star <= feedbackForm.rating
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center ${star <= feedbackForm.rating
                             ? 'bg-secondary-500 text-white shadow-md hover:bg-secondary-600'
                             : 'bg-neutral-300 text-neutral-500 hover:bg-neutral-400'
-                        }`}
+                          }`}
                       >
                         <svg className="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
@@ -621,11 +641,10 @@ export default function HomePage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20}
-                  className={`w-full sm:w-auto px-10 py-5 rounded-xl font-bold text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
-                    isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
+                  className={`w-full sm:w-auto px-10 py-5 rounded-xl font-bold text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
                       ? 'bg-neutral-400 text-neutral-600 cursor-not-allowed'
                       : 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white'
-                  }`}
+                    }`}
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center gap-3">
@@ -659,7 +678,7 @@ export default function HomePage() {
                     Confidentialité assurée
                   </h4>
                   <p className="text-base md:text-lg text-primary-700 leading-relaxed">
-                    Vos informations sont protégées et utilisées uniquement pour améliorer nos services. 
+                    Vos informations sont protégées et utilisées uniquement pour améliorer nos services.
                     Votre avis pourra être publié de manière anonyme avec votre accord préalable.
                   </p>
                 </div>
