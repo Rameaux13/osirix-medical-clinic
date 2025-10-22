@@ -750,7 +750,7 @@ export default function HomePage() {
                 <Link href="#" className="group" aria-label="WhatsApp">
                   <div className="w-20 h-20 sm:w-24 sm:h-24 bg-secondary-500 rounded-full flex items-center justify-center hover:bg-secondary-600 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl">
                     <Image
-                      src="/logo-Whatsap.png"
+                      src="/logo-WhatsApp.jpg"
                       alt="WhatsApp"
                       width={100}
                       height={100}
