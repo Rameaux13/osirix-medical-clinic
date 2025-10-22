@@ -35,12 +35,21 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiError>) => {
-    // Si le token est expiré (401), déconnecter l'utilisateur
-    if (error.response?.status === 401) {
+    // ✅ CORRECTION : On laisse passer l'erreur 401 SANS recharger la page
+    // Le store et les composants géreront l'affichage de l'erreur
+    
+    // Seulement pour les autres routes protégées (pas login/register)
+    if (error.response?.status === 401 && error.config?.url && 
+        !error.config.url.includes('/auth/login') && 
+        !error.config.url.includes('/auth/register')) {
+      // Token expiré sur une route protégée
       if (typeof window !== 'undefined') {
         localStorage.removeItem('osirix-token');
         localStorage.removeItem('osirix-user');
-        window.location.href = '/login';
+        // Redirection douce sans rechargement
+        if (!window.location.pathname.includes('/login')) {
+          window.location.href = '/login';
+        }
       }
     }
     
@@ -57,7 +66,7 @@ export const authApi = {
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      throw new Error(axiosError.response?.data?.message || 'Erreur de connexion');
+      throw new Error(axiosError.response?.data?.message || 'Email ou mot de passe incorrect');
     }
   },
 

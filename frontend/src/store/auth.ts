@@ -1,11 +1,10 @@
-// src/store/auth.ts - Store Zustand pour l'authentification
+// src/store/auth.ts - Version SANS console.log
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AuthState, LoginRequest, RegisterRequest, User, Doctor, Admin, AuthResponse } from '@/types/auth';
+import { AuthState, LoginRequest, RegisterRequest, User, Doctor, Admin } from '@/types/auth';
 import { authApi, handleApiError } from '@/lib/api';
 
-// Étendre l'interface AuthState pour inclure updateUser
 interface ExtendedAuthState extends AuthState {
   updateUser: (updatedUserData: Partial<User | Doctor | Admin>) => void;
 }
@@ -13,7 +12,6 @@ interface ExtendedAuthState extends AuthState {
 export const useAuthStore = create<ExtendedAuthState>()(
   persist(
     (set, get) => ({
-      // État initial
       isAuthenticated: false,
       isLoading: false,
       error: null,
@@ -23,7 +21,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
       admin: null,
       userType: null,
 
-      // Action de connexion
       login: async (credentials: LoginRequest) => {
         set({ isLoading: true, error: null });
 
@@ -34,7 +31,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
             throw new Error('Token non reçu du serveur');
           }
 
-          // Sauvegarder le token dans localStorage
           if (typeof window !== 'undefined') {
             localStorage.setItem('osirix-token', response.token);
             localStorage.setItem('osirix-user', JSON.stringify({
@@ -68,7 +64,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
         }
       },
 
-      // Action d'inscription
       register: async (userData: RegisterRequest) => {
         set({ isLoading: true, error: null });
 
@@ -79,7 +74,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
             throw new Error('Token non reçu du serveur');
           }
 
-          // Sauvegarder le token dans localStorage
           if (typeof window !== 'undefined') {
             localStorage.setItem('osirix-token', response.token);
             localStorage.setItem('osirix-user', JSON.stringify({
@@ -113,7 +107,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
         }
       },
 
-      // Action de déconnexion
       logout: () => {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('osirix-token');
@@ -132,25 +125,17 @@ export const useAuthStore = create<ExtendedAuthState>()(
         });
       },
 
-      // Effacer les erreurs
       clearError: () => {
         set({ error: null });
       },
 
-      // ✅ NOUVEAU : Mettre à jour les informations de l'utilisateur
       updateUser: (updatedUserData: Partial<User | Doctor | Admin>) => {
         const state = get();
-        console.log('🔄 [AUTH STORE] Mise à jour utilisateur demandée:', updatedUserData);
 
-        // Mettre à jour selon le type d'utilisateur
         if (state.userType === 'patient' && state.user) {
           const updatedUser = { ...state.user, ...updatedUserData };
-          console.log('🔄 [AUTH STORE] Ancien utilisateur:', state.user);
-          console.log('🔄 [AUTH STORE] Nouvel utilisateur:', updatedUser);
-
           set({ user: updatedUser });
 
-          // Aussi mettre à jour le localStorage
           if (typeof window !== 'undefined') {
             const currentStorage = localStorage.getItem('osirix-user');
             if (currentStorage) {
@@ -158,14 +143,11 @@ export const useAuthStore = create<ExtendedAuthState>()(
                 const parsedStorage = JSON.parse(currentStorage);
                 parsedStorage.user = updatedUser;
                 localStorage.setItem('osirix-user', JSON.stringify(parsedStorage));
-                console.log('✅ [AUTH STORE] localStorage mis à jour');
               } catch (error) {
-                console.error('❌ [AUTH STORE] Erreur mise à jour localStorage:', error);
+                // Erreur silencieuse
               }
             }
           }
-
-          console.log('✅ [AUTH STORE] Store utilisateur mis à jour avec succès');
         } else if (state.userType === 'doctor' && state.doctor) {
           const updatedDoctor = { ...state.doctor, ...updatedUserData };
           set({ doctor: updatedDoctor });
@@ -178,7 +160,7 @@ export const useAuthStore = create<ExtendedAuthState>()(
                 parsedStorage.doctor = updatedDoctor;
                 localStorage.setItem('osirix-user', JSON.stringify(parsedStorage));
               } catch (error) {
-                console.error('❌ [AUTH STORE] Erreur mise à jour localStorage:', error);
+                // Erreur silencieuse
               }
             }
           }
@@ -194,16 +176,13 @@ export const useAuthStore = create<ExtendedAuthState>()(
                 parsedStorage.admin = updatedAdmin;
                 localStorage.setItem('osirix-user', JSON.stringify(parsedStorage));
               } catch (error) {
-                console.error('❌ [AUTH STORE] Erreur mise à jour localStorage:', error);
+                // Erreur silencieuse
               }
             }
           }
-        } else {
-          console.warn('⚠️ [AUTH STORE] Impossible de mettre à jour: type utilisateur ou données manquantes');
         }
       },
 
-      // Vérifier le statut d'authentification au démarrage
       checkAuthStatus: () => {
         if (typeof window !== 'undefined') {
           const token = localStorage.getItem('osirix-token');
@@ -221,7 +200,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
                 userType: parsedUser.userType || null,
               });
             } catch (error) {
-              console.error('❌ [AUTH STORE] Erreur parsing localStorage:', error);
               get().logout();
             }
           }
@@ -242,7 +220,6 @@ export const useAuthStore = create<ExtendedAuthState>()(
   )
 );
 
-// Hook pour obtenir les informations de l'utilisateur connecté
 export const useCurrentUser = () => {
   const { user, doctor, admin, userType, isAuthenticated } = useAuthStore();
 
@@ -259,7 +236,7 @@ export const useCurrentUser = () => {
     }
   };
 
-  const { currentUser, specificData } = getCurrentUserData();
+  const { currentUser } = getCurrentUserData();
   const displayName = currentUser
     ? `${currentUser.firstName} ${currentUser.lastName}`
     : null;
