@@ -754,7 +754,7 @@ export default function HomePage() {
                       alt="WhatsApp.png"
                       width={100}
                       height={100}
-                      className="w-24 h-24 sm:w-15 sm:h-17"
+                      className="w-10 h-10 sm:w-15 sm:h-17"
                     />
                   </div>
                 </Link>
