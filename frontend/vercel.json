@@ -1,8 +1,14 @@
 {
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
   "rewrites": [
     {
       "source": "/reset-password/:token",
-      "destination": "/reset-password/[token]"
+      "destination": "/reset-password/:token"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
