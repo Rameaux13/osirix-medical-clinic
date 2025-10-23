@@ -27,12 +27,17 @@ model User {
   firstName       String
   lastName        String
   phone           String?  @unique
-  role            UserRole @default(PATIENT)  // 🆕 NOUVEAU
-  gender          String?                      // 🆕 NOUVEAU (Homme/Femme/Autre)
+  role            UserRole @default(PATIENT)
+  gender          String?
   dateOfBirth     DateTime?
   isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  
+  // 🆕 NOUVEAUX CHAMPS pour réinitialisation mot de passe
+  resetPasswordToken    String?   @unique
+  resetPasswordExpires  DateTime?
+  
   reviews         Review[]
 
   // Relations

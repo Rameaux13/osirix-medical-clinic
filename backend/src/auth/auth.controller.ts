@@ -11,6 +11,8 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
@@ -31,20 +33,41 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  // NOUVELLES ROUTES - Vérification disponibilité
+  // Vérification disponibilité email
   @Post('check-email')
   @HttpCode(HttpStatus.OK)
   async checkEmailAvailability(@Body() body: { email: string }) {
     return this.authService.checkEmailAvailability(body.email);
   }
 
+  // Vérification disponibilité téléphone
   @Post('check-phone')
   @HttpCode(HttpStatus.OK)
   async checkPhoneAvailability(@Body() body: { phone: string }) {
     return this.authService.checkPhoneAvailability(body.phone);
   }
 
-  // Route protégée pour tester le JWT (récupérer le profil utilisateur)
+  // ========================
+  // 🆕 MOT DE PASSE OUBLIÉ
+  // ========================
+
+  @Post('forgot-password')
+  @HttpCode(HttpStatus.OK)
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto);
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(resetPasswordDto);
+  }
+
+  // ========================
+  // ROUTES PROTÉGÉES
+  // ========================
+
+  // Route protégée pour récupérer le profil utilisateur
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   getProfile(@Request() req) {
