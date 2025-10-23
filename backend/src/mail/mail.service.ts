@@ -1,34 +1,31 @@
-// src/mail/mail.service.ts
-
 import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
 @Injectable()
 export class MailService {
-  private transporter;
-
   constructor() {
-    // Configuration Nodemailer avec Gmail - PORT 465 SSL pour Render
-    this.transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST || 'smtp.gmail.com',
-      port: 465, // PORT 465 avec SSL
-      secure: true, // true pour le port 465
-      auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASSWORD,
-      },
-    });
+    // Configuration SendGrid avec l'API Key
+    const apiKey = process.env.SENDGRID_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('❌ SENDGRID_API_KEY non définie dans les variables d\'environnement');
+    }
+    
+    sgMail.setApiKey(apiKey);
+    console.log('✅ SendGrid configuré avec succès');
   }
 
-  // Envoyer l'email de réinitialisation de mot de passe
   async sendPasswordResetEmail(
     userEmail: string,
     userName: string,
     resetUrl: string,
   ) {
     const mailOptions = {
-      from: `"OSIRIX Clinique Médical" <${process.env.MAIL_FROM}>`,
       to: userEmail,
+      from: {
+        email: process.env.MAIL_FROM || 'ramoskeke16@gmail.com',
+        name: 'OSIRIX Clinique Médical',
+      },
       subject: 'Réinitialisation de votre mot de passe - OSIRIX',
       html: `
         <!DOCTYPE html>
@@ -108,7 +105,7 @@ export class MailService {
               </div>
               
               <p>Besoin d'aide ? Contactez-nous :</p>
-              <p>📧 Email : kekeaxelle2@gmail.com</p>
+              <p>📧 Email : ramoskeke16@gmail.com</p>
               
               <p>Cordialement,<br>
               <strong>L'équipe OSIRIX Clinique Médical</strong></p>
@@ -124,10 +121,14 @@ export class MailService {
     };
 
     try {
-      await this.transporter.sendMail(mailOptions);
+      await sgMail.send(mailOptions);
+      console.log('✅ Email de réinitialisation envoyé avec succès via SendGrid');
       return { success: true };
     } catch (error) {
-      console.error('❌ Erreur envoi email réinitialisation:', error);
+      console.error('❌ Erreur envoi email SendGrid:', error);
+      if (error.response) {
+        console.error('Détails erreur:', error.response.body);
+      }
       throw new Error('Impossible d\'envoyer l\'email de réinitialisation');
     }
   }

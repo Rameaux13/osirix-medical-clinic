@@ -4,23 +4,24 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClient } from '@prisma/client';
 import { CreateReviewDto } from './dto/create-review.dto';
-import * as nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 
 @Injectable()
 export class ReviewsService {
-  private transporter: nodemailer.Transporter;
   private prismaClient: PrismaClient;
 
   constructor(private prisma: PrismaService) {
     this.prismaClient = new PrismaClient();
-    // Configuration du transporteur email
-    this.transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER || 'cliniqueosirix@gmail.com',
-        pass: process.env.EMAIL_PASS || 'votre_mot_de_passe_app', // Mot de passe d'application Gmail
-      },
-    });
+    
+    // Configuration SendGrid
+    const apiKey = process.env.SENDGRID_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('❌ SENDGRID_API_KEY non définie dans les variables d\'environnement');
+    }
+    
+    sgMail.setApiKey(apiKey);
+    console.log('✅ SendGrid configuré pour le module Reviews');
   }
 
   // Créer un avis et envoyer l'email automatiquement
@@ -101,7 +102,7 @@ export class ReviewsService {
     }
   }
 
-  // Envoyer l'email à la clinique
+  // Envoyer l'email à la clinique via SendGrid
   private async sendReviewEmail(user: any, review: any, isUpdate: boolean) {
     const stars = '⭐'.repeat(review.rating);
     const emptyStars = '☆'.repeat(5 - review.rating);
@@ -151,17 +152,23 @@ export class ReviewsService {
     `;
 
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'cliniqueosirix@gmail.com',
-      to: 'cliniqueosirix@gmail.com',
+      to: process.env.MAIL_FROM || 'ramoskeke16@gmail.com', // L'équipe OSIRIX reçoit l'avis
+      from: {
+        email: process.env.MAIL_FROM || 'ramoskeke16@gmail.com',
+        name: 'OSIRIX Clinique Médical - Avis Patients',
+      },
       subject: subject,
       html: htmlContent,
     };
 
     try {
-      await this.transporter.sendMail(mailOptions);
-      console.log('Email d\'avis envoyé avec succès');
+      await sgMail.send(mailOptions);
+      console.log('✅ Email d\'avis patient envoyé avec succès via SendGrid');
     } catch (error) {
-      console.error('Erreur envoi email:', error);
+      console.error('❌ Erreur envoi email avis SendGrid:', error);
+      if (error.response) {
+        console.error('Détails erreur:', error.response.body);
+      }
       throw new Error('Erreur lors de l\'envoi de l\'email');
     }
   }

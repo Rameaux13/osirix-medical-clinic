@@ -1,10 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
+import sgMail from '@sendgrid/mail';
 import { SendFeedbackDto } from './dto/send-feedback.dto';
 
 @Injectable()
 export class FeedbackService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor() {
+    // Configuration SendGrid
+    const apiKey = process.env.SENDGRID_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error('❌ SENDGRID_API_KEY non définie dans les variables d\'environnement');
+    }
+    
+    sgMail.setApiKey(apiKey);
+    console.log('✅ SendGrid configuré pour le module Feedback');
+  }
 
   async sendFeedback(feedbackDto: SendFeedbackDto): Promise<{ message: string }> {
     const { name, email, rating, message } = feedbackDto;
@@ -18,9 +28,12 @@ export class FeedbackService {
       5: 'Très satisfait ⭐⭐⭐⭐⭐',
     };
 
-    // Envoyer l'email à la clinique
-    await this.mailerService.sendMail({
-      to: 'kekeaxelle2@gmail.com',
+    const mailOptions = {
+      to: process.env.MAIL_FROM || 'ramoskeke16@gmail.com', // L'équipe OSIRIX reçoit l'avis
+      from: {
+        email: process.env.MAIL_FROM || 'ramoskeke16@gmail.com',
+        name: 'OSIRIX Clinique Médical - Avis Patients',
+      },
       subject: `📋 Nouvel Avis Client - ${name} (${ratingText[rating]})`,
       html: `
         <!DOCTYPE html>
@@ -150,8 +163,18 @@ export class FeedbackService {
         </body>
         </html>
       `,
-    });
+    };
 
-    return { message: 'Avis envoyé avec succès !' };
+    try {
+      await sgMail.send(mailOptions);
+      console.log('✅ Avis client envoyé avec succès via SendGrid');
+      return { message: 'Avis envoyé avec succès !' };
+    } catch (error) {
+      console.error('❌ Erreur envoi avis SendGrid:', error);
+      if (error.response) {
+        console.error('Détails erreur:', error.response.body);
+      }
+      throw new Error('Impossible d\'envoyer l\'avis');
+    }
   }
 }
