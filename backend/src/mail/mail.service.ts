@@ -8,11 +8,11 @@ export class MailService {
   private transporter;
 
   constructor() {
-    // Configuration Nodemailer avec Gmail
+    // Configuration Nodemailer avec Gmail - PORT 465 SSL pour Render
     this.transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST || 'smtp.gmail.com',
-      port: parseInt(process.env.MAIL_PORT || '587'),
-      secure: false,
+      port: 465, // PORT 465 avec SSL
+      secure: true, // true pour le port 465
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASSWORD,
