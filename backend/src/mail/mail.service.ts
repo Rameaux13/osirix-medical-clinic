@@ -6,11 +6,11 @@ export class MailService {
   constructor() {
     // Configuration SendGrid avec l'API Key
     const apiKey = process.env.SENDGRID_API_KEY;
-    
+
     if (!apiKey) {
       throw new Error('❌ SENDGRID_API_KEY non définie dans les variables d\'environnement');
     }
-    
+
     sgMail.setApiKey(apiKey);
     console.log('✅ SendGrid configuré avec succès');
   }
@@ -88,13 +88,13 @@ export class MailService {
               <p>Bonjour <strong>${userName}</strong>,</p>
               
               <p>Vous avez demandé la réinitialisation de votre mot de passe pour votre compte OSIRIX Clinique Médical.</p>
-              
-              <p>Cliquez sur le bouton ci-dessous pour créer un nouveau mot de passe :</p>
-              
-              <div style="text-align: center;">
-                <a href="${resetUrl}" class="button">Réinitialiser mon mot de passe</a>
-              </div>
-              
+              <p>Voici votre lien de réinitialisation :</p>
+<p style="margin: 20px 0;">
+  <a href="${resetUrl}" style="color: #006D65; text-decoration: underline; font-weight: bold; word-break: break-all;">
+    ${resetUrl}
+  </a>
+</p>
+<p>Ou cliquez ici : <a href="${resetUrl}" style="color: #006D65; text-decoration: underline; font-weight: bold;">Réinitialiser mon mot de passe</a></p>
               <div class="warning">
                 <strong>⚠️ Important :</strong>
                 <ul>
