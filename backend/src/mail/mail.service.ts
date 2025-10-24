@@ -88,13 +88,23 @@ export class MailService {
               <p>Bonjour <strong>${userName}</strong>,</p>
               
               <p>Vous avez demandé la réinitialisation de votre mot de passe pour votre compte OSIRIX Clinique Médical.</p>
-              <p>Voici votre lien de réinitialisation :</p>
-<p style="margin: 20px 0;">
-  <a href="${resetUrl}" style="color: #006D65; text-decoration: underline; font-weight: bold; word-break: break-all;">
-    ${resetUrl}
-  </a>
-</p>
-<p>Ou cliquez ici : <a href="${resetUrl}" style="color: #006D65; text-decoration: underline; font-weight: bold;">Réinitialiser mon mot de passe</a></p>
+              <p>Cliquez sur le lien ci-dessous pour réinitialiser votre mot de passe :</p>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 20px 0;">
+  <tr>
+    <td align="center">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" bgcolor="#006D65" style="border-radius: 5px;">
+            <a href="${resetUrl}" target="_blank" style="font-size: 16px; font-family: Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; padding: 15px 30px; border: 1px solid #006D65; display: inline-block; font-weight: bold;">
+              Réinitialiser mon mot de passe
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
               <div class="warning">
                 <strong>⚠️ Important :</strong>
                 <ul>
