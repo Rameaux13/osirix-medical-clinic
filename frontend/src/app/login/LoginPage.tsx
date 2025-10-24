@@ -49,89 +49,87 @@ export default function LoginPage() {
     }));
   };
 
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  e.stopPropagation(); // Empêche la propagation de l'événement
-  
-  // Validation basique
-  if (!formData.email || !formData.password) {
-    return;
-  }
-  
-  try {
-    await login(formData);
-    // La redirection se fait automatiquement via useEffect si succès
-  } catch (error) {
-    // L'erreur est déjà gérée par le store, on ne fait rien d'autre
-    // Pas de rechargement de page
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!formData.email || !formData.password) {
+      return;
+    }
+    
+    try {
+      await login(formData);
+    } catch (error) {
+      // L'erreur est déjà gérée par le store
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex flex-col">
       
-      {/* Header avec logo agrandi */}
-      <div className="w-full py-8">
+      {/* Header avec logo */}
+      <div className="w-full py-6 md:py-8">
         <div className="text-center">
           <Link href="/" className="inline-block group">
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-32 md:h-36 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300"
+              className="h-24 md:h-32 lg:h-36 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300"
             />
           </Link>
-          <div className="mt-5">
-            <h1 className="text-3xl md:text-4xl font-light text-neutral-800 tracking-wide">
+          <div className="mt-3 md:mt-5">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-neutral-800 tracking-wide">
               <span className="font-bold text-primary-700">OSIRIX</span>
-              <span className="ml-3 text-neutral-600">CLINIQUE MÉDICAL</span>
+              <span className="ml-2 md:ml-3 text-neutral-600">CLINIQUE MÉDICAL</span>
             </h1>
-            <p className="text-neutral-500 font-light text-base mt-3">Votre santé, notre priorité</p>
+            <p className="text-neutral-500 font-light text-sm md:text-base mt-2 md:mt-3">Votre santé, notre priorité</p>
           </div>
         </div>
       </div>
 
       {/* Contenu principal */}
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-stretch">
+      <div className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10 w-full">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-stretch">
           
-          {/* Section login à gauche - Plus large */}
+          {/* Section login à gauche */}
           <div className="lg:col-span-6">
-            <div className="bg-gradient-to-br from-primary-50/80 to-primary-100/60 rounded-3xl shadow-2xl border-2 border-primary-200/50 p-12 h-full flex flex-col backdrop-blur-sm">
+            <div className="bg-gradient-to-br from-primary-50/80 to-primary-100/60 rounded-2xl md:rounded-3xl shadow-2xl border-2 border-primary-200/50 p-6 md:p-10 lg:p-12 h-full flex flex-col backdrop-blur-sm">
               
-              {/* Titre du formulaire avec stéthoscope */}
-              <div className="text-center mb-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Titre du formulaire */}
+              <div className="text-center mb-6 md:mb-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-xl">
+                  <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
                   </svg>
                 </div>
-                <h2 className="text-3xl font-semibold text-primary-800 mb-3">
+                <h2 className="text-2xl md:text-3xl font-semibold text-primary-800 mb-2 md:mb-3">
                   Connexion
                 </h2>
-                <p className="text-primary-700 text-base font-medium">
+                <p className="text-primary-700 text-sm md:text-base font-medium">
                   Accédez à votre espace personnel sécurisé
                 </p>
               </div>
 
               {/* Message d'erreur */}
               {error && (
-                <div className="mb-8 p-4 bg-red-50 border-l-4 border-red-400 rounded-r-xl shadow-sm">
+                <div className="mb-6 md:mb-8 p-3 md:p-4 bg-red-50 border-l-4 border-red-400 rounded-r-xl shadow-sm">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-red-400 mr-2 md:mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
                     <div>
-                      <p className="text-red-800 text-sm font-semibold">Erreur de connexion</p>
-                      <p className="text-red-700 text-sm">{error}</p>
+                      <p className="text-red-800 text-xs md:text-sm font-semibold">Erreur de connexion</p>
+                      <p className="text-red-700 text-xs md:text-sm">{error}</p>
                     </div>
                   </div>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-8 flex-1">
+              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-8 flex-1">
                 
                 {/* Champ Email */}
-                <div className="space-y-3">
-                  <label htmlFor="email" className="block text-base font-semibold text-primary-800">
+                <div className="space-y-2 md:space-y-3">
+                  <label htmlFor="email" className="block text-sm md:text-base font-semibold text-primary-800">
                     Adresse email
                   </label>
                   <input
@@ -142,14 +140,14 @@ export default function LoginPage() {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-5 py-4 border-2 border-primary-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-primary-300 focus:border-primary-500 transition-all duration-300 bg-white/90 placeholder-primary-400 text-primary-800 font-medium shadow-sm"
+                    className="w-full px-4 py-3 md:px-5 md:py-4 border-2 border-primary-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-primary-300 focus:border-primary-500 transition-all duration-300 bg-white/90 placeholder-primary-400 text-primary-800 font-medium shadow-sm text-sm md:text-base"
                     placeholder="votre@email.com"
                   />
                 </div>
 
                 {/* Champ Mot de passe */}
-                <div className="space-y-3">
-                  <label htmlFor="password" className="block text-base font-semibold text-primary-800">
+                <div className="space-y-2 md:space-y-3">
+                  <label htmlFor="password" className="block text-sm md:text-base font-semibold text-primary-800">
                     Mot de passe
                   </label>
                   <div className="relative">
@@ -161,13 +159,13 @@ export default function LoginPage() {
                       required
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="w-full px-5 py-4 pr-14 border-2 border-primary-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-primary-300 focus:border-primary-500 transition-all duration-300 bg-white/90 placeholder-primary-400 text-primary-800 font-medium shadow-sm"
+                      className="w-full px-4 py-3 md:px-5 md:py-4 pr-12 md:pr-14 border-2 border-primary-200 rounded-xl focus:outline-none focus:ring-3 focus:ring-primary-300 focus:border-primary-500 transition-all duration-300 bg-white/90 placeholder-primary-400 text-primary-800 font-medium shadow-sm text-sm md:text-base"
                       placeholder="Votre mot de passe"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-primary-500 hover:text-primary-700 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 md:pr-4 flex items-center text-primary-500 hover:text-primary-700 transition-colors"
                     >
                       {showPassword ? (
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,14 +181,14 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* Options */}
-                <div className="flex items-center justify-between text-base">
+                {/* Options - RESPONSIVE FIX */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 text-sm md:text-base">
                   <label className="flex items-center group cursor-pointer">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 text-primary-600 bg-white border-2 border-primary-300 rounded-lg focus:ring-primary-500 focus:ring-2"
+                      className="w-4 h-4 md:w-5 md:h-5 text-primary-600 bg-white border-2 border-primary-300 rounded-lg focus:ring-primary-500 focus:ring-2"
                     />
-                    <span className="ml-3 text-primary-700 group-hover:text-primary-800 transition-colors font-medium">
+                    <span className="ml-2 md:ml-3 text-primary-700 group-hover:text-primary-800 transition-colors font-medium">
                       Se souvenir de moi
                     </span>
                   </label>
@@ -202,26 +200,26 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                {/* Bouton de connexion - Couleur orange OSIRIX */}
+                {/* Bouton de connexion */}
                 <button
                   type="submit"
                   disabled={isLoading || !formData.email || !formData.password}
-                  className="w-full bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 disabled:from-neutral-400 disabled:to-neutral-500 text-white font-bold py-5 px-8 rounded-xl shadow-xl hover:shadow-2xl disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-3 transform hover:scale-105"
+                  className="w-full bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 disabled:from-neutral-400 disabled:to-neutral-500 text-white font-bold py-3.5 md:py-5 px-6 md:px-8 rounded-xl shadow-xl hover:shadow-2xl disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center space-x-2 md:space-x-3 transform hover:scale-105 text-sm md:text-lg"
                 >
                   {isLoading ? (
                     <>
-                      <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-5 w-5 md:h-6 md:w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span className="text-lg">Connexion en cours...</span>
+                      <span>Connexion en cours...</span>
                     </>
                   ) : (
                     <>
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                       </svg>
-                      <span className="text-lg">Se connecter</span>
+                      <span>Se connecter</span>
                     </>
                   )}
                 </button>
@@ -229,22 +227,22 @@ export default function LoginPage() {
                 {/* Lien vers inscription */}
                 <Link
                   href="/register"
-                  className="w-full bg-white/80 border-2 border-primary-300 hover:border-primary-400 text-primary-700 hover:text-primary-600 font-bold py-5 px-8 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 backdrop-blur-sm"
+                  className="w-full bg-white/80 border-2 border-primary-300 hover:border-primary-400 text-primary-700 hover:text-primary-600 font-bold py-3.5 md:py-5 px-6 md:px-8 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 md:space-x-3 shadow-lg hover:shadow-xl transform hover:scale-105 backdrop-blur-sm text-sm md:text-lg"
                 >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                   </svg>
-                  <span className="text-lg">Créer un compte patient</span>
+                  <span>Créer un compte patient</span>
                 </Link>
               </form>
 
-              {/* Bouton retour avec icône porte de sortie */}
-              <div className="mt-8 text-center">
+              {/* Bouton retour */}
+              <div className="mt-6 md:mt-8 text-center">
                 <Link
                   href="/"
-                  className="inline-flex items-center space-x-3 text-primary-700 hover:text-primary-600 font-bold transition-colors group text-base"
+                  className="inline-flex items-center space-x-2 md:space-x-3 text-primary-700 hover:text-primary-600 font-bold transition-colors group text-sm md:text-base"
                 >
-                  <svg className="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                   <span>Retour à l'accueil</span>
@@ -253,10 +251,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Section témoignage avec photo à droite */}
-          <div className="lg:col-span-6 space-y-8">
+          {/* Section témoignage à droite */}
+          <div className="lg:col-span-6 space-y-6 md:space-y-8 hidden lg:block">
             
-            {/* Photo principale - Infirmière noire avec spinner pendant chargement */}
+            {/* Photo principale */}
             <div className="relative">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
                 <img
@@ -264,10 +262,9 @@ export default function LoginPage() {
                   alt="Infirmière professionnelle souriante à OSIRIX"
                   className="w-full h-full object-cover"
                 />
-                {/* Overlay gradient subtil */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 via-transparent to-transparent"></div>
                 
-                {/* Spinner transparent qui tourne UNIQUEMENT pendant isLoading */}
+                {/* Spinner pendant chargement */}
                 {isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="relative">
@@ -279,7 +276,7 @@ export default function LoginPage() {
                   </div>
                 )}
                 
-                {/* Badge OSIRIX sur la photo */}
+                {/* Badge OSIRIX */}
                 <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-xl">
                   <div className="flex items-center space-x-3">
                     <div className="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
@@ -299,7 +296,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Témoignage élégant */}
+            {/* Témoignage */}
             <div className="space-y-6">
               <div className="relative">
                 <svg className="absolute -top-3 -left-3 w-8 h-8 text-primary-300" fill="currentColor" viewBox="0 0 24 24">
@@ -338,6 +335,15 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+
+      {/* FOOTER - NOUVEAU */}
+      <footer className="w-full py-4 md:py-6 mt-auto border-t border-primary-200/50 bg-white/50 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <p className="text-center text-xs md:text-sm text-neutral-600 font-medium">
+            © 2025 OSIRIX Clinique Médical. Tous droits réservés.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
