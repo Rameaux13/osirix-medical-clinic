@@ -1379,13 +1379,13 @@ export default function DashboardPatient() {
       </main>
 
       {/* Footer - AJOUTÉ */}
-      <footer className="bg-white border-t border-gray-200 mt-12 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs sm:text-sm md:text-base text-gray-600">
-            © 2025 OSIRIX Clinique Médicale. Tous droits réservés.
+      <div className="w-full py-4 md:py-6 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <p className="text-center text-xs md:text-sm text-neutral-600">
+            © 2025 OSIRIX Clinique Médical. Tous droits réservés.
           </p>
         </div>
-      </footer>
+      </div>
 
       {/* Chat Assistant */}
       <ChatAssistant onNavigate={(section) => setActiveSection(section)} />
