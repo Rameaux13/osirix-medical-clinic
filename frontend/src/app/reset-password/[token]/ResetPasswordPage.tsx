@@ -68,7 +68,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        
+
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block">
@@ -88,15 +88,14 @@ export default function ResetPasswordPage() {
 
         {/* Formulaire */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-primary-100">
-          
+
           {/* Message de succès ou erreur */}
           {message && (
             <div
-              className={`mb-6 p-4 rounded-xl ${
-                message.type === 'success'
-                  ? 'bg-green-50 border-l-4 border-green-400 text-green-800'
-                  : 'bg-red-50 border-l-4 border-red-400 text-red-800'
-              }`}
+              className={`mb-6 p-4 rounded-xl ${message.type === 'success'
+                ? 'bg-green-50 border-l-4 border-green-400 text-green-800'
+                : 'bg-red-50 border-l-4 border-red-400 text-red-800'
+                }`}
             >
               <div className="flex items-center">
                 {message.type === 'success' ? (
@@ -114,7 +113,7 @@ export default function ResetPasswordPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* Nouveau mot de passe */}
             <div>
               <label htmlFor="newPassword" className="block text-sm font-semibold text-primary-800 mb-2">
@@ -196,6 +195,15 @@ export default function ResetPasswordPage() {
               </svg>
               Retour à la connexion
             </Link>
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div className="w-full py-3 md:py-4 mt-4 md:mt-6">
+          <div className="max-w-2xl mx-auto px-3 md:px-4">
+            <p className="text-center text-[10px] md:text-xs text-neutral-600">
+              © 2025 OSIRIX Clinique Médical. Tous droits réservés.
+            </p>
           </div>
         </div>
       </div>
