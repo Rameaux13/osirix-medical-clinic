@@ -9,12 +9,12 @@ import { LoginRequest } from '@/types/auth';
 export default function LoginPage() {
   const router = useRouter();
   const { login, isLoading, error, isAuthenticated, userType, clearError } = useAuthStore();
-  
+
   const [formData, setFormData] = useState<LoginRequest>({
     email: '',
     password: '',
   });
-  
+
   const [showPassword, setShowPassword] = useState(false);
 
   // Redirection automatique si déjà connecté
@@ -52,11 +52,11 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (!formData.email || !formData.password) {
       return;
     }
-    
+
     try {
       await login(formData);
     } catch (error) {
@@ -66,7 +66,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex flex-col">
-      
+
       {/* Header avec logo */}
       <div className="w-full py-6 md:py-8">
         <div className="text-center">
@@ -90,16 +90,16 @@ export default function LoginPage() {
       {/* Contenu principal */}
       <div className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-10 w-full">
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-stretch">
-          
+
           {/* Section login à gauche */}
           <div className="lg:col-span-6">
             <div className="bg-gradient-to-br from-primary-50/80 to-primary-100/60 rounded-2xl md:rounded-3xl shadow-2xl border-2 border-primary-200/50 p-6 md:p-10 lg:p-12 h-full flex flex-col backdrop-blur-sm">
-              
+
               {/* Titre du formulaire */}
               <div className="text-center mb-6 md:mb-10">
                 <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-primary-600 to-primary-700 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-xl">
                   <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                   </svg>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-semibold text-primary-800 mb-2 md:mb-3">
@@ -126,7 +126,7 @@ export default function LoginPage() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-5 md:space-y-8 flex-1">
-                
+
                 {/* Champ Email */}
                 <div className="space-y-2 md:space-y-3">
                   <label htmlFor="email" className="block text-sm md:text-base font-semibold text-primary-800">
@@ -182,19 +182,19 @@ export default function LoginPage() {
                 </div>
 
                 {/* Options - RESPONSIVE FIX */}
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 text-sm md:text-base">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
                   <label className="flex items-center group cursor-pointer">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 md:w-5 md:h-5 text-primary-600 bg-white border-2 border-primary-300 rounded-lg focus:ring-primary-500 focus:ring-2"
+                      className="w-4 h-4 text-primary-600 bg-white border-2 border-primary-300 rounded-lg focus:ring-primary-500 focus:ring-2"
                     />
-                    <span className="ml-2 md:ml-3 text-primary-700 group-hover:text-primary-800 transition-colors font-medium">
+                    <span className="ml-2 text-primary-700 group-hover:text-primary-800 transition-colors font-medium">
                       Se souvenir de moi
                     </span>
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="font-semibold text-primary-600 hover:text-primary-500 transition-colors"
+                    className="font-semibold text-primary-600 hover:text-primary-500 transition-colors whitespace-nowrap"
                   >
                     Mot de passe oublié ?
                   </Link>
@@ -232,7 +232,7 @@ export default function LoginPage() {
                   <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                   </svg>
-                  <span>Créer un compte patient</span>
+                  <span>Créer un compte</span>
                 </Link>
               </form>
 
@@ -253,7 +253,7 @@ export default function LoginPage() {
 
           {/* Section témoignage à droite */}
           <div className="lg:col-span-6 space-y-6 md:space-y-8 hidden lg:block">
-            
+
             {/* Photo principale */}
             <div className="relative">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
@@ -263,7 +263,7 @@ export default function LoginPage() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 via-transparent to-transparent"></div>
-                
+
                 {/* Spinner pendant chargement */}
                 {isLoading && (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -275,7 +275,7 @@ export default function LoginPage() {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Badge OSIRIX */}
                 <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-xl">
                   <div className="flex items-center space-x-3">
@@ -283,13 +283,13 @@ export default function LoginPage() {
                     <span className="text-base font-bold text-primary-700">Équipe OSIRIX</span>
                   </div>
                 </div>
-                
+
                 {/* Note de satisfaction */}
                 <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-xl">
                   <div className="flex items-center space-x-2">
                     <span className="text-base font-bold text-secondary-600">5.0</span>
                     <svg className="w-5 h-5 text-secondary-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </div>
                 </div>
@@ -300,13 +300,13 @@ export default function LoginPage() {
             <div className="space-y-6">
               <div className="relative">
                 <svg className="absolute -top-3 -left-3 w-8 h-8 text-primary-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
+                  <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
                 </svg>
                 <blockquote className="text-xl md:text-2xl font-light text-neutral-700 leading-relaxed pl-6">
                   Depuis que je suis suivi à OSIRIX, ma qualité de vie s'est considérablement améliorée. L'équipe médicale est exceptionnelle et le suivi personnalisé fait toute la différence.
                 </blockquote>
               </div>
-              
+
               {/* Informations du patient */}
               <div className="flex items-center space-x-4 pl-6">
                 <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-primary-200 shadow-lg">
@@ -336,14 +336,15 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* FOOTER - NOUVEAU */}
-      <footer className="w-full py-4 md:py-6 mt-auto border-t border-primary-200/50 bg-white/50 backdrop-blur-sm">
+      {/* FOOTER - VERSION DIV */}
+      <div className="w-full py-4 md:py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <p className="text-center text-xs md:text-sm text-neutral-600 font-medium">
+          <p className="text-center text-xs md:text-sm text-neutral-600">
             © 2025 OSIRIX Clinique Médical. Tous droits réservés.
           </p>
         </div>
-      </footer>
+      </div>
+
     </div>
   );
 }
