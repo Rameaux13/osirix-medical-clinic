@@ -4,11 +4,21 @@ import { Module } from '@nestjs/common';
 import { ReviewsController } from './reviews.controller';
 import { ReviewsService } from './reviews.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthModule } from '../auth/auth.module'; // ✅ AJOUT
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    AuthModule, // ✅ REMPLACE PassportModule + JwtModule par AuthModule
+    PassportModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '7d' },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [ReviewsController],
   providers: [ReviewsService, PrismaService],
