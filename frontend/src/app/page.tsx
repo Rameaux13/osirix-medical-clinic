@@ -301,9 +301,7 @@ export default function HomePage() {
                   pour un suivi personnalisé et complet de votre santé.
                 </p>
 
-                <button className="w-full py-3 px-6 sm:py-4 sm:px-8 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg text-sm sm:text-base md:text-lg lg:text-xl">
-                  En savoir plus
-                </button>
+                
               </div>
             </div>
 
@@ -331,9 +329,7 @@ export default function HomePage() {
                   pour tous vos examens biologiques et diagnostics précis.
                 </p>
 
-                <button className="w-full py-3 px-6 sm:py-4 sm:px-8 bg-secondary-500 hover:bg-secondary-600 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg text-sm sm:text-base md:text-lg lg:text-xl">
-                  En savoir plus
-                </button>
+               
               </div>
             </div>
 
@@ -361,9 +357,7 @@ export default function HomePage() {
                   pour des diagnostics précis et une prise en charge optimale.
                 </p>
 
-                <button className="w-full py-3 px-6 sm:py-4 sm:px-8 bg-primary-500 hover:bg-primary-600 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg text-sm sm:text-base md:text-lg lg:text-xl">
-                  En savoir plus
-                </button>
+               
               </div>
             </div>
           </div>
