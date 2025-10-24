@@ -105,6 +105,14 @@ export class MailService {
     </td>
   </tr>
 </table>
+
+<p style="font-size: 14px; color: #666; margin-top: 20px;">
+  Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :
+</p>
+<p style="word-break: break-all; background-color: #f5f5f5; padding: 10px; border-radius: 5px; font-size: 13px; color: #006D65; font-family: monospace;">
+  ${resetUrl}
+</p>
+
               <div class="warning">
                 <strong>⚠️ Important :</strong>
                 <ul>
