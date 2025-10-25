@@ -251,103 +251,103 @@ export default function DashboardPatient() {
   }, [user]);
 
   // Fonction pour soumettre un avis clinique
-    const handleSubmitClinicReview = async () => {
-  // ✅ Validation du rating
-  if (clinicRating === 0) {
-    setReviewMessage('Veuillez donner une note avant d\'envoyer votre avis');
-    setReviewMessageType('error');
-    setTimeout(() => setReviewMessage(''), 3000);
-    return;
-  }
+  const handleSubmitClinicReview = async () => {
+    // ✅ Validation du rating
+    if (clinicRating === 0) {
+      setReviewMessage('Veuillez donner une note avant d\'envoyer votre avis');
+      setReviewMessageType('error');
+      setTimeout(() => setReviewMessage(''), 3000);
+      return;
+    }
 
-  // ✅ Validation du commentaire (minimum 20 caractères)
-  const messageToSend = clinicComment.trim();
-  
-  if (!messageToSend || messageToSend.length < 20) {
-    setReviewMessage('Votre commentaire doit contenir au moins 20 caractères');
-    setReviewMessageType('error');
-    setTimeout(() => setReviewMessage(''), 3000);
-    return;
-  }
+    // ✅ Validation du commentaire (minimum 20 caractères)
+    const messageToSend = clinicComment.trim();
 
-  // ✅ VALIDATION : Vérifier que email existe
-  if (!user?.email) {
-    setReviewMessage('❌ Erreur : Email utilisateur non trouvé. Veuillez vous reconnecter.');
-    setReviewMessageType('error');
-    setTimeout(() => setReviewMessage(''), 5000);
-    return;
-  }
+    if (!messageToSend || messageToSend.length < 20) {
+      setReviewMessage('Votre commentaire doit contenir au moins 20 caractères');
+      setReviewMessageType('error');
+      setTimeout(() => setReviewMessage(''), 3000);
+      return;
+    }
 
-  setSubmittingReview(true);
-  setReviewMessage('');
+    // ✅ VALIDATION : Vérifier que email existe
+    if (!user?.email) {
+      setReviewMessage('❌ Erreur : Email utilisateur non trouvé. Veuillez vous reconnecter.');
+      setReviewMessageType('error');
+      setTimeout(() => setReviewMessage(''), 5000);
+      return;
+    }
 
-  try {
-    // ✅ Préparer les données selon le DTO
-    const feedbackData = {
-      name: user?.firstName && user?.lastName 
-        ? `${user.firstName} ${user.lastName}` 
-        : displayName || 'Patient OSIRIX',
-      email: user.email,
-      rating: clinicRating,
-      message: messageToSend
-    };
+    setSubmittingReview(true);
+    setReviewMessage('');
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(feedbackData),
+    try {
+      // ✅ Préparer les données selon le DTO
+      const feedbackData = {
+        name: user?.firstName && user?.lastName
+          ? `${user.firstName} ${user.lastName}`
+          : displayName || 'Patient OSIRIX',
+        email: user.email,
+        rating: clinicRating,
+        message: messageToSend
+      };
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(feedbackData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Erreur lors de l\'envoi de l\'avis');
       }
-    );
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || 'Erreur lors de l\'envoi de l\'avis');
+      await response.json();
+
+      // ✅ Message de succès
+      setReviewMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
+      setReviewMessageType('success');
+
+      // ✅ CORRECTION : Attendre avant de réinitialiser pour éviter l'erreur React
+      setTimeout(() => {
+        setClinicRating(0);
+        setClinicComment('');
+      }, 500); // Petit délai pour laisser React finir le rendu
+
+      // Effacer le message après 5 secondes
+      setTimeout(() => {
+        setReviewMessage('');
+        setReviewMessageType('');
+      }, 5000);
+
+    } catch (error: any) {
+      console.error('Erreur envoi avis:', error);
+
+      let errorMessage = 'Erreur lors de l\'envoi de votre avis';
+
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (!navigator.onLine) {
+        errorMessage = 'Pas de connexion internet';
+      }
+
+      setReviewMessage(errorMessage);
+      setReviewMessageType('error');
+
+      setTimeout(() => {
+        setReviewMessage('');
+        setReviewMessageType('');
+      }, 5000);
+    } finally {
+      setSubmittingReview(false);
     }
-
-    await response.json();
-
-    // ✅ Message de succès
-    setReviewMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
-    setReviewMessageType('success');
-
-    // ✅ CORRECTION : Attendre avant de réinitialiser pour éviter l'erreur React
-    setTimeout(() => {
-      setClinicRating(0);
-      setClinicComment('');
-    }, 500); // Petit délai pour laisser React finir le rendu
-
-    // Effacer le message après 5 secondes
-    setTimeout(() => {
-      setReviewMessage('');
-      setReviewMessageType('');
-    }, 5000);
-
-  } catch (error: any) {
-    console.error('Erreur envoi avis:', error);
-
-    let errorMessage = 'Erreur lors de l\'envoi de votre avis';
-
-    if (error.message) {
-      errorMessage = error.message;
-    } else if (!navigator.onLine) {
-      errorMessage = 'Pas de connexion internet';
-    }
-
-    setReviewMessage(errorMessage);
-    setReviewMessageType('error');
-
-    setTimeout(() => {
-      setReviewMessage('');
-      setReviewMessageType('');
-    }, 5000);
-  } finally {
-    setSubmittingReview(false);
-  }
-};
+  };
 
   // Fonction pour obtenir les détails d'un RDV par date
   const getAppointmentForDate = (day: number | null) => {
@@ -1078,6 +1078,7 @@ export default function DashboardPatient() {
             Noter la Clinique OSIRIX
           </h3>
 
+          {/* Message de feedback */}
           {reviewMessage && (
             <div className={`mb-4 p-3 sm:p-4 rounded-lg border ${reviewMessageType === 'success'
               ? 'bg-green-50 border-green-200 text-green-800'
@@ -1097,7 +1098,6 @@ export default function DashboardPatient() {
               </div>
             </div>
           )}
-
           <div className="grid grid-cols-1 gap-4 sm:gap-6">
             <div>
               <p className="text-base sm:text-lg text-gray-700 mb-2">Votre satisfaction générale</p>
@@ -1105,14 +1105,14 @@ export default function DashboardPatient() {
               <textarea
                 value={clinicComment}
                 onChange={(e) => setClinicComment(e.target.value)}
-                placeholder="Partagez votre expérience avec la clinique..."
+                placeholder="Partagez votre expérience avec la clinique (minimum 20 caractères)..."
                 className="mt-3 w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none text-sm sm:text-base md:text-lg"
                 rows={3}
-                disabled={submittingReview}
+                disabled={submittingReview || reviewMessageType === 'success'} // ✅ Désactivé après succès
               />
               <button
                 onClick={handleSubmitClinicReview}
-                disabled={submittingReview || clinicRating === 0}
+                disabled={submittingReview || clinicRating === 0 || reviewMessageType === 'success'} // ✅ Désactivé après succès
                 className="mt-3 bg-[#006D65] text-white py-2 px-4 sm:px-6 rounded-lg hover:bg-[#005a54] transition-colors font-medium text-sm sm:text-base md:text-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
               >
                 {submittingReview ? (
