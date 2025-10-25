@@ -367,6 +367,7 @@ export default function MonProfil() {
             </div>
 
             {/* Date de naissance */}
+
             <div>
               <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-2">
                 Date de naissance
@@ -376,7 +377,7 @@ export default function MonProfil() {
                 id="dateOfBirth"
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-sm h-[42px]"
               />
             </div>
 
