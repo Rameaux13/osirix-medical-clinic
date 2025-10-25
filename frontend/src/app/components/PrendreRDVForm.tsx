@@ -373,7 +373,7 @@ const PrendreRDVForm = () => {
     <div className="max-w-6xl mx-auto p-6 bg-white rounded-2xl shadow-xl">
       {/* Header avec progression */}
       <div className="mb-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">Prendre un Rendez-vous</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Prendre un Rendez-vous</h1>
 
         <div className="flex items-center justify-center mb-8">
           {[1, 2, 3].map((step) => (
@@ -693,12 +693,12 @@ const PrendreRDVForm = () => {
       )}
 
       {/* Navigation */}
-      <div className="flex justify-between items-center mt-12 pt-6">
+      <div className="flex justify-between items-center mt-8 sm:mt-12 pt-4 sm:pt-6 gap-2 sm:gap-4">
         <button
           type="button"
           onClick={prevStep}
           disabled={currentStep === 1}
-          className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${currentStep === 1
+          className={`px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-xl font-medium text-sm sm:text-base transition-all duration-300 ${currentStep === 1
             ? 'text-gray-400 cursor-not-allowed'
             : 'text-gray-600 hover:bg-gray-100 hover:shadow-md'
             }`}
@@ -711,7 +711,7 @@ const PrendreRDVForm = () => {
             type="button"
             onClick={nextStep}
             disabled={!isStepValid()}
-            className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 transform ${isStepValid()
+            className={`px-4 sm:px-6 md:px-8 py-2 sm:py-3 rounded-xl font-medium text-sm sm:text-base transition-all duration-300 transform ${isStepValid()
               ? 'bg-gradient-to-r from-[#006D65] to-[#005a54] text-white hover:shadow-lg hover:scale-105'
               : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
@@ -723,21 +723,25 @@ const PrendreRDVForm = () => {
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 transform ${!isSubmitting
+            className={`px-3 sm:px-6 md:px-8 py-2 sm:py-3 rounded-xl font-medium text-xs sm:text-sm md:text-base transition-all duration-300 transform whitespace-nowrap ${!isSubmitting
               ? 'bg-gradient-to-r from-[#E6A930] to-[#d49821] text-white hover:shadow-lg hover:scale-105'
               : 'bg-gray-400 text-gray-200 cursor-not-allowed'
               }`}
           >
             {isSubmitting ? (
               <div className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Confirmation...
+                <span className="hidden sm:inline">Confirmation...</span>
+                <span className="sm:hidden">...</span>
               </div>
             ) : (
-              'Confirmer le rendez-vous'
+              <>
+                <span className="hidden sm:inline">Confirmer le rendez-vous</span>
+                <span className="sm:hidden">Confirmer</span>
+              </>
             )}
           </button>
         )}
