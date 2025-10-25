@@ -30,13 +30,13 @@ interface NotificationsState {
   unreadCount: number;
   loading: boolean;
   error: string | null;
-  
+
   // État WebSocket
   socket: Socket | null;
   isConnected: boolean;
   reconnectAttempts: number;
   maxReconnectAttempts: number;
-  
+
   // Actions
   connect: (token: string) => void;
   disconnect: () => void;
@@ -46,7 +46,7 @@ interface NotificationsState {
   fetchNotifications: () => Promise<void>;
   clearNotifications: () => void;
   removeNotification: (id: string) => void;
-  
+
   // Actions internes
   setConnected: (connected: boolean) => void;
   setLoading: (loading: boolean) => void;
@@ -63,7 +63,7 @@ export const useNotificationsStore = create<NotificationsState>()(
       unreadCount: 0,
       loading: false,
       error: null,
-      
+
       // État WebSocket
       socket: null,
       isConnected: false,
@@ -73,7 +73,7 @@ export const useNotificationsStore = create<NotificationsState>()(
       // Connexion WebSocket
       connect: (token: string) => {
         const state = get();
-        
+
         // Éviter les connexions multiples
         if (state.socket?.connected) {
           return;
@@ -93,20 +93,20 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Événement de connexion réussie
           socket.on('connected', (data) => {
-            console.log('🟢 WebSocket connecté:', data);
-            set({ 
-              socket, 
-              isConnected: true, 
+
+            set({
+              socket,
+              isConnected: true,
               error: null,
-              reconnectAttempts: 0 
+              reconnectAttempts: 0
             });
           });
 
           // Événement de déconnexion
           socket.on('disconnect', (reason) => {
-            console.log('🔴 WebSocket déconnecté:', reason);
+
             set({ isConnected: false });
-            
+
             // Tentative de reconnexion si pas volontaire
             if (reason !== 'io client disconnect') {
               get().incrementReconnectAttempts();
@@ -115,8 +115,8 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Nouvelle notification reçue
           socket.on('newNotification', (data: WebSocketNotification) => {
-            console.log('🔔 Nouvelle notification reçue:', data);
-            
+
+
             const notification: Notification = {
               id: data.data.id || `temp-${Date.now()}`,
               userId: data.data.userId || '',
@@ -129,7 +129,7 @@ export const useNotificationsStore = create<NotificationsState>()(
             };
 
             get().addNotification(notification);
-            
+
             // Notification browser si supporté
             if ('Notification' in window && Notification.permission === 'granted') {
               new Notification(notification.title, {
@@ -142,11 +142,11 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Mise à jour spécifique pour les RDV
           socket.on('appointmentUpdate', (data: WebSocketNotification) => {
-            console.log('📅 Mise à jour RDV:', data);
-            
+
+
             let title = 'Mise à jour rendez-vous';
             let message = 'Votre rendez-vous a été mis à jour.';
-            
+
             switch (data.appointmentEvent) {
               case 'created':
                 title = 'Rendez-vous confirmé';
@@ -182,11 +182,11 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Mise à jour pour les documents
           socket.on('documentUpdate', (data: WebSocketNotification) => {
-            console.log('📄 Mise à jour document:', data);
-            
+
+
             let title = 'Document mis à jour';
             let message = 'Un document a été modifié.';
-            
+
             switch (data.action) {
               case 'uploaded':
                 title = 'Nouveau document';
@@ -217,8 +217,8 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Mise à jour pour les prescriptions
           socket.on('prescriptionUpdate', (data: WebSocketNotification) => {
-            console.log('💊 Nouvelle prescription:', data);
-            
+
+
             const notification: Notification = {
               id: `presc-${Date.now()}`,
               userId: data.data.userId || '',
@@ -234,8 +234,7 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Mise à jour pour les analyses
           socket.on('analysisUpdate', (data: WebSocketNotification) => {
-            console.log('🧪 Résultats d\'analyses:', data);
-            
+
             const notification: Notification = {
               id: `analysis-${Date.now()}`,
               userId: data.data.userId || '',
@@ -251,7 +250,6 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Notification marquée comme lue
           socket.on('notificationMarkedRead', (data: { notificationId: string }) => {
-            console.log('✅ Notification marquée comme lue:', data.notificationId);
             set(state => ({
               notifications: state.notifications.map(notif =>
                 notif.id === data.notificationId
@@ -264,12 +262,11 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Toutes les notifications marquées comme lues
           socket.on('allNotificationsMarkedRead', () => {
-            console.log('✅ Toutes les notifications marquées comme lues');
             set(state => ({
-              notifications: state.notifications.map(notif => ({ 
-                ...notif, 
-                isRead: true, 
-                readAt: new Date() 
+              notifications: state.notifications.map(notif => ({
+                ...notif,
+                isRead: true,
+                readAt: new Date()
               })),
               unreadCount: 0
             }));
@@ -277,19 +274,19 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           // Erreur d'authentification
           socket.on('auth_error', (data) => {
-            console.error('❌ Erreur d\'authentification WebSocket:', data);
+
             set({ error: 'Erreur d\'authentification WebSocket', isConnected: false });
             socket.disconnect();
           });
 
           // Erreur générale
           socket.on('error', (error) => {
-  console.warn('⚠️ WebSocket error (non-bloquant):', error);
-  // Ne pas définir d'erreur pour les erreurs vides qui bloquent l'UI
-  if (error && Object.keys(error).length > 0) {
-    set({ error: 'Erreur de connexion WebSocket' });
-  }
-});
+
+            // Ne pas définir d'erreur pour les erreurs vides qui bloquent l'UI
+            if (error && Object.keys(error).length > 0) {
+              set({ error: 'Erreur de connexion WebSocket' });
+            }
+          });
           // Ping/Pong pour maintenir la connexion
           socket.on('pong', () => {
             // Connexion maintenue
@@ -387,10 +384,10 @@ export const useNotificationsStore = create<NotificationsState>()(
 
           if (response.ok) {
             set(state => ({
-              notifications: state.notifications.map(notif => ({ 
-                ...notif, 
-                isRead: true, 
-                readAt: new Date() 
+              notifications: state.notifications.map(notif => ({
+                ...notif,
+                isRead: true,
+                readAt: new Date()
               })),
               unreadCount: 0
             }));
@@ -430,10 +427,10 @@ export const useNotificationsStore = create<NotificationsState>()(
 
             const unreadCount = mappedNotifications.filter((n: Notification) => !n.isRead).length;
 
-            set({ 
+            set({
               notifications: mappedNotifications,
               unreadCount,
-              loading: false 
+              loading: false
             });
           } else {
             set({ error: 'Erreur lors de la récupération des notifications', loading: false });
@@ -455,8 +452,8 @@ export const useNotificationsStore = create<NotificationsState>()(
           const notification = state.notifications.find(n => n.id === id);
           return {
             notifications: state.notifications.filter(n => n.id !== id),
-            unreadCount: notification && !notification.isRead 
-              ? Math.max(0, state.unreadCount - 1) 
+            unreadCount: notification && !notification.isRead
+              ? Math.max(0, state.unreadCount - 1)
               : state.unreadCount
           };
         });
@@ -466,8 +463,8 @@ export const useNotificationsStore = create<NotificationsState>()(
       setConnected: (connected: boolean) => set({ isConnected: connected }),
       setLoading: (loading: boolean) => set({ loading }),
       setError: (error: string | null) => set({ error }),
-      incrementReconnectAttempts: () => set(state => ({ 
-        reconnectAttempts: state.reconnectAttempts + 1 
+      incrementReconnectAttempts: () => set(state => ({
+        reconnectAttempts: state.reconnectAttempts + 1
       })),
       resetReconnectAttempts: () => set({ reconnectAttempts: 0 }),
     }),

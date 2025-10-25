@@ -489,23 +489,21 @@ export default function DashboardPatient() {
     }
   }, [user, loadPrescriptions]);
 
+  // Connexion WebSocket au montage du composant
   useEffect(() => {
-  if (isAuthenticated && token && user) {
-    console.log('🔌 Connexion WebSocket...', { userId: user.id });
-    
-    // Connecter le WebSocket
-    connect(token);
-    
-    // Charger les notifications existantes
-    fetchNotifications();
-    
-    // Déconnexion au démontage
-    return () => {
-      console.log('🔌 Déconnexion WebSocket');
-      disconnect();
-    };
-  }
-}, [isAuthenticated, token, user]);
+    if (isAuthenticated && token && user) {
+      // Connecter le WebSocket
+      connect(token);
+
+      // Charger les notifications existantes
+      fetchNotifications();
+
+      // Déconnexion au démontage
+      return () => {
+        disconnect();
+      };
+    }
+  }, [isAuthenticated, token, user]);
 
   const renderPrescriptionsSection = () => {
     return (
@@ -1239,88 +1237,178 @@ export default function DashboardPatient() {
 
                 {notificationMenuOpen && (
                   <>
+                    {/* Overlay pour fermer le menu */}
                     <div
                       className="fixed inset-0 z-40"
                       onClick={() => setNotificationMenuOpen(false)}
                     />
 
-                    <div className="absolute right-0 top-12 w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-96 overflow-hidden">
-                      <div className="bg-[#006D65] text-white p-4 rounded-t-xl">
+                    {/* Menu Notifications - RESPONSIVE & MODERNE */}
+                    <div className="absolute right-0 top-12 w-[calc(100vw-2rem)] sm:w-96 md:w-[420px] bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden">
+
+                      {/* Header avec gradient */}
+                      <div className="bg-gradient-to-r from-[#006D65] to-[#005a54] text-white p-4 sm:p-5 rounded-t-xl">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-bold text-base sm:text-lg">Notifications</h3>
-                          <span className="bg-white/20 text-xs sm:text-sm px-2 py-1 rounded-full">
-                            {unreadCount} non lue{unreadCount > 1 ? 's' : ''}
-                          </span>
+                          <div className="flex items-center space-x-2 sm:space-x-3">
+                            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center">
+                              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+                            </div>
+                            <h3 className="font-bold text-base sm:text-lg">Notifications</h3>
+                          </div>
+                          {unreadCount > 0 && (
+                            <span className="bg-[#E6A930] text-white text-xs sm:text-sm px-2.5 sm:px-3 py-1 rounded-full font-bold shadow-md">
+                              {unreadCount}
+                            </span>
+                          )}
                         </div>
                       </div>
 
-                      <div className="p-3 border-b border-gray-200 flex gap-2">
-                        <button
-                          onClick={() => {
-                            markAllAsRead();
-                            setNotificationMenuOpen(false);
-                          }}
-                          disabled={unreadCount === 0}
-                          className="flex-1 text-xs sm:text-sm bg-[#006D65] text-white py-2 px-3 rounded-lg hover:bg-[#005a54] transition-colors disabled:opacity-50 font-medium"
-                        >
-                          Tout marquer lu
-                        </button>
-                      </div>
+                      {/* Bouton "Marquer tout comme lu" */}
+                      {unreadCount > 0 && (
+                        <div className="p-3 sm:p-4 border-b border-gray-200 bg-gray-50">
+                          <button
+                            onClick={() => {
+                              markAllAsRead();
+                              setNotificationMenuOpen(false);
+                            }}
+                            className="w-full text-xs sm:text-sm bg-[#006D65] text-white py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg hover:bg-[#005a54] transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center space-x-2"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span>Tout marquer comme lu</span>
+                          </button>
+                        </div>
+                      )}
 
-                      <div className="max-h-64 overflow-y-auto">
+                      {/* Liste des notifications avec scroll */}
+                      <div className="max-h-[50vh] sm:max-h-72 overflow-y-auto">
                         {webSocketNotifications && webSocketNotifications.length > 0 ? (
-                          webSocketNotifications.slice(0, 8).map((notification) => (
-                            <div
-                              key={notification.id}
-                              onClick={() => handleNotificationRedirect(notification)}
-                              className={`p-3 sm:p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${!notification.isRead ? 'bg-blue-50' : ''
-                                }`}
-                            >
-                              <div className="flex items-start justify-between">
-                                <div className="flex-1">
-                                  <div className="flex items-center mb-1">
-                                    <h4 className={`font-semibold text-sm sm:text-base ${!notification.isRead ? 'text-blue-900' : 'text-gray-800'
-                                      }`}>
-                                      {notification.title}
-                                    </h4>
-                                    {!notification.isRead && (
-                                      <div className="w-2 h-2 bg-blue-500 rounded-full ml-2"></div>
-                                    )}
-                                  </div>
-                                  <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 mb-2">
-                                    {notification.message}
-                                  </p>
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-xs text-gray-500">
-                                      {new Date(notification.createdAt).toLocaleDateString('fr-FR', {
-                                        day: 'numeric',
-                                        month: 'short',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                      })}
-                                    </span>
-                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${notification.type === 'appointment' ? 'bg-green-100 text-green-800' :
-                                      notification.type === 'prescription' ? 'bg-purple-100 text-purple-800' :
-                                        notification.type === 'lab_result' ? 'bg-blue-100 text-blue-800' :
-                                          'bg-gray-100 text-gray-800'
-                                      }`}>
-                                      {notification.type === 'appointment' ? 'RDV' :
-                                        notification.type === 'prescription' ? 'Prescription' :
-                                          notification.type === 'lab_result' ? 'Analyses' : 'Général'}
-                                    </span>
+                          <div className="divide-y divide-gray-100">
+                            {webSocketNotifications.slice(0, 10).map((notification) => {
+                              // Fonction pour obtenir l'icône selon le type
+                              const getNotificationIcon = () => {
+                                switch (notification.type) {
+                                  case 'appointment':
+                                    return (
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                                      </div>
+                                    );
+                                  case 'prescription':
+                                    return (
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
+                                      </div>
+                                    );
+                                  case 'lab_result':
+                                    return (
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+                                      </div>
+                                    );
+                                  case 'general':
+                                    return (
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                                      </div>
+                                    );
+                                  default:
+                                    return (
+                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
+                                      </div>
+                                    );
+                                }
+                              };
+
+                              // Fonction pour obtenir le badge selon le type
+                              const getTypeBadge = () => {
+                                const badges = {
+                                  appointment: { text: 'RDV', color: 'bg-green-100 text-green-800 border-green-200' },
+                                  prescription: { text: 'Prescription', color: 'bg-purple-100 text-purple-800 border-purple-200' },
+                                  lab_result: { text: 'Analyses', color: 'bg-blue-100 text-blue-800 border-blue-200' },
+                                  general: { text: 'Info', color: 'bg-gray-100 text-gray-800 border-gray-200' },
+                                  reminder: { text: 'Rappel', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+                                };
+                                const badge = badges[notification.type as keyof typeof badges] || badges.general;
+                                return (
+                                  <span className={`px-2 py-0.5 sm:py-1 rounded-full text-xs font-semibold border ${badge.color}`}>
+                                    {badge.text}
+                                  </span>
+                                );
+                              };
+
+                              return (
+                                <div
+                                  key={notification.id}
+                                  onClick={() => handleNotificationRedirect(notification)}
+                                  className={`p-3 sm:p-4 cursor-pointer transition-all duration-200 hover:bg-gray-50 ${!notification.isRead ? 'bg-blue-50/50 border-l-4 border-l-blue-500' : ''
+                                    }`}
+                                >
+                                  <div className="flex items-start space-x-3 sm:space-x-4">
+                                    {/* Icône */}
+                                    {getNotificationIcon()}
+
+                                    {/* Contenu */}
+                                    <div className="flex-1 min-w-0">
+                                      {/* Titre + Badge non lu */}
+                                      <div className="flex items-start justify-between mb-1 sm:mb-2 gap-2">
+                                        <h4 className={`font-semibold text-sm sm:text-base leading-tight ${!notification.isRead ? 'text-blue-900' : 'text-gray-800'
+                                          }`}>
+                                          {notification.title}
+                                        </h4>
+                                        {!notification.isRead && (
+                                          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-blue-500 rounded-full flex-shrink-0 mt-1 animate-pulse"></div>
+                                        )}
+                                      </div>
+
+                                      {/* Message */}
+                                      <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 mb-2 sm:mb-3">
+                                        {notification.message}
+                                      </p>
+
+                                      {/* Footer : Date + Badge type */}
+                                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                                        <span className="text-xs text-gray-500 flex items-center">
+                                          <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
+                                          <span className="whitespace-nowrap">
+                                            {new Date(notification.createdAt).toLocaleDateString('fr-FR', {
+                                              day: 'numeric',
+                                              month: 'short',
+                                              hour: '2-digit',
+                                              minute: '2-digit'
+                                            })}
+                                          </span>
+                                        </span>
+                                        {getTypeBadge()}
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          ))
+                              );
+                            })}
+                          </div>
                         ) : (
-                          <div className="p-6 text-center">
-                            <Bell className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                            <p className="text-gray-600 font-medium text-sm sm:text-base">Aucune notification</p>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Vous serez notifié des mises à jour</p>
+                          // État vide
+                          <div className="p-8 sm:p-12 text-center">
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                              <Bell className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400" />
+                            </div>
+                            <p className="text-gray-600 font-medium text-sm sm:text-base mb-2">Aucune notification</p>
+                            <p className="text-xs sm:text-sm text-gray-500">Vous serez notifié des mises à jour importantes</p>
                           </div>
                         )}
                       </div>
+
+                      {/* Footer : Compteur si plus de 10 notifications */}
+                      {webSocketNotifications && webSocketNotifications.length > 10 && (
+                        <div className="p-3 sm:p-4 border-t border-gray-200 bg-gray-50 text-center">
+                          <p className="text-xs sm:text-sm text-gray-600 font-medium">
+                            +{webSocketNotifications.length - 10} autre{webSocketNotifications.length - 10 > 1 ? 's' : ''} notification{webSocketNotifications.length - 10 > 1 ? 's' : ''}
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </>
                 )}
