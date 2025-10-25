@@ -273,8 +273,8 @@ export default function MonProfil() {
       {/* Messages de feedback */}
       {(error || successMessage) && (
         <div className={`p-4 rounded-lg border flex items-start justify-between ${error
-            ? 'bg-red-50 border-red-200 text-red-800'
-            : 'bg-green-50 border-green-200 text-green-800'
+          ? 'bg-red-50 border-red-200 text-red-800'
+          : 'bg-green-50 border-green-200 text-green-800'
           }`}>
           <div className="flex items-center">
             {error ? (
@@ -302,8 +302,8 @@ export default function MonProfil() {
             <User className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl font-semibold text-gray-900">Mon Profil Patient</h2>
-            <p className="text-gray-600">Gérez vos informations personnelles</p>
+            <h2 className="text-xl font-semibold text-gray-900">Mon Profil Patient</h2>
+            <p className="text-sm text-gray-600">Gérez vos informations personnelles</p>
           </div>
         </div>
 
@@ -409,14 +409,17 @@ export default function MonProfil() {
                 setValidationErrors({});
                 clearMessages();
               }}
-              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-base"
+
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-sm"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={saving || Object.keys(validationErrors).length > 0}
-              className="px-6 py-3 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+
+              className="px-4 py-2 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+
             >
               {saving ? (
                 <>
@@ -436,14 +439,9 @@ export default function MonProfil() {
 
       {/* Section Changement de Mot de Passe */}
       <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-        <div className="flex items-center mb-6">
-          <div className="w-12 h-12 bg-[#E6A930] rounded-full flex items-center justify-center mr-4">
-            <Key className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900">Changer mon mot de passe</h3>
-            <p className="text-gray-600">Minimum 3 caractères, lettres et chiffres seulement</p>
-          </div>
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">Changer mon mot de passe</h3>
+          <p className="text-sm text-gray-600">Minimum 3 caractères, lettres et chiffres seulement</p>
         </div>
 
         <form onSubmit={handleSubmitPassword}>
