@@ -33,25 +33,65 @@ const PrendreRDVForm = () => {
 
   // Services médicaux disponibles 
   const services: Service[] = [
-    // Consultations
-    { id: 'consultation-generale', name: 'Consultation générale', category: 'consultation', description: 'Consultation médicale générale', price: '25000' },
-    { id: 'pediatrie', name: 'Pédiatrie', category: 'consultation', description: 'Soins pour enfants', price: '30000' },
-    { id: 'neurologie', name: 'Neurologie', category: 'consultation', description: 'Système nerveux', price: '40000' },
-    { id: 'diabetologie', name: 'Diabétologie', category: 'consultation', description: 'Suivi du diabète', price: '35000' },
-    { id: 'urologie', name: 'Urologie', category: 'consultation', description: 'Andrologie, Sexologie', price: '35000' },
-    { id: 'endoscopie', name: 'Endoscopie', category: 'consultation', description: 'Urodynamique', price: '45000' },
-    { id: 'psychiatrie', name: 'Psychiatrie', category: 'consultation', description: 'Santé mentale', price: '40000' },
-    { id: 'gastroenterologie', name: 'Gastroentérologie', category: 'consultation', description: 'Système digestif', price: '40000' },
-    { id: 'rhumatologie', name: 'Rhumatologie', category: 'consultation', description: 'Articulations et os', price: '35000' },
-    { id: 'cancerologie', name: 'Cancérologie', category: 'consultation', description: 'Oncologie', price: '50000' },
+    
+    {
+      id: 'consultation-generale',
+      name: 'Consultation générale',
+      category: 'consultation',
+      description: 'Consultation médicale générale',
+      price: '25000'
+    },
+    {
+      id: 'pediatrie',
+      name: 'Pédiatrie',
+      category: 'consultation',
+      description: 'Soins pour enfants',
+      price: '30000'
+    },
+    {
+      id: 'urologie',
+      name: 'Urologie',
+      category: 'consultation',
+      description: 'Andrologie, Sexologie',
+      price: '35000'
+    },
+    {
+      id: 'diabetologie',
+      name: 'Diabétologie',
+      category: 'consultation',
+      description: 'Suivi du diabète',
+      price: '35000'
+    },
+    {
+      id: 'rhumatologie',
+      name: 'Rhumatologie',
+      category: 'consultation',
+      description: 'Articulations et os',
+      price: '35000'
+    },
 
-    // Examens
-    { id: 'echo-urologie', name: 'Échographie Urologie', category: 'examen', description: 'Examen urologique', price: '25000' },
-    { id: 'echo-gyneco', name: 'Échographie Gynécologique', category: 'examen', description: 'Examen gynécologique', price: '25000' },
-    { id: 'echo-abdomen', name: 'Échographie Abdomen', category: 'examen', description: 'Examen abdominal', price: '20000' },
-    { id: 'debitmetrie', name: 'Débitmétrie', category: 'examen', description: 'Mesure du débit urinaire', price: '20000' },
-    { id: 'biopsie', name: 'Biopsie Prostatique', category: 'examen', description: 'Prélèvement prostatique', price: '60000' },
-    { id: 'bilan-sanguin', name: 'Bilan Sanguin', category: 'examen', description: 'Analyses sanguines', price: '15000' }
+    
+    {
+      id: 'echo-gyneco',
+      name: 'Échographie Gynécologique',
+      category: 'examen',
+      description: 'Examen gynécologique',
+      price: '25000'
+    },
+    {
+      id: 'biopsie',
+      name: 'Biopsie Prostatique',
+      category: 'examen',
+      description: 'Prélèvement prostatique',
+      price: '60000'
+    },
+    {
+      id: 'bilan-sanguin',
+      name: 'Bilan Sanguin',
+      category: 'examen',
+      description: 'Analyses sanguines',
+      price: '15000'
+    }
   ];
 
   const timeSlots = [

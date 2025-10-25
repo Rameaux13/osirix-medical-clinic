@@ -119,26 +119,17 @@ class AppointmentService {
   convertFormDataToBackend(formData: any): CreateAppointmentRequest {
     // MAPPING COMPLET DE TOUS LES 16 SERVICES ✅
     const serviceNames: { [key: string]: string } = {
-      // Services existants (8) ✅
+      // ✅ Consultations validées (5)
       'consultation-generale': 'Consultation générale',
-      'urgence': 'Consultation urgence',
       'pediatrie': 'Consultation pédiatrique',
-      'neurologie': 'Consultation neurologie',
       'urologie': 'Consultation urologie',
-      'echo-abdomen': 'Échographie abdominale',
-      'echo-urologie': 'Échographie urologique',
-      'bilan-sanguin': 'Bilan sanguin complet',
-
-      // Services manquants (8) - AJOUT CRUCIAL ⭐
       'diabetologie': 'Consultation diabétologie',
-      'endoscopie': 'Consultation endoscopie',
-      'psychiatrie': 'Consultation psychiatrie',
-      'gastroenterologie': 'Consultation gastroentérologie',
       'rhumatologie': 'Consultation rhumatologie',
-      'cancerologie': 'Consultation cancérologie',
+
+      // ✅ Examens validés (3)
       'echo-gyneco': 'Échographie gynécologique',
-      'debitmetrie': 'Débitmétrie',
-      'biopsie': 'Biopsie prostatique'
+      'biopsie': 'Biopsie prostatique',
+      'bilan-sanguin': 'Bilan sanguin complet'
     };
 
     const consultationTypeName = serviceNames[formData.selectedService];
