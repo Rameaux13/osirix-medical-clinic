@@ -26,7 +26,7 @@ export class AppointmentsService {
         where: {
           appointmentDate: new Date(date),
           status: {
-            in: ['scheduled', 'confirmed', 'pending'] // Exclure les annulés
+            in: ['EN_ATTENTE', 'CONFIRMED'] // Exclure les annulés
           }
         },
         select: {
