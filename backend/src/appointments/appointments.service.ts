@@ -28,23 +28,39 @@ export class AppointmentsService {
       }
     };
 
+    // 🆕 DEBUG - Afficher le nom du service reçu
+    console.log('🔍 Service reçu:', consultationTypeName);
+
     // 🆕 Filtrer par type de consultation si fourni
     if (consultationTypeName) {
       const consultationType = await this.prisma.consultationType.findFirst({
         where: { name: consultationTypeName }
       });
 
+      // 🆕 DEBUG - Afficher le consultationType trouvé
+      console.log('🔍 ConsultationType trouvé:', consultationType);
+
       if (consultationType) {
         where.consultationTypeId = consultationType.id;
+        console.log('✅ Filtre appliqué avec ID:', consultationType.id);
+      } else {
+        console.log('❌ Aucun consultationType trouvé pour:', consultationTypeName);
       }
     }
+
+    // 🆕 DEBUG - Afficher le where final
+    console.log('🔍 Requête WHERE:', JSON.stringify(where, null, 2));
 
     const appointments = await this.prisma.appointment.findMany({
       where,
       select: {
-        appointmentTime: true
+        appointmentTime: true,
+        consultationType: true  // 🆕 Inclure pour debug
       }
     });
+
+    // 🆕 DEBUG - Afficher les RDV trouvés
+    console.log('🔍 RDV trouvés:', appointments);
 
     const unavailableSlots = appointments.map(apt => apt.appointmentTime);
 
@@ -56,6 +72,7 @@ export class AppointmentsService {
       message: `${unavailableSlots.length} créneaux occupés pour ${consultationTypeName || 'tous les services'} le ${date}`
     };
   } catch (error) {
+    console.error('❌ Erreur dans getDateAvailability:', error);
     throw new BadRequestException(`Erreur lors de la vérification de disponibilité`);
   }
 }
