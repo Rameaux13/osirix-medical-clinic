@@ -489,6 +489,24 @@ export default function DashboardPatient() {
     }
   }, [user, loadPrescriptions]);
 
+  useEffect(() => {
+  if (isAuthenticated && token && user) {
+    console.log('🔌 Connexion WebSocket...', { userId: user.id });
+    
+    // Connecter le WebSocket
+    connect(token);
+    
+    // Charger les notifications existantes
+    fetchNotifications();
+    
+    // Déconnexion au démontage
+    return () => {
+      console.log('🔌 Déconnexion WebSocket');
+      disconnect();
+    };
+  }
+}, [isAuthenticated, token, user]);
+
   const renderPrescriptionsSection = () => {
     return (
       <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
