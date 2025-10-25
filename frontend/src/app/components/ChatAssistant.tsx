@@ -143,12 +143,12 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             {isChatOpen && (
                 <div
                     className={`
-                     fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
-                         ${isMobile
-                            ? 'bottom-4 left-4 right-4 h-[60vh] max-w-[calc(100%-2rem)] rounded-2xl'
+                      fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
+                        ${isMobile
+                            ? 'bottom-20 left-4 right-4 h-[55vh] max-w-md mx-auto rounded-2xl'
                             : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
                         }
-`}
+                    `}
                 >
                     {/* Header du chat */}
                     <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 rounded-t-2xl flex items-center justify-between">
