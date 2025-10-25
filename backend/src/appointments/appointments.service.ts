@@ -19,34 +19,46 @@ export class AppointmentsService {
 
 
   // 🆕 NOUVELLE MÉTHODE - Vérifier la disponibilité des créneaux pour une date
-  async getDateAvailability(date: string) {
-    try {
-      // Récupérer tous les RDV confirmés/programmés pour cette date
-      const appointments = await this.prisma.appointment.findMany({
-        where: {
-          appointmentDate: new Date(date),
-          status: {
-            in: ['EN_ATTENTE', 'CONFIRMED'] // Exclure les annulés
-          }
-        },
-        select: {
-          appointmentTime: true
-        }
+ async getDateAvailability(date: string, consultationTypeName?: string) {
+  try {
+    const where: any = {
+      appointmentDate: new Date(date),
+      status: {
+        in: ['EN_ATTENTE', 'CONFIRMED']
+      }
+    };
+
+    // 🆕 Filtrer par type de consultation si fourni
+    if (consultationTypeName) {
+      const consultationType = await this.prisma.consultationType.findFirst({
+        where: { name: consultationTypeName }
       });
 
-      // Extraire les heures occupées
-      const unavailableSlots = appointments.map(apt => apt.appointmentTime);
-
-      return {
-        date,
-        unavailableSlots,
-        totalOccupied: unavailableSlots.length,
-        message: `${unavailableSlots.length} créneaux occupés pour le ${date}`
-      };
-    } catch (error) {
-      throw new BadRequestException(`Erreur lors de la vérification de disponibilité pour le ${date}`);
+      if (consultationType) {
+        where.consultationTypeId = consultationType.id;
+      }
     }
+
+    const appointments = await this.prisma.appointment.findMany({
+      where,
+      select: {
+        appointmentTime: true
+      }
+    });
+
+    const unavailableSlots = appointments.map(apt => apt.appointmentTime);
+
+    return {
+      date,
+      consultationTypeName,
+      unavailableSlots,
+      totalOccupied: unavailableSlots.length,
+      message: `${unavailableSlots.length} créneaux occupés pour ${consultationTypeName || 'tous les services'} le ${date}`
+    };
+  } catch (error) {
+    throw new BadRequestException(`Erreur lors de la vérification de disponibilité`);
   }
+}
 
   // Créer un rendez-vous avec attribution automatique du médecin
   async create(userId: string, createAppointmentDto: CreateAppointmentDto) {

@@ -144,8 +144,11 @@ export class AppointmentsController {
 
   // Vérifier la disponibilité des créneaux pour une date
   @Get('availability/:date')
-  async getDateAvailability(@Param('date') date: string) {
-    return this.appointmentsService.getDateAvailability(date);
+  async getDateAvailability(
+    @Param('date') date: string,
+    @Query('service') service?: string  
+  ) {
+    return this.appointmentsService.getDateAvailability(date, service);
   }
 
   // Récupérer les statistiques des RDV (admin)
