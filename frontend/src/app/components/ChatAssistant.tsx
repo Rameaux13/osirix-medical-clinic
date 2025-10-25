@@ -143,9 +143,9 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             {isChatOpen && (
                 <div
                     className={`
-                        fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
-                             ${isMobile
-                            ? 'bottom-0 left-0 right-0 h-[70vh] rounded-t-3xl'
+                     fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
+                         ${isMobile
+                            ? 'bottom-4 left-4 right-4 h-[60vh] max-w-[calc(100%-2rem)] rounded-2xl'
                             : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
                         }
 `}
