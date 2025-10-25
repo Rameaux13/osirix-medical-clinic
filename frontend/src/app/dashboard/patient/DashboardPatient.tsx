@@ -252,6 +252,7 @@ export default function DashboardPatient() {
 
   // Fonction pour soumettre un avis clinique
     const handleSubmitClinicReview = async () => {
+  // ✅ Validation du rating
   if (clinicRating === 0) {
     setReviewMessage('Veuillez donner une note avant d\'envoyer votre avis');
     setReviewMessageType('error');
@@ -259,11 +260,49 @@ export default function DashboardPatient() {
     return;
   }
 
+  // ✅ Validation du commentaire (minimum 20 caractères)
+  const messageToSend = clinicComment.trim();
+  
+  if (!messageToSend || messageToSend.length < 20) {
+    setReviewMessage('Votre commentaire doit contenir au moins 20 caractères');
+    setReviewMessageType('error');
+    setTimeout(() => setReviewMessage(''), 3000);
+    return;
+  }
+
+  // 🔍 DEBUG : Voir les données de l'utilisateur
+  console.log('👤 User data:', {
+    firstName: user?.firstName,
+    lastName: user?.lastName,
+    email: user?.email,
+    displayName: displayName
+  });
+
+  // ✅ VALIDATION : Vérifier que email existe
+  if (!user?.email) {
+    setReviewMessage('❌ Erreur : Email utilisateur non trouvé. Veuillez vous reconnecter.');
+    setReviewMessageType('error');
+    setTimeout(() => setReviewMessage(''), 5000);
+    return;
+  }
+
   setSubmittingReview(true);
   setReviewMessage('');
 
   try {
-    // ✅ CHANGEMENT : Utiliser /feedback/send au lieu de /reviews/clinic
+    // ✅ Préparer les données selon le DTO
+    const feedbackData = {
+      name: user?.firstName && user?.lastName 
+        ? `${user.firstName} ${user.lastName}` 
+        : displayName || 'Patient OSIRIX',
+      email: user.email, // ✅ On sait maintenant qu'il existe
+      rating: clinicRating,
+      message: messageToSend
+    };
+
+    // 🔍 DEBUG : Voir les données envoyées
+    console.log('📤 Données envoyées au backend:', feedbackData);
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`,
       {
@@ -271,40 +310,39 @@ export default function DashboardPatient() {
         headers: {
           'Content-Type': 'application/json',
         },
-        // ✅ PAS BESOIN DE TOKEN JWT - endpoint public
-        body: JSON.stringify({
-          name: user?.firstName && user?.lastName 
-            ? `${user.firstName} ${user.lastName}` 
-            : displayName,
-          email: user?.email || '',
-          rating: clinicRating,
-          message: clinicComment.trim() || 'Aucun commentaire'
-        }),
+        body: JSON.stringify(feedbackData),
       }
     );
 
+    // 🔍 DEBUG : Voir la réponse
+    console.log('📥 Statut réponse:', response.status);
+
     if (!response.ok) {
-      throw new Error('Erreur lors de l\'envoi de l\'avis');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('❌ Erreur backend:', errorData);
+      throw new Error(errorData.message || 'Erreur lors de l\'envoi de l\'avis');
     }
 
     const data = await response.json();
+    console.log('✅ Réponse backend:', data);
 
-    // ✅ Message de succès
     setReviewMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
     setReviewMessageType('success');
 
-    // ✅ Réinitialiser le formulaire
+    // Réinitialiser le formulaire
     setClinicRating(0);
     setClinicComment('');
 
     setTimeout(() => setReviewMessage(''), 5000);
 
   } catch (error: any) {
-    console.error('Erreur envoi avis:', error);
+    console.error('❌ Erreur complète:', error);
 
     let errorMessage = 'Erreur lors de l\'envoi de votre avis';
 
-    if (!navigator.onLine) {
+    if (error.message) {
+      errorMessage = error.message;
+    } else if (!navigator.onLine) {
       errorMessage = 'Pas de connexion internet';
     }
 
