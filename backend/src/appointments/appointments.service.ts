@@ -28,16 +28,17 @@ export class AppointmentsService {
       }
     };
 
-    // 🆕 DEBUG - Afficher le nom du service reçu
-    console.log('🔍 Service reçu:', consultationTypeName);
-
-    // 🆕 Filtrer par type de consultation si fourni
     if (consultationTypeName) {
+      // 🆕 Recherche insensible à la casse (LIKE en SQL)
       const consultationType = await this.prisma.consultationType.findFirst({
-        where: { name: consultationTypeName }
+        where: { 
+          name: {
+            equals: consultationTypeName,
+            mode: 'insensitive'  // ✅ Ignore majuscules/minuscules
+          }
+        }
       });
 
-      // 🆕 DEBUG - Afficher le consultationType trouvé
       console.log('🔍 ConsultationType trouvé:', consultationType);
 
       if (consultationType) {
@@ -48,19 +49,12 @@ export class AppointmentsService {
       }
     }
 
-    // 🆕 DEBUG - Afficher le where final
-    console.log('🔍 Requête WHERE:', JSON.stringify(where, null, 2));
-
     const appointments = await this.prisma.appointment.findMany({
       where,
       select: {
-        appointmentTime: true,
-        consultationType: true  // 🆕 Inclure pour debug
+        appointmentTime: true
       }
     });
-
-    // 🆕 DEBUG - Afficher les RDV trouvés
-    console.log('🔍 RDV trouvés:', appointments);
 
     const unavailableSlots = appointments.map(apt => apt.appointmentTime);
 
