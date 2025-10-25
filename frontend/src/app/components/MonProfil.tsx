@@ -540,14 +540,14 @@ export default function MonProfil() {
                 setValidationErrors({});
                 clearMessages();
               }}
-              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-base"
+              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-base"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={changingPassword || !passwordForm.oldPassword || !passwordForm.newPassword || !passwordForm.confirmPassword || Object.keys(validationErrors).length > 0}
-              className="px-6 py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="px-4 py-2 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {changingPassword ? (
                 <>
