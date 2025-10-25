@@ -4,9 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import chatService from '../../services/chatService';
 import type { ChatMessage } from '../../services/chatService';
 
-// ============================================
-// 🎨 ICÔNES SVG
-// ============================================
+// Icônes SVG
 const MessageCircle = ({ className }: { className?: string }) => (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -25,25 +23,11 @@ const Send = ({ className }: { className?: string }) => (
     </svg>
 );
 
-const BotIcon = ({ className }: { className?: string }) => (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-    </svg>
-);
-
-const UserIcon = ({ className }: { className?: string }) => (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
-);
-
 interface ChatAssistantProps {
     onNavigate?: (section: string) => void;
 }
 
 export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
-    console.log('🤖 ChatAssistant - Composant monté');
-
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatMessage, setChatMessage] = useState('');
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -58,44 +42,19 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     const [chatLoading, setChatLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // ============================================
-    // 📱 DÉTECTION DE LA TAILLE D'ÉCRAN
-    // ============================================
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const checkMobile = () => {
-            const mobile = window.innerWidth < 768;
-            setIsMobile(mobile);
-            console.log('📱 Taille écran:', window.innerWidth, 'px - Mobile:', mobile);
-        };
-
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
-
-    // ============================================
-    // 📜 SCROLL AUTOMATIQUE AMÉLIORÉ
-    // ============================================
+    // Scroll automatique vers le bas
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        console.log('📜 Scroll vers le bas');
     };
 
     useEffect(() => {
-        if (isChatOpen) {
-            setTimeout(scrollToBottom, 100);
-        }
-    }, [chatMessages, isChatOpen]);
+        scrollToBottom();
+    }, [chatMessages]);
 
-    // ============================================
-    // 💬 ENVOI DE MESSAGE
-    // ============================================
+    // Fonction pour envoyer un message
     const handleSendMessage = async () => {
         if (chatMessage.trim() && !chatLoading) {
-            console.log('💬 Envoi message:', chatMessage);
-
+            // Message utilisateur
             const userMessage: ChatMessage = {
                 id: chatMessages.length + 1,
                 type: 'user',
@@ -108,10 +67,10 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             setChatLoading(true);
 
             try {
-                console.log('🔄 Appel API backend...');
+                // Appel API backend
                 const response = await chatService.sendMessage(userMessage.message);
-                console.log('✅ Réponse reçue:', response);
 
+                // Message assistant avec réponse du backend
                 const assistantMessage: ChatMessage = {
                     id: chatMessages.length + 2,
                     type: 'assistant',
@@ -124,7 +83,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 setChatMessages(prev => [...prev, assistantMessage]);
 
             } catch (error) {
-                console.error('❌ Erreur chat:', error);
+                console.error('Erreur chat:', error);
 
                 const errorMessage: ChatMessage = {
                     id: chatMessages.length + 2,
@@ -141,138 +100,73 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         }
     };
 
-    // ============================================
-    // 🎯 GESTION DES SUGGESTIONS
-    // ============================================
+    // Fonction pour envoyer une suggestion avec redirection si c'est "Prendre RDV"
     const handleSuggestionClick = async (suggestion: string) => {
-        console.log('🎯 Suggestion cliquée:', suggestion);
-
+        // Si c'est "Prendre RDV maintenant", rediriger directement
         if (suggestion === 'Prendre RDV maintenant' && onNavigate) {
-            console.log('↗️ Redirection vers prise de RDV');
             onNavigate('new-appointment');
             setIsChatOpen(false);
             return;
         }
 
+        // Sinon, envoyer le message normalement
         setChatMessage(suggestion);
         setTimeout(() => {
             handleSendMessage();
         }, 100);
     };
 
-    // ============================================
-    // ✨ ANIMATION D'OUVERTURE
-    // ============================================
-    useEffect(() => {
-        if (isChatOpen) {
-            console.log('✅ Chat ouvert');
-        } else {
-            console.log('❌ Chat fermé');
-        }
-    }, [isChatOpen]);
-
     return (
         <>
-            {/* ============================================ */}
-            {/* 💬 FENÊTRE DE CHAT */}
-            {/* ============================================ */}
+            {/* Fenêtre de chat */}
             {isChatOpen && (
-                <div 
-                    className={`
-                        fixed z-50 bg-white shadow-2xl border border-gray-200 flex flex-col
-                        transition-all duration-300 ease-in-out
-                        ${isMobile 
-                            ? 'inset-0 rounded-none' 
-                            : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
-                        }
-                    `}
-                    style={{ 
-                        animation: 'slideUp 0.3s ease-out',
-                    }}
-                >
-                    {/* ============================================ */}
-                    {/* 📋 HEADER DU CHAT */}
-                    {/* ============================================ */}
-                    <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 flex items-center justify-between rounded-t-2xl md:rounded-t-2xl">
-                        <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                                <MessageCircle className="w-5 h-5" />
+                <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 flex flex-col">
+                    {/* Header du chat */}
+                    <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 rounded-t-2xl flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                <MessageCircle className="w-4 h-4" />
                             </div>
                             <div>
-                                <h4 className="font-semibold text-base">Assistant OSIRIX</h4>
-                                <div className="flex items-center space-x-1">
-                                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                    <p className="text-xs text-green-200">En ligne</p>
-                                </div>
+                                <h4 className="font-semibold text-sm">Assistant OSIRIX</h4>
+                                <p className="text-xs text-green-200">En ligne</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setIsChatOpen(false)}
-                            className="text-white hover:bg-white/20 rounded-full p-2 transition-all duration-200 hover:scale-110"
+                            className="text-white hover:bg-white/20 rounded-full p-1 transition-colors"
                         >
-                            <X className="w-5 h-5" />
+                            <X className="w-4 h-4" />
                         </button>
                     </div>
 
-                    {/* ============================================ */}
-                    {/* 📝 ZONE DES MESSAGES */}
-                    {/* ============================================ */}
-                    <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50">
+                    {/* Messages du chat */}
+                    <div className="flex-1 p-4 overflow-y-auto space-y-3">
                         {chatMessages.map((msg) => (
                             <div key={msg.id}>
-                                {/* Message */}
-                                <div className={`flex items-end space-x-2 ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    
-                                    {/* Avatar Assistant */}
-                                    {msg.type === 'assistant' && (
-                                        <div className="w-8 h-8 rounded-full bg-[#006D65] flex items-center justify-center flex-shrink-0 shadow-md">
-                                            <BotIcon className="w-4 h-4 text-white" />
-                                        </div>
-                                    )}
-
-                                    {/* Bulle de message */}
+                                <div className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div
-                                        className={`
-                                            max-w-[80%] md:max-w-[75%] p-3 rounded-2xl shadow-md
-                                            ${msg.type === 'user'
-                                                ? 'bg-gradient-to-br from-[#006D65] to-[#00806E] text-white rounded-br-sm'
-                                                : 'bg-white text-gray-800 rounded-bl-sm border border-gray-200'
-                                            }
-                                        `}
-                                        style={{
-                                            animation: 'fadeIn 0.3s ease-out'
-                                        }}
+                                        className={`max-w-[75%] p-3 rounded-lg text-sm ${msg.type === 'user'
+                                            ? 'bg-[#006D65] text-white rounded-br-none'
+                                            : 'bg-gray-100 text-gray-800 rounded-bl-none'
+                                            }`}
                                     >
-                                        <p className="text-sm leading-relaxed whitespace-pre-line">{msg.message}</p>
-                                        <p className={`text-xs mt-1.5 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500'}`}>
+                                        <p className="whitespace-pre-line">{msg.message}</p>
+                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500'}`}>
                                             {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
-
-                                    {/* Avatar User */}
-                                    {msg.type === 'user' && (
-                                        <div className="w-8 h-8 rounded-full bg-[#E6A930] flex items-center justify-center flex-shrink-0 shadow-md">
-                                            <UserIcon className="w-4 h-4 text-white" />
-                                        </div>
-                                    )}
                                 </div>
 
-                                {/* ============================================ */}
-                                {/* 🎯 SUGGESTIONS */}
-                                {/* ============================================ */}
+                                {/* Suggestions de l'assistant */}
                                 {msg.type === 'assistant' && msg.suggestions && msg.suggestions.length > 0 && (
-                                    <div className="flex flex-wrap gap-2 mt-2 ml-10">
+                                    <div className="flex flex-wrap gap-2 mt-2 ml-2">
                                         {msg.suggestions.map((suggestion, index) => (
                                             <button
                                                 key={index}
                                                 onClick={() => handleSuggestionClick(suggestion)}
                                                 disabled={chatLoading}
-                                                className="
-                                                    text-xs bg-[#006D65]/10 text-[#006D65] px-3 py-1.5 rounded-full 
-                                                    hover:bg-[#006D65]/20 transition-all duration-200 
-                                                    border border-[#006D65]/30 disabled:opacity-50
-                                                    hover:scale-105 hover:shadow-md
-                                                "
+                                                className="text-xs bg-[#006D65]/10 text-[#006D65] px-3 py-1 rounded-full hover:bg-[#006D65]/20 transition-colors border border-[#006D65]/30 disabled:opacity-50"
                                             >
                                                 {suggestion}
                                             </button>
@@ -282,19 +176,14 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                             </div>
                         ))}
 
-                        {/* ============================================ */}
-                        {/* ⏳ INDICATEUR "EN TRAIN D'ÉCRIRE..." */}
-                        {/* ============================================ */}
+                        {/* Indicateur de chargement */}
                         {chatLoading && (
-                            <div className="flex items-end space-x-2">
-                                <div className="w-8 h-8 rounded-full bg-[#006D65] flex items-center justify-center flex-shrink-0 shadow-md">
-                                    <BotIcon className="w-4 h-4 text-white" />
-                                </div>
-                                <div className="bg-white p-3 rounded-2xl rounded-bl-sm shadow-md border border-gray-200">
-                                    <div className="flex space-x-1.5">
-                                        <div className="w-2 h-2 bg-[#006D65] rounded-full animate-bounce"></div>
-                                        <div className="w-2 h-2 bg-[#006D65] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                        <div className="w-2 h-2 bg-[#006D65] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                            <div className="flex justify-start">
+                                <div className="bg-gray-100 p-3 rounded-lg rounded-bl-none">
+                                    <div className="flex space-x-1">
+                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                                     </div>
                                 </div>
                             </div>
@@ -303,44 +192,27 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                         <div ref={messagesEndRef} />
                     </div>
 
-                    {/* ============================================ */}
-                    {/* ⌨️ ZONE D'INPUT */}
-                    {/* ============================================ */}
-                    <div className="p-4 border-t border-gray-200 bg-white rounded-b-2xl">
+                    {/* Input du chat */}
+                    <div className="p-4 border-t border-gray-200">
                         <div className="flex space-x-2">
                             <input
                                 type="text"
                                 value={chatMessage}
                                 onChange={(e) => setChatMessage(e.target.value)}
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                        e.preventDefault();
-                                        handleSendMessage();
-                                    }
-                                }}
+                                onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                                 placeholder="Tapez votre message..."
                                 disabled={chatLoading}
-                                className="
-                                    flex-1 px-4 py-2.5 border border-gray-300 rounded-xl text-sm 
-                                    focus:ring-2 focus:ring-[#006D65] focus:border-transparent 
-                                    disabled:opacity-50 disabled:bg-gray-50
-                                    transition-all duration-200
-                                "
+                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] focus:border-transparent disabled:opacity-50"
                             />
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!chatMessage.trim() || chatLoading}
-                                className="
-                                    bg-gradient-to-r from-[#006D65] to-[#00806E] text-white 
-                                    p-3 rounded-xl hover:shadow-lg transition-all duration-200 
-                                    disabled:opacity-50 disabled:cursor-not-allowed
-                                    hover:scale-105 active:scale-95
-                                "
+                                className="bg-[#006D65] text-white p-2 rounded-lg hover:bg-[#005a54] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {chatLoading ? (
-                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                 ) : (
-                                    <Send className="w-5 h-5" />
+                                    <Send className="w-4 h-4" />
                                 )}
                             </button>
                         </div>
@@ -348,22 +220,13 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 </div>
             )}
 
-            {/* ============================================ */}
-            {/* 🎈 BOUTON FLOTTANT */}
-            {/* ============================================ */}
+            {/* Bouton flottant du chat */}
             <button
                 onClick={() => setIsChatOpen(!isChatOpen)}
-                className={`
-                    fixed z-40 rounded-full shadow-lg transition-all duration-300
-                    ${isMobile ? 'bottom-4 right-4 w-14 h-14' : 'bottom-6 right-6 w-16 h-16'}
-                    ${isChatOpen
-                        ? 'bg-gray-600 hover:bg-gray-700'
-                        : 'bg-gradient-to-r from-[#006D65] to-[#00806E] hover:shadow-xl hover:scale-110 animate-bounce-slow'
-                    }
-                `}
-                style={{
-                    animation: !isChatOpen ? 'bounce-slow 2s infinite' : 'none'
-                }}
+                className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg transition-all duration-300 z-40 ${isChatOpen
+                    ? 'bg-gray-600 hover:bg-gray-700'
+                    : 'bg-gradient-to-r from-[#006D65] to-[#00806E] hover:shadow-xl hover:scale-105'
+                    }`}
             >
                 {isChatOpen ? (
                     <X className="w-6 h-6 text-white mx-auto" />
@@ -371,42 +234,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     <MessageCircle className="w-6 h-6 text-white mx-auto" />
                 )}
             </button>
-
-            {/* ============================================ */}
-            {/* 🎨 ANIMATIONS CSS */}
-            {/* ============================================ */}
-            <style jsx>{`
-                @keyframes slideUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: scale(0.95);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: scale(1);
-                    }
-                }
-
-                @keyframes bounce-slow {
-                    0%, 100% {
-                        transform: translateY(0);
-                    }
-                    50% {
-                        transform: translateY(-10px);
-                    }
-                }
-            `}</style>
         </>
     );
 }
