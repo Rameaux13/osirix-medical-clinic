@@ -368,8 +368,9 @@ export default function MonProfil() {
 
             {/* Date de naissance */}
 
+            {/* Date de naissance */}
             <div className="w-full">
-              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-1.5">
                 Date de naissance
               </label>
               <input
@@ -377,7 +378,8 @@ export default function MonProfil() {
                 id="dateOfBirth"
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
-                className="w-full px-4 py-3 border  rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-sm"
+                className="w-full px-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-sm max-w-full"
+                style={{ maxWidth: '100%' }}
               />
             </div>
 
