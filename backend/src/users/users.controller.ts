@@ -21,13 +21,12 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SecretaryGuard } from '../auth-staff/guards/secretary.guard';
 
 @Controller('users')
-// ❌ LIGNE 25 SUPPRIMÉE : @UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   // Créer un nouveau patient (accessible uniquement aux admins)
   @Post()
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -35,7 +34,7 @@ export class UsersController {
 
   // Récupérer tous les patients avec pagination
   @Get()
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   findAll(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
@@ -47,7 +46,7 @@ export class UsersController {
 
   // Récupérer les statistiques des patients
   @Get('stats')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   getStats() {
     return this.usersService.getStats();
   }
@@ -62,7 +61,7 @@ export class UsersController {
    * Route : GET /users/secretary/patients?search=
    */
   @Get('secretary/patients')
-  @UseGuards(SecretaryGuard) // ✅ UNIQUEMENT SecretaryGuard (qui vérifie déjà le JWT)
+  @UseGuards(SecretaryGuard)
   @HttpCode(HttpStatus.OK)
   getPatientsForSecretary(
     @Query('search') search?: string,
@@ -83,10 +82,10 @@ export class UsersController {
    * Route : GET /users/profile
    */
   @Get('profile')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   getProfile(@Req() req: any) {
-    const userId = req.user.userId; // ⚠️ CORRIGÉ: userId au lieu de id
+    const userId = req.user.id; // ✅ CORRIGÉ: id au lieu de userId
     return this.usersService.getProfile(userId);
   }
 
@@ -96,10 +95,10 @@ export class UsersController {
    * Champs modifiables : firstName, lastName, phone, dateOfBirth
    */
   @Patch('profile')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   updateProfile(@Req() req: any, @Body() updateProfileDto: UpdateProfileDto) {
-    const userId = req.user.userId; // ⚠️ CORRIGÉ: userId au lieu de id
+    const userId = req.user.id; // ✅ CORRIGÉ: id au lieu de userId
     return this.usersService.updateProfile(userId, updateProfileDto);
   }
 
@@ -109,10 +108,10 @@ export class UsersController {
    * Nécessite l'ancien mot de passe pour sécurité
    */
   @Patch('change-password')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.OK)
   changePassword(@Req() req: any, @Body() changePasswordDto: ChangePasswordDto) {
-    const userId = req.user.userId; // ⚠️ CORRIGÉ: userId au lieu de id
+    const userId = req.user.id; // ✅ CORRIGÉ: id au lieu de userId
     return this.usersService.changePassword(userId, changePasswordDto);
   }
 
@@ -122,35 +121,35 @@ export class UsersController {
 
   // Récupérer un patient par ID
   @Get(':id')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
   // Récupérer un patient par email
   @Get('email/:email')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   findByEmail(@Param('email') email: string) {
     return this.usersService.findByEmail(email);
   }
 
   // Mettre à jour un patient (admin)
   @Patch(':id')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   // Désactiver un patient (soft delete)
   @Delete(':id')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 
   // Réactiver un patient
   @Patch(':id/activate')
-  @UseGuards(JwtAuthGuard) // ✅ Ajouté individuellement
+  @UseGuards(JwtAuthGuard)
   activate(@Param('id') id: string) {
     return this.usersService.activate(id);
   }
