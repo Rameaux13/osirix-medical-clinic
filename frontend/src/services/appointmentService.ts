@@ -51,7 +51,7 @@ export interface MyAppointmentsResponse {
 }
 
 class AppointmentService {
-  
+
   // Créer un nouveau rendez-vous
   async createAppointment(data: CreateAppointmentRequest): Promise<AppointmentResponse> {
     try {
@@ -96,79 +96,83 @@ class AppointmentService {
 
   // 🆕 Vérifier les créneaux disponibles pour une date
   async checkAvailableSlots(date: string, serviceName?: string): Promise<string[]> {
-  try {
-    // 🆕 Ajouter le paramètre service si fourni
-    const url = serviceName 
-      ? `/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
-      : `/appointments/availability/${date}`;
-    
-    const response = await apiClient.get(url);
-    
-    return response.data.unavailableSlots || [];
-  } catch (error: any) {
-    console.error('❌ Erreur vérification disponibilité:', error);
-    return [];
+    try {
+      // 🆕 Ajouter le paramètre service si fourni
+      const url = serviceName
+        ? `/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
+        : `/appointments/availability/${date}`;
+
+      console.log('🔍 URL appelée:', url);  // 🆕 DEBUG
+
+      const response = await apiClient.get(url);
+
+      console.log('🔍 Réponse backend:', response.data);  // 🆕 DEBUG
+
+      return response.data.unavailableSlots || [];
+    } catch (error: any) {
+      console.error('❌ Erreur vérification disponibilité:', error);
+      return [];
+    }
   }
-}
 
   // Convertir les données du formulaire vers le format backend
   convertFormDataToBackend(formData: any): CreateAppointmentRequest {
-  // MAPPING COMPLET DE TOUS LES 16 SERVICES ✅
-  const serviceNames: { [key: string]: string } = {
-    // Services existants (8) ✅
-    'consultation-generale': 'Consultation générale',
-    'urgence': 'Consultation urgence',
-    'pediatrie': 'Consultation pédiatrique',
-    'neurologie': 'Consultation neurologie',
-    'urologie': 'Consultation urologie',
-    'echo-abdomen': 'Échographie abdominale',
-    'echo-urologie': 'Échographie urologique',
-    'bilan-sanguin': 'Bilan sanguin complet',
-    
-    // Services manquants (8) - AJOUT CRUCIAL ⭐
-    'diabetologie': 'Consultation diabétologie',
-    'endoscopie': 'Consultation endoscopie',
-    'psychiatrie': 'Consultation psychiatrie',
-    'gastroenterologie': 'Consultation gastroentérologie',
-    'rhumatologie': 'Consultation rhumatologie',
-    'cancerologie': 'Consultation cancérologie',
-    'echo-gyneco': 'Échographie gynécologique',
-    'debitmetrie': 'Débitmétrie',
-    'biopsie': 'Biopsie prostatique'
-  };
+    // MAPPING COMPLET DE TOUS LES 16 SERVICES ✅
+    const serviceNames: { [key: string]: string } = {
+      // Services existants (8) ✅
+      'consultation-generale': 'Consultation générale',
+      'urgence': 'Consultation urgence',
+      'pediatrie': 'Consultation pédiatrique',
+      'neurologie': 'Consultation neurologie',
+      'urologie': 'Consultation urologie',
+      'echo-abdomen': 'Échographie abdominale',
+      'echo-urologie': 'Échographie urologique',
+      'bilan-sanguin': 'Bilan sanguin complet',
 
-  const consultationTypeName = serviceNames[formData.selectedService];
-  
-  if (!consultationTypeName) {
-    console.error('❌ Service non trouvé:', formData.selectedService);
-    console.log('Services disponibles:', Object.keys(serviceNames));
-    throw new Error(`Service non reconnu: ${formData.selectedService}`);
-  }
+      // Services manquants (8) - AJOUT CRUCIAL ⭐
+      'diabetologie': 'Consultation diabétologie',
+      'endoscopie': 'Consultation endoscopie',
+      'psychiatrie': 'Consultation psychiatrie',
+      'gastroenterologie': 'Consultation gastroentérologie',
+      'rhumatologie': 'Consultation rhumatologie',
+      'cancerologie': 'Consultation cancérologie',
+      'echo-gyneco': 'Échographie gynécologique',
+      'debitmetrie': 'Débitmétrie',
+      'biopsie': 'Biopsie prostatique'
+    };
 
-  console.log('✅ Service mappé avec succès:', {
-    serviceId: formData.selectedService,
-    consultationTypeName: consultationTypeName
-  });
+    const consultationTypeName = serviceNames[formData.selectedService];
 
-  // 🆕 Construction des notes avec les nouvelles informations
-  const paymentInfo = formData.paymentMethod === 'online' ? 'Paiement en ligne' : 'Paiement sur place';
-  const insuranceInfo = formData.isInsured 
-    ? `Assuré (${formData.insuranceStatus})` 
-    : `Non assuré (${formData.insuranceStatus})`;
-
-  const appointmentData: CreateAppointmentRequest = {
-    appointmentDate: formData.selectedDate,
-    appointmentTime: formData.selectedTime,
-    consultationTypeId: consultationTypeName,
-    urgencyLevel: 'normal',
-    notes: `Service: ${consultationTypeName}. ${paymentInfo}. ${insuranceInfo}`,
-    patientForm: {
-      chiefComplaint: `Consultation demandée: ${consultationTypeName}`,
-      additionalInfo: `Mode de paiement: ${paymentInfo}. Statut assurance: ${insuranceInfo}`
+    if (!consultationTypeName) {
+      console.error('❌ Service non trouvé:', formData.selectedService);
+      console.log('Services disponibles:', Object.keys(serviceNames));
+      throw new Error(`Service non reconnu: ${formData.selectedService}`);
     }
-  };
 
-  return appointmentData;
-}
+    console.log('✅ Service mappé avec succès:', {
+      serviceId: formData.selectedService,
+      consultationTypeName: consultationTypeName
+    });
+
+    // 🆕 Construction des notes avec les nouvelles informations
+    const paymentInfo = formData.paymentMethod === 'online' ? 'Paiement en ligne' : 'Paiement sur place';
+    const insuranceInfo = formData.isInsured
+      ? `Assuré (${formData.insuranceStatus})`
+      : `Non assuré (${formData.insuranceStatus})`;
+
+    const appointmentData: CreateAppointmentRequest = {
+      appointmentDate: formData.selectedDate,
+      appointmentTime: formData.selectedTime,
+      consultationTypeId: consultationTypeName,
+      urgencyLevel: 'normal',
+      notes: `Service: ${consultationTypeName}. ${paymentInfo}. ${insuranceInfo}`,
+      patientForm: {
+        chiefComplaint: `Consultation demandée: ${consultationTypeName}`,
+        additionalInfo: `Mode de paiement: ${paymentInfo}. Statut assurance: ${insuranceInfo}`
+      }
+    };
+
+    return appointmentData;
+  }
 }
 export default new AppointmentService();
