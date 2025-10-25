@@ -1244,7 +1244,7 @@ export default function DashboardPatient() {
                     />
 
                     {/* Menu Notifications - RESPONSIVE & MODERNE */}
-                   <div className="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-12 w-[calc(100vw-2rem)] sm:w-96 md:w-[420px] bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden">
+                   <div className="absolute left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 top-12 w-[90vw] max-w-sm sm:w-96 md:w-[420px] bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden">
                       {/* Header avec gradient */}
                       <div className="bg-gradient-to-r from-[#006D65] to-[#005a54] text-white p-4 sm:p-5 rounded-t-xl">
                         <div className="flex items-center justify-between">
