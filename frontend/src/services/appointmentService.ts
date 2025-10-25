@@ -95,17 +95,21 @@ class AppointmentService {
   }
 
   // 🆕 Vérifier les créneaux disponibles pour une date
-  async checkAvailableSlots(date: string): Promise<string[]> {
-    try {
-      const response = await apiClient.get(`/appointments/availability/${date}`);
-      
-      // Le backend retourne les heures déjà prises
-      return response.data.unavailableSlots || [];
-    } catch (error: any) {
-      console.error('Erreur vérification disponibilité:', error);
-      return []; // En cas d'erreur, on considère tout disponible
-    }
+  async checkAvailableSlots(date: string, serviceName?: string): Promise<string[]> {
+  try {
+    // 🆕 Ajouter le paramètre service si fourni
+    const url = serviceName 
+      ? `/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
+      : `/appointments/availability/${date}`;
+    
+    const response = await apiClient.get(url);
+    
+    return response.data.unavailableSlots || [];
+  } catch (error: any) {
+    console.error('❌ Erreur vérification disponibilité:', error);
+    return [];
   }
+}
 
   // Convertir les données du formulaire vers le format backend
   convertFormDataToBackend(formData: any): CreateAppointmentRequest {

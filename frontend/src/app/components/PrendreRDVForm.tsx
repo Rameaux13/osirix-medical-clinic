@@ -65,22 +65,32 @@ const PrendreRDVForm = () => {
     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
   ];
 
-  const checkDateAvailability = async (selectedDate: string) => {
-    if (!selectedDate) return;
+ const checkDateAvailability = async (selectedDate: string) => {
+  if (!selectedDate) return;
 
-    setIsLoadingSlots(true);
-    try {
-      const appointmentService = await import('@/services/appointmentService');
-      const unavailable = await appointmentService.default.checkAvailableSlots(selectedDate);
-      setUnavailableSlots(unavailable);
-      console.log('✅ Créneaux occupés pour', selectedDate, ':', unavailable);
-    } catch (error) {
-      console.error('Erreur lors de la vérification de disponibilité:', error);
-      setUnavailableSlots([]);
-    } finally {
-      setIsLoadingSlots(false);
-    }
-  };
+  setIsLoadingSlots(true);
+  try {
+    const appointmentService = await import('@/services/appointmentService');
+    
+    // 🆕 Récupérer le nom du service sélectionné
+    const selectedService = services.find(s => s.id === formData.selectedService);
+    const serviceName = selectedService?.name;
+    
+    // 🆕 Passer le nom du service à la fonction
+    const unavailable = await appointmentService.default.checkAvailableSlots(
+      selectedDate, 
+      serviceName
+    );
+    
+    setUnavailableSlots(unavailable);
+    console.log('✅ Créneaux occupés pour', serviceName, 'le', selectedDate, ':', unavailable);
+  } catch (error) {
+    console.error('Erreur lors de la vérification de disponibilité:', error);
+    setUnavailableSlots([]);
+  } finally {
+    setIsLoadingSlots(false);
+  }
+};
 
   const isSlotAvailable = (time: string) => {
     return !unavailableSlots.includes(time);
