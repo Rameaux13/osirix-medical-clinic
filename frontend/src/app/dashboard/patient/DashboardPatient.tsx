@@ -251,67 +251,71 @@ export default function DashboardPatient() {
   }, [user]);
 
   // Fonction pour soumettre un avis clinique
-  const handleSubmitClinicReview = async () => {
-    if (clinicRating === 0) {
-      setReviewMessage('Veuillez donner une note avant d\'envoyer votre avis');
-      setReviewMessageType('error');
-      setTimeout(() => setReviewMessage(''), 3000);
-      return;
-    }
+    const handleSubmitClinicReview = async () => {
+  if (clinicRating === 0) {
+    setReviewMessage('Veuillez donner une note avant d\'envoyer votre avis');
+    setReviewMessageType('error');
+    setTimeout(() => setReviewMessage(''), 3000);
+    return;
+  }
 
-    setSubmittingReview(true);
-    setReviewMessage('');
+  setSubmittingReview(true);
+  setReviewMessage('');
 
-    try {
-      if (!token) {
-        throw new Error('Token manquant - veuillez vous reconnecter');
-      }
-
-      const response = await axios.post(
-        'http://localhost:3001/reviews/clinic',
-        {
-          rating: clinicRating,
-          comment: clinicComment.trim() || undefined
+  try {
+    // ✅ CHANGEMENT : Utiliser /feedback/send au lieu de /reviews/clinic
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-
-      if (response.data.success) {
-        setReviewMessage(response.data.message);
-        setReviewMessageType('success');
-
-        setClinicRating(0);
-        setClinicComment('');
-
-        setTimeout(() => setReviewMessage(''), 5000);
+        // ✅ PAS BESOIN DE TOKEN JWT - endpoint public
+        body: JSON.stringify({
+          name: user?.firstName && user?.lastName 
+            ? `${user.firstName} ${user.lastName}` 
+            : displayName,
+          email: user?.email || '',
+          rating: clinicRating,
+          message: clinicComment.trim() || 'Aucun commentaire'
+        }),
       }
+    );
 
-    } catch (error: any) {
-      console.error('Erreur envoi avis:', error);
-
-      let errorMessage = 'Erreur lors de l\'envoi de votre avis';
-
-      if (error.response?.status === 401) {
-        errorMessage = 'Session expirée, veuillez vous reconnecter';
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      } else if (!navigator.onLine) {
-        errorMessage = 'Pas de connexion internet';
-      }
-
-      setReviewMessage(errorMessage);
-      setReviewMessageType('error');
-
-      setTimeout(() => setReviewMessage(''), 5000);
-    } finally {
-      setSubmittingReview(false);
+    if (!response.ok) {
+      throw new Error('Erreur lors de l\'envoi de l\'avis');
     }
-  };
+
+    const data = await response.json();
+
+    // ✅ Message de succès
+    setReviewMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
+    setReviewMessageType('success');
+
+    // ✅ Réinitialiser le formulaire
+    setClinicRating(0);
+    setClinicComment('');
+
+    setTimeout(() => setReviewMessage(''), 5000);
+
+  } catch (error: any) {
+    console.error('Erreur envoi avis:', error);
+
+    let errorMessage = 'Erreur lors de l\'envoi de votre avis';
+
+    if (!navigator.onLine) {
+      errorMessage = 'Pas de connexion internet';
+    }
+
+    setReviewMessage(errorMessage);
+    setReviewMessageType('error');
+
+    setTimeout(() => setReviewMessage(''), 5000);
+  } finally {
+    setSubmittingReview(false);
+  }
+};
 
   // Fonction pour obtenir les détails d'un RDV par date
   const getAppointmentForDate = (day: number | null) => {
