@@ -65,32 +65,32 @@ const PrendreRDVForm = () => {
     'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
   ];
 
- const checkDateAvailability = async (selectedDate: string) => {
-  if (!selectedDate) return;
+  const checkDateAvailability = async (selectedDate: string) => {
+    if (!selectedDate) return;
 
-  setIsLoadingSlots(true);
-  try {
-    const appointmentService = await import('@/services/appointmentService');
-    
-    // 🆕 Récupérer le nom du service sélectionné
-    const selectedService = services.find(s => s.id === formData.selectedService);
-    const serviceName = selectedService?.name;
-    
-    // 🆕 Passer le nom du service à la fonction
-    const unavailable = await appointmentService.default.checkAvailableSlots(
-      selectedDate, 
-      serviceName
-    );
-    
-    setUnavailableSlots(unavailable);
-    console.log('✅ Créneaux occupés pour', serviceName, 'le', selectedDate, ':', unavailable);
-  } catch (error) {
-    console.error('Erreur lors de la vérification de disponibilité:', error);
-    setUnavailableSlots([]);
-  } finally {
-    setIsLoadingSlots(false);
-  }
-};
+    setIsLoadingSlots(true);
+    try {
+      const appointmentService = await import('@/services/appointmentService');
+
+      // 🆕 Récupérer le nom du service sélectionné
+      const selectedService = services.find(s => s.id === formData.selectedService);
+      const serviceName = selectedService?.name;
+
+      // 🆕 Passer le nom du service à la fonction
+      const unavailable = await appointmentService.default.checkAvailableSlots(
+        selectedDate,
+        serviceName
+      );
+
+      setUnavailableSlots(unavailable);
+      console.log('✅ Créneaux occupés pour', serviceName, 'le', selectedDate, ':', unavailable);
+    } catch (error) {
+      console.error('Erreur lors de la vérification de disponibilité:', error);
+      setUnavailableSlots([]);
+    } finally {
+      setIsLoadingSlots(false);
+    }
+  };
 
   const isSlotAvailable = (time: string) => {
     return !unavailableSlots.includes(time);
@@ -401,33 +401,33 @@ const PrendreRDVForm = () => {
 
       {/* Étape 1: Services */}
       {currentStep === 1 && (
-        <div className="space-y-8">
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-8">Choisissez votre service médical</h2>
+        <div className="space-y-6 sm:space-y-8">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-6 sm:mb-8">Choisissez votre service médical</h2>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#006D65] mb-4 flex items-center">
-              <div className="w-2 h-6 bg-[#006D65] rounded-r mr-3"></div>
+            <h3 className="text-base sm:text-lg font-semibold text-[#006D65] mb-3 sm:mb-4 flex items-center">
+              <div className="w-2 h-5 sm:h-6 bg-[#006D65] rounded-r mr-2 sm:mr-3"></div>
               Consultations Médicales
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {consultations.map((service) => (
                 <button
                   key={service.id}
                   type="button"
                   onClick={() => handleInputChange('selectedService', service.id)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${formData.selectedService === service.id
+                  className={`p-4 sm:p-6 rounded-xl text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${formData.selectedService === service.id
                     ? 'bg-gradient-to-br from-[#006D65]/10 to-[#006D65]/5 shadow-lg ring-2 ring-[#006D65]'
                     : 'bg-gradient-to-br from-gray-50 to-white shadow-md hover:shadow-lg'
                     }`}
                 >
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{service.name}</h4>
-                    <p className="text-sm text-gray-600 mb-3">{service.description}</p>
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-900 mb-1 sm:mb-2">{service.name}</h4>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{service.description}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#E6A930] font-bold text-lg">{service.price} FCFA</span>
+                      <span className="text-[#E6A930] font-bold text-base sm:text-lg">{service.price} FCFA</span>
                       {formData.selectedService === service.id && (
-                        <div className="w-6 h-6 bg-[#006D65] rounded-full flex items-center justify-center">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-[#006D65] rounded-full flex items-center justify-center">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
@@ -440,29 +440,29 @@ const PrendreRDVForm = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-[#E6A930] mb-4 flex items-center">
-              <div className="w-2 h-6 bg-[#E6A930] rounded-r mr-3"></div>
+            <h3 className="text-base sm:text-lg font-semibold text-[#E6A930] mb-3 sm:mb-4 flex items-center">
+              <div className="w-2 h-5 sm:h-6 bg-[#E6A930] rounded-r mr-2 sm:mr-3"></div>
               Examens Médicaux
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {examens.map((service) => (
                 <button
                   key={service.id}
                   type="button"
                   onClick={() => handleInputChange('selectedService', service.id)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${formData.selectedService === service.id
+                  className={`p-4 sm:p-6 rounded-xl text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${formData.selectedService === service.id
                     ? 'bg-gradient-to-br from-[#E6A930]/10 to-[#E6A930]/5 shadow-lg ring-2 ring-[#E6A930]'
                     : 'bg-gradient-to-br from-gray-50 to-white shadow-md hover:shadow-lg'
                     }`}
                 >
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-2">{service.name}</h4>
-                    <p className="text-sm text-gray-600 mb-3">{service.description}</p>
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-900 mb-1 sm:mb-2">{service.name}</h4>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{service.description}</p>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#006D65] font-bold text-lg">{service.price} FCFA</span>
+                      <span className="text-[#006D65] font-bold text-base sm:text-lg">{service.price} FCFA</span>
                       {formData.selectedService === service.id && (
-                        <div className="w-6 h-6 bg-[#E6A930] rounded-full flex items-center justify-center">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-[#E6A930] rounded-full flex items-center justify-center">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                         </div>
@@ -478,31 +478,31 @@ const PrendreRDVForm = () => {
 
       {/* Étape 2: Calendrier */}
       {currentStep === 2 && (
-        <div className="space-y-8">
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-8">Choisissez votre date et heure</h2>
+        <div className="space-y-6 sm:space-y-8">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-6 sm:mb-8">Choisissez votre date et heure</h2>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {/* Calendrier */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-6 flex items-center">
-                <svg className="w-5 h-5 text-[#006D65] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6 flex items-center">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#006D65] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Sélectionnez une date
               </h3>
-              <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl shadow-lg">
+              <div className="bg-gradient-to-br from-gray-50 to-white p-4 sm:p-6 rounded-2xl shadow-lg">
                 {/* Navigation des mois */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <button
                     type="button"
                     onClick={prevMonth}
                     className="p-2 rounded-lg hover:bg-[#006D65]/10 text-[#006D65] transition-colors duration-200"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h4 className="text-lg font-semibold text-gray-800">
+                  <h4 className="text-base sm:text-lg font-semibold text-gray-800">
                     {monthNames[selectedMonth]} {selectedYear}
                   </h4>
                   <button
@@ -510,46 +510,43 @@ const PrendreRDVForm = () => {
                     onClick={nextMonth}
                     className="p-2 rounded-lg hover:bg-[#006D65]/10 text-[#006D65] transition-colors duration-200"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
 
-                <div className="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-gray-500 mb-4">
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center text-xs font-semibold text-gray-500 mb-3 sm:mb-4">
                   <div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div>
                 </div>
-                <div className="grid grid-cols-7 gap-2 max-h-80 overflow-y-auto">
+                <div className="grid grid-cols-7 gap-1 sm:gap-2 max-h-80 overflow-y-auto">
                   {availableDates.map((date, index) => {
-                    // Si c'est une case vide (null)
                     if (date === null) {
-                      return <div key={`empty-${index}`} className="p-3"></div>;
+                      return <div key={`empty-${index}`} className="p-2 sm:p-3"></div>;
                     }
 
-                    // Si c'est un jour non disponible (dimanche ou passé)
                     if (!date.isAvailable) {
                       return (
                         <div
                           key={`disabled-${index}`}
-                          className="p-3 rounded-lg text-center opacity-30 cursor-not-allowed"
+                          className="p-2 sm:p-3 rounded-lg text-center opacity-30 cursor-not-allowed"
                         >
-                          <div className="text-lg text-gray-400">{date.dayNumber}</div>
+                          <div className="text-sm sm:text-lg text-gray-400">{date.dayNumber}</div>
                         </div>
                       );
                     }
 
-                    // Jour disponible
                     return (
                       <button
                         key={date.value}
                         type="button"
                         onClick={() => handleInputChange('selectedDate', date.value)}
-                        className={`p-3 rounded-lg text-sm font-medium transition-all duration-200 ${formData.selectedDate === date.value
+                        className={`p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${formData.selectedDate === date.value
                           ? 'bg-gradient-to-br from-[#006D65] to-[#005a54] text-white shadow-lg transform scale-105'
                           : 'hover:bg-[#006D65]/10 text-gray-700'
                           }`}
                       >
-                        <div className="text-lg">{date.dayNumber}</div>
+                        <div className="text-sm sm:text-lg">{date.dayNumber}</div>
                         <div className="text-xs opacity-75">{date.month.slice(0, 3)}</div>
                       </button>
                     );
@@ -560,29 +557,29 @@ const PrendreRDVForm = () => {
 
             {/* Heures */}
             <div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-6 flex items-center">
-                <svg className="w-5 h-5 text-[#E6A930] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6 flex items-center">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E6A930] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Choisissez l'heure
                 {unavailableSlots.length > 0 && (
-                  <span className="ml-2 text-sm text-gray-500">
+                  <span className="ml-2 text-xs sm:text-sm text-gray-500">
                     ({unavailableSlots.length} occupé{unavailableSlots.length > 1 ? 's' : ''})
                   </span>
                 )}
               </h3>
               {formData.selectedDate ? (
-                <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-gray-50 to-white p-4 sm:p-6 rounded-2xl shadow-lg">
                   {isLoadingSlots ? (
                     <div className="flex items-center justify-center py-8">
-                      <svg className="animate-spin h-8 w-8 text-[#006D65]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-[#006D65]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span className="ml-3 text-gray-600">Vérification disponibilité...</span>
+                      <span className="ml-3 text-sm sm:text-base text-gray-600">Vérification disponibilité...</span>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-3 gap-3 max-h-80 overflow-y-auto">
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 max-h-80 overflow-y-auto">
                       {timeSlots.map((time) => {
                         const isAvailable = isSlotAvailable(time);
                         return (
@@ -595,14 +592,14 @@ const PrendreRDVForm = () => {
                                 handleInputChange('selectedTime', time);
                               }
                             }}
-                            className={`p-4 rounded-xl text-center font-medium transition-all duration-200 ${!isAvailable
+                            className={`p-3 sm:p-4 rounded-xl text-center font-medium transition-all duration-200 ${!isAvailable
                               ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50 border-2 border-gray-200'
                               : formData.selectedTime === time
                                 ? 'bg-gradient-to-br from-[#E6A930] to-[#d49821] text-white shadow-lg transform scale-105'
                                 : 'bg-white hover:bg-[#E6A930]/10 text-gray-700 shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E6A930]/20'
                               }`}
                           >
-                            <div className="text-sm font-semibold">{time}</div>
+                            <div className="text-xs sm:text-sm font-semibold">{time}</div>
                             {!isAvailable && (
                               <div className="text-xs mt-1">Occupé</div>
                             )}
@@ -613,11 +610,11 @@ const PrendreRDVForm = () => {
                   )}
                 </div>
               ) : (
-                <div className="bg-gray-100 p-8 rounded-2xl text-center">
-                  <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="bg-gray-100 p-6 sm:p-8 rounded-2xl text-center">
+                  <svg className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-gray-500">Veuillez d'abord sélectionner une date</p>
+                  <p className="text-sm sm:text-base text-gray-500">Veuillez d'abord sélectionner une date</p>
                 </div>
               )}
             </div>
@@ -625,94 +622,70 @@ const PrendreRDVForm = () => {
         </div>
       )}
 
-      {/* Étape 3: Confirmation avec boutons de paiement */}
+      {/* Étape 3: Confirmation */}
       {currentStep === 3 && (
-        <div className="space-y-8">
-          <h2 className="text-2xl font-semibold text-gray-800 text-center mb-8">Confirmation du rendez-vous</h2>
+        <div className="space-y-6 sm:space-y-8">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-6 sm:mb-8">Confirmation du rendez-vous</h2>
 
           {/* Récapitulatif */}
-          <div className="bg-gradient-to-br from-[#006D65]/5 to-[#E6A930]/5 p-8 rounded-2xl shadow-lg">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">Récapitulatif de votre rendez-vous</h3>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center py-3">
-                <span className="font-medium text-gray-700">Service :</span>
-                <span className="text-[#006D65] font-semibold">{services.find(s => s.id === formData.selectedService)?.name}</span>
+          <div className="bg-gradient-to-br from-[#006D65]/5 to-[#E6A930]/5 p-6 sm:p-8 rounded-2xl shadow-lg">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 text-center">Récapitulatif de votre rendez-vous</h3>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex justify-between items-center py-2 sm:py-3">
+                <span className="font-medium text-sm sm:text-base text-gray-700">Service :</span>
+                <span className="text-sm sm:text-base text-[#006D65] font-semibold">{services.find(s => s.id === formData.selectedService)?.name}</span>
               </div>
-              <div className="flex justify-between items-center py-3">
-                <span className="font-medium text-gray-700">Date :</span>
-                <span className="text-gray-900">{availableDates.find(d => d !== null && d.value === formData.selectedDate)?.display}</span>
+              <div className="flex justify-between items-center py-2 sm:py-3">
+                <span className="font-medium text-sm sm:text-base text-gray-700">Date :</span>
+                <span className="text-sm sm:text-base text-gray-900">{availableDates.find(d => d !== null && d.value === formData.selectedDate)?.display}</span>
               </div>
-              <div className="flex justify-between items-center py-3">
-                <span className="font-medium text-gray-700">Heure :</span>
-                <span className="text-gray-900 font-medium">{formData.selectedTime}</span>
+              <div className="flex justify-between items-center py-2 sm:py-3">
+                <span className="font-medium text-sm sm:text-base text-gray-700">Heure :</span>
+                <span className="text-sm sm:text-base text-gray-900 font-medium">{formData.selectedTime}</span>
               </div>
-              <div className="flex justify-between items-center py-3">
-                <span className="font-medium text-gray-700">Tarif :</span>
-                <span className="text-[#E6A930] font-bold text-xl">{services.find(s => s.id === formData.selectedService)?.price} FCFA</span>
+              <div className="flex justify-between items-center py-2 sm:py-3">
+                <span className="font-medium text-sm sm:text-base text-gray-700">Tarif :</span>
+                <span className="text-base sm:text-xl text-[#E6A930] font-bold">{services.find(s => s.id === formData.selectedService)?.price} FCFA</span>
               </div>
             </div>
           </div>
 
-          {/* Options de paiement */}
-          <div className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl shadow-lg">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6 text-center">Mode de paiement</h3>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                type="button"
-                onClick={() => handleInputChange('paymentMethod', 'onsite')}
-                className={`flex-1 max-w-xs p-6 rounded-xl text-center font-medium transition-all duration-300 transform hover:scale-105 ${formData.paymentMethod === 'onsite'
-                  ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg'
-                  : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-blue-300 hover:shadow-md'
-                  }`}
-              >
+          {/* Mode de paiement - UNIQUEMENT "Payer sur place" */}
+          <div className="bg-gradient-to-br from-gray-50 to-white p-6 sm:p-8 rounded-2xl shadow-lg">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-6 text-center">Mode de paiement</h3>
+            <div className="flex justify-center">
+              <div className="max-w-xs w-full p-5 sm:p-6 rounded-xl text-center bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg">
                 <div className="flex flex-col items-center">
-                  <svg className="w-8 h-8 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-7 h-7 sm:w-8 sm:h-8 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
-                  <span className="text-lg font-semibold">Payer sur place</span>
-                  <span className="text-sm opacity-75 mt-1">Paiement à la clinique</span>
+                  <span className="text-base sm:text-lg font-semibold">Payer sur place</span>
+                  <span className="text-xs sm:text-sm opacity-75 mt-1">Paiement à la clinique</span>
                 </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowInsuranceModal(true)}
-                className={`flex-1 max-w-xs p-6 rounded-xl text-center font-medium transition-all duration-300 transform hover:scale-105 ${formData.paymentMethod === 'online'
-                  ? 'bg-gradient-to-br from-[#006D65] to-[#005a54] text-white shadow-lg'
-                  : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-[#006D65] hover:shadow-md'
-                  }`}
-              >
-                <div className="flex flex-col items-center">
-                  <svg className="w-8 h-8 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                  </svg>
-                  <span className="text-lg font-semibold">Payer en ligne</span>
-                  <span className="text-sm opacity-75 mt-1">Paiement sécurisé</span>
-                </div>
-              </button>
+              </div>
             </div>
           </div>
 
           {/* Instructions importantes */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-2xl shadow-md">
-            <h4 className="font-semibold text-gray-800 mb-4 flex items-center">
-              <svg className="w-6 h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 sm:p-6 rounded-2xl shadow-md">
+            <h4 className="font-semibold text-sm sm:text-base text-gray-800 mb-3 sm:mb-4 flex items-center">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               Instructions importantes
             </h4>
-            <ul className="space-y-3 text-gray-700">
+            <ul className="space-y-2 sm:space-y-3 text-gray-700">
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>Veuillez vous présenter avec votre pièce d'identité</span>
+                <span className="text-xs sm:text-sm">Veuillez vous présenter avec votre pièce d'identité</span>
               </li>
               <li className="flex items-start">
-                <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 mr-2 sm:mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>Merci de nous informer au moins 24H à l'avance en cas d'empêchement</span>
+                <span className="text-xs sm:text-sm">Merci de nous informer au moins 24H à l'avance en cas d'empêchement</span>
               </li>
             </ul>
           </div>
