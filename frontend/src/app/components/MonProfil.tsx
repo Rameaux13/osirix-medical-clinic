@@ -365,8 +365,9 @@ export default function MonProfil() {
                 <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
               )}
             </div>
-            {/* Date de naissance */}
-            <div>
+
+            {/* Date de naissance - CORRIGÉ POUR MOBILE */}
+            <div className="overflow-hidden">
               <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-2">
                 Date de naissance
               </label>
@@ -375,9 +376,11 @@ export default function MonProfil() {
                 id="dateOfBirth"
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base max-w-full"
+                style={{ minWidth: '0' }}
               />
             </div>
+
             {/* Email (non modifiable) */}
             <div className="md:col-span-2">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
