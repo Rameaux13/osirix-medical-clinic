@@ -28,6 +28,23 @@ interface ChatAssistantProps {
 }
 
 export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
+    // ============================================
+    // 📱 NOUVEAU : Détection taille écran
+    // ============================================
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            console.log('📱 [ChatBot] Taille écran:', window.innerWidth, 'px - Mobile:', mobile);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatMessage, setChatMessage] = useState('');
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
@@ -54,6 +71,8 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     // Fonction pour envoyer un message
     const handleSendMessage = async () => {
         if (chatMessage.trim() && !chatLoading) {
+            console.log('💬 [ChatBot] Envoi message:', chatMessage);
+
             // Message utilisateur
             const userMessage: ChatMessage = {
                 id: chatMessages.length + 1,
@@ -69,6 +88,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             try {
                 // Appel API backend
                 const response = await chatService.sendMessage(userMessage.message);
+                console.log('✅ [ChatBot] Réponse reçue');
 
                 // Message assistant avec réponse du backend
                 const assistantMessage: ChatMessage = {
@@ -83,7 +103,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 setChatMessages(prev => [...prev, assistantMessage]);
 
             } catch (error) {
-                console.error('Erreur chat:', error);
+                console.error('❌ [ChatBot] Erreur:', error);
 
                 const errorMessage: ChatMessage = {
                     id: chatMessages.length + 2,
@@ -104,6 +124,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     const handleSuggestionClick = async (suggestion: string) => {
         // Si c'est "Prendre RDV maintenant", rediriger directement
         if (suggestion === 'Prendre RDV maintenant' && onNavigate) {
+            console.log('↗️ [ChatBot] Redirection vers prise de RDV');
             onNavigate('new-appointment');
             setIsChatOpen(false);
             return;
@@ -120,7 +141,15 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         <>
             {/* Fenêtre de chat */}
             {isChatOpen && (
-                <div className="fixed bottom-24 right-6 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 flex flex-col">
+                <div 
+                    className={`
+                        fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
+                        ${isMobile 
+                            ? 'inset-0 rounded-none' 
+                            : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
+                        }
+                    `}
+                >
                     {/* Header du chat */}
                     <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 rounded-t-2xl flex items-center justify-between">
                         <div className="flex items-center space-x-2">
@@ -220,18 +249,22 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 </div>
             )}
 
-            {/* Bouton flottant du chat */}
+            {/* Bouton flottant du chat - MODIFIÉ POUR RESPONSIVE */}
             <button
                 onClick={() => setIsChatOpen(!isChatOpen)}
-                className={`fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg transition-all duration-300 z-40 ${isChatOpen
-                    ? 'bg-gray-600 hover:bg-gray-700'
-                    : 'bg-gradient-to-r from-[#006D65] to-[#00806E] hover:shadow-xl hover:scale-105'
-                    }`}
+                className={`
+                    fixed rounded-full shadow-lg transition-all duration-300 z-40
+                    ${isMobile ? 'bottom-4 right-4 w-12 h-12' : 'bottom-6 right-6 w-14 h-14'}
+                    ${isChatOpen
+                        ? 'bg-gray-600 hover:bg-gray-700'
+                        : 'bg-gradient-to-r from-[#006D65] to-[#00806E] hover:shadow-xl hover:scale-105'
+                    }
+                `}
             >
                 {isChatOpen ? (
-                    <X className="w-6 h-6 text-white mx-auto" />
+                    <X className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white mx-auto`} />
                 ) : (
-                    <MessageCircle className="w-6 h-6 text-white mx-auto" />
+                    <MessageCircle className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white mx-auto`} />
                 )}
             </button>
         </>
