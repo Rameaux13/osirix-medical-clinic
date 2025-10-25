@@ -29,16 +29,20 @@ export class AppointmentsService {
     };
 
     if (consultationTypeName) {
-      // 🆕 Recherche insensible à la casse (LIKE en SQL)
-      const consultationType = await this.prisma.consultationType.findFirst({
-        where: { 
-          name: {
-            equals: consultationTypeName,
-            mode: 'insensitive'  // ✅ Ignore majuscules/minuscules
-          }
+      // 🆕 Récupérer TOUS les types de consultation
+      const allConsultationTypes = await this.prisma.consultationType.findMany({
+        select: {
+          id: true,
+          name: true
         }
       });
 
+      // 🆕 Trouver en comparant les noms (insensible à la casse manuellement)
+      const consultationType = allConsultationTypes.find(
+        ct => ct.name.toLowerCase() === consultationTypeName.toLowerCase()
+      );
+
+      console.log('🔍 Service reçu:', consultationTypeName);
       console.log('🔍 ConsultationType trouvé:', consultationType);
 
       if (consultationType) {
@@ -46,6 +50,8 @@ export class AppointmentsService {
         console.log('✅ Filtre appliqué avec ID:', consultationType.id);
       } else {
         console.log('❌ Aucun consultationType trouvé pour:', consultationTypeName);
+        // 🆕 Liste des types disponibles pour debug
+        console.log('📋 Types disponibles:', allConsultationTypes.map(ct => ct.name));
       }
     }
 
