@@ -270,14 +270,6 @@ export default function DashboardPatient() {
     return;
   }
 
-  // 🔍 DEBUG : Voir les données de l'utilisateur
-  console.log('👤 User data:', {
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    email: user?.email,
-    displayName: displayName
-  });
-
   // ✅ VALIDATION : Vérifier que email existe
   if (!user?.email) {
     setReviewMessage('❌ Erreur : Email utilisateur non trouvé. Veuillez vous reconnecter.');
@@ -295,13 +287,10 @@ export default function DashboardPatient() {
       name: user?.firstName && user?.lastName 
         ? `${user.firstName} ${user.lastName}` 
         : displayName || 'Patient OSIRIX',
-      email: user.email, // ✅ On sait maintenant qu'il existe
+      email: user.email,
       rating: clinicRating,
       message: messageToSend
     };
-
-    // 🔍 DEBUG : Voir les données envoyées
-    console.log('📤 Données envoyées au backend:', feedbackData);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/feedback/send`,
@@ -314,29 +303,31 @@ export default function DashboardPatient() {
       }
     );
 
-    // 🔍 DEBUG : Voir la réponse
-    console.log('📥 Statut réponse:', response.status);
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      console.error('❌ Erreur backend:', errorData);
       throw new Error(errorData.message || 'Erreur lors de l\'envoi de l\'avis');
     }
 
-    const data = await response.json();
-    console.log('✅ Réponse backend:', data);
+    await response.json();
 
+    // ✅ Message de succès
     setReviewMessage('✅ Merci pour votre avis ! Nous avons bien reçu votre message par email.');
     setReviewMessageType('success');
 
-    // Réinitialiser le formulaire
-    setClinicRating(0);
-    setClinicComment('');
+    // ✅ CORRECTION : Attendre avant de réinitialiser pour éviter l'erreur React
+    setTimeout(() => {
+      setClinicRating(0);
+      setClinicComment('');
+    }, 500); // Petit délai pour laisser React finir le rendu
 
-    setTimeout(() => setReviewMessage(''), 5000);
+    // Effacer le message après 5 secondes
+    setTimeout(() => {
+      setReviewMessage('');
+      setReviewMessageType('');
+    }, 5000);
 
   } catch (error: any) {
-    console.error('❌ Erreur complète:', error);
+    console.error('Erreur envoi avis:', error);
 
     let errorMessage = 'Erreur lors de l\'envoi de votre avis';
 
@@ -349,7 +340,10 @@ export default function DashboardPatient() {
     setReviewMessage(errorMessage);
     setReviewMessageType('error');
 
-    setTimeout(() => setReviewMessage(''), 5000);
+    setTimeout(() => {
+      setReviewMessage('');
+      setReviewMessageType('');
+    }, 5000);
   } finally {
     setSubmittingReview(false);
   }
