@@ -144,7 +144,6 @@ export class AppointmentsController {
 
   // Vérifier la disponibilité des créneaux pour une date
   @Get('availability/:date')
-  @UseGuards(JwtAuthGuard)
   async getDateAvailability(@Param('date') date: string) {
     return this.appointmentsService.getDateAvailability(date);
   }
