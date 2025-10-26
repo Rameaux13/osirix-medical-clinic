@@ -95,6 +95,10 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   });
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState('');
+  
+  // NOUVEAUX ÉTATS pour la grille de créneaux
+  const [unavailableSlots, setUnavailableSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   // NOUVEAUX ÉTATS pour suppression définitive
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -204,7 +208,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   };
 
   // Fonctions de modification
-  const openEditModal = (appointment: any) => {
+  const openEditModal = async (appointment: any) => {
     setSelectedAppointmentForEdit(appointment);
     setEditFormData({
       appointmentDate: appointment.appointmentDate.toISOString().split('T')[0],
@@ -212,6 +216,67 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       notes: appointment.notes || ''
     });
     setShowEditModal(true);
+    
+    // Charger les créneaux occupés pour cette date et ce service
+    await loadUnavailableSlots(
+      appointment.appointmentDate.toISOString().split('T')[0],
+      appointment.consultationType?.name
+    );
+  };
+
+  // NOUVELLE FONCTION - Charger les créneaux occupés
+  const loadUnavailableSlots = async (date: string, serviceName?: string) => {
+    setLoadingSlots(true);
+    try {
+      const url = serviceName 
+        ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
+        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/appointments/availability/${date}`;
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${useAuthStore.getState().token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors du chargement des créneaux');
+      }
+
+      const data = await response.json();
+      setUnavailableSlots(data.unavailableSlots || []);
+    } catch (error) {
+      console.error('Erreur chargement créneaux:', error);
+      setUnavailableSlots([]);
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
+
+  // NOUVELLE FONCTION - Générer tous les créneaux de la journée (8h00 → 18h30)
+  const generateAllTimeSlots = () => {
+    const slots: string[] = [];
+    for (let hour = 8; hour <= 18; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        // Arrêter après 18h30
+        if (hour === 18 && minute > 30) break;
+        
+        const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        slots.push(timeString);
+      }
+    }
+    return slots;
+  };
+
+  // NOUVELLE FONCTION - Vérifier si un créneau est disponible
+  const isSlotAvailable = (time: string) => {
+    // Le créneau actuel du patient est toujours disponible
+    if (selectedAppointmentForEdit && time === selectedAppointmentForEdit.appointmentTime) {
+      return true;
+    }
+    // Sinon, vérifier s'il n'est pas dans la liste des indisponibles
+    return !unavailableSlots.includes(time);
   };
 
   const checkAvailability = async (date: string, time: string, excludeAppointmentId?: string) => {
@@ -273,11 +338,21 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       setShowEditModal(false);
       setSelectedAppointmentForEdit(null);
       setEditError('');
+      setUnavailableSlots([]); // Réinitialiser les créneaux
     } catch (err) {
       console.error('Erreur lors de la modification:', err);
       setEditError('Impossible de modifier le rendez-vous. Veuillez réessayer.');
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  // NOUVELLE FONCTION - Gérer le changement de date dans le modal
+  const handleDateChange = async (newDate: string) => {
+    setEditFormData({ ...editFormData, appointmentDate: newDate });
+    // Recharger les créneaux pour la nouvelle date
+    if (selectedAppointmentForEdit?.consultationType?.name) {
+      await loadUnavailableSlots(newDate, selectedAppointmentForEdit.consultationType.name);
     }
   };
 
@@ -808,24 +883,26 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           </div>
         )}
 
-        {/* Modal de modification épuré */}
+        {/* Modal de modification avec GRILLE DE CRÉNEAUX */}
         {showEditModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30">
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 max-w-md w-full">
-              <div className="p-6">
-                <div className="flex items-center mb-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 overflow-y-auto">
+            <div className="bg-white rounded-lg shadow-xl border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-4 sm:p-6">
+                {/* Header */}
+                <div className="flex items-center mb-4 sm:mb-6">
                   <div className="w-10 h-10 bg-[#006D65]/10 rounded-full flex items-center justify-center mr-3">
                     <Edit className="w-5 h-5 text-[#006D65]" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">Modifier le rendez-vous</h3>
-                    <p className="text-sm text-gray-600">Changez la date ou l'heure</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900">Modifier le rendez-vous</h3>
+                    <p className="text-xs sm:text-sm text-gray-600">Choisissez un nouveau créneau disponible</p>
                   </div>
                   <button
                     onClick={() => {
                       setShowEditModal(false);
                       setSelectedAppointmentForEdit(null);
                       setEditError('');
+                      setUnavailableSlots([]);
                     }}
                     className="text-gray-400 hover:text-gray-600"
                   >
@@ -833,95 +910,180 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   </button>
                 </div>
 
+                {/* Info RDV actuel */}
                 {selectedAppointmentForEdit && (
-                  <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                    <p className="text-sm text-gray-900 font-medium">
+                  <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-[#006D65]/5 to-gray-50 rounded-lg border border-[#006D65]/20">
+                    <p className="text-xs sm:text-sm text-gray-600 mb-1">Rendez-vous actuel</p>
+                    <p className="text-sm sm:text-base font-semibold text-gray-900">
                       {selectedAppointmentForEdit.consultationType?.name}
                     </p>
                     {selectedAppointmentForEdit.doctor && (
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         Dr. {selectedAppointmentForEdit.doctor.firstName} {selectedAppointmentForEdit.doctor.lastName}
                       </p>
                     )}
                   </div>
                 )}
 
+                {/* Message d'erreur */}
                 {editError && (
                   <div className="mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
                     <div className="flex items-center">
                       <AlertTriangle className="w-4 h-4 text-red-600 mr-2" />
-                      <p className="text-sm text-red-800">{editError}</p>
+                      <p className="text-xs sm:text-sm text-red-800">{editError}</p>
                     </div>
                   </div>
                 )}
 
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nouvelle date
+                {/* Sélection de la date */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nouvelle date
+                  </label>
+                  <input
+                    type="date"
+                    value={editFormData.appointmentDate}
+                    onChange={(e) => handleDateChange(e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent text-sm sm:text-base"
+                  />
+                </div>
+
+                {/* GRILLE DE CRÉNEAUX */}
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Choisissez un créneau horaire
                     </label>
-                    <input
-                      type="date"
-                      value={editFormData.appointmentDate}
-                      onChange={(e) => setEditFormData({ ...editFormData, appointmentDate: e.target.value })}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent"
-                    />
+                    {loadingSlots && (
+                      <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                        <div className="animate-spin w-4 h-4 border-2 border-[#006D65] border-t-transparent rounded-full mr-2"></div>
+                        Chargement...
+                      </div>
+                    )}
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Nouvelle heure
-                    </label>
-                    <select
-                      value={editFormData.appointmentTime}
-                      onChange={(e) => setEditFormData({ ...editFormData, appointmentTime: e.target.value })}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent"
-                    >
-                      {Array.from({ length: 20 }, (_, i) => {
-                        const hour = Math.floor(8 + (i * 30) / 60);
-                        const minutes = (i * 30) % 60;
-                        const timeString = `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-                        return (
-                          <option key={timeString} value={timeString}>
-                            {timeString}
-                          </option>
-                        );
-                      })}
-                    </select>
+                  {/* Légende */}
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 p-3 bg-gray-50 rounded-lg text-xs sm:text-sm">
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                      <span className="text-gray-700">Disponible</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-[#006D65] rounded mr-2"></div>
+                      <span className="text-gray-700">Sélectionné</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-gray-300 rounded mr-2"></div>
+                      <span className="text-gray-700">Occupé</span>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Notes (optionnel)
-                    </label>
-                    <textarea
-                      value={editFormData.notes}
-                      onChange={(e) => setEditFormData({ ...editFormData, notes: e.target.value })}
-                      placeholder="Informations supplémentaires..."
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none"
-                      rows={3}
-                    />
+                  {/* Grille responsive */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50">
+                    {generateAllTimeSlots().map((timeSlot) => {
+                      const isAvailable = isSlotAvailable(timeSlot);
+                      const isSelected = editFormData.appointmentTime === timeSlot;
+                      const isCurrentSlot = selectedAppointmentForEdit?.appointmentTime === timeSlot;
+
+                      return (
+                        <button
+                          key={timeSlot}
+                          onClick={() => {
+                            if (isAvailable) {
+                              setEditFormData({ ...editFormData, appointmentTime: timeSlot });
+                              setEditError('');
+                            }
+                          }}
+                          disabled={!isAvailable || loadingSlots}
+                          className={`
+                            relative p-3 sm:p-4 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-200
+                            ${isSelected 
+                              ? 'bg-[#006D65] text-white shadow-lg scale-105 ring-2 ring-[#006D65] ring-offset-2' 
+                              : isAvailable
+                                ? 'bg-green-50 text-green-700 border-2 border-green-200 hover:bg-green-100 hover:shadow-md hover:scale-105'
+                                : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-60'
+                            }
+                          `}
+                        >
+                          <div className="flex flex-col items-center">
+                            <span className="text-base sm:text-lg font-bold">{timeSlot}</span>
+                            {isSelected && (
+                              <svg className="w-4 h-4 sm:w-5 sm:h-5 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            )}
+                            {!isAvailable && !isCurrentSlot && (
+                              <span className="text-xs mt-1">Occupé</span>
+                            )}
+                            {isCurrentSlot && !isSelected && (
+                              <span className="text-xs mt-1 text-blue-600">Actuel</span>
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Info créneaux */}
+                  <div className="mt-3 text-xs sm:text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <div className="flex items-start">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      <div>
+                        <p className="font-semibold text-blue-800 mb-1">Horaires de la clinique</p>
+                        <p className="text-blue-700">
+                          Lundi - Dimanche : 8h00 - 18h30 • Créneaux de 30 minutes
+                        </p>
+                        <p className="text-blue-700 mt-1">
+                          {unavailableSlots.length} créneau{unavailableSlots.length > 1 ? 'x' : ''} occupé{unavailableSlots.length > 1 ? 's' : ''} pour ce service
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex space-x-3">
+                {/* Notes (optionnel) */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Notes (optionnel)
+                  </label>
+                  <textarea
+                    value={editFormData.notes}
+                    onChange={(e) => setEditFormData({ ...editFormData, notes: e.target.value })}
+                    placeholder="Informations supplémentaires..."
+                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none text-sm sm:text-base"
+                    rows={3}
+                  />
+                </div>
+
+                {/* Boutons d'action */}
+                <div className="flex flex-col sm:flex-row gap-3">
                   <button
                     onClick={() => {
                       setShowEditModal(false);
                       setSelectedAppointmentForEdit(null);
                       setEditError('');
+                      setUnavailableSlots([]);
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                    className="flex-1 px-4 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm sm:text-base"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={confirmEditAppointment}
-                    disabled={editLoading}
-                    className="flex-1 px-4 py-2 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium disabled:opacity-50"
+                    disabled={editLoading || !editFormData.appointmentTime}
+                    className="flex-1 px-4 py-2 sm:py-3 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                   >
-                    {editLoading ? 'Sauvegarde...' : 'Sauvegarder'}
+                    {editLoading ? (
+                      <span className="flex items-center justify-center">
+                        <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                        Sauvegarde...
+                      </span>
+                    ) : (
+                      'Confirmer la modification'
+                    )}
                   </button>
                 </div>
               </div>
