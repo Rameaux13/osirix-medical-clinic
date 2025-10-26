@@ -63,21 +63,21 @@ export default function MesDocuments() {
   const [uploadDescription, setUploadDescription] = useState('');
   const [dragActive, setDragActive] = useState(false);
 
-  // Forcer la grille sur mobile
-useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth < 640) { // < sm breakpoint
-      setViewMode('grid');
-    }
-  };
-  
-  handleResize(); // Exécuter au chargement
-  window.addEventListener('resize', handleResize);
-  
-  return () => window.removeEventListener('resize', handleResize);
-}, []);
-
   const { user } = useAuthStore();
+
+  // Forcer la grille sur mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) { // < sm breakpoint
+        setViewMode('grid');
+      }
+    };
+    
+    handleResize(); // Exécuter au chargement
+    window.addEventListener('resize', handleResize);
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fonctions utilitaires
   const formatFileSize = (bytes: number): string => {
@@ -772,7 +772,7 @@ useEffect(() => {
 
       {/* Début Section : Modal Confirmation Suppression */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
+         <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6 sm:p-8">
             <div className="text-center space-y-4 sm:space-y-6">
               <div className="text-5xl sm:text-6xl text-red-500">⚠</div>
@@ -802,11 +802,11 @@ useEffect(() => {
 
       {/* 📸 DÉBUT SECTION : MODALE SCAN DE DOCUMENT */}
       {showScanModal && (
-        <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 sm:p-8 border-b border-gray-200">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-xl w-full max-w-[95vw] sm:max-w-4xl max-h-[95vh] overflow-y-auto">
+            <div className="p-4 sm:p-8 border-b border-gray-200">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">📸 Scanner un document</h2>
+                <h2 className="text-xl sm:text-3xl font-bold text-gray-900">📸 Scanner un document</h2>
                 <button
                   onClick={closeScanModal}
                   className="text-gray-400 hover:text-gray-600 text-2xl sm:text-3xl"
@@ -816,7 +816,7 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="p-4 sm:p-8">
+            <div className="p-3 sm:p-8">
               {/* Canvas caché - disponible pour TOUTES les étapes */}
               <canvas ref={canvasRef} style={{ display: 'none' }} />
 
@@ -824,13 +824,13 @@ useEffect(() => {
               {scanStep === 'camera' && (
                 <div className="space-y-4 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-lg sm:text-2xl text-gray-700 mb-4 sm:mb-6">
+                    <p className="text-base sm:text-2xl text-gray-700 mb-3 sm:mb-6">
                       Positionnez votre document devant la caméra
                     </p>
                   </div>
 
                   {/* Vidéo en direct */}
-                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9', minHeight: '60vh' }}>
+                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9', minHeight: '50vh', maxHeight: '70vh' }}>
                     <video
                       ref={videoRef}
                       autoPlay
@@ -844,7 +844,7 @@ useEffect(() => {
                     </div>
                   </div>
 
-
+                  
 
                   {/* Bouton Capturer */}
                   <div className="flex justify-center">
@@ -929,7 +929,8 @@ useEffect(() => {
                       className="flex justify-center relative cursor-move"
                       style={{
                         width: '100%',
-                        height: '400px',
+                        height: '300px',
+                        maxHeight: '50vh',
                         overflow: 'hidden',
                         position: 'relative'
                       }}
@@ -977,11 +978,11 @@ useEffect(() => {
                   </div>
 
                   {/* Contrôles d'édition */}
-                  <div className="space-y-4 sm:space-y-6 bg-white p-4 sm:p-6 rounded-lg border-2 border-gray-200">
+                  <div className="space-y-3 sm:space-y-6 bg-white p-3 sm:p-6 rounded-lg border-2 border-gray-200">
 
                     {/* Contrôle Zoom */}
                     <div>
-                      <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">
+                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
                         🔍 Zoom: {Math.round(zoomLevel * 100)}%
                       </label>
                       <div className="flex items-center gap-2 sm:gap-4">
@@ -993,7 +994,7 @@ useEffect(() => {
                               setPanPosition({ x: 0, y: 0 });
                             }
                           }}
-                          className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xl sm:text-2xl font-bold transition-colors"
+                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
                         >
                           -
                         </button>
@@ -1013,7 +1014,7 @@ useEffect(() => {
                         />
                         <button
                           onClick={() => setZoomLevel(prev => Math.min(3, prev + 0.25))}
-                          className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xl sm:text-2xl font-bold transition-colors"
+                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
                         >
                           +
                         </button>
@@ -1023,7 +1024,7 @@ useEffect(() => {
                               setZoomLevel(1);
                               setPanPosition({ x: 0, y: 0 });
                             }}
-                            className="px-3 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-sm sm:text-lg underline"
+                            className="px-2 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-xs sm:text-lg underline"
                           >
                             Reset
                           </button>
@@ -1038,29 +1039,29 @@ useEffect(() => {
 
                     {/* Rotation */}
                     <div>
-                      <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">
+                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
                         🔄 Rotation
                       </label>
                       <div className="flex items-center gap-2 sm:gap-4">
                         <button
                           onClick={() => setRotation(prev => prev - 90)}
-                          className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-lg font-medium transition-colors"
+                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm sm:text-lg font-medium transition-colors"
                         >
                           ↶ -90°
                         </button>
-                        <span className="text-lg sm:text-xl font-bold text-[#006D65] min-w-[60px] sm:min-w-[80px] text-center">
+                        <span className="text-base sm:text-xl font-bold text-[#006D65] min-w-[50px] sm:min-w-[80px] text-center">
                           {rotation}°
                         </span>
                         <button
                           onClick={() => setRotation(prev => prev + 90)}
-                          className="px-4 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-lg font-medium transition-colors"
+                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm sm:text-lg font-medium transition-colors"
                         >
                           ↷ +90°
                         </button>
                         {rotation !== 0 && (
                           <button
                             onClick={() => setRotation(0)}
-                            className="px-3 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-sm sm:text-lg underline"
+                            className="px-2 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-xs sm:text-lg underline"
                           >
                             Reset
                           </button>
@@ -1070,7 +1071,7 @@ useEffect(() => {
 
                     {/* Luminosité */}
                     <div>
-                      <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">
+                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
                         ☀️ Luminosité: {brightness}%
                       </label>
                       <input
@@ -1085,7 +1086,7 @@ useEffect(() => {
 
                     {/* Contraste */}
                     <div>
-                      <label className="block text-base sm:text-lg font-medium text-gray-700 mb-2 sm:mb-3">
+                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
                         🎨 Contraste: {contrast}%
                       </label>
                       <input
@@ -1108,7 +1109,7 @@ useEffect(() => {
                           setZoomLevel(1);
                           setPanPosition({ x: 0, y: 0 });
                         }}
-                        className="w-full px-4 py-2 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-base sm:text-lg font-medium"
+                        className="w-full px-4 py-2 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm sm:text-lg font-medium"
                       >
                         🔄 Réinitialiser tous les réglages
                       </button>
@@ -1388,38 +1389,38 @@ useEffect(() => {
           </div>
         ) : (
           <div className="p-4 sm:p-8">
-            <div className="flex items-center justify-between mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 sm:mb-8">
               <h3 className="text-lg sm:text-2xl font-semibold text-gray-900">
                 {documents.length} document{documents.length > 1 ? 's' : ''} trouvé{documents.length > 1 ? 's' : ''}
               </h3>
               <div className="flex items-center gap-3 sm:gap-4">
-  {selectedType !== 'all' && (
-    <span className="bg-[#006D65] text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg">
-      {DOCUMENT_TYPES.find(t => t.value === selectedType)?.label}
-    </span>
-  )}
-  {/* Boutons Grille/Liste : cachés sur mobile, visibles sur tablette+ */}
-  <div className="hidden sm:flex border border-gray-300 rounded-lg">
-    <button
-      onClick={() => setViewMode('grid')}
-      className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'grid'
-        ? 'bg-[#E6A930] text-white'
-        : 'text-gray-600 hover:bg-gray-50'
-        }`}
-    >
-      Grille
-    </button>
-    <button
-      onClick={() => setViewMode('list')}
-      className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'list'
-        ? 'bg-[#E6A930] text-white'
-        : 'text-gray-600 hover:bg-gray-50'
-        }`}
-    >
-      Liste
-    </button>
-  </div>
-</div>
+                {selectedType !== 'all' && (
+                  <span className="bg-[#006D65] text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg">
+                    {DOCUMENT_TYPES.find(t => t.value === selectedType)?.label}
+                  </span>
+                )}
+                {/* Boutons Grille/Liste : cachés sur mobile, visibles sur tablette+ */}
+                <div className="hidden sm:flex border border-gray-300 rounded-lg">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'grid'
+                      ? 'bg-[#E6A930] text-white'
+                      : 'text-gray-600 hover:bg-gray-50'
+                      }`}
+                  >
+                    Grille
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'list'
+                      ? 'bg-[#E6A930] text-white'
+                      : 'text-gray-600 hover:bg-gray-50'
+                      }`}
+                  >
+                    Liste
+                  </button>
+                </div>
+              </div>
             </div>
 
             {viewMode === 'grid' ? (
@@ -1492,29 +1493,29 @@ useEffect(() => {
                     className="border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-all duration-200 hover:border-[#006D65]"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3 sm:space-x-6 flex-1">
-                        <div className="text-xl sm:text-2xl">{getFileExtension(document.fileName)}</div>
+                      <div className="flex items-center space-x-3 sm:space-x-6 flex-1 min-w-0">
+                        <div className="text-xl sm:text-2xl flex-shrink-0">{getFileExtension(document.fileName)}</div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-semibold text-gray-900 text-base sm:text-xl mb-1 truncate">{document.title}</h4>
                           <p className="text-gray-600 text-sm sm:text-lg truncate">{document.fileName}</p>
                         </div>
-                        <div className="text-sm sm:text-lg text-gray-500 hidden md:block">
+                        <div className="text-sm sm:text-lg text-gray-500 hidden md:block flex-shrink-0">
                           {formatFileSize(document.fileSize)}
                         </div>
-                        <div className="text-sm sm:text-lg text-gray-500 hidden lg:block">
+                        <div className="text-sm sm:text-lg text-gray-500 hidden lg:block flex-shrink-0">
                           {new Date(document.recordDate).toLocaleDateString('fr-FR')}
                         </div>
                       </div>
-                      <div className="flex gap-2 sm:gap-3 ml-3 sm:ml-6">
+                      <div className="flex gap-2 sm:gap-3 ml-3 sm:ml-6 flex-shrink-0">
                         <button
                           onClick={() => handlePreview(document)}
-                          className="bg-[#006D65] text-white px-4 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-[#005a54] transition-colors text-sm sm:text-lg whitespace-nowrap"
+                          className="bg-[#006D65] text-white px-3 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-[#005a54] transition-colors text-sm sm:text-lg whitespace-nowrap"
                         >
                           Voir
                         </button>
                         <button
                           onClick={() => handleDownload(document.id)}
-                          className="px-3 py-2 sm:px-4 sm:py-2 border border-[#006D65] text-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors text-sm sm:text-lg"
+                          className="px-2 py-2 sm:px-4 sm:py-2 border border-[#006D65] text-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors text-sm sm:text-lg"
                           title="Télécharger"
                         >
                           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1523,7 +1524,7 @@ useEffect(() => {
                         </button>
                         <button
                           onClick={() => setShowDeleteConfirm(document.id)}
-                          className="px-3 py-2 sm:px-4 sm:py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm sm:text-lg"
+                          className="px-2 py-2 sm:px-4 sm:py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm sm:text-lg"
                           title="Supprimer"
                         >
                           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
