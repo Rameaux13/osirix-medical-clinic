@@ -72,10 +72,10 @@ export default function MesDocuments() {
         setViewMode('grid');
       }
     };
-    
+
     handleResize(); // Exécuter au chargement
     window.addEventListener('resize', handleResize);
-    
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -772,7 +772,7 @@ export default function MesDocuments() {
 
       {/* Début Section : Modal Confirmation Suppression */}
       {showDeleteConfirm && (
-         <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6 sm:p-8">
             <div className="text-center space-y-4 sm:space-y-6">
               <div className="text-5xl sm:text-6xl text-red-500">⚠</div>
@@ -802,7 +802,7 @@ export default function MesDocuments() {
 
       {/* 📸 DÉBUT SECTION : MODALE SCAN DE DOCUMENT */}
       {showScanModal && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
           <div className="bg-white rounded-xl w-full max-w-[95vw] sm:max-w-4xl max-h-[95vh] overflow-y-auto">
             <div className="p-4 sm:p-8 border-b border-gray-200">
               <div className="flex items-center justify-between">
@@ -844,7 +844,7 @@ export default function MesDocuments() {
                     </div>
                   </div>
 
-                  
+
 
                   {/* Bouton Capturer */}
                   <div className="flex justify-center">
@@ -924,13 +924,13 @@ export default function MesDocuments() {
                   </div>
 
                   {/* Image avec zoom et pan */}
-                  <div className="bg-gray-100 rounded-lg p-4 overflow-hidden">
+                  <div className="bg-gray-100 rounded-lg p-2 sm:p-4 overflow-hidden">
                     <div
                       className="flex justify-center relative cursor-move"
                       style={{
                         width: '100%',
-                        height: '300px',
-                        maxHeight: '50vh',
+                        height: '200px',
+                        maxHeight: '35vh',
                         overflow: 'hidden',
                         position: 'relative'
                       }}
@@ -968,21 +968,20 @@ export default function MesDocuments() {
                         draggable={false}
                       />
 
-                      {/* Indicateur de zoom */}
                       {zoomLevel > 1 && (
-                        <div className="absolute top-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base">
-                          Zoom: {Math.round(zoomLevel * 100)}%
+                        <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                          {Math.round(zoomLevel * 100)}%
                         </div>
                       )}
                     </div>
                   </div>
 
                   {/* Contrôles d'édition */}
-                  <div className="space-y-3 sm:space-y-6 bg-white p-3 sm:p-6 rounded-lg border-2 border-gray-200">
+                  <div className="space-y-2 sm:space-y-6 bg-white p-2 sm:p-6 rounded-lg border-2 border-gray-200">
 
                     {/* Contrôle Zoom */}
                     <div>
-                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         🔍 Zoom: {Math.round(zoomLevel * 100)}%
                       </label>
                       <div className="flex items-center gap-2 sm:gap-4">
@@ -994,7 +993,7 @@ export default function MesDocuments() {
                               setPanPosition({ x: 0, y: 0 });
                             }
                           }}
-                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-2xl font-bold transition-colors"
                         >
                           -
                         </button>
@@ -1010,11 +1009,11 @@ export default function MesDocuments() {
                               setPanPosition({ x: 0, y: 0 });
                             }
                           }}
-                          className="flex-1 h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                          className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                         />
                         <button
                           onClick={() => setZoomLevel(prev => Math.min(3, prev + 0.25))}
-                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-2xl font-bold transition-colors"
                         >
                           +
                         </button>
@@ -1024,44 +1023,44 @@ export default function MesDocuments() {
                               setZoomLevel(1);
                               setPanPosition({ x: 0, y: 0 });
                             }}
-                            className="px-2 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-xs sm:text-lg underline"
+                            className="px-1 py-1 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-[10px] sm:text-lg underline whitespace-nowrap"
                           >
                             Reset
                           </button>
                         )}
                       </div>
                       {zoomLevel > 1 && (
-                        <p className="text-xs sm:text-sm text-gray-600 mt-2">
-                          💡 Cliquez et glissez pour déplacer l'image
+                        <p className="text-[10px] sm:text-sm text-gray-600 mt-1">
+                          💡 Glissez pour déplacer
                         </p>
                       )}
                     </div>
 
                     {/* Rotation */}
                     <div>
-                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         🔄 Rotation
                       </label>
                       <div className="flex items-center gap-2 sm:gap-4">
                         <button
                           onClick={() => setRotation(prev => prev - 90)}
-                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm sm:text-lg font-medium transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-lg font-medium transition-colors"
                         >
                           ↶ -90°
                         </button>
-                        <span className="text-base sm:text-xl font-bold text-[#006D65] min-w-[50px] sm:min-w-[80px] text-center">
+                        <span className="text-sm sm:text-xl font-bold text-[#006D65] min-w-[40px] sm:min-w-[80px] text-center">
                           {rotation}°
                         </span>
                         <button
                           onClick={() => setRotation(prev => prev + 90)}
-                          className="px-3 py-2 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm sm:text-lg font-medium transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-lg font-medium transition-colors"
                         >
                           ↷ +90°
                         </button>
                         {rotation !== 0 && (
                           <button
                             onClick={() => setRotation(0)}
-                            className="px-2 py-2 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-xs sm:text-lg underline"
+                            className="px-1 py-1 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-[10px] sm:text-lg underline whitespace-nowrap"
                           >
                             Reset
                           </button>
@@ -1080,7 +1079,7 @@ export default function MesDocuments() {
                         max="150"
                         value={brightness}
                         onChange={(e) => setBrightness(Number(e.target.value))}
-                        className="w-full h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
                     </div>
 
@@ -1095,7 +1094,7 @@ export default function MesDocuments() {
                         max="150"
                         value={contrast}
                         onChange={(e) => setContrast(Number(e.target.value))}
-                        className="w-full h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
                     </div>
 
@@ -1109,7 +1108,7 @@ export default function MesDocuments() {
                           setZoomLevel(1);
                           setPanPosition({ x: 0, y: 0 });
                         }}
-                        className="w-full px-4 py-2 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm sm:text-lg font-medium"
+                        className="w-full px-3 py-2 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-xs sm:text-lg font-medium"
                       >
                         🔄 Réinitialiser tous les réglages
                       </button>
