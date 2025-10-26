@@ -820,17 +820,25 @@ export default function MesDocuments() {
               {/* Canvas caché - disponible pour TOUTES les étapes */}
               <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-              {/* ÉTAPE 1 : CAMÉRA */}
+             {/* ÉTAPE 1 : CAMÉRA - VERSION OPTIMISÉE MOBILE */}
               {scanStep === 'camera' && (
-                <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-base sm:text-2xl text-gray-700 mb-3 sm:mb-6">
+                    <p className="text-sm sm:text-2xl text-gray-700 mb-2 sm:mb-6">
                       Positionnez votre document devant la caméra
                     </p>
                   </div>
 
-                  {/* Vidéo en direct */}
-                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9', minHeight: '50vh', maxHeight: '70vh' }}>
+                  {/* Vidéo en direct - HAUTEUR RÉDUITE POUR MOBILE */}
+                  <div 
+                    className="relative bg-black rounded-lg overflow-hidden" 
+                    style={{ 
+                      aspectRatio: '4/3', // Changé de 16/9 à 4/3 pour mobile
+                      minHeight: '250px', // Réduit de 50vh à valeur fixe
+                      maxHeight: '40vh', // Réduit de 70vh à 40vh
+                      width: '100%'
+                    }}
+                  >
                     <video
                       ref={videoRef}
                       autoPlay
@@ -838,18 +846,25 @@ export default function MesDocuments() {
                       className="w-full h-full object-cover"
                     />
 
-                    {/* Overlay guide */}
+                    {/* Overlay guide - PLUS COMPACT */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="border-4 border-[#E6A930] border-dashed rounded-lg w-[90%] h-[85%]"></div>
+                      <div className="border-2 sm:border-4 border-[#E6A930] border-dashed rounded-lg w-[85%] sm:w-[90%] h-[80%] sm:h-[85%]"></div>
+                    </div>
+
+                    {/* Indicateur d'aide compact sur mobile */}
+                    <div className="absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4">
+                      <div className="bg-black bg-opacity-60 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base text-center">
+                        📄 Cadrez votre document dans le rectangle
+                      </div>
                     </div>
                   </div>
 
-                  {/* Bouton Capturer */}
-                  <div className="flex justify-center">
+                  {/* Bouton Capturer - PLUS COMPACT SUR MOBILE */}
+                  <div className="flex justify-center pt-2 sm:pt-4">
                     <button
                       onClick={capturePhoto}
                       disabled={!videoStream}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-8 py-3 sm:px-12 sm:py-5 rounded-full font-bold text-lg sm:text-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-6 py-2.5 sm:px-12 sm:py-5 rounded-full font-bold text-base sm:text-2xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                     >
                       📷 Capturer
                     </button>
@@ -858,7 +873,7 @@ export default function MesDocuments() {
                   <div className="text-center">
                     <button
                       onClick={closeScanModal}
-                      className="text-gray-600 hover:text-gray-800 text-base sm:text-xl underline"
+                      className="text-gray-600 hover:text-gray-800 text-sm sm:text-xl underline"
                     >
                       Annuler
                     </button>
@@ -866,29 +881,43 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ÉTAPE 2 : PRÉVISUALISATION */}
+              {/* ÉTAPE 2 : PRÉVISUALISATION - VERSION OPTIMISÉE MOBILE */}
               {scanStep === 'preview' && capturedImage && (
-                <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-lg sm:text-2xl text-gray-700 mb-4 sm:mb-6">
+                    <p className="text-base sm:text-2xl text-gray-700 mb-2 sm:mb-6">
                       Vérifiez votre capture
                     </p>
                   </div>
 
-                  {/* Image capturée */}
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <img
-                      src={capturedImage}
-                      alt="Document capturé"
-                      className="max-w-full mx-auto rounded-lg shadow-lg"
-                    />
+                  {/* Image capturée - HAUTEUR CONTRÔLÉE POUR MOBILE */}
+                  <div className="bg-gray-100 rounded-lg p-2 sm:p-4">
+                    <div 
+                      className="mx-auto overflow-hidden rounded-lg shadow-lg"
+                      style={{
+                        maxHeight: '40vh', // Même hauteur que la caméra
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <img
+                        src={capturedImage}
+                        alt="Document capturé"
+                        className="max-w-full h-auto"
+                        style={{
+                          maxHeight: '40vh',
+                          objectFit: 'contain'
+                        }}
+                      />
+                    </div>
                   </div>
 
-                  {/* Boutons */}
-                  <div className="flex gap-3 sm:gap-4 justify-center">
+                  {/* Boutons - PLUS COMPACTS SUR MOBILE */}
+                  <div className="flex gap-2 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={retakePhoto}
-                      className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-[#006D65] text-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors text-base sm:text-xl font-medium"
+                      className="px-4 py-2 sm:px-8 sm:py-4 border-2 border-[#006D65] text-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors text-sm sm:text-xl font-medium"
                     >
                       🔄 Reprendre
                     </button>
@@ -897,7 +926,7 @@ export default function MesDocuments() {
                         setEditedImage(capturedImage);
                         setScanStep('edit');
                       }}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-colors text-base sm:text-xl font-medium"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-colors text-sm sm:text-xl font-medium"
                     >
                       ✏️ Éditer
                     </button>
