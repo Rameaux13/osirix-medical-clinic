@@ -29,15 +29,10 @@ export class AppointmentsService {
     };
 
     if (consultationTypeName) {
-      // 🆕 Récupérer TOUS les types de consultation
       const allConsultationTypes = await this.prisma.consultationType.findMany({
-        select: {
-          id: true,
-          name: true
-        }
+        select: { id: true, name: true }
       });
 
-      // 🆕 Trouver en comparant les noms (insensible à la casse manuellement)
       const consultationType = allConsultationTypes.find(
         ct => ct.name.toLowerCase() === consultationTypeName.toLowerCase()
       );
@@ -48,21 +43,29 @@ export class AppointmentsService {
       if (consultationType) {
         where.consultationTypeId = consultationType.id;
         console.log('✅ Filtre appliqué avec ID:', consultationType.id);
-      } else {
-        console.log('❌ Aucun consultationType trouvé pour:', consultationTypeName);
-        // 🆕 Liste des types disponibles pour debug
-        console.log('📋 Types disponibles:', allConsultationTypes.map(ct => ct.name));
       }
     }
+
+    // 🆕 DEBUG - Afficher le WHERE complet
+    console.log('🔍 Requête WHERE complète:', JSON.stringify(where, null, 2));
 
     const appointments = await this.prisma.appointment.findMany({
       where,
       select: {
-        appointmentTime: true
+        appointmentTime: true,
+        status: true,  // 🆕 Ajouter le statut
+        consultationType: {
+          select: { name: true }
+        }
       }
     });
 
+    // 🆕 DEBUG - Afficher tous les RDV trouvés
+    console.log('🔍 RDV trouvés:', appointments);
+
     const unavailableSlots = appointments.map(apt => apt.appointmentTime);
+
+    console.log('✅ Créneaux occupés retournés:', unavailableSlots);
 
     return {
       date,
