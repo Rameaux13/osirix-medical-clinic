@@ -63,6 +63,20 @@ export default function MesDocuments() {
   const [uploadDescription, setUploadDescription] = useState('');
   const [dragActive, setDragActive] = useState(false);
 
+  // Forcer la grille sur mobile
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < 640) { // < sm breakpoint
+      setViewMode('grid');
+    }
+  };
+  
+  handleResize(); // Exécuter au chargement
+  window.addEventListener('resize', handleResize);
+  
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
   const { user } = useAuthStore();
 
   // Fonctions utilitaires
@@ -758,7 +772,7 @@ export default function MesDocuments() {
 
       {/* Début Section : Modal Confirmation Suppression */}
       {showDeleteConfirm && (
-         <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-md w-full p-6 sm:p-8">
             <div className="text-center space-y-4 sm:space-y-6">
               <div className="text-5xl sm:text-6xl text-red-500">⚠</div>
@@ -788,7 +802,7 @@ export default function MesDocuments() {
 
       {/* 📸 DÉBUT SECTION : MODALE SCAN DE DOCUMENT */}
       {showScanModal && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/10 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 sm:p-8 border-b border-gray-200">
               <div className="flex items-center justify-between">
@@ -816,7 +830,7 @@ export default function MesDocuments() {
                   </div>
 
                   {/* Vidéo en direct */}
-                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9', minHeight: '60vh' }}>
                     <video
                       ref={videoRef}
                       autoPlay
@@ -826,11 +840,11 @@ export default function MesDocuments() {
 
                     {/* Overlay guide */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="border-4 border-[#E6A930] border-dashed rounded-lg w-[80%] h-[80%]"></div>
+                      <div className="border-4 border-[#E6A930] border-dashed rounded-lg w-[90%] h-[85%]"></div>
                     </div>
                   </div>
 
-                  
+
 
                   {/* Bouton Capturer */}
                   <div className="flex justify-center">
@@ -1379,32 +1393,33 @@ export default function MesDocuments() {
                 {documents.length} document{documents.length > 1 ? 's' : ''} trouvé{documents.length > 1 ? 's' : ''}
               </h3>
               <div className="flex items-center gap-3 sm:gap-4">
-                {selectedType !== 'all' && (
-                  <span className="bg-[#006D65] text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg">
-                    {DOCUMENT_TYPES.find(t => t.value === selectedType)?.label}
-                  </span>
-                )}
-                <div className="flex border border-gray-300 rounded-lg">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-xl font-medium transition-colors ${viewMode === 'grid'
-                      ? 'bg-[#E6A930] text-white'
-                      : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                  >
-                    Grille
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-xl font-medium transition-colors ${viewMode === 'list'
-                      ? 'bg-[#E6A930] text-white'
-                      : 'text-gray-600 hover:bg-gray-50'
-                      }`}
-                  >
-                    Liste
-                  </button>
-                </div>
-              </div>
+  {selectedType !== 'all' && (
+    <span className="bg-[#006D65] text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg">
+      {DOCUMENT_TYPES.find(t => t.value === selectedType)?.label}
+    </span>
+  )}
+  {/* Boutons Grille/Liste : cachés sur mobile, visibles sur tablette+ */}
+  <div className="hidden sm:flex border border-gray-300 rounded-lg">
+    <button
+      onClick={() => setViewMode('grid')}
+      className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'grid'
+        ? 'bg-[#E6A930] text-white'
+        : 'text-gray-600 hover:bg-gray-50'
+        }`}
+    >
+      Grille
+    </button>
+    <button
+      onClick={() => setViewMode('list')}
+      className={`px-6 py-3 text-xl font-medium transition-colors ${viewMode === 'list'
+        ? 'bg-[#E6A930] text-white'
+        : 'text-gray-600 hover:bg-gray-50'
+        }`}
+    >
+      Liste
+    </button>
+  </div>
+</div>
             </div>
 
             {viewMode === 'grid' ? (
