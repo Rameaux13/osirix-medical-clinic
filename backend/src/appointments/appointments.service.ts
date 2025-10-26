@@ -19,66 +19,66 @@ export class AppointmentsService {
 
 
   // 🆕 NOUVELLE MÉTHODE - Vérifier la disponibilité des créneaux pour une date
- async getDateAvailability(date: string, consultationTypeName?: string) {
-  try {
-    const where: any = {
-      appointmentDate: new Date(date),
-      status: {
-        in: ['EN_ATTENTE', 'CONFIRMED']
-      }
-    };
+  async getDateAvailability(date: string, consultationTypeName?: string) {
+    try {
+      const where: any = {
+        appointmentDate: new Date(date),
+        status: {
+          not: 'cancelled'  // ✅ Exclure uniquement les annulés
+        }
+      };
 
-    if (consultationTypeName) {
-      const allConsultationTypes = await this.prisma.consultationType.findMany({
-        select: { id: true, name: true }
-      });
+      if (consultationTypeName) {
+        const allConsultationTypes = await this.prisma.consultationType.findMany({
+          select: { id: true, name: true }
+        });
 
-      const consultationType = allConsultationTypes.find(
-        ct => ct.name.toLowerCase() === consultationTypeName.toLowerCase()
-      );
+        const consultationType = allConsultationTypes.find(
+          ct => ct.name.toLowerCase() === consultationTypeName.toLowerCase()
+        );
 
-      console.log('🔍 Service reçu:', consultationTypeName);
-      console.log('🔍 ConsultationType trouvé:', consultationType);
+        console.log('🔍 Service reçu:', consultationTypeName);
+        console.log('🔍 ConsultationType trouvé:', consultationType);
 
-      if (consultationType) {
-        where.consultationTypeId = consultationType.id;
-        console.log('✅ Filtre appliqué avec ID:', consultationType.id);
-      }
-    }
-
-    // 🆕 DEBUG - Afficher le WHERE complet
-    console.log('🔍 Requête WHERE complète:', JSON.stringify(where, null, 2));
-
-    const appointments = await this.prisma.appointment.findMany({
-      where,
-      select: {
-        appointmentTime: true,
-        status: true,  // 🆕 Ajouter le statut
-        consultationType: {
-          select: { name: true }
+        if (consultationType) {
+          where.consultationTypeId = consultationType.id;
+          console.log('✅ Filtre appliqué avec ID:', consultationType.id);
         }
       }
-    });
 
-    // 🆕 DEBUG - Afficher tous les RDV trouvés
-    console.log('🔍 RDV trouvés:', appointments);
+      // 🆕 DEBUG - Afficher le WHERE complet
+      console.log('🔍 Requête WHERE complète:', JSON.stringify(where, null, 2));
 
-    const unavailableSlots = appointments.map(apt => apt.appointmentTime);
+      const appointments = await this.prisma.appointment.findMany({
+        where,
+        select: {
+          appointmentTime: true,
+          status: true,  // 🆕 Ajouter le statut
+          consultationType: {
+            select: { name: true }
+          }
+        }
+      });
 
-    console.log('✅ Créneaux occupés retournés:', unavailableSlots);
+      // 🆕 DEBUG - Afficher tous les RDV trouvés
+      console.log('🔍 RDV trouvés:', appointments);
 
-    return {
-      date,
-      consultationTypeName,
-      unavailableSlots,
-      totalOccupied: unavailableSlots.length,
-      message: `${unavailableSlots.length} créneaux occupés pour ${consultationTypeName || 'tous les services'} le ${date}`
-    };
-  } catch (error) {
-    console.error('❌ Erreur dans getDateAvailability:', error);
-    throw new BadRequestException(`Erreur lors de la vérification de disponibilité`);
+      const unavailableSlots = appointments.map(apt => apt.appointmentTime);
+
+      console.log('✅ Créneaux occupés retournés:', unavailableSlots);
+
+      return {
+        date,
+        consultationTypeName,
+        unavailableSlots,
+        totalOccupied: unavailableSlots.length,
+        message: `${unavailableSlots.length} créneaux occupés pour ${consultationTypeName || 'tous les services'} le ${date}`
+      };
+    } catch (error) {
+      console.error('❌ Erreur dans getDateAvailability:', error);
+      throw new BadRequestException(`Erreur lors de la vérification de disponibilité`);
+    }
   }
-}
 
   // Créer un rendez-vous avec attribution automatique du médecin
   async create(userId: string, createAppointmentDto: CreateAppointmentDto) {
