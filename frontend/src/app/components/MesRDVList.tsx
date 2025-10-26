@@ -443,28 +443,28 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
   const AppointmentCard = ({ appointment }: { appointment: any }) => (
     <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200">
-      <div className="p-6">
-        {/* En-tête avec informations médecin */}
+      <div className="p-4 sm:p-6">
+        {/* En-tête avec informations médecin - TEXTE RÉDUIT MOBILE */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-1">
               {appointment.doctor
                 ? `Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}`
-                : 'Médecin à attribuer'
+                : ''
               }
             </h3>
-            <p className="text-[#006D65] font-medium text-lg">
+            <p className="text-sm sm:text-base lg:text-lg text-[#006D65] font-medium">
               {appointment.consultationType?.name || 'Consultation générale'}
             </p>
           </div>
 
-          {/* Badges de statut */}
+          {/* Badges de statut - TAILLE RÉDUITE MOBILE */}
           <div className="flex flex-col space-y-2">
-            <span className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-md ${getStatusColor(appointment.status)}`}>
+            <span className={`inline-flex px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium rounded-md ${getStatusColor(appointment.status)}`}>
               {getStatusLabel(appointment.status)}
             </span>
             {appointment.paymentStatus !== 'pending' && (
-              <span className={`inline-flex px-3 py-1.5 text-sm font-medium rounded-md ${getPaymentStatusColor(appointment.paymentStatus)}`}>
+              <span className={`inline-flex px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium rounded-md ${getPaymentStatusColor(appointment.paymentStatus)}`}>
                 {getPaymentStatusLabel(appointment.paymentStatus)}
               </span>
             )}
@@ -473,18 +473,18 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
         {/* Message de remerciement pour RDV terminés */}
         {appointment.status === 'TERMINE' && (
-          <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-[#006D65]/5 border-2 border-green-200 rounded-xl shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mb-4 p-3 sm:p-4 bg-gradient-to-r from-green-50 to-[#006D65]/5 border-2 border-green-200 rounded-xl shadow-sm">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-green-100 rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-green-800 font-bold text-lg mb-1">
+                <p className="text-green-800 font-bold text-sm sm:text-base lg:text-lg mb-1">
                   Merci d'être venu à la clinique OSIRIX
                 </p>
-                <p className="text-green-700 text-base">
+                <p className="text-green-700 text-xs sm:text-sm lg:text-base">
                   Votre consultation est terminée. Nous espérons vous avoir apporté les meilleurs soins.
                 </p>
               </div>
@@ -492,45 +492,45 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           </div>
         )}
 
-        {/* Informations de rendez-vous */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-          <div className="flex items-center space-x-3">
-            <Calendar className="w-5 h-5 text-gray-500" />
+        {/* Informations de rendez-vous - TAILLE RÉDUITE MOBILE */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
             <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide font-medium">Date</p>
-              <p className="text-base font-semibold text-gray-900">{formatDate(appointment.appointmentDate)}</p>
+              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Date</p>
+              <p className="text-sm sm:text-base font-semibold text-gray-900">{formatDate(appointment.appointmentDate)}</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <Clock className="w-5 h-5 text-gray-500" />
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
             <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide font-medium">Heure</p>
-              <p className="text-base font-semibold text-gray-900">{formatTime(appointment.appointmentTime)}</p>
+              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Heure</p>
+              <p className="text-sm sm:text-base font-semibold text-gray-900">{formatTime(appointment.appointmentTime)}</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
-            <MapPin className="w-5 h-5 text-gray-500" />
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
             <div>
-              <p className="text-sm text-gray-500 uppercase tracking-wide font-medium">Lieu</p>
-              <p className="text-base font-semibold text-gray-900">OSIRIX Clinique</p>
+              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Lieu</p>
+              <p className="text-sm sm:text-base font-semibold text-gray-900">OSIRIX Clinique</p>
             </div>
           </div>
         </div>
 
-        {/* Informations supplémentaires si disponibles */}
+        {/* Informations supplémentaires si disponibles - TAILLE RÉDUITE MOBILE */}
         {(appointment.chiefComplaint || appointment.notes) && (
           <div className="space-y-3 mb-4">
             {appointment.chiefComplaint && (
-              <div className="p-4 bg-gray-50 rounded-lg border-l-4 border-[#006D65]">
-                <p className="text-base text-gray-700">
+              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg border-l-4 border-[#006D65]">
+                <p className="text-sm sm:text-base text-gray-700">
                   <span className="font-semibold text-gray-900">Motif :</span> {appointment.chiefComplaint}
                 </p>
                 {appointment.urgencyLevel !== 'normal' && (
-                  <p className="text-base text-gray-600 mt-2">
+                  <p className="text-sm sm:text-base text-gray-600 mt-2">
                     <span className="font-semibold">Urgence :</span>
-                    <span className="ml-2 px-3 py-1 bg-red-100 text-red-800 rounded text-sm font-semibold">
+                    <span className="ml-2 px-2 sm:px-3 py-1 bg-red-100 text-red-800 rounded text-xs sm:text-sm font-semibold">
                       {appointment.urgencyLevel}
                     </span>
                   </p>
@@ -539,8 +539,8 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
             )}
 
             {appointment.notes && (
-              <div className="p-4 bg-yellow-50 rounded-lg border-l-4 border-[#E6A930]">
-                <p className="text-base text-gray-700">
+              <div className="p-3 sm:p-4 bg-yellow-50 rounded-lg border-l-4 border-[#E6A930]">
+                <p className="text-sm sm:text-base text-gray-700">
                   <span className="font-semibold text-gray-900">Notes :</span> {appointment.notes}
                 </p>
               </div>
@@ -548,37 +548,37 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           </div>
         )}
 
-        {/* Actions avec boutons stylisés PLUS GRANDS */}
+        {/* Actions avec boutons stylisés - TAILLE RÉDUITE MOBILE */}
         {activeTab === 'upcoming' && (
           <div className="flex flex-col sm:flex-row items-center justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-100">
             <button
               onClick={() => openEditModal(appointment)}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-[#006D65] bg-[#006D65]/5 hover:bg-[#006D65]/10 rounded-lg border border-[#006D65]/20 hover:border-[#006D65]/30 transition-all duration-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-[#006D65] bg-[#006D65]/5 hover:bg-[#006D65]/10 rounded-lg border border-[#006D65]/20 hover:border-[#006D65]/30 transition-all duration-200"
             >
-              <Edit className="w-4 h-4 mr-2" />
+              <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               Modifier
             </button>
 
             <button
               onClick={() => openCancelModal(appointment)}
               disabled={cancellingId === appointment.id}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 rounded-lg border border-amber-200 hover:border-amber-300 transition-all duration-200 disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 rounded-lg border border-amber-200 hover:border-amber-300 transition-all duration-200 disabled:opacity-50"
             >
-              <X className="w-4 h-4 mr-2" />
+              <X className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               {cancellingId === appointment.id ? 'Annulation...' : 'Annuler'}
             </button>
           </div>
         )}
 
-        {/* BOUTON CORRIGÉ - Supprimer définitivement pour les RDV annulés PLUS GRAND */}
+        {/* BOUTON - Supprimer définitivement pour les RDV annulés - TAILLE RÉDUITE MOBILE */}
         {activeTab === 'cancelled' && (
           <div className="flex items-center justify-end pt-4 border-t border-gray-100">
             <button
               onClick={() => openDeleteModal(appointment)}
               disabled={deletingId === appointment.id}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2.5 text-sm font-semibold text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 disabled:opacity-50"
             >
-              <Trash className="w-4 h-4 mr-2" />
+              <Trash className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               {deletingId === appointment.id ? 'Suppression...' : 'Supprimer définitivement'}
             </button>
           </div>
@@ -596,37 +596,40 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        {/* En-tête simple et élégant */}
+        {/* En-tête simple et élégant - RESPONSIVE */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#006D65] rounded-full mb-4">
             <Calendar className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Mes Rendez-vous</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Mes Rendez-vous</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
             Gérez facilement tous vos rendez-vous médicaux en un seul endroit
           </p>
         </div>
 
-        {/* Barre d'actions avec onglets et bouton nouveau RDV */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-8">
-          <div className="flex items-center bg-white rounded-lg p-1 shadow-sm border border-gray-200 mb-4 sm:mb-0">
+        {/* Barre d'actions avec onglets et bouton nouveau RDV - RESPONSIVE */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
+          {/* Onglets - RESPONSIVE */}
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-white rounded-lg p-1 shadow-sm border border-gray-200">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center px-4 py-3 rounded-md font-semibold text-base transition-colors ${activeTab === tab.id
+                  className={`flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 rounded-md font-semibold text-sm sm:text-base transition-colors ${
+                    activeTab === tab.id
                       ? 'bg-[#006D65] text-white'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                    }`}
+                  }`}
                 >
-                  <IconComponent className="w-5 h-5 mr-2" />
+                  <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   <span>{tab.label}</span>
-                  <span className={`ml-2 px-2 py-1 text-sm font-semibold rounded-full ${activeTab === tab.id
+                  <span className={`ml-2 px-2 py-0.5 sm:py-1 text-xs sm:text-sm font-semibold rounded-full ${
+                    activeTab === tab.id
                       ? 'bg-white text-[#006D65]'
                       : 'bg-gray-200 text-gray-600'
-                    }`}>
+                  }`}>
                     {tab.count}
                   </span>
                 </button>
@@ -634,11 +637,12 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
             })}
           </div>
 
+          {/* Bouton Nouveau RDV - RESPONSIVE */}
           <button
             onClick={onNavigateToNewAppointment}
-            className="flex items-center px-5 py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-base shadow-sm"
+            className="w-full lg:w-auto flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-sm sm:text-base shadow-sm"
           >
-            <Plus className="w-5 h-5 mr-2" />
+            <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Nouveau RDV
           </button>
         </div>
@@ -653,36 +657,36 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                 ))}
               </div>
 
-              {/* SYSTÈME DE PAGINATION INTELLIGENT avec boutons Voir tout / Afficher moins PLUS GRANDS */}
+              {/* SYSTÈME DE PAGINATION INTELLIGENT - RESPONSIVE */}
               {currentAppointments.length > 10 && (
                 <div className="text-center pt-6">
                   {!hasMoreAppointments ? (
-                    // Bouton "Afficher moins" quand tout est affiché
+                    // Bouton "Afficher moins"
                     <button
                       onClick={() => setDisplayLimits(prev => ({ ...prev, [activeTab]: 10 }))}
-                      className="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors font-semibold text-base shadow-sm"
+                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors font-semibold text-sm sm:text-base shadow-sm"
                     >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
                       </svg>
                       Afficher moins
                     </button>
                   ) : (
-                    // Boutons "Voir plus" et "Voir tout" quand c'est limité
+                    // Boutons "Voir plus" et "Voir tout"
                     <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3">
                       <button
                         onClick={() => loadMoreAppointments(activeTab)}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 bg-white text-[#006D65] border border-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors font-semibold text-base shadow-sm"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-white text-[#006D65] border border-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors font-semibold text-sm sm:text-base shadow-sm"
                       >
-                        <Plus className="w-5 h-5 mr-2" />
+                        <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Voir plus (+10)
                       </button>
 
                       <button
                         onClick={() => setDisplayLimits(prev => ({ ...prev, [activeTab]: currentAppointments.length }))}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-base shadow-sm"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-sm sm:text-base shadow-sm"
                       >
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                         </svg>
                         Voir tout ({currentAppointments.length})
@@ -690,7 +694,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     </div>
                   )}
 
-                  <p className="text-base text-gray-500 mt-3">
+                  <p className="text-sm sm:text-base text-gray-500 mt-3">
                     {hasMoreAppointments
                       ? `Affichage de ${displayedAppointments.length} sur ${currentAppointments.length} rendez-vous`
                       : `Tous vos ${currentAppointments.length} rendez-vous sont affichés`
