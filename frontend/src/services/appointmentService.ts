@@ -117,7 +117,7 @@ class AppointmentService {
 
   // Convertir les données du formulaire vers le format backend
   convertFormDataToBackend(formData: any): CreateAppointmentRequest {
-    // MAPPING COMPLET DE TOUS LES 16 SERVICES ✅
+    
     const serviceNames: { [key: string]: string } = {
       // ✅ Consultations validées (5)
       'consultation-generale': 'Consultation générale',
