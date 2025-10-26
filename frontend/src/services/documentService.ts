@@ -1,4 +1,5 @@
 // frontend/src/services/documentService.ts
+// ✅ VERSION CORRIGÉE ET NETTOYÉE
 
 import { apiClient } from '../lib/api';
 
@@ -121,30 +122,29 @@ class DocumentService {
   // Télécharger un document
   async downloadDocument(documentId: string): Promise<void> {
     try {
-      // 🔧 PREMIÈRE ÉTAPE : Récupérer les infos du document
+      // Récupérer les infos du document
       const documentInfo = await this.getDocument(documentId);
       const docRecord = documentInfo.record;
 
-      // 🔧 DEUXIÈME ÉTAPE : Télécharger avec les bonnes configurations
+      // Télécharger avec les bonnes configurations
       const response = await apiClient.get(`/medical-records/${documentId}/download`, {
         responseType: 'blob',
         headers: {
-          'Accept': '*/*', // Accepter tous les types de fichiers
+          'Accept': '*/*',
         }
       });
 
-      // 🔧 TROISIÈME ÉTAPE : Créer le blob avec le bon type MIME
+      // Créer le blob avec le bon type MIME
       const blob = new Blob([response.data], { 
         type: docRecord.fileType || 'application/octet-stream' 
       });
 
-      // 🔧 QUATRIÈME ÉTAPE : Télécharger avec le bon nom de fichier
+      // Télécharger avec le bon nom de fichier
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', docRecord.fileName || 'document');
       
-      // Forcer le téléchargement
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -155,12 +155,31 @@ class DocumentService {
     }
   }
 
-  // Supprimer un document
+  // ✅ MÉTHODE CORRIGÉE : Supprimer un document (gère le 404 comme succès)
   async deleteDocument(documentId: string): Promise<{ message: string }> {
     try {
       const response = await apiClient.delete(`/medical-records/${documentId}`);
+      
+      // ✅ Vérifier le statut de la réponse
+      if (response.status === 200 || response.status === 204) {
+        return { message: 'Document supprimé avec succès' };
+      }
+      
       return response.data;
+      
     } catch (error: any) {
+      // ✅ Si le document n'existe plus (404), on considère ça comme un succès
+      if (error.response?.status === 404) {
+        return { message: 'Document déjà supprimé' };
+      }
+      
+      // ✅ Si l'erreur contient "non trouvé" mais que le statut est OK, c'est quand même un succès
+      if (error.response?.data?.message?.includes('non trouvé') && 
+          (error.response?.status === 200 || error.response?.status === 204)) {
+        return { message: 'Document supprimé avec succès' };
+      }
+      
+      // Pour les autres erreurs réelles (500, 403, etc.)
       throw new Error(error.response?.data?.message || 'Erreur lors de la suppression');
     }
   }
@@ -185,39 +204,38 @@ class DocumentService {
     }
   }
 
-  // Prévisualiser un document avec authentification JWT - VERSION AVEC PDF
-async previewDocument(documentId: string): Promise<string | { type: string; message: string; fileName?: string }> {
-  try {
-    // Récupérer les données binaires avec responseType 'blob'
-    const response = await apiClient.get(`/medical-records/${documentId}/preview`, {
-      responseType: 'blob',
-    });
+  // ✅ MÉTHODE NETTOYÉE : Prévisualiser un document (sans console.log)
+  async previewDocument(documentId: string): Promise<string | { type: string; message: string; fileName?: string }> {
+    try {
+      // Récupérer les données binaires avec responseType 'blob'
+      const response = await apiClient.get(`/medical-records/${documentId}/preview`, {
+        responseType: 'blob',
+      });
 
-    // Vérifier le type de contenu
-    const contentType = response.headers['content-type'] || '';
-    
-    // Si c'est encore du JSON (autres fichiers), le parser
-    if (contentType.includes('application/json')) {
-      const text = await response.data.text();
-      return JSON.parse(text);
-    }
-    
-    // Pour les images ET PDF, créer l'URL blob
-    if (contentType.includes('image/') || contentType.includes('pdf')) {
+      // Vérifier le type de contenu
+      const contentType = response.headers['content-type'] || '';
+      
+      // Si c'est du JSON (autres fichiers), le parser
+      if (contentType.includes('application/json')) {
+        const text = await response.data.text();
+        return JSON.parse(text);
+      }
+      
+      // Pour les images ET PDF, créer l'URL blob
+      if (contentType.includes('image/') || contentType.includes('pdf')) {
+        const url = window.URL.createObjectURL(response.data);
+        return url;
+      }
+
+      // Fallback pour autres types
       const url = window.URL.createObjectURL(response.data);
       return url;
+      
+    } catch (error: any) {
+      // ✅ Garder seulement les erreurs critiques
+      throw new Error(error.response?.data?.message || 'Erreur lors de la prévisualisation');
     }
-
-    // Fallback pour autres types
-    const url = window.URL.createObjectURL(response.data);
-    return url;
-    
-  } catch (error: any) {
-    console.error('Erreur prévisualisation:', error);
-    throw new Error(error.response?.data?.message || 'Erreur lors de la prévisualisation');
   }
-}
-
 }
 
 export default new DocumentService();

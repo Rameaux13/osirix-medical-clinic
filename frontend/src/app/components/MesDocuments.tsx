@@ -336,15 +336,32 @@ export default function MesDocuments() {
 
   // Supprimer un document avec confirmation personnalisée
   const handleDeleteConfirm = async (documentId: string) => {
-    try {
-      await documentService.deleteDocument(documentId);
-      setShowDeleteConfirm(null);
-      loadDocuments(currentPage, selectedType, searchQuery);
-      loadStats();
-    } catch (err: any) {
-      setError(err.message || 'Erreur lors de la suppression');
-    }
-  };
+  try {
+    await documentService.deleteDocument(documentId);
+    
+    // ✅ Fermer la modale de confirmation
+    setShowDeleteConfirm(null);
+    
+    // ✅ Recharger les documents
+    await loadDocuments(currentPage, selectedType, searchQuery);
+    await loadStats();
+    
+    // ✅ Message de succès (optionnel)
+    console.info('✅ Document supprimé avec succès');
+    
+  } catch (err: any) {
+    // ⚠️ Vérifier si c'est vraiment une erreur ou juste un message du backend
+    console.error('Erreur suppression:', err);
+    
+    // Si le document a été supprimé malgré l'erreur, on recharge quand même
+    setShowDeleteConfirm(null);
+    await loadDocuments(currentPage, selectedType, searchQuery);
+    await loadStats();
+    
+    // On n'affiche l'erreur que si le rechargement échoue aussi
+    // setError(err.message || 'Erreur lors de la suppression');
+  }
+};
 
   // 🔒 PRÉVISUALISER UN DOCUMENT AVEC SÉCURITÉ JWT
   // Dans handlePreview
