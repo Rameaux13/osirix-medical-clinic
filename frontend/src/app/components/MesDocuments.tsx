@@ -905,23 +905,23 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ÉTAPE 2.5 : ÉDITION AVEC ZOOM */}
+                 {/* ÉTAPE 2.5 : ÉDITION AVEC ZOOM - VERSION OPTIMISÉE MOBILE */}
               {scanStep === 'edit' && editedImage && (
-                <div className="space-y-3 sm:space-y-6">
+                <div className="space-y-2 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-base sm:text-2xl text-gray-700 mb-2 sm:mb-6">
+                    <p className="text-sm sm:text-2xl text-gray-700 mb-1 sm:mb-6">
                       Ajustez votre document
                     </p>
                   </div>
 
-                  {/* Image avec zoom et pan */}
-                  <div className="bg-gray-100 rounded-lg p-2 sm:p-4 overflow-hidden">
+                  {/* Image avec zoom et pan - HAUTEUR RÉDUITE POUR MOBILE */}
+                  <div className="bg-gray-100 rounded-lg p-1 sm:p-4 overflow-hidden">
                     <div
                       className="flex justify-center relative cursor-move"
                       style={{
                         width: '100%',
-                        height: '200px',
-                        maxHeight: '35vh',
+                        height: '160px', // Réduit de 200px à 160px pour mobile
+                        maxHeight: '20vh', // Réduit de 35vh à 20vh
                         overflow: 'hidden',
                         position: 'relative'
                       }}
@@ -944,6 +944,25 @@ export default function MesDocuments() {
                       }}
                       onMouseUp={() => setIsPanning(false)}
                       onMouseLeave={() => setIsPanning(false)}
+                      // Support tactile pour mobile
+                      onTouchStart={(e) => {
+                        if (zoomLevel > 1 && e.touches.length === 1) {
+                          setIsPanning(true);
+                          setPanStart({
+                            x: e.touches[0].clientX - panPosition.x,
+                            y: e.touches[0].clientY - panPosition.y
+                          });
+                        }
+                      }}
+                      onTouchMove={(e) => {
+                        if (isPanning && zoomLevel > 1 && e.touches.length === 1) {
+                          setPanPosition({
+                            x: e.touches[0].clientX - panStart.x,
+                            y: e.touches[0].clientY - panStart.y
+                          });
+                        }
+                      }}
+                      onTouchEnd={() => setIsPanning(false)}
                     >
                       <img
                         src={editedImage}
@@ -961,19 +980,19 @@ export default function MesDocuments() {
 
                       {/* Indicateur de zoom */}
                       {zoomLevel > 1 && (
-                        <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                        <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs sm:text-base">
                           {Math.round(zoomLevel * 100)}%
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* Contrôles d'édition */}
-                  <div className="space-y-2 sm:space-y-6 bg-white p-2 sm:p-6 rounded-lg border-2 border-gray-200">
+                  {/* Contrôles d'édition - ESPACEMENT RÉDUIT POUR MOBILE */}
+                  <div className="space-y-2 sm:space-y-4 bg-white p-2 sm:p-6 rounded-lg border border-gray-200">
 
-                    {/* Contrôle Zoom */}
+                    {/* Contrôle Zoom - INTERFACE COMPACTE */}
                     <div>
-                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1">
                         🔍 Zoom: {Math.round(zoomLevel * 100)}%
                       </label>
                       <div className="flex items-center gap-1 sm:gap-4">
@@ -985,7 +1004,7 @@ export default function MesDocuments() {
                               setPanPosition({ x: 0, y: 0 });
                             }
                           }}
-                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-2xl font-bold transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
                         >
                           -
                         </button>
@@ -1001,11 +1020,11 @@ export default function MesDocuments() {
                               setPanPosition({ x: 0, y: 0 });
                             }
                           }}
-                          className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                          className="flex-1 h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                         />
                         <button
                           onClick={() => setZoomLevel(prev => Math.min(3, prev + 0.25))}
-                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-base sm:text-2xl font-bold transition-colors"
+                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-lg sm:text-2xl font-bold transition-colors"
                         >
                           +
                         </button>
@@ -1015,44 +1034,44 @@ export default function MesDocuments() {
                               setZoomLevel(1);
                               setPanPosition({ x: 0, y: 0 });
                             }}
-                            className="px-1 py-1 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-[10px] sm:text-lg underline whitespace-nowrap"
+                            className="px-1 sm:px-4 py-1 sm:py-3 text-red-600 hover:text-red-700 text-[9px] sm:text-lg underline whitespace-nowrap"
                           >
                             Reset
                           </button>
                         )}
                       </div>
                       {zoomLevel > 1 && (
-                        <p className="text-[10px] sm:text-sm text-gray-600 mt-1">
-                          💡 Glissez pour déplacer
+                        <p className="text-[9px] sm:text-sm text-gray-600 mt-1">
+                          💡 {window.innerWidth < 640 ? 'Glissez pour déplacer' : 'Glissez pour déplacer'}
                         </p>
                       )}
                     </div>
 
-                    {/* Rotation */}
+                    {/* Rotation - INTERFACE COMPACTE */}
                     <div>
-                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1">
                         🔄 Rotation
                       </label>
                       <div className="flex items-center gap-1 sm:gap-4">
                         <button
                           onClick={() => setRotation(prev => prev - 90)}
-                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-lg font-medium transition-colors"
+                          className="flex-1 px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-[10px] sm:text-lg font-medium transition-colors"
                         >
                           ↶ -90°
                         </button>
-                        <span className="text-sm sm:text-xl font-bold text-[#006D65] min-w-[40px] sm:min-w-[80px] text-center">
+                        <span className="text-xs sm:text-xl font-bold text-[#006D65] min-w-[35px] sm:min-w-[80px] text-center">
                           {rotation}°
                         </span>
                         <button
                           onClick={() => setRotation(prev => prev + 90)}
-                          className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-lg font-medium transition-colors"
+                          className="flex-1 px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-[10px] sm:text-lg font-medium transition-colors"
                         >
                           ↷ +90°
                         </button>
                         {rotation !== 0 && (
                           <button
                             onClick={() => setRotation(0)}
-                            className="px-1 py-1 sm:px-4 sm:py-3 text-red-600 hover:text-red-700 text-[10px] sm:text-lg underline whitespace-nowrap"
+                            className="px-1 sm:px-4 py-1 sm:py-3 text-red-600 hover:text-red-700 text-[9px] sm:text-lg underline whitespace-nowrap"
                           >
                             Reset
                           </button>
@@ -1060,37 +1079,57 @@ export default function MesDocuments() {
                       </div>
                     </div>
 
-                    {/* Luminosité */}
+                    {/* Luminosité - SLIDER COMPACT */}
                     <div>
-                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1">
                         ☀️ Luminosité: {brightness}%
                       </label>
-                      <input
-                        type="range"
-                        min="50"
-                        max="150"
-                        value={brightness}
-                        onChange={(e) => setBrightness(Number(e.target.value))}
-                        className="w-full h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min="50"
+                          max="150"
+                          value={brightness}
+                          onChange={(e) => setBrightness(Number(e.target.value))}
+                          className="flex-1 h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        />
+                        {brightness !== 100 && (
+                          <button
+                            onClick={() => setBrightness(100)}
+                            className="text-red-600 hover:text-red-700 text-[9px] sm:text-sm underline whitespace-nowrap"
+                          >
+                            Reset
+                          </button>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Contraste */}
+                    {/* Contraste - SLIDER COMPACT */}
                     <div>
-                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1">
                         🎨 Contraste: {contrast}%
                       </label>
-                      <input
-                        type="range"
-                        min="50"
-                        max="150"
-                        value={contrast}
-                        onChange={(e) => setContrast(Number(e.target.value))}
-                        className="w-full h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min="50"
+                          max="150"
+                          value={contrast}
+                          onChange={(e) => setContrast(Number(e.target.value))}
+                          className="flex-1 h-2 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        />
+                        {contrast !== 100 && (
+                          <button
+                            onClick={() => setContrast(100)}
+                            className="text-red-600 hover:text-red-700 text-[9px] sm:text-sm underline whitespace-nowrap"
+                          >
+                            Reset
+                          </button>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Boutons réinitialisation */}
+                    {/* Bouton réinitialisation globale */}
                     {(brightness !== 100 || contrast !== 100 || rotation !== 0 || zoomLevel !== 1) && (
                       <button
                         onClick={() => {
@@ -1100,15 +1139,15 @@ export default function MesDocuments() {
                           setZoomLevel(1);
                           setPanPosition({ x: 0, y: 0 });
                         }}
-                        className="w-full px-3 py-2 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-xs sm:text-lg font-medium"
+                        className="w-full px-2 py-1.5 sm:px-6 sm:py-3 border-2 border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-xs sm:text-lg font-medium"
                       >
                         🔄 Réinitialiser tous les réglages
                       </button>
                     )}
                   </div>
 
-                  {/* Boutons navigation */}
-                  <div className="flex gap-3 sm:gap-4 justify-center pt-2 sm:pt-4">
+                  {/* Boutons navigation - TAILLE RÉDUITE MOBILE */}
+                  <div className="flex gap-2 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={() => {
                         setScanStep('preview');
@@ -1118,7 +1157,7 @@ export default function MesDocuments() {
                         setZoomLevel(1);
                         setPanPosition({ x: 0, y: 0 });
                       }}
-                      className="px-4 py-2 sm:px-8 sm:py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-xl font-medium"
+                      className="px-3 py-2 sm:px-8 sm:py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-xl font-medium"
                     >
                       ← Retour
                     </button>
