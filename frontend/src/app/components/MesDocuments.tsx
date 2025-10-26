@@ -820,22 +820,23 @@ export default function MesDocuments() {
               {/* Canvas caché - disponible pour TOUTES les étapes */}
               <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-             {/* ÉTAPE 1 : CAMÉRA - VERSION OPTIMISÉE MOBILE */}
+             
+{/* ÉTAPE 1 : CAMÉRA - VERSION AMÉLIORÉE AVEC GRANDE ZONE */}
               {scanStep === 'camera' && (
                 <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-sm sm:text-2xl text-gray-700 mb-2 sm:mb-6">
+                    <p className="text-sm sm:text-2xl text-gray-700 mb-2 sm:mb-4">
                       Positionnez votre document devant la caméra
                     </p>
                   </div>
 
-                  {/* Vidéo en direct - HAUTEUR RÉDUITE POUR MOBILE */}
+                  {/* Vidéo en direct - ZONE AGRANDIE POUR MEILLEUR CADRAGE */}
                   <div 
-                    className="relative bg-black rounded-lg overflow-hidden" 
+                    className="relative rounded-lg overflow-hidden" 
                     style={{ 
-                      aspectRatio: '4/3', // Changé de 16/9 à 4/3 pour mobile
-                      minHeight: '250px', // Réduit de 50vh à valeur fixe
-                      maxHeight: '40vh', // Réduit de 70vh à 40vh
+                      aspectRatio: '3/4', // Format portrait pour documents
+                      minHeight: '400px', // Zone plus grande pour bien voir
+                      maxHeight: '55vh', // Descend bien vers le bas sans déborder
                       width: '100%'
                     }}
                   >
@@ -846,20 +847,13 @@ export default function MesDocuments() {
                       className="w-full h-full object-cover"
                     />
 
-                    {/* Overlay guide - PLUS COMPACT */}
+                    {/* Overlay guide - SEULEMENT LE CADRE */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                       <div className="border-2 sm:border-4 border-[#E6A930] border-dashed rounded-lg w-[85%] sm:w-[90%] h-[80%] sm:h-[85%]"></div>
                     </div>
-
-                    {/* Indicateur d'aide compact sur mobile */}
-                    <div className="absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4">
-                      <div className="bg-black bg-opacity-60 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base text-center">
-                        📄 Cadrez votre document dans le rectangle
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Bouton Capturer - PLUS COMPACT SUR MOBILE */}
+                  {/* Bouton Capturer - COMPACT */}
                   <div className="flex justify-center pt-2 sm:pt-4">
                     <button
                       onClick={capturePhoto}
@@ -881,7 +875,7 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ÉTAPE 2 : PRÉVISUALISATION - VERSION OPTIMISÉE MOBILE */}
+              {/* ÉTAPE 2 : PRÉVISUALISATION - VERSION OPTIMISÉE */}
               {scanStep === 'preview' && capturedImage && (
                 <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
@@ -890,12 +884,12 @@ export default function MesDocuments() {
                     </p>
                   </div>
 
-                  {/* Image capturée - HAUTEUR CONTRÔLÉE POUR MOBILE */}
+                  {/* Image capturée - MÊME TAILLE QUE LA CAMÉRA */}
                   <div className="bg-gray-100 rounded-lg p-2 sm:p-4">
                     <div 
                       className="mx-auto overflow-hidden rounded-lg shadow-lg"
                       style={{
-                        maxHeight: '40vh', // Même hauteur que la caméra
+                        maxHeight: '55vh', // Même hauteur que la zone caméra
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -906,14 +900,14 @@ export default function MesDocuments() {
                         alt="Document capturé"
                         className="max-w-full h-auto"
                         style={{
-                          maxHeight: '40vh',
+                          maxHeight: '55vh',
                           objectFit: 'contain'
                         }}
                       />
                     </div>
                   </div>
 
-                  {/* Boutons - PLUS COMPACTS SUR MOBILE */}
+                  {/* Boutons - COMPACTS */}
                   <div className="flex gap-2 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={retakePhoto}
