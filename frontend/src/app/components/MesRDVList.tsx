@@ -966,15 +966,15 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   {/* Légende */}
                   <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 p-3 bg-gray-50 rounded-lg text-xs sm:text-sm">
                     <div className="flex items-center">
-                      <div className="w-4 h-4 bg-green-500 rounded mr-2"></div>
+                      <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded mr-2 shadow-sm"></div>
                       <span className="text-gray-700">Disponible</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-4 h-4 bg-[#006D65] rounded mr-2"></div>
+                      <div className="w-4 h-4 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded mr-2 shadow-sm"></div>
                       <span className="text-gray-700">Sélectionné</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-4 h-4 bg-gray-300 rounded mr-2"></div>
+                      <div className="w-4 h-4 bg-gray-100 border-2 border-gray-200 rounded mr-2"></div>
                       <span className="text-gray-700">Occupé</span>
                     </div>
                   </div>
@@ -997,12 +997,12 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                           }}
                           disabled={!isAvailable || loadingSlots}
                           className={`
-                            relative p-3 sm:p-4 rounded-lg font-semibold text-xs sm:text-sm transition-all duration-200
+                            relative p-3 sm:p-4 rounded-xl text-center font-medium transition-all duration-200
                             ${isSelected 
-                              ? 'bg-[#006D65] text-white shadow-lg scale-105 ring-2 ring-[#006D65] ring-offset-2' 
+                              ? 'bg-gradient-to-br from-[#006D65] to-[#005a54] text-white shadow-lg transform scale-105 ring-2 ring-[#006D65] ring-offset-2' 
                               : isAvailable
-                                ? 'bg-green-50 text-green-700 border-2 border-green-200 hover:bg-green-100 hover:shadow-md hover:scale-105'
-                                : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-60'
+                                ? 'bg-white text-gray-700 border-2 border-gray-300 hover:border-[#006D65] hover:shadow-md hover:scale-105'
+                                : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50'
                             }
                           `}
                         >
@@ -1017,7 +1017,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                               <span className="text-xs mt-1">Occupé</span>
                             )}
                             {isCurrentSlot && !isSelected && (
-                              <span className="text-xs mt-1 text-blue-600">Actuel</span>
+                              <span className="text-xs mt-1 text-[#006D65] font-semibold">Actuel</span>
                             )}
                           </div>
                         </button>
