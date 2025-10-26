@@ -5,7 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { NotificationsService } from '../notifications/notifications.service'; // NOUVEAU
+import { NotificationsService } from '../notifications/notifications.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 
@@ -13,18 +13,18 @@ import { UpdateAppointmentDto } from './dto/update-appointment.dto';
 export class AppointmentsService {
   constructor(
     private prisma: PrismaService,
-    private notificationsService: NotificationsService // NOUVEAU
+    private notificationsService: NotificationsService
   ) { }
 
 
 
-  // 🆕 NOUVELLE MÉTHODE - Vérifier la disponibilité des créneaux pour une date
+  //  Vérifier la disponibilité des créneaux pour une date
   async getDateAvailability(date: string, consultationTypeName?: string) {
     try {
       const where: any = {
         appointmentDate: new Date(date),
         status: {
-          not: 'cancelled'  // ✅ Exclure uniquement les annulés
+          not: 'cancelled'
         }
       };
 
@@ -37,35 +37,31 @@ export class AppointmentsService {
           ct => ct.name.toLowerCase() === consultationTypeName.toLowerCase()
         );
 
-        console.log('🔍 Service reçu:', consultationTypeName);
-        console.log('🔍 ConsultationType trouvé:', consultationType);
+
 
         if (consultationType) {
           where.consultationTypeId = consultationType.id;
-          console.log('✅ Filtre appliqué avec ID:', consultationType.id);
+
         }
       }
-
-      // 🆕 DEBUG - Afficher le WHERE complet
-      console.log('🔍 Requête WHERE complète:', JSON.stringify(where, null, 2));
 
       const appointments = await this.prisma.appointment.findMany({
         where,
         select: {
           appointmentTime: true,
-          status: true,  // 🆕 Ajouter le statut
+          status: true,
           consultationType: {
             select: { name: true }
           }
         }
       });
 
-      // 🆕 DEBUG - Afficher tous les RDV trouvés
-      console.log('🔍 RDV trouvés:', appointments);
+
+
 
       const unavailableSlots = appointments.map(apt => apt.appointmentTime);
 
-      console.log('✅ Créneaux occupés retournés:', unavailableSlots);
+
 
       return {
         date,
