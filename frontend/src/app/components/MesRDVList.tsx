@@ -520,7 +520,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         </div>
 
         {/* Informations supplémentaires si disponibles - TAILLE RÉDUITE MOBILE */}
-        {(appointment.chiefComplaint || appointment.notes) && (
+        {(appointment.chiefComplaint || (appointment.notes && !appointment.notes.includes('Non assuré') && !appointment.notes.includes('NON_RENSEIGNE'))) && (
           <div className="space-y-3 mb-4">
             {appointment.chiefComplaint && (
               <div className="p-3 sm:p-4 bg-gray-50 rounded-lg border-l-4 border-[#006D65]">
@@ -538,7 +538,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
               </div>
             )}
 
-            {appointment.notes && (
+            {appointment.notes && !appointment.notes.includes('Non assuré') && !appointment.notes.includes('NON_RENSEIGNE') && (
               <div className="p-3 sm:p-4 bg-yellow-50 rounded-lg border-l-4 border-[#E6A930]">
                 <p className="text-sm sm:text-base text-gray-700">
                   <span className="font-semibold text-gray-900">Notes :</span> {appointment.notes}
