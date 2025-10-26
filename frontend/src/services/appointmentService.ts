@@ -102,11 +102,9 @@ class AppointmentService {
         ? `/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
         : `/appointments/availability/${date}`;
 
-      console.log('🔍 URL appelée:', url);  // 🆕 DEBUG
+
 
       const response = await apiClient.get(url);
-
-      console.log('🔍 Réponse backend:', response.data);  // 🆕 DEBUG
 
       return response.data.unavailableSlots || [];
     } catch (error: any) {
@@ -117,7 +115,7 @@ class AppointmentService {
 
   // Convertir les données du formulaire vers le format backend
   convertFormDataToBackend(formData: any): CreateAppointmentRequest {
-    
+
     const serviceNames: { [key: string]: string } = {
       // ✅ Consultations validées (5)
       'consultation-generale': 'Consultation générale',
@@ -136,14 +134,10 @@ class AppointmentService {
 
     if (!consultationTypeName) {
       console.error('❌ Service non trouvé:', formData.selectedService);
-      console.log('Services disponibles:', Object.keys(serviceNames));
+
       throw new Error(`Service non reconnu: ${formData.selectedService}`);
     }
 
-    console.log('✅ Service mappé avec succès:', {
-      serviceId: formData.selectedService,
-      consultationTypeName: consultationTypeName
-    });
 
     // 🆕 Construction des notes avec les nouvelles informations
     const paymentInfo = formData.paymentMethod === 'online' ? 'Paiement en ligne' : 'Paiement sur place';
