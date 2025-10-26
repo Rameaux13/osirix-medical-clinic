@@ -844,8 +844,6 @@ export default function MesDocuments() {
                     </div>
                   </div>
 
-
-
                   {/* Bouton Capturer */}
                   <div className="flex justify-center">
                     <button
@@ -896,9 +894,7 @@ export default function MesDocuments() {
                     </button>
                     <button
                       onClick={() => {
-                        console.log('📸 Image capturée:', capturedImage ? 'OUI' : 'NON');
-                        setEditedImage(capturedImage); // Copier l'image pour édition
-                        console.log('✅ editedImage définie');
+                        setEditedImage(capturedImage);
                         setScanStep('edit');
                       }}
                       className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-colors text-base sm:text-xl font-medium"
@@ -910,15 +906,10 @@ export default function MesDocuments() {
               )}
 
               {/* ÉTAPE 2.5 : ÉDITION AVEC ZOOM */}
-              {scanStep === 'edit' && (() => {
-                console.log('🎨 Rendu section édition, editedImage:', editedImage ? 'EXISTE' : 'NULL');
-                console.log('🎨 Canvas ref:', canvasRef.current ? 'EXISTE' : 'NULL');
-                return null;
-              })()}
               {scanStep === 'edit' && editedImage && (
-                <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
-                    <p className="text-lg sm:text-2xl text-gray-700 mb-4 sm:mb-6">
+                    <p className="text-base sm:text-2xl text-gray-700 mb-2 sm:mb-6">
                       Ajustez votre document
                     </p>
                   </div>
@@ -968,6 +959,7 @@ export default function MesDocuments() {
                         draggable={false}
                       />
 
+                      {/* Indicateur de zoom */}
                       {zoomLevel > 1 && (
                         <div className="absolute top-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
                           {Math.round(zoomLevel * 100)}%
@@ -984,7 +976,7 @@ export default function MesDocuments() {
                       <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         🔍 Zoom: {Math.round(zoomLevel * 100)}%
                       </label>
-                      <div className="flex items-center gap-2 sm:gap-4">
+                      <div className="flex items-center gap-1 sm:gap-4">
                         <button
                           onClick={() => {
                             const newZoom = Math.max(0.5, zoomLevel - 0.25);
@@ -1041,7 +1033,7 @@ export default function MesDocuments() {
                       <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         🔄 Rotation
                       </label>
-                      <div className="flex items-center gap-2 sm:gap-4">
+                      <div className="flex items-center gap-1 sm:gap-4">
                         <button
                           onClick={() => setRotation(prev => prev - 90)}
                           className="px-2 py-1 sm:px-6 sm:py-3 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-lg font-medium transition-colors"
@@ -1070,7 +1062,7 @@ export default function MesDocuments() {
 
                     {/* Luminosité */}
                     <div>
-                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         ☀️ Luminosité: {brightness}%
                       </label>
                       <input
@@ -1079,13 +1071,13 @@ export default function MesDocuments() {
                         max="150"
                         value={brightness}
                         onChange={(e) => setBrightness(Number(e.target.value))}
-                        className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="w-full h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
                     </div>
 
                     {/* Contraste */}
                     <div>
-                      <label className="block text-sm sm:text-lg font-medium text-gray-700 mb-2">
+                      <label className="block text-xs sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">
                         🎨 Contraste: {contrast}%
                       </label>
                       <input
@@ -1094,7 +1086,7 @@ export default function MesDocuments() {
                         max="150"
                         value={contrast}
                         onChange={(e) => setContrast(Number(e.target.value))}
-                        className="flex-1 h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                        className="w-full h-1 sm:h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                       />
                     </div>
 
@@ -1116,7 +1108,7 @@ export default function MesDocuments() {
                   </div>
 
                   {/* Boutons navigation */}
-                  <div className="flex gap-3 sm:gap-4 justify-center pt-4">
+                  <div className="flex gap-3 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={() => {
                         setScanStep('preview');
@@ -1126,19 +1118,19 @@ export default function MesDocuments() {
                         setZoomLevel(1);
                         setPanPosition({ x: 0, y: 0 });
                       }}
-                      className="px-6 py-3 sm:px-8 sm:py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-base sm:text-xl font-medium"
+                      className="px-4 py-2 sm:px-8 sm:py-4 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-xl font-medium"
                     >
                       ← Retour
                     </button>
                     <button
                       onClick={async () => {
-                        await applyImageEdits(); // Appliquer les modifications
-                        await new Promise(resolve => setTimeout(resolve, 100)); // Attendre 100ms
-                        setScanStep('save'); // Passer à save
+                        await applyImageEdits();
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                        setScanStep('save');
                       }}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-colors text-base sm:text-xl font-medium"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-colors text-sm sm:text-xl font-medium"
                     >
-                      ✅ Terminer l'édition
+                      ✅ Terminer
                     </button>
                   </div>
                 </div>
