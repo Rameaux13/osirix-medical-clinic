@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIRIX - Accueil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #F8F9FA;
+            color: #343A40;
+            line-height: 1.5;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+
+        nav {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 96px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 36px;
+            font-weight: 900;
+            color: #006D65;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #343A40;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #006D65;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-outline {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #006D65;
+            background: transparent;
+            border: 2px solid #006D65;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #006D65;
+            color: white;
+        }
+
+        .btn-primary {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #E6A930 0%, #d49414 100%);
+            border: none;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 96px;
+            height: 600px;
+            background: linear-gradient(135deg, rgba(0, 109, 101, 0.9) 0%, rgba(0, 65, 61, 0.9) 100%),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23006D65" width="1200" height="600"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 24px;
+        }
+
+        .hero-content h2 {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            text-align: center;
+            color: #006D65;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            text-align: center;
+            color: #495057;
+            margin-bottom: 64px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .service-card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #E6A930 0%, #d49414 100%);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #006D65;
+            margin-bottom: 16px;
+        }
+
+        .service-card p {
+            font-size: 16px;
+            color: #495057;
+            line-height: 1.75;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            text-align: center;
+        }
+
+        .team-photo {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 9999px;
+            margin: 0 auto 24px;
+            box-shadow: 0 4px 12px rgba(0, 109, 101, 0.15);
+        }
+
+        .team-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #343A40;
+            margin-bottom: 8px;
+        }
+
+        .team-card p {
+            font-size: 16px;
+            color: #E6A930;
+            font-weight: 600;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 24px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .star {
+            width: 24px;
+            height: 24px;
+            background: #E6A930;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .testimonial-card p {
+            font-size: 16px;
+            color: #495057;
+            font-style: italic;
+            margin-bottom: 24px;
+            line-height: 1.75;
+        }
+
+        .testimonial-author {
+            font-size: 16px;
+            font-weight: 700;
+            color: #006D65;
+        }
+
+        /* Feedback Section */
+        .feedback {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #F8F9FA;
+            padding: 48px;
+            border-radius: 12px;
+            border: 1px solid #E9ECEF;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #006D65;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            background: white;
+            border: 2px solid #DEE2E6;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #006D65;
+            box-shadow: 0 0 0 3px rgba(0, 109, 101, 0.1);
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .rating-input {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Footer */
+        footer {
+            background: #343A40;
+            color: white;
+            padding: 64px 24px 32px;
+        }
+
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 64px;
+            margin-bottom: 48px;
+        }
+
+        .footer-section h5 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 16px;
+            color: #ADB5BD;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .footer-section a:hover {
+            color: #E6A930;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid #495057;
+            color: #ADB5BD;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #495057;
+            border-radius: 9999px;
+            transition: background 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #E6A930;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo-container">
+                <div class="logo"></div>
+                <div class="logo-text">OSIRIX</div>
+            </div>
+            <div class="nav-links">
+                <a href="#accueil" class="nav-link">Accueil</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#avis" class="nav-link">Avis</a>
+                <a href="#rendez-vous" class="nav-link">Rendez-vous</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="#" class="btn-outline">Connexion</a>
+                <a href="#" class="btn-primary">Inscription</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h2>Votre santé, notre priorité</h2>
+            <p>Prenez rendez-vous en ligne et bénéficiez de soins médicaux de qualité avec notre équipe de professionnels</p>
+            <a href="#" class="btn-primary" style="display: inline-block; font-size: 20px; padding: 16px 32px;">Prendre rendez-vous</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <h2 class="section-title">Nos Services</h2>
+        <p class="section-subtitle">Une gamme complète de soins médicaux pour toute la famille</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Consultation Générale</h3>
+                <p>Consultations médicales complètes pour le diagnostic et le traitement de diverses affections</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Analyses Médicales</h3>
+                <p>Laboratoire d'analyses complet avec résultats rapides et fiables</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Cardiologie</h3>
+                <p>Examens et consultations spécialisées en santé cardiovasculaire</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Pédiatrie</h3>
+                <p>Soins médicaux dédiés aux enfants et adolescents</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Radiologie</h3>
+                <p>Imagerie médicale moderne pour un diagnostic précis</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"></div>
+                <h3>Urgences</h3>
+                <p>Service d'urgence disponible 24h/24 et 7j/7</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <h2 class="section-title">Notre Équipe Médicale</h2>
+        <p class="section-subtitle">Des professionnels dévoués à votre service</p>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo"></div>
+                <h4>Dr. Sarah Martin</h4>
+                <p>Médecin Généraliste</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"></div>
+                <h4>Dr. Ahmed Benali</h4>
+                <p>Cardiologue</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"></div>
+                <h4>Dr. Sophie Dubois</h4>
+                <p>Pédiatre</p>
+            </div>
+            <div class="team-card">
+                <div class="team-photo"></div>
+                <h4>Dr. Marc Laurent</h4>
+                <p>Radiologue</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="avis">
+        <h2 class="section-title">Avis de nos Patients</h2>
+        <p class="section-subtitle">Ce que disent nos patients de nos services</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                </div>
+                <p>"Excellente clinique ! Le personnel est très professionnel et attentionné. J'ai été pris en charge rapidement et les soins étaient de qualité."</p>
+                <div class="testimonial-author">Marie Dupont</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                </div>
+                <p>"Je recommande vivement cette clinique. Les médecins sont compétents et à l'écoute. Le système de prise de rendez-vous en ligne est très pratique."</p>
+                <div class="testimonial-author">Pierre Lefevre</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Form Section -->
+    <section class="feedback" id="rendez-vous">
+        <h2 class="section-title">Laissez-nous votre Avis</h2>
+        <p class="section-subtitle">Votre opinion compte pour nous</p>
+        <form class="feedback-form">
+            <div class="form-group">
+                <label class="form-label">Nom complet *</label>
+                <input type="text" class="form-input" placeholder="Votre nom" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email *</label>
+                <input type="email" class="form-input" placeholder="votre.email@exemple.com" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Note *</label>
+                <div class="rating-input">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Votre message *</label>
+                <textarea class="form-input" placeholder="Partagez votre expérience..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; cursor: pointer; border: none;">Envoyer mon avis</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h5>À propos</h5>
+                <p>OSIRIX est une clinique médicale moderne offrant des soins de qualité dans un environnement accueillant.</p>
+            </div>
+            <div class="footer-section">
+                <h5>Contact</h5>
+                <p>📍 123 Avenue de la Santé, Paris</p>
+                <p>📞 +33 1 23 45 67 89</p>
+                <p>✉️ contact@osirix.fr</p>
+            </div>
+            <div class="footer-section">
+                <h5>Réseaux Sociaux</h5>
+                <div class="social-links">
+                    <div class="social-icon"></div>
+                    <div class="social-icon"></div>
+                    <div class="social-icon"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 OSIRIX. Tous droits réservés.
+        </div>
+    </footer>
+</body>
+</html>

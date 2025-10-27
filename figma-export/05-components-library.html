@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIRIX - Bibliothèque de Composants</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #F8F9FA;
+            color: #343A40;
+            padding: 40px 24px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            color: #006D65;
+            margin-bottom: 16px;
+        }
+
+        .header p {
+            font-size: 20px;
+            color: #868E96;
+        }
+
+        .component-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .component-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #343A40;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #E9ECEF;
+        }
+
+        .component-grid {
+            display: grid;
+            gap: 32px;
+        }
+
+        .component-item {
+            padding: 24px;
+            background: #F8F9FA;
+            border-radius: 12px;
+        }
+
+        .component-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #006D65;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* === COLOR PALETTE === */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .color-swatch {
+            text-align: center;
+        }
+
+        .color-box {
+            height: 120px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-primary { background: #006D65; }
+        .color-secondary { background: #E6A930; }
+        .color-neutral-dark { background: #343A40; }
+        .color-neutral-light { background: #F8F9FA; border: 1px solid #DEE2E6; }
+        .color-success { background: #10B981; }
+        .color-error { background: #EF4444; }
+        .color-warning { background: #F59E0B; }
+        .color-info { background: #3B82F6; }
+
+        .color-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #343A40;
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-size: 14px;
+            color: #868E96;
+            font-family: monospace;
+        }
+
+        /* === TYPOGRAPHY === */
+        .typo-sample {
+            margin-bottom: 24px;
+        }
+
+        .typo-sample h1 { font-size: 60px; font-weight: 900; color: #343A40; margin-bottom: 8px; }
+        .typo-sample h2 { font-size: 48px; font-weight: 800; color: #343A40; margin-bottom: 8px; }
+        .typo-sample h3 { font-size: 36px; font-weight: 700; color: #343A40; margin-bottom: 8px; }
+        .typo-sample h4 { font-size: 24px; font-weight: 700; color: #343A40; margin-bottom: 8px; }
+        .typo-sample h5 { font-size: 20px; font-weight: 600; color: #343A40; margin-bottom: 8px; }
+        .typo-sample p { font-size: 16px; font-weight: 400; color: #495057; }
+
+        /* === BUTTONS === */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E6A930 0%, #d49414 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #006D65;
+            border: 2px solid #006D65;
+        }
+
+        .btn-outline:hover {
+            background: #006D65;
+            color: white;
+        }
+
+        .btn-success {
+            background: #10B981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 18px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* === FORM ELEMENTS === */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #006D65;
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            background: white;
+            border: 2px solid #DEE2E6;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #006D65;
+            box-shadow: 0 0 0 3px rgba(0, 109, 101, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* === CARDS === */
+        .card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            font-size: 20px;
+            font-weight: 700;
+            color: #006D65;
+            margin-bottom: 16px;
+        }
+
+        .card-body {
+            font-size: 16px;
+            color: #495057;
+            line-height: 1.6;
+        }
+
+        .card-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #E9ECEF;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* === BADGES === */
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            margin-right: 8px;
+        }
+
+        .badge-success { background: #D1FAE5; color: #065F46; }
+        .badge-warning { background: #FEF3C7; color: #92400E; }
+        .badge-error { background: #FEE2E2; color: #991B1B; }
+        .badge-info { background: #DBEAFE; color: #1E40AF; }
+
+        /* === ALERTS === */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 9999px;
+            flex-shrink: 0;
+        }
+
+        .alert-success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #10B981;
+        }
+
+        .alert-success .alert-icon { background: #10B981; }
+
+        .alert-error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #EF4444;
+        }
+
+        .alert-error .alert-icon { background: #EF4444; }
+
+        .alert-warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #F59E0B;
+        }
+
+        .alert-warning .alert-icon { background: #F59E0B; }
+
+        .alert-info {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border: 1px solid #3B82F6;
+        }
+
+        .alert-info .alert-icon { background: #3B82F6; }
+
+        /* === STATS === */
+        .stat-card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: #343A40;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #868E96;
+        }
+
+        /* === AVATAR === */
+        .avatar {
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+        }
+
+        .avatar-sm { width: 40px; height: 40px; }
+        .avatar-md { width: 64px; height: 64px; }
+        .avatar-lg { width: 96px; height: 96px; }
+
+        /* === SPACING === */
+        .spacing-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .spacing-item {
+            background: #006D65;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .sp-4 { height: 4px; }
+        .sp-8 { height: 8px; }
+        .sp-12 { height: 12px; }
+        .sp-16 { height: 16px; }
+        .sp-24 { height: 24px; }
+        .sp-32 { height: 32px; }
+        .sp-48 { height: 48px; }
+
+        /* === SHADOWS === */
+        .shadow-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .shadow-box {
+            height: 100px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #343A40;
+        }
+
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>OSIRIX Design System</h1>
+            <p>Bibliothèque complète de composants UI</p>
+        </div>
+
+        <!-- COLORS -->
+        <div class="component-section">
+            <h2 class="component-title">Palette de Couleurs</h2>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-box color-primary"></div>
+                    <div class="color-name">Primary</div>
+                    <div class="color-hex">#006D65</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-secondary"></div>
+                    <div class="color-name">Secondary</div>
+                    <div class="color-hex">#E6A930</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-neutral-dark"></div>
+                    <div class="color-name">Neutral Dark</div>
+                    <div class="color-hex">#343A40</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-neutral-light"></div>
+                    <div class="color-name">Neutral Light</div>
+                    <div class="color-hex">#F8F9FA</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-success"></div>
+                    <div class="color-name">Success</div>
+                    <div class="color-hex">#10B981</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-error"></div>
+                    <div class="color-name">Error</div>
+                    <div class="color-hex">#EF4444</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-warning"></div>
+                    <div class="color-name">Warning</div>
+                    <div class="color-hex">#F59E0B</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box color-info"></div>
+                    <div class="color-name">Info</div>
+                    <div class="color-hex">#3B82F6</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TYPOGRAPHY -->
+        <div class="component-section">
+            <h2 class="component-title">Typographie</h2>
+            <div class="typo-sample">
+                <div class="component-label">Heading 1 - 60px / 900</div>
+                <h1>Votre santé, notre priorité</h1>
+            </div>
+            <div class="typo-sample">
+                <div class="component-label">Heading 2 - 48px / 800</div>
+                <h2>Nos Services Médicaux</h2>
+            </div>
+            <div class="typo-sample">
+                <div class="component-label">Heading 3 - 36px / 700</div>
+                <h3>Bienvenue sur OSIRIX</h3>
+            </div>
+            <div class="typo-sample">
+                <div class="component-label">Heading 4 - 24px / 700</div>
+                <h4>Rendez-vous à venir</h4>
+            </div>
+            <div class="typo-sample">
+                <div class="component-label">Heading 5 - 20px / 600</div>
+                <h5>Mes Informations</h5>
+            </div>
+            <div class="typo-sample">
+                <div class="component-label">Body Text - 16px / 400</div>
+                <p>OSIRIX est une plateforme médicale moderne qui vous permet de gérer vos rendez-vous, prescriptions et analyses en ligne.</p>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="component-section">
+            <h2 class="component-title">Boutons</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="component-label">Bouton Principal</div>
+                    <button class="btn btn-primary">Prendre rendez-vous</button>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">Bouton Outline</div>
+                    <button class="btn btn-outline">Se connecter</button>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">Bouton Success</div>
+                    <button class="btn btn-success">Confirmer</button>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">Bouton Danger</div>
+                    <button class="btn btn-danger">Annuler</button>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">Tailles de Boutons</div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button class="btn btn-primary btn-sm">Petit</button>
+                        <button class="btn btn-primary">Moyen</button>
+                        <button class="btn btn-primary btn-lg">Grand</button>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="component-label">État Désactivé</div>
+                    <button class="btn btn-primary" disabled>Bouton désactivé</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FORM ELEMENTS -->
+        <div class="component-section">
+            <h2 class="component-title">Éléments de Formulaire</h2>
+            <div class="component-grid">
+                <div class="component-item">
+                    <div class="form-group">
+                        <label class="form-label">Champ de texte</label>
+                        <input type="text" class="form-input" placeholder="Entrez votre nom">
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" placeholder="votre.email@exemple.com">
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="form-group">
+                        <label class="form-label">Sélection</label>
+                        <select class="form-select">
+                            <option>Consultation Générale</option>
+                            <option>Cardiologie</option>
+                            <option>Pédiatrie</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="component-item">
+                    <div class="form-group">
+                        <label class="form-label">Zone de texte</label>
+                        <textarea class="form-textarea" placeholder="Décrivez vos symptômes..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARDS -->
+        <div class="component-section">
+            <h2 class="component-title">Cartes</h2>
+            <div class="card">
+                <div class="card-header">Consultation Générale</div>
+                <div class="card-body">
+                    Rendez-vous le 28 Janvier 2025 à 14:30 avec Dr. Sarah Martin
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-sm btn-outline">Modifier</button>
+                    <button class="btn btn-sm btn-danger">Annuler</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- BADGES -->
+        <div class="component-section">
+            <h2 class="component-title">Badges de Statut</h2>
+            <div class="component-item">
+                <span class="badge badge-success">Confirmé</span>
+                <span class="badge badge-warning">En attente</span>
+                <span class="badge badge-error">Annulé</span>
+                <span class="badge badge-info">Nouveau</span>
+            </div>
+        </div>
+
+        <!-- ALERTS -->
+        <div class="component-section">
+            <h2 class="component-title">Alertes</h2>
+            <div class="alert alert-success">
+                <div class="alert-icon"></div>
+                <div>Votre rendez-vous a été confirmé avec succès !</div>
+            </div>
+            <div class="alert alert-error">
+                <div class="alert-icon"></div>
+                <div>Une erreur s'est produite lors de l'envoi du formulaire.</div>
+            </div>
+            <div class="alert alert-warning">
+                <div class="alert-icon"></div>
+                <div>Votre rendez-vous nécessite une confirmation.</div>
+            </div>
+            <div class="alert alert-info">
+                <div class="alert-icon"></div>
+                <div>Nouvelle notification reçue.</div>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="component-section">
+            <h2 class="component-title">Cartes Statistiques</h2>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Rendez-vous ce mois</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AVATARS -->
+        <div class="component-section">
+            <h2 class="component-title">Avatars</h2>
+            <div style="display: flex; gap: 24px; align-items: center;">
+                <div>
+                    <div class="component-label">Petit (40px)</div>
+                    <div class="avatar avatar-sm"></div>
+                </div>
+                <div>
+                    <div class="component-label">Moyen (64px)</div>
+                    <div class="avatar avatar-md"></div>
+                </div>
+                <div>
+                    <div class="component-label">Grand (96px)</div>
+                    <div class="avatar avatar-lg"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPACING -->
+        <div class="component-section">
+            <h2 class="component-title">Échelle d'Espacement</h2>
+            <div class="spacing-demo">
+                <div><div class="component-label">4px</div><div class="spacing-item sp-4"></div></div>
+                <div><div class="component-label">8px</div><div class="spacing-item sp-8"></div></div>
+                <div><div class="component-label">12px</div><div class="spacing-item sp-12"></div></div>
+                <div><div class="component-label">16px</div><div class="spacing-item sp-16"></div></div>
+                <div><div class="component-label">24px</div><div class="spacing-item sp-24"></div></div>
+                <div><div class="component-label">32px</div><div class="spacing-item sp-32"></div></div>
+                <div><div class="component-label">48px</div><div class="spacing-item sp-48"></div></div>
+            </div>
+        </div>
+
+        <!-- SHADOWS -->
+        <div class="component-section">
+            <h2 class="component-title">Ombres</h2>
+            <div class="shadow-demo">
+                <div class="shadow-box shadow-sm">Small</div>
+                <div class="shadow-box shadow-md">Medium</div>
+                <div class="shadow-box shadow-lg">Large</div>
+                <div class="shadow-box shadow-xl">Extra Large</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

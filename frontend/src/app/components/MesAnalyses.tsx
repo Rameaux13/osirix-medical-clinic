@@ -133,29 +133,21 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
   // Rendu d'une analyse
   const renderAnalysisItem = (analysis: LabOrder) => (
-    <div key={analysis.id} className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50">
+    <div key={analysis.id} className="border border-gray-200 rounded-xl p-4 md:p-6 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           {/* En-tête */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center mb-3">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-[#006D65] rounded-full flex items-center justify-center">
                 <Stethoscope className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 text-xl">{analysis.examType}</h4>
-                <p className="text-base text-gray-600">
+                <h4 className="font-semibold text-gray-900 text-base md:text-xl">{analysis.examType}</h4>
+                <p className="text-sm md:text-base text-gray-600">
                   Prescrit le {analysesService.formatDate(analysis.orderDate)}
                 </p>
               </div>
-            </div>
-            <div className="flex flex-col items-end space-y-2">
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${analysesService.getStatusColor(analysis.status)}`}>
-                {analysesService.translateStatus(analysis.status)}
-              </span>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${analysesService.getPriorityColor(analysis.priority)}`}>
-                {analysesService.translatePriority(analysis.priority)}
-              </span>
             </div>
           </div>
 
@@ -166,10 +158,10 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                 <User className="w-4 h-4 text-white" />
               </div>
               <div>
-                <p className="text-base font-medium text-gray-900">
+                <p className="text-sm md:text-base font-medium text-gray-900">
                   {analysesService.formatDoctorName(analysis.doctor)}
                 </p>
-                <p className="text-sm text-gray-600">Médecin prescripteur</p>
+                <p className="text-xs md:text-sm text-gray-600">Médecin prescripteur</p>
               </div>
             </div>
           )}
@@ -177,55 +169,22 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
           {/* Instructions */}
           {analysis.instructions && (
             <div className="mb-4">
-              <p className="text-sm text-gray-600 mb-2 font-medium">Instructions :</p>
-              <p className="text-base text-gray-800 bg-blue-50 rounded-lg p-3 border-l-4 border-blue-200">
+              <p className="text-xs md:text-sm text-gray-600 mb-2 font-medium">Instructions :</p>
+              <p className="text-sm md:text-base text-gray-800 bg-blue-50 rounded-lg p-3 border-l-4 border-blue-200">
                 {analysis.instructions}
               </p>
             </div>
           )}
 
-          {/* Résultats */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-sm text-gray-600 font-medium">Résultats :</p>
-              {analysis.resultsDate && (
-                <p className="text-sm text-gray-500">
-                  Disponibles le {analysesService.formatDate(analysis.resultsDate)}
-                </p>
-              )}
-            </div>
-
-          
-            {analysesService.hasResults(analysis) ? (
-              <div className="bg-green-50 rounded-lg p-3 border-l-4 border-green-200">
-                <p className="text-base text-gray-800 mb-3">{analysis.results}</p>
-                <button
-                  onClick={() => handleDownloadResults(analysis)}
-                  className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Télécharger les résultats</span>
-                </button>
-              </div>
-            ) : (
-              <div className="bg-orange-50 rounded-lg p-3 border-l-4 border-orange-200">
-                <p className="text-base text-orange-800">Résultats en attente</p>
-                <p className="text-sm text-orange-600 mt-1">
-                  {analysis.status === 'ordered' ? 'Analyse non encore effectuée' : 'Résultats en cours de traitement'}
-                </p>
-              </div>
-            )}
-          </div>
-
           {/* FICHIERS JOINTS */}
           {analysis.resultFiles && Array.isArray(analysis.resultFiles) && analysis.resultFiles.length > 0 && (
             <div className="mb-4">
-              <p className="text-sm text-gray-600 font-medium mb-2">Fichiers joints ({analysis.resultFiles.length}) :</p>
+              <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">Fichiers joints ({analysis.resultFiles.length}) :</p>
               <div className="space-y-2">
                 {analysis.resultFiles.map((filePath: any, index: number) => {
                   // Si c'est un string direct, utiliser directement
                   const fileUrl = typeof filePath === 'string' ? filePath : filePath.url;
-                  const fileName = typeof filePath === 'string' 
+                  const fileName = typeof filePath === 'string'
                     ? filePath.split('/').pop() || `Document ${index + 1}`
                     : filePath.name || `Document ${index + 1}`;
                   const fileType = typeof filePath === 'string'
@@ -240,28 +199,20 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                       rel="noopener noreferrer"
                       className="flex items-center space-x-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group"
                     >
-                      <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors">
-                        <FileText className="w-5 h-5 text-white" />
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors">
+                        <FileText className="w-4 h-4 md:w-5 md:h-5 text-white" />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-purple-900">{fileName}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs md:text-sm font-medium text-purple-900 truncate">{fileName}</p>
                         <p className="text-xs text-purple-600">{fileType}</p>
                       </div>
-                      <Download className="w-5 h-5 text-purple-600 group-hover:text-purple-800" />
+                      <Download className="w-4 h-4 md:w-5 md:h-5 text-purple-600 group-hover:text-purple-800 flex-shrink-0" />
                     </a>
                   );
                 })}
               </div>
             </div>
           )}
-
-          {/* Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-            <div className="flex items-center text-sm text-gray-500">
-              <Calendar className="w-4 h-4 mr-1" />
-              <span>ID: {analysis.id.substring(0, 8)}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -287,9 +238,9 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 border border-gray-200">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Mes Analyses Médicales</h2>
+        <h2 className="text-lg md:text-2xl font-semibold text-gray-900">Mes Analyses Médicales</h2>
         <Stethoscope className="w-6 h-6 text-[#006D65]" />
       </div>
 
@@ -304,31 +255,19 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
       {stats && (
         <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 rounded-xl p-6 mb-6 border border-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="flex justify-center">
             <div className="text-center">
-              <p className="text-2xl font-bold text-[#006D65]">{stats.total}</p>
-              <p className="text-sm text-gray-600 font-medium">Total analyses</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-green-600">{stats.byStatus.completed || 0}</p>
-              <p className="text-sm text-gray-600 font-medium">Terminées</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-blue-600">{stats.byStatus.in_progress || 0}</p>
-              <p className="text-sm text-gray-600 font-medium">En cours</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-orange-600">{stats.byStatus.ordered || 0}</p>
-              <p className="text-sm text-gray-600 font-medium">Prescrites</p>
+              <p className="text-3xl md:text-4xl font-bold text-[#006D65]">{stats.total}</p>
+              <p className="text-sm md:text-base text-gray-600 font-medium mt-2">Total analyses</p>
             </div>
           </div>
         </div>
       )}
 
-      <div className="flex items-center space-x-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-6">
         <button
           onClick={() => setSelectedView('recent')}
-          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+          className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ${
             selectedView === 'recent'
               ? 'bg-[#006D65] text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -338,7 +277,7 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
         </button>
         <button
           onClick={() => setSelectedView('all')}
-          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+          className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ${
             selectedView === 'all'
               ? 'bg-[#006D65] text-white'
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -357,12 +296,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Stethoscope className="w-8 h-8 text-gray-500" />
               </div>
-              <p className="text-xl text-gray-600 mb-2">Aucune analyse récente</p>
-              <p className="text-base text-gray-500 mb-6">Vos analyses prescrites apparaîtront ici</p>
+              <p className="text-lg md:text-xl text-gray-600 mb-2">Aucune analyse récente</p>
+              <p className="text-sm md:text-base text-gray-500 mb-6">Vos analyses prescrites apparaîtront ici</p>
               {onNavigateToNewAppointment && (
                 <button
                   onClick={onNavigateToNewAppointment}
-                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base"
+                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-sm md:text-base"
                 >
                   Prendre rendez-vous
                 </button>
@@ -377,12 +316,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Stethoscope className="w-8 h-8 text-gray-500" />
               </div>
-              <p className="text-xl text-gray-600 mb-2">Aucune analyse disponible</p>
-              <p className="text-base text-gray-500 mb-6">Vos analyses médicales apparaîtront ici une fois prescrites</p>
+              <p className="text-lg md:text-xl text-gray-600 mb-2">Aucune analyse disponible</p>
+              <p className="text-sm md:text-base text-gray-500 mb-6">Vos analyses médicales apparaîtront ici une fois prescrites</p>
               {onNavigateToNewAppointment && (
                 <button
                   onClick={onNavigateToNewAppointment}
-                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base"
+                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-sm md:text-base"
                 >
                   Prendre rendez-vous
                 </button>
@@ -390,16 +329,6 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
             </div>
           )
         )}
-      </div>
-
-      <div className="mt-6 text-center">
-        <button
-          onClick={loadAnalyses}
-          disabled={loading}
-          className="text-[#006D65] hover:text-[#005a54] font-medium text-base transition-colors disabled:opacity-50"
-        >
-          {loading ? 'Rechargement...' : 'Actualiser mes analyses'}
-        </button>
       </div>
     </div>
   );

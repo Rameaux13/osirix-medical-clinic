@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIRIX - Dashboard Patient</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #F8F9FA;
+            color: #343A40;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 40;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            border-bottom: 1px solid #E9ECEF;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            color: #006D65;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-bell {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: #F8F9FA;
+            border-radius: 9999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 20px;
+            height: 20px;
+            background: #EF4444;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-dropdown {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background: #F8F9FA;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 9999px;
+        }
+
+        .profile-info {
+            text-align: left;
+        }
+
+        .profile-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #343A40;
+        }
+
+        .profile-role {
+            font-size: 12px;
+            color: #868E96;
+        }
+
+        .btn-logout {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background: #EF4444;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 0 24px;
+        }
+
+        .nav-tab {
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #495057;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-tab:hover {
+            color: #006D65;
+        }
+
+        .nav-tab.active {
+            color: #006D65;
+            border-bottom-color: #006D65;
+        }
+
+        /* Main Content */
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #006D65;
+        }
+
+        .card-action {
+            font-size: 14px;
+            color: #006D65;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Patient Info Card */
+        .patient-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .patient-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 9999px;
+            flex-shrink: 0;
+        }
+
+        .patient-details {
+            flex: 1;
+        }
+
+        .patient-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #343A40;
+            margin-bottom: 8px;
+        }
+
+        .patient-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .meta-icon {
+            width: 16px;
+            height: 16px;
+            background: #E6A930;
+            border-radius: 4px;
+        }
+
+        /* Mini Calendar */
+        .mini-calendar {
+            background: #F8F9FA;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .calendar-month {
+            font-size: 16px;
+            font-weight: 700;
+            color: #343A40;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav-btn {
+            width: 28px;
+            height: 28px;
+            background: white;
+            border: 1px solid #DEE2E6;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .calendar-day-label {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #868E96;
+            padding: 8px 0;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #343A40;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .calendar-day.today {
+            background: #E6A930;
+            color: white;
+            font-weight: 700;
+        }
+
+        .calendar-day.has-appointment {
+            background: #006D65;
+            color: white;
+        }
+
+        .calendar-day.other-month {
+            color: #CED4DA;
+        }
+
+        /* Next Appointment Card */
+        .next-appointment {
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .appointment-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .appointment-type {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .appointment-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .appointment-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+        }
+
+        .detail-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+        }
+
+        /* Prescriptions Section */
+        .prescription-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .prescription-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: #F8F9FA;
+            border-radius: 8px;
+        }
+
+        .prescription-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #E6A930 0%, #d49414 100%);
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .prescription-info {
+            flex: 1;
+        }
+
+        .prescription-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #343A40;
+            margin-bottom: 4px;
+        }
+
+        .prescription-meta {
+            font-size: 14px;
+            color: #868E96;
+        }
+
+        .prescription-status {
+            padding: 6px 12px;
+            background: #10B981;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        /* Appointments Grid */
+        .appointments-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .appointment-card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .appointment-status {
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+        }
+
+        .status-confirmed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .appointment-type-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #006D65;
+            margin-bottom: 12px;
+        }
+
+        .appointment-details {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .detail-icon-small {
+            width: 16px;
+            height: 16px;
+            background: #E6A930;
+            border-radius: 4px;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: #F8F9FA;
+            color: #006D65;
+            border: 1px solid #DEE2E6;
+        }
+
+        .btn-edit:hover {
+            background: #006D65;
+            color: white;
+        }
+
+        .btn-cancel {
+            background: #FEE;
+            color: #EF4444;
+        }
+
+        .btn-cancel:hover {
+            background: #EF4444;
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #E9ECEF;
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 12px;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 900;
+            color: #343A40;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #868E96;
+        }
+
+        /* Section Titles */
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #343A40;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: #868E96;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: #868E96;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: #F8F9FA;
+            border-radius: 9999px;
+            margin: 0 auto 20px;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="logo"></div>
+                    <div class="logo-text">OSIRIX</div>
+                </div>
+
+                <div class="header-actions">
+                    <div class="notification-bell">
+                        <div class="notification-badge">3</div>
+                    </div>
+
+                    <div class="profile-dropdown">
+                        <div class="profile-avatar"></div>
+                        <div class="profile-info">
+                            <div class="profile-name">Jean Dupont</div>
+                            <div class="profile-role">Patient</div>
+                        </div>
+                    </div>
+
+                    <button class="btn-logout">Déconnexion</button>
+                </div>
+            </div>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab active">Dashboard</button>
+                <button class="nav-tab">Mes Rendez-vous</button>
+                <button class="nav-tab">Prendre RDV</button>
+                <button class="nav-tab">Analyses</button>
+                <button class="nav-tab">Documents</button>
+                <button class="nav-tab">Mon Profil</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-info">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">RDV à venir</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-info">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Prescriptions</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-info">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Analyses</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"></div>
+                <div class="stat-info">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Documents</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Column -->
+            <div>
+                <!-- Patient Info Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Mes Informations</h2>
+                        <a href="#" class="card-action">Modifier →</a>
+                    </div>
+                    <div class="patient-info">
+                        <div class="patient-avatar"></div>
+                        <div class="patient-details">
+                            <h3 class="patient-name">Jean Dupont</h3>
+                            <div class="patient-meta">
+                                <div class="meta-item">
+                                    <div class="meta-icon"></div>
+                                    <span>35 ans</span>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-icon"></div>
+                                    <span>Homme</span>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-icon"></div>
+                                    <span>Groupe A+</span>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-icon"></div>
+                                    <span>+33 6 12 34 56 78</span>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-icon"></div>
+                                    <span>jean.dupont@email.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescriptions Card -->
+                <div class="card" style="margin-top: 32px;">
+                    <div class="card-header">
+                        <h2 class="card-title">Prescriptions Actives</h2>
+                        <a href="#" class="card-action">Voir tout →</a>
+                    </div>
+                    <div class="prescription-list">
+                        <div class="prescription-item">
+                            <div class="prescription-icon"></div>
+                            <div class="prescription-info">
+                                <div class="prescription-name">Amoxicilline 500mg</div>
+                                <div class="prescription-meta">Dr. Martin • Prescrit le 15 Jan 2025</div>
+                            </div>
+                            <div class="prescription-status">Active</div>
+                        </div>
+                        <div class="prescription-item">
+                            <div class="prescription-icon"></div>
+                            <div class="prescription-info">
+                                <div class="prescription-name">Paracétamol 1000mg</div>
+                                <div class="prescription-meta">Dr. Benali • Prescrit le 10 Jan 2025</div>
+                            </div>
+                            <div class="prescription-status">Active</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Mini Calendar -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Calendrier</h2>
+                    </div>
+                    <div class="mini-calendar">
+                        <div class="calendar-header">
+                            <div class="calendar-month">Janvier 2025</div>
+                            <div class="calendar-nav">
+                                <button class="calendar-nav-btn">‹</button>
+                                <button class="calendar-nav-btn">›</button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-day-label">L</div>
+                            <div class="calendar-day-label">M</div>
+                            <div class="calendar-day-label">M</div>
+                            <div class="calendar-day-label">J</div>
+                            <div class="calendar-day-label">V</div>
+                            <div class="calendar-day-label">S</div>
+                            <div class="calendar-day-label">D</div>
+
+                            <div class="calendar-day other-month">29</div>
+                            <div class="calendar-day other-month">30</div>
+                            <div class="calendar-day other-month">31</div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day">6</div>
+                            <div class="calendar-day">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day">10</div>
+                            <div class="calendar-day">11</div>
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day has-appointment">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day">19</div>
+                            <div class="calendar-day has-appointment">20</div>
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day has-appointment">22</div>
+                            <div class="calendar-day">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day today">26</div>
+                            <div class="calendar-day">27</div>
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day">30</div>
+                            <div class="calendar-day">31</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Appointment -->
+                <div class="next-appointment" style="margin-top: 24px;">
+                    <div class="appointment-badge">PROCHAIN RENDEZ-VOUS</div>
+                    <div class="appointment-type">Consultation Générale</div>
+                    <div class="appointment-info">
+                        <div class="appointment-detail">
+                            <div class="detail-icon"></div>
+                            <span>Mardi 28 Janvier 2025</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <div class="detail-icon"></div>
+                            <span>14:30 - 15:00</span>
+                        </div>
+                        <div class="appointment-detail">
+                            <div class="detail-icon"></div>
+                            <span>Dr. Sarah Martin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div class="section-header">
+            <h2 class="section-title">Rendez-vous à venir</h2>
+            <p class="section-subtitle">Vos prochains rendez-vous médicaux</p>
+        </div>
+
+        <div class="appointments-grid">
+            <div class="appointment-card">
+                <div class="appointment-header">
+                    <div class="appointment-status status-confirmed">Confirmé</div>
+                </div>
+                <div class="appointment-type-label">Cardiologie</div>
+                <div class="appointment-details">
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>30 Jan 2025, 10:00</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>Dr. Ahmed Benali</span>
+                    </div>
+                </div>
+                <div class="appointment-actions">
+                    <button class="btn-sm btn-edit">Modifier</button>
+                    <button class="btn-sm btn-cancel">Annuler</button>
+                </div>
+            </div>
+
+            <div class="appointment-card">
+                <div class="appointment-header">
+                    <div class="appointment-status status-pending">En attente</div>
+                </div>
+                <div class="appointment-type-label">Analyses</div>
+                <div class="appointment-details">
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>5 Fév 2025, 08:30</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>Laboratoire</span>
+                    </div>
+                </div>
+                <div class="appointment-actions">
+                    <button class="btn-sm btn-edit">Modifier</button>
+                    <button class="btn-sm btn-cancel">Annuler</button>
+                </div>
+            </div>
+
+            <div class="appointment-card">
+                <div class="appointment-header">
+                    <div class="appointment-status status-confirmed">Confirmé</div>
+                </div>
+                <div class="appointment-type-label">Pédiatrie</div>
+                <div class="appointment-details">
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>12 Fév 2025, 15:00</span>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-icon-small"></div>
+                        <span>Dr. Sophie Dubois</span>
+                    </div>
+                </div>
+                <div class="appointment-actions">
+                    <button class="btn-sm btn-edit">Modifier</button>
+                    <button class="btn-sm btn-cancel">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

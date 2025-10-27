@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIRIX - Inscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #F8F9FA;
+            color: #343A40;
+            min-height: 100vh;
+            padding: 40px 24px;
+        }
+
+        .register-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 48px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #006D65 0%, #00413d 100%);
+            border-radius: 12px;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 900;
+            color: #006D65;
+            text-transform: uppercase;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .form-header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #343A40;
+            margin-bottom: 12px;
+        }
+
+        .form-header p {
+            font-size: 16px;
+            color: #868E96;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #DEE2E6;
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            background: white;
+            border: 3px solid #DEE2E6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #868E96;
+            transition: all 0.3s;
+        }
+
+        .step.active .step-circle {
+            background: #006D65;
+            border-color: #006D65;
+            color: white;
+        }
+
+        .step.completed .step-circle {
+            background: #10B981;
+            border-color: #10B981;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #868E96;
+        }
+
+        .step.active .step-label {
+            color: #006D65;
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #006D65;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E9ECEF;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #006D65;
+            margin-bottom: 8px;
+        }
+
+        .required {
+            color: #EF4444;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            background: white;
+            border: 2px solid #DEE2E6;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #006D65;
+            box-shadow: 0 0 0 3px rgba(0, 109, 101, 0.1);
+        }
+
+        .input-hint {
+            font-size: 14px;
+            color: #868E96;
+            margin-top: 6px;
+        }
+
+        .validation-message {
+            font-size: 14px;
+            margin-top: 6px;
+        }
+
+        .validation-message.success {
+            color: #10B981;
+        }
+
+        .validation-message.error {
+            color: #EF4444;
+        }
+
+        /* Radio Group */
+        .radio-group {
+            display: flex;
+            gap: 24px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #DEE2E6;
+            border-radius: 9999px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .radio.selected::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #006D65;
+            border-radius: 9999px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .radio-label {
+            font-size: 16px;
+            color: #495057;
+            cursor: pointer;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #DEE2E6;
+            border-radius: 4px;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checkbox.checked {
+            background: #006D65;
+            border-color: #006D65;
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #495057;
+            line-height: 1.5;
+        }
+
+        .checkbox-label a {
+            color: #006D65;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #006D65;
+            border: 2px solid #006D65;
+        }
+
+        .btn-outline:hover {
+            background: #006D65;
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #E6A930 0%, #d49414 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-cta {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #E9ECEF;
+        }
+
+        .login-cta p {
+            font-size: 16px;
+            color: #495057;
+        }
+
+        .login-link {
+            color: #006D65;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #E9ECEF;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 33%;
+            background: #EF4444;
+            transition: all 0.3s;
+        }
+
+        .strength-fill.medium {
+            width: 66%;
+            background: #F59E0B;
+        }
+
+        .strength-fill.strong {
+            width: 100%;
+            background: #10B981;
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: #868E96;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo-section">
+            <div class="logo"></div>
+            <div class="logo-text">OSIRIX</div>
+        </div>
+
+        <div class="form-header">
+            <h1>Créer un compte</h1>
+            <p>Rejoignez OSIRIX pour gérer vos rendez-vous médicaux</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps">
+            <div class="step active">
+                <div class="step-circle">1</div>
+                <div class="step-label">Identification</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Informations</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Confirmation</div>
+            </div>
+        </div>
+
+        <form>
+            <!-- Step 1: Identification -->
+            <div class="form-section">
+                <h2 class="section-title">Étape 1 : Identification</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Nom complet <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Jean Dupont"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Téléphone <span class="required">*</span>
+                        </label>
+                        <input
+                            type="tel"
+                            class="form-input"
+                            placeholder="+33 6 12 34 56 78"
+                            required
+                        >
+                        <div class="validation-message success">✓ Numéro disponible</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Adresse email <span class="required">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        class="form-input"
+                        placeholder="jean.dupont@exemple.com"
+                        required
+                    >
+                    <div class="validation-message success">✓ Email disponible</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Mot de passe <span class="required">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            class="form-input"
+                            placeholder="••••••••"
+                            required
+                        >
+                        <div class="password-strength">
+                            <div class="strength-bar">
+                                <div class="strength-fill medium"></div>
+                            </div>
+                            <div class="strength-text">Force du mot de passe : Moyen</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Confirmer le mot de passe <span class="required">*</span>
+                        </label>
+                        <input
+                            type="password"
+                            class="form-input"
+                            placeholder="••••••••"
+                            required
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Personal Information -->
+            <div class="form-section">
+                <h2 class="section-title">Étape 2 : Informations personnelles</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Date de naissance <span class="required">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            class="form-input"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Genre <span class="required">*</span>
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <div class="radio selected"></div>
+                                <label class="radio-label">Homme</label>
+                            </div>
+                            <div class="radio-item">
+                                <div class="radio"></div>
+                                <label class="radio-label">Femme</label>
+                            </div>
+                            <div class="radio-item">
+                                <div class="radio"></div>
+                                <label class="radio-label">Autre</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Adresse <span class="required">*</span>
+                    </label>
+                    <input
+                        type="text"
+                        class="form-input"
+                        placeholder="123 Rue de la République"
+                        required
+                    >
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Ville <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="Paris"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Code postal <span class="required">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            class="form-input"
+                            placeholder="75001"
+                            required
+                        >
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Medical Information (Optional) -->
+            <div class="form-section">
+                <h2 class="section-title">Informations médicales (Optionnel)</h2>
+
+                <div class="form-group">
+                    <label class="form-label">Groupe sanguin</label>
+                    <select class="form-select">
+                        <option value="">Sélectionnez votre groupe sanguin</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Allergies connues</label>
+                    <input
+                        type="text"
+                        class="form-input"
+                        placeholder="Ex: Pénicilline, Arachides..."
+                    >
+                    <div class="input-hint">Séparez les allergies par des virgules</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Conditions médicales existantes</label>
+                    <textarea
+                        class="form-input"
+                        rows="3"
+                        placeholder="Décrivez vos conditions médicales existantes..."
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="checkbox-group">
+                <div class="checkbox checked"></div>
+                <label class="checkbox-label">
+                    J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a> d'OSIRIX
+                </label>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn btn-outline">Précédent</button>
+                <button type="submit" class="btn btn-primary">Créer mon compte</button>
+            </div>
+        </form>
+
+        <!-- Login CTA -->
+        <div class="login-cta">
+            <p>Vous avez déjà un compte ? <a href="#" class="login-link">Connectez-vous</a></p>
+        </div>
+    </div>
+</body>
+</html>
