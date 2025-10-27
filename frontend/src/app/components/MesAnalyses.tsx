@@ -89,7 +89,7 @@ export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesP
   const handleDownloadResults = async (analysis: LabOrder) => {
     try {
       const results = await analysesService.downloadAnalysisResults(analysis.id);
-      
+
       const content = `
 RÉSULTATS D'ANALYSE - OSIRIX CLINIQUE MÉDICAL
 =============================================
@@ -190,36 +190,31 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
                   // Fonction pour télécharger ou visualiser le fichier
                   // Fonction pour télécharger ou visualiser le fichier
-const handleDownload = async (e: React.MouseEvent) => {
-  e.preventDefault();
-  const fullUrl = analysesService.getFileUrl(fileUrl);
+                  const handleDownload = async (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    const fullUrl = analysesService.getFileUrl(fileUrl);
 
-  // Pour les PDFs - Téléchargement via fetch + blob
-  if (fileType === 'PDF') {
-    try {
-      const response = await fetch(fullUrl, { mode: 'cors' });
-      if (!response.ok) throw new Error('Erreur de téléchargement');
-      
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Erreur téléchargement PDF:', error);
-      alert('Impossible de télécharger le PDF');
-      // Fallback: ouvrir dans un nouvel onglet
-      window.open(fullUrl, '_blank');
-    }
-  } else {
-    // Pour les images et autres fichiers
-    window.open(fullUrl, '_blank');
-  }
-};
+                    // Téléchargement pour TOUS les types de fichiers (PDF, images, etc.)
+                    try {
+                      const response = await fetch(fullUrl, { mode: 'cors' });
+                      if (!response.ok) throw new Error('Erreur de téléchargement');
+
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = fileName;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      window.URL.revokeObjectURL(url);
+                    } catch (error) {
+                      console.error('Erreur téléchargement:', error);
+                      alert('Impossible de télécharger le fichier');
+                      // Fallback: ouvrir dans un nouvel onglet
+                      window.open(fullUrl, '_blank');
+                    }
+                  };
 
                   return (
                     <div
