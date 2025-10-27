@@ -191,7 +191,7 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                   return (
                     <a
                       key={index}
-                      href={`http://localhost:3001${fileUrl}`}
+                      href={analysesService.getFileUrl(fileUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 md:gap-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group min-w-0"

@@ -163,6 +163,22 @@ class AnalysesService {
   hasResults(analysis: LabOrder): boolean {
     return !!analysis.results && analysis.status === 'completed';
   }
+
+  // Obtenir l'URL complète d'un fichier de résultat
+  getFileUrl(filePath: string): string {
+    // Récupérer l'URL de base de l'API depuis la variable d'environnement
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+
+    // Si le chemin commence déjà par http:// ou https://, le retourner tel quel
+    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+      return filePath;
+    }
+
+    // Sinon, construire l'URL complète
+    // Supprimer le slash initial si présent pour éviter les doubles slashes
+    const cleanPath = filePath.startsWith('/') ? filePath : `/${filePath}`;
+    return `${apiBaseUrl}${cleanPath}`;
+  }
 }
 
 export default new AnalysesService();
