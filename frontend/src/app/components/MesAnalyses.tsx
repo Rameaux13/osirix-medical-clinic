@@ -188,24 +188,34 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                     ? (filePath.endsWith('.pdf') ? 'PDF' : 'Image')
                     : filePath.type || 'Fichier médical';
 
-                  // Fonction pour télécharger le fichier avec le bon nom
+                  // Fonction pour télécharger ou visualiser le fichier
                   const handleDownload = async (e: React.MouseEvent) => {
                     e.preventDefault();
-                    try {
-                      const response = await fetch(analysesService.getFileUrl(fileUrl));
-                      const blob = await response.blob();
-                      const url = window.URL.createObjectURL(blob);
-                      const link = document.createElement('a');
-                      link.href = url;
-                      link.download = fileName;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                      window.URL.revokeObjectURL(url);
-                    } catch (error) {
-                      console.error('Erreur téléchargement:', error);
-                      // Fallback: ouvrir dans un nouvel onglet
-                      window.open(analysesService.getFileUrl(fileUrl), '_blank');
+                    const fullUrl = analysesService.getFileUrl(fileUrl);
+
+                    // Pour les PDFs hébergés sur Cloudinary, utiliser fl_attachment
+                    if (fileType === 'PDF' && fullUrl.includes('cloudinary.com')) {
+                      // Cloudinary: ajouter fl_attachment pour forcer le téléchargement avec le bon nom
+                      const downloadUrl = fullUrl.replace('/upload/', `/upload/fl_attachment:${encodeURIComponent(fileName)}/`);
+                      window.open(downloadUrl, '_blank');
+                    } else {
+                      // Pour les images et autres fichiers
+                      try {
+                        const response = await fetch(fullUrl, { mode: 'cors' });
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = fileName;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                      } catch (error) {
+                        console.error('Erreur téléchargement:', error);
+                        // Fallback: ouvrir dans un nouvel onglet
+                        window.open(fullUrl, '_blank');
+                      }
                     }
                   };
 
