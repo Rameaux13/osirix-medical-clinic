@@ -188,23 +188,47 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                     ? (filePath.endsWith('.pdf') ? 'PDF' : 'Image')
                     : filePath.type || 'Fichier médical';
 
+                  // Fonction pour télécharger le fichier avec le bon nom
+                  const handleDownload = async (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    try {
+                      const response = await fetch(analysesService.getFileUrl(fileUrl));
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const link = document.createElement('a');
+                      link.href = url;
+                      link.download = fileName;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      window.URL.revokeObjectURL(url);
+                    } catch (error) {
+                      console.error('Erreur téléchargement:', error);
+                      // Fallback: ouvrir dans un nouvel onglet
+                      window.open(analysesService.getFileUrl(fileUrl), '_blank');
+                    }
+                  };
+
                   return (
-                    <a
+                    <div
                       key={index}
-                      href={analysesService.getFileUrl(fileUrl)}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="flex items-center gap-2 md:gap-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group min-w-0"
                     >
-                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors flex-shrink-0">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                         <FileText className="w-4 h-4 md:w-5 md:h-5 text-white" />
                       </div>
                       <div className="flex-1 min-w-0 overflow-hidden">
-                        <p className="text-xs md:text-sm font-medium text-purple-900 truncate break-all">{fileName}</p>
+                        <p className="text-xs md:text-sm font-medium text-purple-900 truncate">{fileName}</p>
                         <p className="text-xs text-purple-600">{fileType}</p>
                       </div>
-                      <Download className="w-4 h-4 md:w-5 md:h-5 text-purple-600 group-hover:text-purple-800 flex-shrink-0" />
-                    </a>
+                      <button
+                        onClick={handleDownload}
+                        className="flex-shrink-0 p-2 rounded-lg hover:bg-purple-200 transition-colors"
+                        title="Télécharger le fichier"
+                      >
+                        <Download className="w-4 h-4 md:w-5 md:h-5 text-purple-600" />
+                      </button>
+                    </div>
                   );
                 })}
               </div>

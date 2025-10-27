@@ -39,7 +39,7 @@ const EnvoyerAnalyseForm = ({ preselectedPatientId, onSuccess }: EnvoyerAnalyseF
   });
 
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadedPaths, setUploadedPaths] = useState<string[]>([]);
+  const [uploadedPaths, setUploadedPaths] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -163,11 +163,19 @@ const EnvoyerAnalyseForm = ({ preselectedPatientId, onSuccess }: EnvoyerAnalyseF
         }
 
         // Upload vers le backend
-        const { path } = await secretaryService.uploadLabResultFile(file);
+        const uploadResult = await secretaryService.uploadLabResultFile(file);
+
+        // Stocker les infos complètes du fichier
+        const fileInfo = {
+          url: uploadResult.url || uploadResult.path,
+          name: uploadResult.originalName || file.name,
+          type: file.type.includes('pdf') ? 'PDF' : file.type.includes('image') ? 'Image' : 'Fichier médical',
+          size: file.size,
+        };
 
         // Ajouter aux listes
         setFiles(prev => [...prev, file]);
-        setUploadedPaths(prev => [...prev, path]);
+        setUploadedPaths(prev => [...prev, fileInfo]);
       }
     } catch (err: any) {
       setError(err.message || 'Erreur lors de l\'upload');
