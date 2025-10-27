@@ -25,13 +25,11 @@ async function bootstrap() {
     transform: true,
   }));
 
-  // Servir les fichiers statiques (ne fonctionne pas sur Vercel serverless)
-  // On utilisera Cloudinary plus tard pour les uploads
-  if (process.env.NODE_ENV !== 'production') {
-    app.useStaticAssets(join(process.cwd(), 'uploads'), {
-      prefix: '/uploads/',
-    });
-  }
+  // Servir les fichiers statiques
+  // Fonctionne sur Render.com et en développement local
+  app.useStaticAssets(join(process.cwd(), 'uploads'), {
+    prefix: '/uploads/',
+  });
 
   // Port dynamique pour Vercel
   const port = process.env.PORT || 3001;

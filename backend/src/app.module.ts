@@ -15,8 +15,9 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { PrescriptionsModule } from './prescriptions/prescriptions.module';
 import { LabOrdersModule } from './lab-orders/lab-orders.module';
 import { ChatModule } from './chat/chat.module';
-import { MailerModule } from '@nestjs-modules/mailer'; 
-import { FeedbackModule } from './feedback/feedback.module'; 
+import { MailerModule } from '@nestjs-modules/mailer';
+import { FeedbackModule } from './feedback/feedback.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module'; 
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { FeedbackModule } from './feedback/feedback.module';
     PrescriptionsModule,
     ChatModule,
     FeedbackModule, // ✅ Module Feedback
+    CloudinaryModule, // ✅ Module Cloudinary
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

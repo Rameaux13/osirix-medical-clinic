@@ -165,19 +165,27 @@ class AnalysesService {
   }
 
   // Obtenir l'URL complète d'un fichier de résultat
-  getFileUrl(filePath: string): string {
-    // Récupérer l'URL de base de l'API depuis la variable d'environnement
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
-
-    // Si le chemin commence déjà par http:// ou https://, le retourner tel quel
-    if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
-      return filePath;
+  getFileUrl(filePath: string | any): string {
+    // Si c'est un objet avec une propriété url (Cloudinary)
+    if (typeof filePath === 'object' && filePath?.url) {
+      return filePath.url;
     }
 
-    // Sinon, construire l'URL complète
-    // Supprimer le slash initial si présent pour éviter les doubles slashes
-    const cleanPath = filePath.startsWith('/') ? filePath : `/${filePath}`;
-    return `${apiBaseUrl}${cleanPath}`;
+    // Si c'est une string
+    if (typeof filePath === 'string') {
+      // Si le chemin commence déjà par http:// ou https://, le retourner tel quel
+      if (filePath.startsWith('http://') || filePath.startsWith('https://')) {
+        return filePath;
+      }
+
+      // Sinon, construire l'URL complète (pour les anciens fichiers locaux)
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const cleanPath = filePath.startsWith('/') ? filePath : `/${filePath}`;
+      return `${apiBaseUrl}${cleanPath}`;
+    }
+
+    // Par défaut, retourner une string vide
+    return '';
   }
 }
 

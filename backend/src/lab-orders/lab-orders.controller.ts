@@ -14,17 +14,19 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SecretaryGuard } from '../auth-staff/guards/secretary.guard';
 import { LabOrdersService } from './lab-orders.service';
 import { SendLabOrderDto } from './dto/send-lab-order.dto';
 import { LabOrder } from '@prisma/client';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 @Controller('lab-orders')
 export class LabOrdersController {
-  constructor(private readonly labOrdersService: LabOrdersService) {}
+  constructor(
+    private readonly labOrdersService: LabOrdersService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   // =====================================================
   // ROUTES PATIENTS
@@ -83,16 +85,8 @@ export class LabOrdersController {
   @UseGuards(SecretaryGuard)
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './uploads/lab-results',
-        filename: (req, file, callback) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          callback(null, `lab-result-${uniqueSuffix}${ext}`);
-        },
-      }),
       limits: {
-        fileSize: 10 * 1024 * 1024,
+        fileSize: 10 * 1024 * 1024, // 10MB
       },
       fileFilter: (req, file, callback) => {
         const allowedMimes = [
@@ -103,7 +97,7 @@ export class LabOrdersController {
           'application/msword',
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         ];
-        
+
         if (allowedMimes.includes(file.mimetype)) {
           callback(null, true);
         } else {
@@ -121,16 +115,32 @@ export class LabOrdersController {
       );
     }
 
-    return {
-      message: 'Fichier uploadé avec succès',
-      file: {
-        filename: file.filename,
-        originalName: file.originalname,
-        mimetype: file.mimetype,
-        size: file.size,
-        path: `/uploads/lab-results/${file.filename}`,
-      },
-    };
+    try {
+      // Upload vers Cloudinary
+      const result = await this.cloudinaryService.uploadFile(
+        file,
+        'osirix/lab-results',
+      );
+
+      return {
+        message: 'Fichier uploadé avec succès',
+        file: {
+          filename: result.public_id,
+          originalName: file.originalname,
+          mimetype: file.mimetype,
+          size: file.size,
+          path: result.secure_url, // URL Cloudinary
+          url: result.secure_url,
+          publicId: result.public_id,
+        },
+      };
+    } catch (error) {
+      console.error('Erreur upload Cloudinary:', error);
+      throw new HttpException(
+        'Erreur lors de l\'upload du fichier',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Post('secretary/send')
