@@ -50,11 +50,10 @@ export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesP
 
   // États
   const [analyses, setAnalyses] = useState<LabOrder[]>([]);
-  const [recentAnalyses, setRecentAnalyses] = useState<LabOrder[]>([]);
   const [stats, setStats] = useState<AnalysesStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedView, setSelectedView] = useState<'all' | 'recent'>('recent');
+  const [sortOrder, setSortOrder] = useState<'recent' | 'oldest'>('recent');
 
   // Chargement des données
   const loadAnalyses = useCallback(async () => {
@@ -64,14 +63,12 @@ export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesP
       setLoading(true);
       setError(null);
 
-      const [allAnalyses, recentAnalysesData, statsData] = await Promise.all([
+      const [allAnalyses, statsData] = await Promise.all([
         analysesService.getMyAnalyses(),
-        analysesService.getRecentAnalyses(),
         analysesService.getAnalysesStats(),
       ]);
 
       setAnalyses(allAnalyses);
-      setRecentAnalyses(recentAnalysesData);
       setStats(statsData);
 
     } catch (error: any) {
@@ -133,17 +130,17 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
   // Rendu d'une analyse
   const renderAnalysisItem = (analysis: LabOrder) => (
-    <div key={analysis.id} className="border border-gray-200 rounded-xl p-4 md:p-6 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50">
+    <div key={analysis.id} className="border border-gray-200 rounded-xl p-4 md:p-6 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50 overflow-hidden">
       <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           {/* En-tête */}
-          <div className="flex items-center mb-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-[#006D65] rounded-full flex items-center justify-center">
+          <div className="flex items-center mb-3 min-w-0">
+            <div className="flex items-center space-x-3 min-w-0 flex-1">
+              <div className="w-10 h-10 bg-[#006D65] rounded-full flex items-center justify-center flex-shrink-0">
                 <Stethoscope className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 text-base md:text-xl">{analysis.examType}</h4>
+              <div className="min-w-0 flex-1">
+                <h4 className="font-semibold text-gray-900 text-base md:text-xl break-words">{analysis.examType}</h4>
                 <p className="text-sm md:text-base text-gray-600">
                   Prescrit le {analysesService.formatDate(analysis.orderDate)}
                 </p>
@@ -153,12 +150,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
           {/* Médecin */}
           {analysis.doctor && (
-            <div className="flex items-center space-x-3 mb-4 bg-gray-100 rounded-lg p-3">
-              <div className="w-8 h-8 bg-[#006D65] rounded-full flex items-center justify-center">
+            <div className="flex items-center space-x-3 mb-4 bg-gray-100 rounded-lg p-3 min-w-0">
+              <div className="w-8 h-8 bg-[#006D65] rounded-full flex items-center justify-center flex-shrink-0">
                 <User className="w-4 h-4 text-white" />
               </div>
-              <div>
-                <p className="text-sm md:text-base font-medium text-gray-900">
+              <div className="min-w-0 flex-1">
+                <p className="text-sm md:text-base font-medium text-gray-900 truncate">
                   {analysesService.formatDoctorName(analysis.doctor)}
                 </p>
                 <p className="text-xs md:text-sm text-gray-600">Médecin prescripteur</p>
@@ -170,15 +167,15 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
           {analysis.instructions && (
             <div className="mb-4">
               <p className="text-xs md:text-sm text-gray-600 mb-2 font-medium">Instructions :</p>
-              <p className="text-sm md:text-base text-gray-800 bg-blue-50 rounded-lg p-3 border-l-4 border-blue-200">
+              <div className="text-sm md:text-base text-gray-800 bg-blue-50 rounded-lg p-3 border-l-4 border-blue-200 break-words overflow-wrap-anywhere">
                 {analysis.instructions}
-              </p>
+              </div>
             </div>
           )}
 
           {/* FICHIERS JOINTS */}
           {analysis.resultFiles && Array.isArray(analysis.resultFiles) && analysis.resultFiles.length > 0 && (
-            <div className="mb-4">
+            <div className="mb-4 min-w-0">
               <p className="text-xs md:text-sm text-gray-600 font-medium mb-2">Fichiers joints ({analysis.resultFiles.length}) :</p>
               <div className="space-y-2">
                 {analysis.resultFiles.map((filePath: any, index: number) => {
@@ -197,13 +194,13 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                       href={`http://localhost:3001${fileUrl}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group"
+                      className="flex items-center gap-2 md:gap-3 bg-purple-50 rounded-lg p-3 border border-purple-200 hover:bg-purple-100 transition-colors group min-w-0"
                     >
-                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors">
+                      <div className="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors flex-shrink-0">
                         <FileText className="w-4 h-4 md:w-5 md:h-5 text-white" />
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs md:text-sm font-medium text-purple-900 truncate">{fileName}</p>
+                      <div className="flex-1 min-w-0 overflow-hidden">
+                        <p className="text-xs md:text-sm font-medium text-purple-900 truncate break-all">{fileName}</p>
                         <p className="text-xs text-purple-600">{fileType}</p>
                       </div>
                       <Download className="w-4 h-4 md:w-5 md:h-5 text-purple-600 group-hover:text-purple-800 flex-shrink-0" />
@@ -257,60 +254,39 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
         <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 rounded-xl p-6 mb-6 border border-gray-200">
           <div className="flex justify-center">
             <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-[#006D65]">{stats.total}</p>
+              <p className="text-3xl font-bold text-[#006D65]">{stats.total}</p>
               <p className="text-sm md:text-base text-gray-600 font-medium mt-2">Total analyses</p>
             </div>
           </div>
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-6">
-        <button
-          onClick={() => setSelectedView('recent')}
-          className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ${
-            selectedView === 'recent'
-              ? 'bg-[#006D65] text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
+      <div className="flex items-center justify-between mb-6">
+        <label htmlFor="sortOrder" className="text-sm md:text-base text-gray-700 font-medium">
+          Trier par :
+        </label>
+        <select
+          id="sortOrder"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value as 'recent' | 'oldest')}
+          className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm font-medium text-gray-700 hover:border-[#006D65] focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors"
         >
-          Analyses récentes
-        </button>
-        <button
-          onClick={() => setSelectedView('all')}
-          className={`px-4 py-2 rounded-lg font-medium text-xs sm:text-sm transition-colors ${
-            selectedView === 'all'
-              ? 'bg-[#006D65] text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Toutes mes analyses ({analyses.length})
-        </button>
+          <option value="recent">Du plus récent au moins récent</option>
+          <option value="oldest">Du moins récent au plus récent</option>
+        </select>
       </div>
 
       <div className="space-y-4">
-        {selectedView === 'recent' ? (
-          recentAnalyses.length > 0 ? (
-            recentAnalyses.map(renderAnalysisItem)
-          ) : (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Stethoscope className="w-8 h-8 text-gray-500" />
-              </div>
-              <p className="text-lg md:text-xl text-gray-600 mb-2">Aucune analyse récente</p>
-              <p className="text-sm md:text-base text-gray-500 mb-6">Vos analyses prescrites apparaîtront ici</p>
-              {onNavigateToNewAppointment && (
-                <button
-                  onClick={onNavigateToNewAppointment}
-                  className="bg-[#E6A930] text-white px-6 py-3 rounded-lg hover:bg-[#d49821] transition-colors font-medium text-sm md:text-base"
-                >
-                  Prendre rendez-vous
-                </button>
-              )}
-            </div>
-          )
-        ) : (
-          analyses.length > 0 ? (
-            analyses.map(renderAnalysisItem)
+        {(() => {
+          // Trier les analyses selon l'ordre choisi
+          const sortedAnalyses = [...analyses].sort((a, b) => {
+            const dateA = new Date(a.orderDate).getTime();
+            const dateB = new Date(b.orderDate).getTime();
+            return sortOrder === 'recent' ? dateB - dateA : dateA - dateB;
+          });
+
+          return sortedAnalyses.length > 0 ? (
+            sortedAnalyses.map(renderAnalysisItem)
           ) : (
             <div className="text-center py-12">
               <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -327,8 +303,8 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                 </button>
               )}
             </div>
-          )
-        )}
+          );
+        })()}
       </div>
     </div>
   );
