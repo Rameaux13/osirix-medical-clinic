@@ -89,7 +89,7 @@ export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesP
   const handleDownloadResults = async (analysis: LabOrder) => {
     try {
       const results = await analysesService.downloadAnalysisResults(analysis.id);
-      
+
       const content = `
 RÉSULTATS D'ANALYSE - OSIRIX CLINIQUE MÉDICAL
 =============================================
@@ -195,13 +195,22 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
 
                     // Pour les PDFs hébergés sur Cloudinary
                     if (fileType === 'PDF' && fullUrl.includes('cloudinary.com')) {
-                      // Remplacer /image/upload/ par /raw/upload/ pour les PDFs
-                      let downloadUrl = fullUrl.replace('/image/upload/', '/raw/upload/');
-                      downloadUrl = downloadUrl.replace('/video/upload/', '/raw/upload/');
-                      // Ajouter fl_attachment pour forcer le téléchargement avec le bon nom
-                      downloadUrl = downloadUrl.replace('/raw/upload/', `/raw/upload/fl_attachment:${encodeURIComponent(fileName)}/`);
+                      let downloadUrl = fullUrl;
+
+                      // Extraire les parties de l'URL (base + resource path)
+                      const uploadMatch = downloadUrl.match(/(.*\/upload\/)(.*)/);
+                      if (uploadMatch) {
+                        const baseUrl = uploadMatch[1]; // https://res.cloudinary.com/.../image/upload/
+                        const resourcePath = uploadMatch[2]; // osirix/lab-results/fichier.pdf ou v123.../osirix/...
+
+                        // Ajouter fl_attachment AVANT le resourcePath pour forcer le téléchargement
+                        downloadUrl = `${baseUrl}fl_attachment:${encodeURIComponent(fileName)}/${resourcePath}`;
+                      }
+
                       window.open(downloadUrl, '_blank');
-                    } else {
+                    }
+
+                    else {
                       // Pour les images et autres fichiers
                       try {
                         const response = await fetch(fullUrl, { mode: 'cors' });
