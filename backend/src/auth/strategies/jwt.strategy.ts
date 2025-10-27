@@ -36,6 +36,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
       return {
         ...user,
+        userId: user.id, // Ajouter userId pour le contrôleur
         userType: 'patient',
       };
     }
@@ -58,6 +59,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
       return {
         ...user,
+        userId: user.id, // Ajouter userId pour le contrôleur
         userType: 'doctor',
       };
     }
@@ -80,6 +82,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
       return {
         ...user,
+        userId: user.id, // Ajouter userId pour le contrôleur
         userType: 'admin',
       };
     }
