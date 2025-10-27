@@ -193,10 +193,13 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                     e.preventDefault();
                     const fullUrl = analysesService.getFileUrl(fileUrl);
 
-                    // Pour les PDFs hébergés sur Cloudinary, utiliser fl_attachment
+                    // Pour les PDFs hébergés sur Cloudinary
                     if (fileType === 'PDF' && fullUrl.includes('cloudinary.com')) {
-                      // Cloudinary: ajouter fl_attachment pour forcer le téléchargement avec le bon nom
-                      const downloadUrl = fullUrl.replace('/upload/', `/upload/fl_attachment:${encodeURIComponent(fileName)}/`);
+                      // Remplacer /image/upload/ par /raw/upload/ pour les PDFs
+                      let downloadUrl = fullUrl.replace('/image/upload/', '/raw/upload/');
+                      downloadUrl = downloadUrl.replace('/video/upload/', '/raw/upload/');
+                      // Ajouter fl_attachment pour forcer le téléchargement avec le bon nom
+                      downloadUrl = downloadUrl.replace('/raw/upload/', `/raw/upload/fl_attachment:${encodeURIComponent(fileName)}/`);
                       window.open(downloadUrl, '_blank');
                     } else {
                       // Pour les images et autres fichiers
