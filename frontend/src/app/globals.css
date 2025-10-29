@@ -48,14 +48,69 @@
   --shadow-medical: 0 4px 6px -1px rgb(0 109 101 / 0.1), 0 2px 4px -1px rgb(0 109 101 / 0.06);
 }
 
+/* Variables CSS pour le thème clair/sombre */
+:root {
+  /* Mode CLAIR (par défaut) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  /* Mode SOMBRE */
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --bg-tertiary: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --border-color: #4b5563;
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
 /* Styles de base avec Montserrat */
 body {
   font-family: var(--font-family-sans);
-  background-color: white;
-  color: var(--color-neutral-800);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   line-height: 1.6;
   scroll-behavior: smooth;
   font-weight: 400;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Classes utilitaires pour le thème */
+.bg-theme-primary {
+  background-color: var(--bg-primary) !important;
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary) !important;
+}
+
+.bg-theme-tertiary {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.text-theme-primary {
+  color: var(--text-primary) !important;
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary) !important;
+}
+
+.text-theme-tertiary {
+  color: var(--text-tertiary) !important;
+}
+
+.border-theme {
+  border-color: var(--border-color) !important;
 }
 
 /* Navigation Links avec couleurs exactes */
