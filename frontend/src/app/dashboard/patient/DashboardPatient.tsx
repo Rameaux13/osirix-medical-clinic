@@ -503,9 +503,9 @@ export default function DashboardPatient() {
 
   const renderPrescriptionsSection = () => {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900 text-lg sm:text-xl md:text-2xl">Mes Prescriptions</h3>
+          <h3 className="font-semibold text-gray-900 dark:text-white text-lg sm:text-xl md:text-2xl">Mes Prescriptions</h3>
           <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
         </div>
 
@@ -728,11 +728,11 @@ export default function DashboardPatient() {
     return (
       <div className="space-y-6">
         {/* Section Mes Informations - OPTIMISÉE RESPONSIVE */}
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-4 sm:mb-5">Mes Informations</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-5">Mes Informations</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Informations de base */}
-            <div className="bg-gradient-to-br from-[#006D65]/5 to-white rounded-xl p-4 sm:p-5 border border-[#006D65]/20">
+            <div className="bg-gradient-to-br from-[#006D65]/5 dark:from-[#006D65]/10 to-white dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-[#006D65]/20 dark:border-[#006D65]/30 transition-colors duration-300">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-3 sm:mr-4">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -777,9 +777,9 @@ export default function DashboardPatient() {
         </div>
 
         {/* Section Mes Rendez-vous - OPTIMISÉE RESPONSIVE */}
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900 text-lg sm:text-xl md:text-2xl">Mes Rendez-vous</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-lg sm:text-xl md:text-2xl">Mes Rendez-vous</h3>
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
           </div>
 
@@ -932,9 +932,9 @@ export default function DashboardPatient() {
         {renderPrescriptionsSection()}
 
         {/* Section Documents - OPTIMISÉE */}
-        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 md:p-8 border border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <div className="flex items-center justify-between mb-6 sm:mb-8">
-            <h3 className="font-semibold text-gray-900 text-xl sm:text-2xl md:text-3xl">Mes Documents</h3>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-xl sm:text-2xl md:text-3xl">Mes Documents</h3>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65]/10 rounded-xl flex items-center justify-center">
               <FileText className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[#006D65]" />
             </div>
@@ -1008,14 +1008,14 @@ export default function DashboardPatient() {
 
         {/* Prochains RDV - OPTIMISÉ */}
         {dashboardStats?.upcomingAppointments?.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">Mes Prochains Rendez-vous</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">Mes Prochains Rendez-vous</h3>
               <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {dashboardStats.upcomingAppointments.slice(0, 6).map((appointment) => (
-                <div key={appointment.id} className="border border-gray-200 rounded-2xl p-4 sm:p-5 hover:shadow-lg transition-all duration-300 hover:border-[#006D65] bg-gradient-to-br from-white to-gray-50">
+                <div key={appointment.id} className="border border-gray-200 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:shadow-lg dark:hover:shadow-2xl transition-all duration-300 hover:border-[#006D65] bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-800/80">
                   <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-900 text-base sm:text-lg mb-2">
@@ -1084,8 +1084,8 @@ export default function DashboardPatient() {
         )}
 
         {/* Noter la Clinique - OPTIMISÉ */}
-        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 border border-gray-200">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mb-4 flex items-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
             <Star className="w-5 h-5 sm:w-6 sm:h-6 text-[#E6A930] mr-2" />
             Noter la Clinique OSIRIX
           </h3>

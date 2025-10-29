@@ -14,7 +14,7 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set, get) => ({
-      theme: 'light',
+      theme: 'light', // Mode clair par défaut
 
       toggleTheme: () => {
         const newTheme = get().theme === 'light' ? 'dark' : 'light';
@@ -47,10 +47,11 @@ export const useThemeStore = create<ThemeState>()(
       name: 'osirix-theme-store',
       onRehydrateStorage: () => (state) => {
         // Appliquer le thème au chargement
-        if (state && typeof window !== 'undefined') {
-          if (state.theme === 'dark') {
+        if (typeof window !== 'undefined') {
+          if (state && state.theme === 'dark') {
             document.documentElement.classList.add('dark');
           } else {
+            // S'assurer que le mode clair est bien appliqué par défaut
             document.documentElement.classList.remove('dark');
           }
         }

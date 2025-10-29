@@ -1289,26 +1289,26 @@ export default function MesDocuments() {
 
       {/* Début Section : Modal Prévisualisation SÉCURISÉE */}
       {previewDocument && (
-        <div className="fixed inset-0 bg-white z-50 flex flex-col">
-          <div className="bg-white border-b border-gray-200 px-4 py-3 sm:px-6 sm:py-4 flex-shrink-0">
+        <div className="fixed inset-0 bg-white dark:bg-gray-900 z-50 flex flex-col transition-colors duration-300">
+          <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 sm:px-6 sm:py-4 flex-shrink-0 transition-colors duration-300">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg sm:text-2xl font-bold text-gray-900 truncate">{previewDocument.title}</h2>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white truncate">{previewDocument.title}</h2>
               <button
                 onClick={() => closePreview()}
-                className="text-gray-400 hover:text-gray-600 text-xl sm:text-2xl ml-2"
+                className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-xl sm:text-2xl ml-2 transition-colors"
               >
                 ×
               </button>
             </div>
           </div>
 
-          <div className="flex-1 overflow-auto bg-gray-50">
+          <div className="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
             <div className="p-4 sm:p-6">
-              <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-4 sm:p-8">
+              <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-2xl p-4 sm:p-8 transition-colors duration-300">
                 {loadingPreview ? (
                   <div className="flex items-center justify-center py-12 sm:py-16">
                     <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-[#006D65]"></div>
-                    <span className="ml-4 text-base sm:text-xl text-gray-600">Chargement de la prévisualisation...</span>
+                    <span className="ml-4 text-base sm:text-xl text-gray-600 dark:text-gray-300">Chargement de la prévisualisation...</span>
                   </div>
                 ) : previewDocument.fileType.includes('image') ? (
                   <div className="text-center">
@@ -1325,8 +1325,8 @@ export default function MesDocuments() {
                     />
                     <div className="hidden text-center py-12">
                       <div className="text-5xl sm:text-6xl text-gray-400 mb-4">🖼️</div>
-                      <p className="text-lg sm:text-xl text-gray-600">Impossible de charger l'image</p>
-                      <p className="text-base sm:text-lg text-gray-500 mt-2">Le fichier peut être corrompu ou inaccessible</p>
+                      <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">Impossible de charger l'image</p>
+                      <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mt-2">Le fichier peut être corrompu ou inaccessible</p>
                     </div>
                   </div>
                 ) : previewDocument.fileType.includes('pdf') ? (

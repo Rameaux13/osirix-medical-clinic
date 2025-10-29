@@ -136,9 +136,9 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             {isChatOpen && (
                 <div
                     className={`
-                      fixed bg-white shadow-2xl border border-gray-200 z-50 flex flex-col
-                         ${isMobile 
-                            ? 'bottom-32 left-4 right-4 h-[50vh] max-w-md mx-auto rounded-2xl' 
+                      fixed bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 z-50 flex flex-col transition-colors duration-300
+                         ${isMobile
+                            ? 'bottom-32 left-4 right-4 h-[50vh] max-w-md mx-auto rounded-2xl'
                             : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
                                 }
                             `}
@@ -170,11 +170,11 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                     <div
                                         className={`max-w-[75%] p-3 rounded-lg text-sm ${msg.type === 'user'
                                             ? 'bg-[#006D65] text-white rounded-br-none'
-                                            : 'bg-gray-100 text-gray-800 rounded-bl-none'
+                                            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
                                             }`}
                                     >
                                         <p className="whitespace-pre-line">{msg.message}</p>
-                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500'}`}>
+                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500 dark:text-gray-400'}`}>
                                             {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
@@ -201,7 +201,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                         {/* Indicateur de chargement */}
                         {chatLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-gray-100 p-3 rounded-lg rounded-bl-none">
+                                <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg rounded-bl-none">
                                     <div className="flex space-x-1">
                                         <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                                         <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -215,7 +215,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     </div>
 
                     {/* Input du chat */}
-                    <div className="p-4 border-t border-gray-200">
+                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
                         <div className="flex space-x-2">
                             <input
                                 type="text"
@@ -224,7 +224,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                 onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                                 placeholder="Tapez votre message..."
                                 disabled={chatLoading}
-                                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] focus:border-transparent disabled:opacity-50"
+                                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] focus:border-transparent disabled:opacity-50 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"
                             />
                             <button
                                 onClick={handleSendMessage}

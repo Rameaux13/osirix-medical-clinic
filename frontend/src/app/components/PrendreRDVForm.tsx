@@ -582,31 +582,31 @@ const PrendreRDVForm = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {/* Calendrier */}
             <div>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6 flex items-center">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 sm:mb-6 flex items-center">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#006D65] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Sélectionnez une date
               </h3>
-              <div className="bg-gradient-to-br from-gray-50 to-white p-4 sm:p-6 rounded-2xl shadow-lg">
+              <div className="bg-gradient-to-br from-gray-50 dark:from-gray-700 to-white dark:to-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg dark:shadow-2xl transition-colors duration-300">
                 {/* Navigation des mois */}
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
                   <button
                     type="button"
                     onClick={prevMonth}
-                    className="p-2 rounded-lg hover:bg-[#006D65]/10 text-[#006D65] transition-colors duration-200"
+                    className="p-2 rounded-lg hover:bg-[#006D65]/10 dark:hover:bg-[#006D65]/20 text-[#006D65] dark:text-primary-400 transition-colors duration-200"
                   >
                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
-                  <h4 className="text-base sm:text-lg font-semibold text-gray-800">
+                  <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">
                     {monthNames[selectedMonth]} {selectedYear}
                   </h4>
                   <button
                     type="button"
                     onClick={nextMonth}
-                    className="p-2 rounded-lg hover:bg-[#006D65]/10 text-[#006D65] transition-colors duration-200"
+                    className="p-2 rounded-lg hover:bg-[#006D65]/10 dark:hover:bg-[#006D65]/20 text-[#006D65] dark:text-primary-400 transition-colors duration-200"
                   >
                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -641,7 +641,7 @@ const PrendreRDVForm = () => {
                         onClick={() => handleInputChange('selectedDate', date.value)}
                         className={`p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${formData.selectedDate === date.value
                           ? 'bg-gradient-to-br from-[#006D65] to-[#005a54] text-white shadow-lg transform scale-105'
-                          : 'hover:bg-[#006D65]/10 text-gray-700'
+                          : 'hover:bg-[#006D65]/10 dark:hover:bg-[#006D65]/20 text-gray-700 dark:text-gray-200'
                           }`}
                       >
                         <div className="text-sm sm:text-lg">{date.dayNumber}</div>
@@ -655,26 +655,26 @@ const PrendreRDVForm = () => {
 
             {/* Heures */}
             <div>
-              <h3 className="text-base sm:text-lg font-semibold text-gray-700 mb-4 sm:mb-6 flex items-center">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 sm:mb-6 flex items-center">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#E6A930] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 Choisissez l'heure
                 {unavailableSlots.length > 0 && (
-                  <span className="ml-2 text-xs sm:text-sm text-gray-500">
+                  <span className="ml-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     ({unavailableSlots.length} occupé{unavailableSlots.length > 1 ? 's' : ''})
                   </span>
                 )}
               </h3>
               {formData.selectedDate ? (
-                <div className="bg-gradient-to-br from-gray-50 to-white p-4 sm:p-6 rounded-2xl shadow-lg">
+                <div className="bg-gradient-to-br from-gray-50 dark:from-gray-700 to-white dark:to-gray-800 p-4 sm:p-6 rounded-2xl shadow-lg dark:shadow-2xl transition-colors duration-300">
                   {isLoadingSlots ? (
                     <div className="flex items-center justify-center py-8">
                       <svg className="animate-spin h-6 w-6 sm:h-8 sm:w-8 text-[#006D65]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      <span className="ml-3 text-sm sm:text-base text-gray-600">Vérification disponibilité...</span>
+                      <span className="ml-3 text-sm sm:text-base text-gray-600 dark:text-gray-300">Vérification disponibilité...</span>
                     </div>
                   ) : (
                     <div className="grid grid-cols-3 gap-2 sm:gap-3 max-h-80 overflow-y-auto">
@@ -691,10 +691,10 @@ const PrendreRDVForm = () => {
                               }
                             }}
                             className={`p-3 sm:p-4 rounded-xl text-center font-medium transition-all duration-200 ${!isAvailable
-                              ? 'bg-gray-100 text-gray-400 cursor-not-allowed opacity-50 border-2 border-gray-200'
+                              ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50 border-2 border-gray-200 dark:border-gray-600'
                               : formData.selectedTime === time
                                 ? 'bg-gradient-to-br from-[#E6A930] to-[#d49821] text-white shadow-lg transform scale-105'
-                                : 'bg-white hover:bg-[#E6A930]/10 text-gray-700 shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E6A930]/20'
+                                : 'bg-white dark:bg-gray-700 hover:bg-[#E6A930]/10 dark:hover:bg-[#E6A930]/20 text-gray-700 dark:text-gray-200 shadow-sm hover:shadow-md border-2 border-transparent hover:border-[#E6A930]/20'
                               }`}
                           >
                             <div className="text-xs sm:text-sm font-semibold">{time}</div>
@@ -708,11 +708,11 @@ const PrendreRDVForm = () => {
                   )}
                 </div>
               ) : (
-                <div className="bg-gray-100 p-6 sm:p-8 rounded-2xl text-center">
+                <div className="bg-gray-100 dark:bg-gray-700 p-6 sm:p-8 rounded-2xl text-center transition-colors duration-300">
                   <svg className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <p className="text-sm sm:text-base text-gray-500">Veuillez d'abord sélectionner une date</p>
+                  <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">Veuillez d'abord sélectionner une date</p>
                 </div>
               )}
             </div>
@@ -723,11 +723,11 @@ const PrendreRDVForm = () => {
       {/* Étape 3: Confirmation */}
       {currentStep === 3 && (
         <div className="space-y-6 sm:space-y-8">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-6 sm:mb-8">Confirmation du rendez-vous</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white text-center mb-6 sm:mb-8">Confirmation du rendez-vous</h2>
 
           {/* Récapitulatif */}
-          <div className="bg-gradient-to-br from-[#006D65]/5 to-[#E6A930]/5 p-6 sm:p-8 rounded-2xl shadow-lg">
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4 sm:mb-6 text-center">Récapitulatif de votre rendez-vous</h3>
+          <div className="bg-gradient-to-br from-[#006D65]/5 dark:from-[#006D65]/10 to-[#E6A930]/5 dark:to-[#E6A930]/10 p-6 sm:p-8 rounded-2xl shadow-lg dark:shadow-2xl transition-colors duration-300">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-white mb-4 sm:mb-6 text-center">Récapitulatif de votre rendez-vous</h3>
             <div className="space-y-3 sm:space-y-4">
               <div className="flex justify-between items-center py-2 sm:py-3">
                 <span className="font-medium text-sm sm:text-base text-gray-700">Service :</span>

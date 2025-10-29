@@ -141,7 +141,7 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                 <h4 className="font-bold text-gray-900 dark:text-white text-sm md:text-base lg:text-xl break-words group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{analysis.examType}</h4>
                 <p className="text-xs md:text-sm lg:text-base text-gray-600 dark:text-gray-400 font-medium flex items-center gap-1">
                   <span>📅</span>
-                  {analysesService.formatDateTime(analysis.orderDate)}
+                  {analysesService.formatDate(analysis.orderDate)}
                 </p>
               </div>
             </div>
