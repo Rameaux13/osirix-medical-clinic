@@ -17,16 +17,27 @@ export const useThemeStore = create<ThemeState>()(
       theme: 'light', // Mode CLAIR par défaut
 
       toggleTheme: () => {
-        const newTheme = get().theme === 'light' ? 'dark' : 'light';
+        const currentTheme = get().theme;
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+        console.log('📦 Store - Theme actuel:', currentTheme);
+        console.log('📦 Store - Nouveau theme:', newTheme);
+
         set({ theme: newTheme });
 
         // Appliquer immédiatement au DOM
         if (typeof document !== 'undefined') {
           if (newTheme === 'dark') {
             document.documentElement.classList.add('dark');
+            console.log('✅ DOM - Classe dark AJOUTÉE');
           } else {
             document.documentElement.classList.remove('dark');
+            console.log('✅ DOM - Classe dark RETIRÉE');
           }
+
+          // Vérification
+          const hasClass = document.documentElement.classList.contains('dark');
+          console.log('🔍 Vérification - Classe dark présente:', hasClass);
         }
       },
     }),
