@@ -1,20 +1,35 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useThemeStore, initTheme } from '@/store/theme';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useThemeStore();
+  const [mounted, setMounted] = useState(false);
 
   // Initialiser le thème au montage
   useEffect(() => {
     initTheme();
+    setMounted(true);
   }, []);
+
+  const handleClick = () => {
+    console.log('🔘 Bouton cliqué - Theme actuel:', theme);
+    toggleTheme();
+    console.log('✅ Theme basculé vers:', theme === 'light' ? 'dark' : 'light');
+  };
+
+  // Éviter le flash pendant l'hydratation
+  if (!mounted) {
+    return (
+      <div className="w-9 h-9 rounded-lg bg-gray-100 animate-pulse"></div>
+    );
+  }
 
   return (
     <button
-      onClick={toggleTheme}
-      className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+      onClick={handleClick}
+      className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors border border-gray-300 dark:border-gray-600"
       aria-label="Changer de thème"
       title={theme === 'light' ? 'Mode sombre' : 'Mode clair'}
     >
