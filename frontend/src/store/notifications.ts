@@ -304,7 +304,6 @@ export const useNotificationsStore = create<NotificationsState>()(
           set({ socket });
 
         } catch (error) {
-          console.error('Erreur lors de la connexion WebSocket:', error);
           set({ error: 'Impossible de se connecter au serveur de notifications' });
         }
       },
@@ -360,7 +359,6 @@ export const useNotificationsStore = create<NotificationsState>()(
             }
           }
         } catch (error) {
-          console.error('Erreur lors du marquage de la notification:', error);
           set({ error: 'Erreur lors de la mise à jour de la notification' });
         }
       },
@@ -393,7 +391,6 @@ export const useNotificationsStore = create<NotificationsState>()(
             }));
           }
         } catch (error) {
-          console.error('Erreur lors du marquage de toutes les notifications:', error);
           set({ error: 'Erreur lors de la mise à jour des notifications' });
         }
       },
@@ -436,7 +433,6 @@ export const useNotificationsStore = create<NotificationsState>()(
             set({ error: 'Erreur lors de la récupération des notifications', loading: false });
           }
         } catch (error) {
-          console.error('Erreur lors de la récupération des notifications:', error);
           set({ error: 'Erreur de connexion', loading: false });
         }
       },

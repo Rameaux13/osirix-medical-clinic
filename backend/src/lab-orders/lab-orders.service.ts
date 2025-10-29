@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, Inject, forwardRef } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { LabOrder, Prisma } from '@prisma/client';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class LabOrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(forwardRef(() => NotificationsService))
+    private readonly notificationsService: NotificationsService,
+  ) {}
 
   // Récupérer toutes les analyses d'un patient
   async getMyAnalyses(userId: string): Promise<LabOrder[]> {
@@ -272,6 +277,19 @@ export class LabOrdersService {
         },
       },
     });
+
+    // ✅ NOUVEAU : Envoyer une notification au patient en temps réel
+    try {
+      await this.notificationsService.create({
+        userId: patient.id,
+        title: '📋 Nouvelle analyse médicale disponible',
+        message: `Votre analyse "${examType}" a été envoyée par le secrétariat. Consultez vos résultats dès maintenant.`,
+        type: 'lab_result',
+      });
+    } catch (notifError) {
+      console.error('Erreur lors de l\'envoi de la notification:', notifError);
+      // Ne pas bloquer la création de l'analyse si la notification échoue
+    }
 
     return {
       message: 'Analyse envoyée au patient avec succès',

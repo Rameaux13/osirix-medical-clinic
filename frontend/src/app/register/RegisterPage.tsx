@@ -78,7 +78,8 @@ export default function RegisterPage() {
     setEmailAvailability('checking');
 
     try {
-      const response = await fetch('http://localhost:3001/auth/check-email', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/auth/check-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +92,6 @@ export default function RegisterPage() {
         setEmailAvailability(result.available ? 'available' : 'taken');
       }
     } catch (error) {
-      console.error('Erreur vérification email:', error);
       setEmailAvailability(null);
     }
   };
@@ -106,7 +106,8 @@ export default function RegisterPage() {
     setPhoneAvailability('checking');
 
     try {
-      const response = await fetch('http://localhost:3001/auth/check-phone', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/auth/check-phone`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,7 +120,6 @@ export default function RegisterPage() {
         setPhoneAvailability(result.available ? 'available' : 'taken');
       }
     } catch (error) {
-      console.error('Erreur vérification téléphone:', error);
       setPhoneAvailability(null);
     }
   };
@@ -304,7 +304,6 @@ export default function RegisterPage() {
     try {
       await register(cleanedFormData);
     } catch (error) {
-      console.error('Erreur d\'inscription:', error);
     }
   };
 
@@ -681,39 +680,40 @@ export default function RegisterPage() {
                   Contact & Adresse
                 </h3>
 
-                {/* Téléphone et Date - 2 COLONNES SUR MOBILE */}
-                <div className="grid grid-cols-2 gap-2 md:gap-4">
-                  <div>
-                    <label htmlFor="phone" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                      Téléphone *
-                    </label>
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      required
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                      placeholder="+225 01..."
-                    />
-                    <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Format CI</p>
-                  </div>
+                {/* Téléphone - PLEINE LARGEUR SUR MOBILE */}
+                <div>
+                  <label htmlFor="phone" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
+                    Téléphone *
+                  </label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                    placeholder="+225 01 23 45 67 89"
+                  />
+                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Format CI : +225 XX XX XX XX XX</p>
+                </div>
 
-                  <div>
-                    <label htmlFor="dateOfBirth" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                      Naissance *
-                    </label>
-                    <input
-                      id="dateOfBirth"
-                      name="dateOfBirth"
-                      type="date"
-                      required
-                      value={formData.dateOfBirth}
-                      onChange={handleInputChange}
-                      className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                    />
-                  </div>
+                {/* Date de naissance - PLEINE LARGEUR SUR MOBILE POUR ÉVITER LE DÉBORDEMENT */}
+                <div>
+                  <label htmlFor="dateOfBirth" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
+                    Date de naissance *
+                  </label>
+                  <input
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    type="date"
+                    required
+                    value={formData.dateOfBirth}
+                    onChange={handleInputChange}
+                    max={new Date().toISOString().split('T')[0]}
+                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                  />
+                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Âge : 1 à 120 ans</p>
                 </div>
 
                 {/* Adresse - PLEINE LARGEUR */}

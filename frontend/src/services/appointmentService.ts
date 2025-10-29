@@ -102,13 +102,10 @@ class AppointmentService {
         ? `/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
         : `/appointments/availability/${date}`;
 
-
-
       const response = await apiClient.get(url);
 
       return response.data.unavailableSlots || [];
     } catch (error: any) {
-      console.error('❌ Erreur vérification disponibilité:', error);
       return [];
     }
   }
@@ -133,11 +130,8 @@ class AppointmentService {
     const consultationTypeName = serviceNames[formData.selectedService];
 
     if (!consultationTypeName) {
-      console.error('❌ Service non trouvé:', formData.selectedService);
-
       throw new Error(`Service non reconnu: ${formData.selectedService}`);
     }
-
 
     // 🆕 Construction des notes avec les nouvelles informations
     const paymentInfo = formData.paymentMethod === 'online' ? 'Paiement en ligne' : 'Paiement sur place';

@@ -37,7 +37,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         const checkMobile = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            console.log('📱 [ChatBot] Taille écran:', window.innerWidth, 'px - Mobile:', mobile);
         };
 
         checkMobile();
@@ -71,8 +70,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     // Fonction pour envoyer un message
     const handleSendMessage = async () => {
         if (chatMessage.trim() && !chatLoading) {
-            console.log('💬 [ChatBot] Envoi message:', chatMessage);
-
             // Message utilisateur
             const userMessage: ChatMessage = {
                 id: chatMessages.length + 1,
@@ -88,7 +85,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             try {
                 // Appel API backend
                 const response = await chatService.sendMessage(userMessage.message);
-                console.log('✅ [ChatBot] Réponse reçue');
 
                 // Message assistant avec réponse du backend
                 const assistantMessage: ChatMessage = {
@@ -103,8 +99,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 setChatMessages(prev => [...prev, assistantMessage]);
 
             } catch (error) {
-                console.error('❌ [ChatBot] Erreur:', error);
-
                 const errorMessage: ChatMessage = {
                     id: chatMessages.length + 2,
                     type: 'assistant',
@@ -124,7 +118,6 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     const handleSuggestionClick = async (suggestion: string) => {
         // Si c'est "Prendre RDV maintenant", rediriger directement
         if (suggestion === 'Prendre RDV maintenant' && onNavigate) {
-            console.log('↗️ [ChatBot] Redirection vers prise de RDV');
             onNavigate('new-appointment');
             setIsChatOpen(false);
             return;

@@ -38,7 +38,6 @@ export default function SecretaryDashboardPage() {
       const data = await secretaryService.getDashboardStats();
       setStats(data);
     } catch (err: any) {
-      console.error('Erreur stats:', err);
       setError('Erreur de chargement des statistiques');
     } finally {
       setLoading(false);

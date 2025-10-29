@@ -183,9 +183,8 @@ export default function useMyAppointments({
 
       setAppointments(mappedAppointments);
       setPagination(data.pagination);
-      
+
     } catch (err) {
-      console.error('Erreur lors de la récupération des RDV:', err);
       setError(err instanceof Error ? err.message : 'Erreur inconnue');
     } finally {
       setLoading(false);
@@ -221,7 +220,6 @@ export default function useMyAppointments({
         setNotifications(mappedNotifications);
       }
     } catch (err) {
-      console.error('Erreur lors de la récupération des notifications:', err);
     } finally {
       setNotificationsLoading(false);
     }
@@ -251,7 +249,6 @@ export default function useMyAppointments({
         );
       }
     } catch (err) {
-      console.error('Erreur lors du marquage de la notification:', err);
     }
   }, [token]);
 
@@ -290,9 +287,8 @@ export default function useMyAppointments({
       }
 
       await fetchMyAppointments();
-      
+
     } catch (err) {
-      console.error('Erreur lors de la mise à jour du RDV:', err);
       setError(err instanceof Error ? err.message : 'Erreur de mise à jour');
     }
   }, [token, fetchMyAppointments]);
@@ -322,9 +318,8 @@ export default function useMyAppointments({
       }
 
       await fetchMyAppointments();
-      
+
     } catch (err) {
-      console.error('Erreur lors de l\'annulation du RDV:', err);
       setError(err instanceof Error ? err.message : 'Erreur d\'annulation');
     }
   }, [token, fetchMyAppointments]);
@@ -353,9 +348,8 @@ export default function useMyAppointments({
       }
 
       await fetchMyAppointments();
-      
+
     } catch (err) {
-      console.error('Erreur lors de la suppression définitive du RDV:', err);
       setError(err instanceof Error ? err.message : 'Erreur de suppression');
     }
   }, [token, fetchMyAppointments]);

@@ -79,7 +79,8 @@ export default function StaffRegisterPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/auth/staff/register', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/auth/staff/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

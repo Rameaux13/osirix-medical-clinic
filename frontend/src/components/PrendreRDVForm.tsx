@@ -340,18 +340,14 @@ const PrendreRDVForm = () => {
       }
     };
 
-    console.log('Données envoyées:', appointmentData);
-
     try {
       const result = await createAppointment(appointmentData);
 
       if (result) {
-        console.log('RDV créé avec succès:', result);
         setCreatedAppointment(result);
         setSubmitSuccess(true);
       }
     } catch (err) {
-      console.error('Erreur lors de la création du RDV:', err);
     }
   };
 
@@ -378,9 +374,6 @@ const PrendreRDVForm = () => {
 
   // Affichage erreurs
   useEffect(() => {
-    if (error) {
-      console.error('Erreur RDV:', error);
-    }
   }, [error]);
 
   // Page de succès

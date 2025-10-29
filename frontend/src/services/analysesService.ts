@@ -43,7 +43,6 @@ class AnalysesService {
       const response = await apiClient.get('/lab-orders/my-analyses');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des analyses:', error);
       throw new Error('Impossible de récupérer vos analyses');
     }
   }
@@ -54,7 +53,6 @@ class AnalysesService {
       const response = await apiClient.get('/lab-orders/my-analyses/stats');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des statistiques:', error);
       throw new Error('Impossible de récupérer les statistiques');
     }
   }
@@ -65,7 +63,6 @@ class AnalysesService {
       const response = await apiClient.get('/lab-orders/my-analyses/recent');
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération des analyses récentes:', error);
       throw new Error('Impossible de récupérer les analyses récentes');
     }
   }
@@ -76,7 +73,6 @@ class AnalysesService {
       const response = await apiClient.get(`/lab-orders/${id}`);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors de la récupération de l\'analyse:', error);
       throw new Error('Impossible de récupérer l\'analyse');
     }
   }
@@ -87,7 +83,6 @@ class AnalysesService {
       const response = await apiClient.get(`/lab-orders/${id}/download-results`);
       return response.data;
     } catch (error) {
-      console.error('Erreur lors du téléchargement des résultats:', error);
       throw new Error('Impossible de télécharger les résultats');
     }
   }

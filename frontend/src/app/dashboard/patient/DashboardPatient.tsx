@@ -16,6 +16,7 @@ import type { Prescription } from '../../../services/prescriptionService';
 import MesAnalyses from '../../components/MesAnalyses';
 import MonProfil from '../../components/MonProfil';
 import ChatAssistant from '../../components/ChatAssistant';
+import ThemeToggle from '@/components/ThemeToggle';
 
 import axios from 'axios';
 
@@ -243,7 +244,6 @@ export default function DashboardPatient() {
       setPrescriptions(response.data);
 
     } catch (error: any) {
-      console.error('Erreur chargement prescriptions:', error);
       setPrescriptionError(error.message);
     } finally {
       setLoadingPrescriptions(false);
@@ -327,8 +327,6 @@ export default function DashboardPatient() {
       }, 5000);
 
     } catch (error: any) {
-      console.error('Erreur envoi avis:', error);
-
       let errorMessage = 'Erreur lors de l\'envoi de votre avis';
 
       if (error.message) {
@@ -430,7 +428,6 @@ export default function DashboardPatient() {
       const stats = await documentService.getDocumentStats();
       setDocumentStats(stats);
     } catch (error) {
-      console.error('Erreur chargement stats documents:', error);
     } finally {
       setLoadingDocuments(false);
     }
@@ -444,7 +441,6 @@ export default function DashboardPatient() {
         setDocumentStats(stats);
       }
     } catch (error) {
-      console.error('Erreur refresh dashboard:', error);
     }
   }, [user, refetch]);
 
@@ -464,7 +460,7 @@ export default function DashboardPatient() {
           refetch();
         } else if (lastNotification.type === 'general' &&
           lastNotification.message.toLowerCase().includes('document')) {
-          documentService.getDocumentStats().then(setDocumentStats).catch(console.error);
+          documentService.getDocumentStats().then(setDocumentStats).catch(() => {});
         }
       }, 800);
 
@@ -477,7 +473,7 @@ export default function DashboardPatient() {
 
     const refreshInterval = setInterval(() => {
       refetch();
-      documentService.getDocumentStats().then(setDocumentStats).catch(console.error);
+      documentService.getDocumentStats().then(setDocumentStats).catch(() => {});
     }, 60000);
 
     return () => clearInterval(refreshInterval);
@@ -1173,14 +1169,14 @@ export default function DashboardPatient() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navbar FIXE - OPTIMISÉE */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+      {/* Navbar FIXE - OPTIMISÉE avec Dark Mode */}
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo Desktop */}
             <div className="hidden lg:flex items-center">
-              <h1 className="text-xl xl:text-2xl font-bold text-[#006D65] tracking-wide">
+              <h1 className="text-xl xl:text-2xl font-bold text-primary-600 dark:text-primary-400 tracking-wide">
                 OSIRIX
               </h1>
             </div>
@@ -1194,7 +1190,7 @@ export default function DashboardPatient() {
                   className="h-9 w-9 sm:h-10 sm:w-10 object-cover rounded-lg shadow-sm"
                 />
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-[#006D65]">OSIRIX</h1>
+                  <h1 className="text-lg sm:text-xl font-bold text-primary-600 dark:text-primary-400">OSIRIX</h1>
                 </div>
               </div>
             </div>
@@ -1207,9 +1203,9 @@ export default function DashboardPatient() {
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`flex items-center px-3 xl:px-4 py-2 text-sm xl:text-base font-medium transition-all duration-200 ${activeSection === item.id
-                      ? 'text-[#006D65] font-bold'
-                      : 'text-gray-700 hover:text-[#006D65]'
+                    className={`flex items-center px-3 xl:px-4 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-200 ${activeSection === item.id
+                      ? 'text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
                     <Icon className="w-4 h-4 xl:mr-2" />
@@ -1220,14 +1216,17 @@ export default function DashboardPatient() {
             </nav>
 
             {/* Actions Droite */}
-            <div className="flex items-center space-x-2 lg:space-x-4">
+            <div className="flex items-center space-x-2 lg:space-x-3">
+              {/* Theme Toggle - Bouton Mode Sombre/Clair */}
+              <ThemeToggle />
+
               {/* Notifications */}
               <div className="relative">
                 <button
                   onClick={() => setNotificationMenuOpen(!notificationMenuOpen)}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors relative"
+                  className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative"
                 >
-                  <Bell className="w-5 h-5 text-gray-700 hover:text-[#006D65]" />
+                  <Bell className="w-5 h-5 text-gray-700 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400" />
                   {unreadCount > 0 && (
                     <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                       {unreadCount}
@@ -1243,10 +1242,10 @@ export default function DashboardPatient() {
                       onClick={() => setNotificationMenuOpen(false)}
                     />
 
-                    {/* Menu Notifications - RESPONSIVE & MODERNE */}
-                   <div className="fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden">
+                    {/* Menu Notifications - RESPONSIVE & MODERNE avec Dark Mode */}
+                   <div className="fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden transition-colors duration-300">
                       {/* Header avec gradient */}
-                      <div className="bg-gradient-to-r from-[#006D65] to-[#005a54] text-white p-4 sm:p-5 rounded-t-xl">
+                      <div className="bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 text-white p-4 sm:p-5 rounded-t-xl">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2 sm:space-x-3">
                             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-full flex items-center justify-center">

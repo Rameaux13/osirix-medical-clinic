@@ -34,12 +34,15 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, userType, router]);
 
-  // Effacer les erreurs au changement de champ
+  // Effacer les erreurs au changement de champ avec un délai pour éviter les bugs mobiles
   useEffect(() => {
     if (error) {
-      clearError();
+      const timer = setTimeout(() => {
+        clearError();
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [formData, clearError]);
+  }, [formData.email, formData.password, error, clearError]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -53,12 +56,30 @@ export default function LoginPage() {
     e.preventDefault();
     e.stopPropagation();
 
+    // Empêcher la double soumission
+    if (isLoading) {
+      return;
+    }
+
+    // Validation basique
     if (!formData.email || !formData.password) {
       return;
     }
 
+    // Validation format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return;
+    }
+
+    // Nettoyer les erreurs avant la soumission
+    clearError();
+
     try {
-      await login(formData);
+      await login({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      });
     } catch (error) {
       // L'erreur est déjà gérée par le store
     }

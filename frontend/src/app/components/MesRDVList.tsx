@@ -124,29 +124,8 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
     }));
   };
 
-  // Debug: Ajouter un console.log pour voir tous les rendez-vous
+  // Surveillance des changements de rendez-vous
   useEffect(() => {
-    if (filteredAppointments.upcoming.length > 0 || filteredAppointments.past.length > 0) {
-      console.log('=== DEBUG RENDEZ-VOUS ===');
-      console.log('À venir:', filteredAppointments.upcoming.length);
-      console.log('Passés:', filteredAppointments.past.length);
-      console.log('Annulés:', filteredAppointments.cancelled.length);
-
-      // Log des dates pour debug avec tri par date
-      const sortedUpcoming = [...filteredAppointments.upcoming].sort((a, b) =>
-        new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime()
-      );
-
-      sortedUpcoming.forEach((apt, index) => {
-        console.log(`RDV ${index + 1} à venir:`,
-          new Date(apt.appointmentDate).toLocaleDateString('fr-FR'),
-          apt.consultationType?.name);
-      });
-
-      filteredAppointments.past.forEach((apt, index) => {
-        console.log(`RDV ${index + 1} passé:`, apt.appointmentDate, apt.consultationType?.name);
-      });
-    }
   }, [filteredAppointments]);
 
   useEffect(() => {
@@ -201,7 +180,6 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       setSelectedAppointmentForCancel(null);
       setCancelReason('');
     } catch (err) {
-      console.error('Erreur lors de l\'annulation:', err);
     } finally {
       setCancellingId(null);
     }
@@ -228,7 +206,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   const loadUnavailableSlots = async (date: string, serviceName?: string) => {
     setLoadingSlots(true);
     try {
-      const url = serviceName 
+      const url = serviceName
         ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/appointments/availability/${date}?service=${encodeURIComponent(serviceName)}`
         : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/appointments/availability/${date}`;
       
@@ -247,7 +225,6 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       const data = await response.json();
       setUnavailableSlots(data.unavailableSlots || []);
     } catch (error) {
-      console.error('Erreur chargement créneaux:', error);
       setUnavailableSlots([]);
     } finally {
       setLoadingSlots(false);
@@ -301,7 +278,6 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
       return !unavailableSlots.includes(time);
     } catch (error) {
-      console.error('Erreur vérification disponibilité:', error);
       return false;
     }
   };
@@ -340,7 +316,6 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       setEditError('');
       setUnavailableSlots([]); // Réinitialiser les créneaux
     } catch (err) {
-      console.error('Erreur lors de la modification:', err);
       setEditError('Impossible de modifier le rendez-vous. Veuillez réessayer.');
     } finally {
       setEditLoading(false);
@@ -371,7 +346,6 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
       setShowDeleteModal(false);
       setSelectedAppointmentForDelete(null);
     } catch (err) {
-      console.error('Erreur lors de la suppression définitive:', err);
     } finally {
       setDeletingId(null);
     }

@@ -31,8 +31,6 @@ class ChatService {
       });
       return response.data;
     } catch (error: any) {
-      console.error('Erreur envoi message chat:', error);
-      
       // Message d'erreur par défaut
       return {
         success: false,
@@ -52,7 +50,6 @@ class ChatService {
       const response = await apiClient.get('/chat/info');
       return response.data;
     } catch (error: any) {
-      console.error('Erreur récupération infos clinique:', error);
       return null;
     }
   }

@@ -58,7 +58,6 @@ const RdvEnAttenteList = ({
       setAppointments(data);
       onCountChange?.(data.length);
     } catch (error) {
-      console.error('Erreur chargement RDV:', error);
       if (!silent) {
         displayPopup('Erreur lors du chargement des rendez-vous', 'error');
       }
@@ -126,7 +125,6 @@ const RdvEnAttenteList = ({
       displayPopup('Rendez-vous confirmé avec succès !', 'success');
       onRefresh?.();
     } catch (error) {
-      console.error('Erreur confirmation:', error);
       displayPopup('Erreur lors de la confirmation. Veuillez réessayer.', 'error');
     } finally {
       setActionLoading(false);
@@ -149,7 +147,6 @@ const RdvEnAttenteList = ({
       displayPopup('Rendez-vous annulé avec succès !', 'success');
       onRefresh?.();
     } catch (error) {
-      console.error('Erreur annulation:', error);
       displayPopup('Erreur lors de l\'annulation. Veuillez réessayer.', 'error');
     } finally {
       setActionLoading(false);

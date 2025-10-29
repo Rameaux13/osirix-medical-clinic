@@ -134,9 +134,14 @@ class DocumentService {
         }
       });
 
+      // Vérifier que nous avons bien reçu des données
+      if (!response.data || response.data.size === 0) {
+        throw new Error('Le fichier téléchargé est vide');
+      }
+
       // Créer le blob avec le bon type MIME
-      const blob = new Blob([response.data], { 
-        type: docRecord.fileType || 'application/octet-stream' 
+      const blob = new Blob([response.data], {
+        type: docRecord.fileType || 'application/octet-stream'
       });
 
       // Télécharger avec le bon nom de fichier
@@ -144,14 +149,27 @@ class DocumentService {
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', docRecord.fileName || 'document');
-      
+
       document.body.appendChild(link);
       link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-      
+
+      // Nettoyer après un petit délai pour s'assurer que le téléchargement a démarré
+      setTimeout(() => {
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      }, 100);
+
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Erreur lors du téléchargement');
+      // Ne lancer l'erreur que si c'est vraiment une erreur critique
+      if (error.response?.status === 404) {
+        throw new Error('Document non trouvé');
+      } else if (error.response?.status === 403) {
+        throw new Error('Accès refusé au document');
+      } else if (error.message) {
+        throw error;
+      } else {
+        throw new Error('Erreur lors du téléchargement');
+      }
     }
   }
 

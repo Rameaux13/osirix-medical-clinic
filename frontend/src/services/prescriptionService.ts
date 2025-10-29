@@ -98,7 +98,6 @@ class PrescriptionService {
     try {
       return JSON.parse(medicationsJson);
     } catch (error) {
-      console.error('Erreur parsing médicaments:', error);
       return [];
     }
   }
@@ -138,7 +137,6 @@ class PrescriptionService {
         recentPrescriptions: prescriptions.slice(0, 3), // 3 plus récentes
       };
     } catch (error) {
-      console.error('Erreur stats prescriptions:', error);
       return {
         totalPrescriptions: 0,
         activePrescriptions: 0,

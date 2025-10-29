@@ -55,7 +55,8 @@ export default function StaffLoginPage() {
         password: formData.password,
       };
 
-      const response = await fetch('http://localhost:3001/auth/staff/login', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${API_URL}/auth/staff/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,16 +72,10 @@ export default function StaffLoginPage() {
       // Stockage du token (backend renvoie "token" et non "access_token")
       if (data.token) {
         localStorage.setItem('staff_token', data.token);
-        console.log('✅ Token stocké:', data.token);
-      } else {
-        console.error('❌ ERREUR: token manquant dans la réponse');
       }
 
       if (data.user) {
         localStorage.setItem('staff_user', JSON.stringify(data.user));
-        console.log('✅ User stocké:', data.user);
-      } else {
-        console.error('❌ ERREUR: user manquant dans la réponse');
       }
 
       // Redirection

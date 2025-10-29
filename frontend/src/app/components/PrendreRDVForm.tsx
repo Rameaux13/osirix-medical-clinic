@@ -123,9 +123,7 @@ const PrendreRDVForm = () => {
       );
 
       setUnavailableSlots(unavailable);
-      console.log('✅ Créneaux occupés pour', serviceName, 'le', selectedDate, ':', unavailable);
     } catch (error) {
-      console.error('Erreur lors de la vérification de disponibilité:', error);
       setUnavailableSlots([]);
     } finally {
       setIsLoadingSlots(false);
@@ -141,6 +139,24 @@ const PrendreRDVForm = () => {
       checkDateAvailability(formData.selectedDate);
     }
   }, [formData.selectedDate]);
+
+  // ✅ RAFRAÎCHISSEMENT AUTOMATIQUE : Recharger les créneaux toutes les 10 secondes quand une date est sélectionnée
+  useEffect(() => {
+    if (!formData.selectedDate || currentStep !== 2) {
+      return; // Ne rafraîchir que sur l'étape 2 (sélection d'heure)
+    }
+
+    // Rafraîchir immédiatement
+    checkDateAvailability(formData.selectedDate);
+
+    // Configurer le rafraîchissement automatique toutes les 10 secondes
+    const intervalId = setInterval(() => {
+      checkDateAvailability(formData.selectedDate);
+    }, 10000); // 10 secondes
+
+    // Nettoyer l'intervalle quand le composant est démonté ou que la date change
+    return () => clearInterval(intervalId);
+  }, [formData.selectedDate, currentStep]);
 
   const getAvailableDates = () => {
     const dates = [];
@@ -249,6 +265,34 @@ const PrendreRDVForm = () => {
 
     try {
       const appointmentService = await import('@/services/appointmentService');
+
+      // ✅ ÉTAPE 1 : Revérifier la disponibilité du créneau en temps réel AVANT de créer le RDV
+      const selectedService = services.find(s => s.id === formData.selectedService);
+      const serviceName = selectedService?.name;
+
+      const currentUnavailableSlots = await appointmentService.default.checkAvailableSlots(
+        formData.selectedDate,
+        serviceName
+      );
+
+      // ✅ ÉTAPE 2 : Vérifier si le créneau est toujours disponible
+      if (currentUnavailableSlots.includes(formData.selectedTime)) {
+        // ⚠️ Le créneau a été pris entre-temps !
+        alert(`❌ Désolé, le créneau de ${formData.selectedTime} a été réservé par quelqu'un d'autre pendant que vous remplissiez le formulaire.\n\n✅ Veuillez choisir un autre horaire disponible.`);
+
+        // Mettre à jour les créneaux indisponibles
+        setUnavailableSlots(currentUnavailableSlots);
+
+        // Effacer l'heure sélectionnée
+        setFormData(prev => ({ ...prev, selectedTime: '' }));
+
+        // Retourner à l'étape 2 (sélection d'heure)
+        setCurrentStep(2);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // ✅ ÉTAPE 3 : Le créneau est toujours disponible, créer le RDV
       const backendData = appointmentService.default.convertFormDataToBackend(formData);
       await appointmentService.default.createAppointment(backendData);
 
@@ -259,7 +303,21 @@ const PrendreRDVForm = () => {
         ? error.message.replace(/localhost:\d+/g, 'serveur')
         : 'Erreur lors de la création du rendez-vous';
 
-      alert(errorMessage);
+      // Vérifier si c'est une erreur de conflit de créneau
+      if (errorMessage.includes('déjà pris') || errorMessage.includes('conflit') || errorMessage.includes('indisponible')) {
+        alert(`❌ Ce créneau horaire vient d'être réservé.\n\n✅ Veuillez choisir un autre horaire disponible.`);
+
+        // Rafraîchir les créneaux disponibles
+        await checkDateAvailability(formData.selectedDate);
+
+        // Effacer l'heure sélectionnée
+        setFormData(prev => ({ ...prev, selectedTime: '' }));
+
+        // Retourner à l'étape 2
+        setCurrentStep(2);
+      } else {
+        alert(errorMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }

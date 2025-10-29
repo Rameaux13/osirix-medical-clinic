@@ -149,19 +149,14 @@ export default function MesDocuments() {
       const response: DocumentStats = await documentService.getDocumentStats();
       setStats(response.stats);
     } catch (err) {
-      console.error('Erreur lors du chargement des statistiques:', err);
     }
   };
 
 
   // 📐 FONCTION : Appliquer les modifications d'édition
   const applyImageEdits = async () => {
-    console.log('🔧 Début applyImageEdits');
-    console.log('Paramètres:', { rotation, brightness, contrast, zoomLevel, panPosition });
-
     return new Promise<void>((resolve) => {
       if (!editedImage || !canvasRef.current) {
-        console.error('❌ Pas d\'image ou de canvas');
         resolve();
         return;
       }
@@ -169,15 +164,12 @@ export default function MesDocuments() {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        console.error('❌ Pas de contexte canvas');
         resolve();
         return;
       }
 
       const img = new Image();
       img.onload = () => {
-        console.log('✅ Image chargée, dimensions:', img.width, 'x', img.height);
-
         // Dimensions de base
         let canvasWidth = img.width;
         let canvasHeight = img.height;
@@ -190,7 +182,6 @@ export default function MesDocuments() {
 
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
-        console.log('📐 Canvas redimensionné:', canvasWidth, 'x', canvasHeight);
 
         // Nettoyer le canvas
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -218,21 +209,17 @@ export default function MesDocuments() {
 
         // Convertir en image finale
         const finalImage = canvas.toDataURL('image/jpeg', 0.95);
-        console.log('✅ Image finale générée, taille:', finalImage.length, 'caractères');
 
         setCapturedImage(finalImage);
 
-        console.log('✅ capturedImage mis à jour');
         resolve();
       };
 
       img.onerror = () => {
-        console.error('❌ Erreur chargement image');
         resolve();
       };
 
       img.src = editedImage;
-      console.log('🔄 Chargement image depuis editedImage');
     });
   };
 
@@ -338,28 +325,19 @@ export default function MesDocuments() {
   const handleDeleteConfirm = async (documentId: string) => {
   try {
     await documentService.deleteDocument(documentId);
-    
+
     // ✅ Fermer la modale de confirmation
     setShowDeleteConfirm(null);
-    
+
     // ✅ Recharger les documents
     await loadDocuments(currentPage, selectedType, searchQuery);
     await loadStats();
-    
-    // ✅ Message de succès (optionnel)
-    console.info('✅ Document supprimé avec succès');
-    
+
   } catch (err: any) {
-    // ⚠️ Vérifier si c'est vraiment une erreur ou juste un message du backend
-    console.error('Erreur suppression:', err);
-    
     // Si le document a été supprimé malgré l'erreur, on recharge quand même
     setShowDeleteConfirm(null);
     await loadDocuments(currentPage, selectedType, searchQuery);
     await loadStats();
-    
-    // On n'affiche l'erreur que si le rechargement échoue aussi
-    // setError(err.message || 'Erreur lors de la suppression');
   }
 };
 
@@ -398,9 +376,16 @@ export default function MesDocuments() {
   // Télécharger un document
   const handleDownload = async (documentId: string) => {
     try {
+      // Nettoyer les erreurs précédentes
+      setError(null);
       await documentService.downloadDocument(documentId);
+      // Le téléchargement a réussi - pas besoin de message de succès car le fichier se télécharge
     } catch (err: any) {
-      setError(err.message || 'Erreur lors du téléchargement');
+      // Afficher l'erreur seulement si c'est une vraie erreur
+      const errorMessage = err.message || 'Erreur lors du téléchargement';
+      setError(errorMessage);
+      // Auto-effacer l'erreur après 5 secondes
+      setTimeout(() => setError(null), 5000);
     }
   };
 
@@ -423,7 +408,6 @@ export default function MesDocuments() {
       }
     } catch (err: any) {
       setError('Impossible d\'accéder à la caméra. Vérifiez les permissions.');
-      console.error('Erreur caméra:', err);
     }
   };
 
