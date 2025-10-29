@@ -536,11 +536,11 @@ export default function MesDocuments() {
   return (
     <div className="space-y-6">
       {/* Début Section : Header Documents */}
-      <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">Mes Documents</h1>
-            <p className="text-base sm:text-xl text-gray-600">
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">Mes Documents</h1>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300">
               Gérez vos documents médicaux en toute sécurité
             </p>
           </div>
@@ -576,9 +576,9 @@ export default function MesDocuments() {
       {/* Fin Section : Header Documents */}
 
       {/* Début Section : Filtres et Recherche */}
-      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 border border-gray-100">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
         <div className="mb-4 sm:mb-6">
-          <h3 className="text-lg sm:text-2xl font-semibold text-gray-900 mb-3 sm:mb-4">Filtrer par type</h3>
+          <h3 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Filtrer par type</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
             {DOCUMENT_TYPES.map((type) => (
               <button
@@ -588,7 +588,7 @@ export default function MesDocuments() {
                   p-3 sm:p-5 rounded-lg border-2 transition-all duration-200 text-center
                   ${selectedType === type.value
                     ? 'border-[#006D65] bg-[#006D65] text-white'
-                    : 'border-gray-200 hover:border-[#006D65] hover:bg-gray-50'
+                    : 'border-gray-200 dark:border-gray-600 hover:border-[#006D65] hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200'
                   }
                 `}
               >
@@ -605,7 +605,7 @@ export default function MesDocuments() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Rechercher dans mes documents..."
-              className="w-full px-4 py-3 pr-12 sm:px-6 sm:py-4 sm:pr-16 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] text-base sm:text-xl"
+              className="w-full px-4 py-3 pr-12 sm:px-6 sm:py-4 sm:pr-16 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] text-base sm:text-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"
             />
             <button
               type="submit"
@@ -623,7 +623,7 @@ export default function MesDocuments() {
                 setSearchQuery('');
                 loadDocuments(1, selectedType, '');
               }}
-              className="px-4 py-3 sm:px-6 sm:py-4 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm sm:text-xl whitespace-nowrap"
+              className="px-4 py-3 sm:px-6 sm:py-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 text-sm sm:text-xl whitespace-nowrap dark:text-gray-200 transition-colors duration-300"
             >
               Effacer
             </button>
@@ -1414,9 +1414,9 @@ export default function MesDocuments() {
       {/* Fin Section : Modal Prévisualisation */}
 
       {/* Début Section : Liste des Documents */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-2xl border border-gray-100 dark:border-gray-700 transition-colors duration-300">
         {error && (
-          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 m-4 sm:m-6 rounded">
+          <div className="p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-700 dark:text-red-400 m-4 sm:m-6 rounded">
             <p className="font-medium text-base sm:text-lg">Erreur</p>
             <p className="text-base sm:text-xl">{error}</p>
           </div>
@@ -1430,8 +1430,8 @@ export default function MesDocuments() {
         ) : documents.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
             <div className="text-5xl sm:text-6xl mb-4 sm:mb-6">📄</div>
-            <h3 className="text-xl sm:text-2xl font-medium text-gray-900 mb-2 sm:mb-3">Aucun document trouvé</h3>
-            <p className="text-gray-600 text-base sm:text-xl mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-white mb-2 sm:mb-3">Aucun document trouvé</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-base sm:text-xl mb-6 sm:mb-8">
               {searchQuery ? 'Aucun résultat pour votre recherche' : 'Commencez par ajouter votre premier document'}
             </p>
             <button
@@ -1444,7 +1444,7 @@ export default function MesDocuments() {
         ) : (
           <div className="p-4 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 sm:mb-8">
-              <h3 className="text-lg sm:text-2xl font-semibold text-gray-900">
+              <h3 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-white">
                 {documents.length} document{documents.length > 1 ? 's' : ''} trouvé{documents.length > 1 ? 's' : ''}
               </h3>
               <div className="flex items-center gap-3 sm:gap-4">
@@ -1482,7 +1482,7 @@ export default function MesDocuments() {
                 {documents.map((document) => (
                   <div
                     key={document.id}
-                    className="border border-gray-200 rounded-xl p-4 sm:p-6 hover:shadow-lg transition-all duration-200 hover:border-[#006D65] bg-gradient-to-br from-white to-gray-50"
+                    className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 hover:shadow-lg dark:hover:shadow-2xl transition-all duration-200 hover:border-[#006D65] bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-800/80"
                   >
                     <div className="flex items-start justify-between mb-3 sm:mb-4">
                       <div className="text-2xl sm:text-3xl">{getFileExtension(document.fileName)}</div>
@@ -1492,10 +1492,10 @@ export default function MesDocuments() {
                     </div>
 
                     <div className="mb-4 sm:mb-6">
-                      <h4 className="font-semibold text-gray-900 text-base sm:text-xl mb-2 sm:mb-3 line-clamp-2">
+                      <h4 className="font-semibold text-gray-900 dark:text-white text-base sm:text-xl mb-2 sm:mb-3 line-clamp-2">
                         {document.title}
                       </h4>
-                      <p className="text-gray-600 text-sm sm:text-lg mb-2 sm:mb-3">{document.fileName}</p>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-lg mb-2 sm:mb-3">{document.fileName}</p>
                       <div className="flex justify-between text-sm sm:text-lg text-gray-500">
                         <span>{formatFileSize(document.fileSize)}</span>
                         <span>

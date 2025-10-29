@@ -1415,40 +1415,40 @@ export default function DashboardPatient() {
               {/* Profil */}
               <button
                 onClick={() => setActiveSection('profile')}
-                className="flex items-center space-x-2 lg:space-x-3 p-1 lg:p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer focus:outline-none"
+                className="flex items-center space-x-2 lg:space-x-3 p-1 lg:p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer focus:outline-none"
                 title="Voir mon profil"
               >
-                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-full flex items-center justify-center shadow-md">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 rounded-full flex items-center justify-center shadow-md">
                   <User className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                 </div>
                 <div className="hidden md:block text-left">
-                  <p className="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-[120px] lg:max-w-none">
+                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate max-w-[120px] lg:max-w-none">
                     {displayName}
                   </p>
-                  <p className="text-xs text-gray-600">Patient</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Patient</p>
                 </div>
               </button>
 
               {/* Déconnexion Desktop */}
               <button
                 onClick={handleLogout}
-                className="hidden md:flex items-center p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                className="hidden md:flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
                 title="Déconnexion"
               >
-                <LogOut className="w-5 h-5 text-gray-700 hover:text-[#006D65]" />
+                <LogOut className="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" />
               </button>
 
               {/* Menu hamburger */}
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               >
                 {isMobileMenuOpen ? (
-                  <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 ) : (
-                  <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 )}
@@ -1458,18 +1458,18 @@ export default function DashboardPatient() {
         </div>
       </header>
 
-      {/* Menu Mobile FIXE */}
+      {/* Menu Mobile FIXE avec Dark Mode */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed top-16 left-0 right-0 bg-white shadow-lg rounded-b-2xl border-t border-gray-200 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="lg:hidden fixed top-16 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg dark:shadow-2xl rounded-b-2xl border-t border-gray-200 dark:border-gray-700 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300">
           <div className="px-4 py-6 space-y-4">
             {/* Profil mobile */}
-            <div className="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-full flex items-center justify-center shadow-md">
+            <div className="flex items-center space-x-3 p-3 bg-gray-100 dark:bg-gray-700/50 rounded-lg mb-4 transition-colors duration-300">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 rounded-full flex items-center justify-center shadow-md">
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 text-sm sm:text-base">{displayName}</p>
-                <p className="text-xs sm:text-sm text-gray-600">Patient OSIRIX</p>
+                <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">{displayName}</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Patient OSIRIX</p>
               </div>
             </div>
 
@@ -1484,9 +1484,9 @@ export default function DashboardPatient() {
                       setActiveSection(item.id);
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`w-full flex items-center px-4 py-3 text-left transition-colors rounded-lg ${activeSection === item.id
-                      ? 'bg-[#006D65]/10 text-[#006D65] font-bold'
-                      : 'text-gray-800 hover:bg-gray-50 hover:text-[#006D65]'
+                    className={`w-full flex items-center px-4 py-3 text-left transition-all duration-300 rounded-lg ${activeSection === item.id
+                      ? 'bg-primary-500/10 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 font-bold shadow-sm'
+                      : 'text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400'
                       }`}
                   >
                     <Icon className="w-5 h-5 mr-3" />
@@ -1496,14 +1496,14 @@ export default function DashboardPatient() {
               })}
             </div>
 
-            {/* Déconnexion Mobile - AJOUTÉ */}
-            <div className="border-t border-gray-200 pt-4">
+            {/* Déconnexion Mobile */}
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
               <button
                 onClick={() => {
                   handleLogout();
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                className="w-full flex items-center px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-300"
               >
                 <LogOut className="w-5 h-5 mr-3" />
                 <span className="font-medium text-sm sm:text-base">Déconnexion</span>
@@ -1518,10 +1518,10 @@ export default function DashboardPatient() {
         {renderContent()}
       </main>
 
-      {/* Footer - AJOUTÉ */}
-      <div className="w-full py-4 md:py-6 mt-auto">
+      {/* Footer avec Dark Mode */}
+      <div className="w-full py-4 md:py-6 mt-auto border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <p className="text-center text-xs md:text-sm text-neutral-600">
+          <p className="text-center text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
             © 2025 OSIRIX Clinique Médical. Tous droits réservés.
           </p>
         </div>

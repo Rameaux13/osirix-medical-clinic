@@ -273,8 +273,8 @@ export default function MonProfil() {
       {/* Messages de feedback */}
       {(error || successMessage) && (
         <div className={`p-4 rounded-lg border flex items-start justify-between ${error
-          ? 'bg-red-50 border-red-200 text-red-800'
-          : 'bg-green-50 border-green-200 text-green-800'
+          ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
+          : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
           }`}>
           <div className="flex items-center">
             {error ? (
@@ -296,14 +296,14 @@ export default function MonProfil() {
       )}
 
       {/* Section Informations Personnelles */}
-      <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="flex items-center mb-6">
           <div className="w-12 h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-4">
             <User className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Mon Profil Patient</h2>
-            <p className="text-sm text-gray-600">Gérez vos informations personnelles</p>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Mon Profil Patient</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-300">Gérez vos informations personnelles</p>
           </div>
         </div>
 
@@ -311,7 +311,7 @@ export default function MonProfil() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Prénom */}
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Prénom
               </label>
               <input
@@ -319,7 +319,7 @@ export default function MonProfil() {
                 id="firstName"
                 value={profileForm.firstName}
                 onChange={(e) => handleProfileChange('firstName', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base ${validationErrors.firstName ? 'border-red-300' : 'border-gray-300'
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.firstName ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
                   }`}
                 placeholder="Votre prénom"
               />
@@ -330,7 +330,7 @@ export default function MonProfil() {
 
             {/* Nom */}
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Nom
               </label>
               <input
@@ -349,7 +349,7 @@ export default function MonProfil() {
 
             {/* Téléphone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Téléphone
               </label>
               <input
@@ -368,7 +368,7 @@ export default function MonProfil() {
 
             {/* Date de naissance - CORRIGÉ POUR MOBILE */}
             <div className="w-full">
-              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Date de naissance
               </label>
               <input
@@ -376,7 +376,7 @@ export default function MonProfil() {
                 id="dateOfBirth"
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
-                className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base"
+                className="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 style={{ 
                   WebkitAppearance: 'none',
                   MozAppearance: 'none',
@@ -391,7 +391,7 @@ export default function MonProfil() {
 
             {/* Email (non modifiable) */}
             <div className="md:col-span-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email (non modifiable pour sécurité)
               </label>
               <input
@@ -399,7 +399,7 @@ export default function MonProfil() {
                 id="email"
                 value={userProfile?.email || ''}
                 disabled
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed text-base"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed text-base"
               />
             </div>
           </div>
@@ -447,17 +447,17 @@ export default function MonProfil() {
       </div>
 
       {/* Section Changement de Mot de Passe */}
-      <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
         <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Changer mon mot de passe</h3>
-          <p className="text-sm text-gray-600">Minimum 3 caractères, lettres et chiffres seulement</p>
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Changer mon mot de passe</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Minimum 3 caractères, lettres et chiffres seulement</p>
         </div>
 
         <form onSubmit={handleSubmitPassword}>
           <div className="space-y-6">
             {/* Ancien mot de passe */}
             <div>
-              <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Mot de passe actuel
               </label>
               <div className="relative">
@@ -466,7 +466,7 @@ export default function MonProfil() {
                   id="oldPassword"
                   value={passwordForm.oldPassword}
                   onChange={(e) => handlePasswordChange('oldPassword', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Votre mot de passe actuel"
                 />
                 <button
@@ -481,7 +481,7 @@ export default function MonProfil() {
 
             {/* Nouveau mot de passe */}
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Nouveau mot de passe
               </label>
               <div className="relative">
@@ -490,7 +490,7 @@ export default function MonProfil() {
                   id="newPassword"
                   value={passwordForm.newPassword}
                   onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 ${validationErrors.newPassword ? 'border-red-300' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.newPassword ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   placeholder="Minimum 3 caractères (lettres et chiffres)"
                 />
@@ -509,7 +509,7 @@ export default function MonProfil() {
 
             {/* Confirmation mot de passe */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Confirmer le nouveau mot de passe
               </label>
               <div className="relative">
@@ -518,7 +518,7 @@ export default function MonProfil() {
                   id="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 ${validationErrors.confirmPassword ? 'border-red-300' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.confirmPassword ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
                     }`}
                   placeholder="Confirmez votre nouveau mot de passe"
                 />

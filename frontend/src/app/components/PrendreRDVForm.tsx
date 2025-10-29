@@ -468,10 +468,10 @@ const PrendreRDVForm = () => {
 
   // ✅ FORMULAIRE PRINCIPAL
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white rounded-2xl shadow-xl">
+    <div className="max-w-6xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl dark:shadow-2xl transition-colors duration-300">
       {/* Header avec progression */}
       <div className="mb-10">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">Prendre un Rendez-vous</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 text-center">Prendre un Rendez-vous</h1>
 
         <div className="flex items-center justify-center mb-8">
           {[1, 2, 3].map((step) => (
@@ -490,17 +490,17 @@ const PrendreRDVForm = () => {
           ))}
         </div>
 
-        <div className="flex justify-center space-x-8 text-sm text-gray-600">
-          <span className={currentStep === 1 ? 'text-[#006D65] font-semibold' : ''}>Choisir le service</span>
-          <span className={currentStep === 2 ? 'text-[#006D65] font-semibold' : ''}>Date & Heure</span>
-          <span className={currentStep === 3 ? 'text-[#006D65] font-semibold' : ''}>Confirmation</span>
+        <div className="flex justify-center space-x-8 text-sm text-gray-600 dark:text-gray-300">
+          <span className={currentStep === 1 ? 'text-[#006D65] dark:text-primary-400 font-semibold' : ''}>Choisir le service</span>
+          <span className={currentStep === 2 ? 'text-[#006D65] dark:text-primary-400 font-semibold' : ''}>Date & Heure</span>
+          <span className={currentStep === 3 ? 'text-[#006D65] dark:text-primary-400 font-semibold' : ''}>Confirmation</span>
         </div>
       </div>
 
       {/* Étape 1: Services */}
       {currentStep === 1 && (
         <div className="space-y-6 sm:space-y-8">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center mb-6 sm:mb-8">Choisissez votre service médical</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white text-center mb-6 sm:mb-8">Choisissez votre service médical</h2>
 
           <div>
             <h3 className="text-base sm:text-lg font-semibold text-[#006D65] mb-3 sm:mb-4 flex items-center">
@@ -514,8 +514,8 @@ const PrendreRDVForm = () => {
                   type="button"
                   onClick={() => handleInputChange('selectedService', service.id)}
                   className={`p-4 sm:p-6 rounded-xl text-left transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${formData.selectedService === service.id
-                    ? 'bg-gradient-to-br from-[#006D65]/10 to-[#006D65]/5 shadow-lg ring-2 ring-[#006D65]'
-                    : 'bg-gradient-to-br from-gray-50 to-white shadow-md hover:shadow-lg'
+                    ? 'bg-gradient-to-br from-[#006D65]/10 to-[#006D65]/5 dark:from-[#006D65]/20 dark:to-[#006D65]/10 shadow-lg ring-2 ring-[#006D65]'
+                    : 'bg-gradient-to-br from-gray-50 dark:from-gray-700 to-white dark:to-gray-800 shadow-md hover:shadow-lg'
                     }`}
                 >
                   <div>

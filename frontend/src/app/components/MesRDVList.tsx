@@ -491,18 +491,18 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   }
 
   const AppointmentCard = ({ appointment }: { appointment: any }) => (
-    <div className="bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-md transition-all duration-200">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md dark:hover:shadow-2xl transition-all duration-200">
       <div className="p-4 sm:p-6">
         {/* En-tête avec informations médecin - TEXTE RÉDUIT MOBILE */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 mb-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 dark:text-white mb-1">
               {appointment.doctor
                 ? `Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}`
                 : ''
               }
             </h3>
-            <p className="text-sm sm:text-base lg:text-lg text-[#006D65] font-medium">
+            <p className="text-sm sm:text-base lg:text-lg text-[#006D65] dark:text-primary-400 font-medium">
               {appointment.consultationType?.name || 'Consultation générale'}
             </p>
           </div>
@@ -642,7 +642,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   const hasMoreAppointments = currentAppointments.length > currentDisplayLimit;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* En-tête simple et élégant - RESPONSIVE */}
@@ -650,8 +650,8 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#006D65] rounded-full mb-4">
             <Calendar className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">Mes Rendez-vous</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">Mes Rendez-vous</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Gérez facilement tous vos rendez-vous médicaux en un seul endroit
           </p>
         </div>
@@ -659,7 +659,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* Barre d'actions avec onglets et bouton nouveau RDV - RESPONSIVE */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
           {/* Onglets - RESPONSIVE */}
-          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-white rounded-lg p-1 shadow-sm border border-gray-200">
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -669,7 +669,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   className={`flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 rounded-md font-semibold text-sm sm:text-base transition-colors ${
                     activeTab === tab.id
                       ? 'bg-[#006D65] text-white'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
                   }`}
                 >
                   <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
@@ -753,16 +753,16 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
               )}
             </>
           ) : (
-            <div className="text-center py-16 bg-white rounded-lg border border-gray-200">
+            <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <Calendar className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                 {activeTab === 'upcoming' && 'Aucun rendez-vous à venir'}
                 {activeTab === 'past' && 'Aucun rendez-vous passé'}
                 {activeTab === 'cancelled' && 'Aucun rendez-vous annulé'}
               </h3>
-              <p className="text-base text-gray-600 mb-6 max-w-sm mx-auto">
+              <p className="text-base text-gray-600 dark:text-gray-300 mb-6 max-w-sm mx-auto">
                 {activeTab === 'upcoming' && 'Prenez votre premier rendez-vous pour commencer votre suivi médical'}
                 {activeTab === 'past' && 'Votre historique de consultations apparaîtra ici'}
                 {activeTab === 'cancelled' && 'Les rendez-vous annulés s\'afficheront dans cette section'}
