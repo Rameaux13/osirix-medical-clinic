@@ -48,29 +48,65 @@
   --shadow-medical: 0 4px 6px -1px rgb(0 109 101 / 0.1), 0 2px 4px -1px rgb(0 109 101 / 0.06);
 }
 
-/* Variables CSS pour le thème clair/sombre */
+/* ============================================
+   VARIABLES CSS POUR THÈME CLAIR/SOMBRE
+   ============================================ */
 :root {
   /* Mode CLAIR (par défaut) */
   --bg-primary: #ffffff;
   --bg-secondary: #f9fafb;
   --bg-tertiary: #f3f4f6;
+  --bg-hover: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-modal: #ffffff;
+
   --text-primary: #111827;
   --text-secondary: #4b5563;
   --text-tertiary: #6b7280;
+  --text-inverse: #ffffff;
+
   --border-color: #e5e7eb;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --border-light: #f3f4f6;
+  --border-dark: #d1d5db;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-text: #111827;
+  --input-placeholder: #9ca3af;
 }
 
 .dark {
   /* Mode SOMBRE */
-  --bg-primary: #1f2937;
-  --bg-secondary: #111827;
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
   --bg-tertiary: #374151;
+  --bg-hover: #374151;
+  --bg-card: #1f2937;
+  --bg-modal: #1f2937;
+
   --text-primary: #f9fafb;
   --text-secondary: #d1d5db;
   --text-tertiary: #9ca3af;
-  --border-color: #4b5563;
-  --shadow: rgba(0, 0, 0, 0.3);
+  --text-inverse: #111827;
+
+  --border-color: #374151;
+  --border-light: #4b5563;
+  --border-dark: #6b7280;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+
+  --input-bg: #374151;
+  --input-border: #4b5563;
+  --input-text: #f9fafb;
+  --input-placeholder: #9ca3af;
 }
 
 /* Styles de base avec Montserrat */
@@ -84,33 +120,49 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Classes utilitaires pour le thème */
-.bg-theme-primary {
-  background-color: var(--bg-primary) !important;
+/* ============================================
+   CLASSES UTILITAIRES POUR LE THÈME
+   ============================================ */
+
+/* Backgrounds */
+.bg-theme-primary { background-color: var(--bg-primary) !important; }
+.bg-theme-secondary { background-color: var(--bg-secondary) !important; }
+.bg-theme-tertiary { background-color: var(--bg-tertiary) !important; }
+.bg-theme-card { background-color: var(--bg-card) !important; }
+.bg-theme-modal { background-color: var(--bg-modal) !important; }
+.hover\:bg-theme-hover:hover { background-color: var(--bg-hover) !important; }
+
+/* Textes */
+.text-theme-primary { color: var(--text-primary) !important; }
+.text-theme-secondary { color: var(--text-secondary) !important; }
+.text-theme-tertiary { color: var(--text-tertiary) !important; }
+.text-theme-inverse { color: var(--text-inverse) !important; }
+
+/* Bordures */
+.border-theme { border-color: var(--border-color) !important; }
+.border-theme-light { border-color: var(--border-light) !important; }
+.border-theme-dark { border-color: var(--border-dark) !important; }
+
+/* Shadows */
+.shadow-theme-sm { box-shadow: var(--shadow-sm) !important; }
+.shadow-theme-md { box-shadow: var(--shadow-md) !important; }
+.shadow-theme-lg { box-shadow: var(--shadow-lg) !important; }
+.shadow-theme-xl { box-shadow: var(--shadow-xl) !important; }
+
+/* Inputs */
+.input-theme {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+  color: var(--input-text) !important;
 }
 
-.bg-theme-secondary {
-  background-color: var(--bg-secondary) !important;
+.input-theme::placeholder {
+  color: var(--input-placeholder) !important;
 }
 
-.bg-theme-tertiary {
-  background-color: var(--bg-tertiary) !important;
-}
-
-.text-theme-primary {
-  color: var(--text-primary) !important;
-}
-
-.text-theme-secondary {
-  color: var(--text-secondary) !important;
-}
-
-.text-theme-tertiary {
-  color: var(--text-tertiary) !important;
-}
-
-.border-theme {
-  border-color: var(--border-color) !important;
+/* Transitions pour smooth effect */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
 /* Navigation Links avec couleurs exactes */
