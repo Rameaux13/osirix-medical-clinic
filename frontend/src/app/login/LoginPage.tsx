@@ -34,15 +34,12 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, userType, router]);
 
-  // Effacer les erreurs au changement de champ avec un délai pour éviter les bugs mobiles
+  // Effacer les erreurs uniquement quand l'utilisateur commence à retaper
   useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => {
-        clearError();
-      }, 100);
-      return () => clearTimeout(timer);
+    if (error && (formData.email || formData.password)) {
+      clearError();
     }
-  }, [formData.email, formData.password, error, clearError]);
+  }, [formData.email, formData.password]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,7 +49,7 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -72,16 +69,14 @@ export default function LoginPage() {
       return;
     }
 
-    // Nettoyer les erreurs avant la soumission
-    clearError();
-
     try {
       await login({
         email: formData.email.trim().toLowerCase(),
         password: formData.password,
       });
     } catch (error) {
-      // L'erreur est déjà gérée par le store
+      // L'erreur est affichée automatiquement par le store
+      console.error('Erreur de connexion:', error);
     }
   };
 
