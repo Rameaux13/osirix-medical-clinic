@@ -666,7 +666,7 @@ export default function RegisterPage() {
                       )}
                     </button>
                   </div>
-                  <p className="text-xs text-theme-tertiary theme-transition mt-1">Minimum 3 caractères</p>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 theme-transition mt-1">Minimum 3 caractères</p>
                 </div>
 
                 {/* Vérification mot de passe */}
@@ -821,4 +821,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-}
+}   
