@@ -274,9 +274,9 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-2xl p-4 md:p-8 border border-gray-200 dark:border-gray-700 transition-all duration-300">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 pb-4 border-b-2 border-gray-100 dark:border-gray-700 gap-3">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2 md:gap-3">
+    <div className="bg-theme-card theme-transition rounded-xl shadow-theme-lg p-4 md:p-8 border border-theme">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 pb-4 border-b-2 border-theme gap-3">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-theme-primary theme-transition flex items-center gap-2 md:gap-3">
           <span className="text-2xl md:text-3xl">🩺</span>
           <span>Mes Analyses Médicales</span>
         </h2>
