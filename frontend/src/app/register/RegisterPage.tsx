@@ -339,40 +339,40 @@ export default function RegisterPage() {
           </button>
         </div>
 
-        {/* Header avec logo - LOGO RÉDUIT */}
+        {/* Header avec logo - LOGO ENCORE PLUS RÉDUIT */}
         <div className="text-center mb-4 sm:mb-6">
           <Link href="/" className="inline-block group">
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-16 sm:h-20 w-auto mx-auto mb-3 sm:mb-4 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg"
+              className="h-12 sm:h-16 w-auto mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg"
             />
           </Link>
-          <h2 className="text-2xl sm:text-3xl font-bold text-theme-primary theme-transition mb-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-2">
             Créer un compte patient
           </h2>
-          <p className="text-sm sm:text-base text-theme-secondary theme-transition">
+          <p className="text-xs sm:text-sm md:text-base text-theme-secondary theme-transition">
             Rejoignez OSIRIX pour un suivi médical personnalisé
           </p>
         </div>
 
         {/* Indicateur de progression */}
         <div className="mb-4 sm:mb-6">
-          <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <div className="flex items-center justify-between mb-3 sm:mb-4 px-2">
             <div className={`flex items-center ${currentStep >= 1 ? 'text-primary-500' : 'text-theme-tertiary theme-transition'}`}>
-              <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-primary-500 text-white' : 'bg-theme-tertiary theme-transition'} shadow-lg theme-transition`}>
-                <span className="text-sm sm:text-base font-bold">1</span>
+              <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-primary-500 text-white' : 'bg-theme-tertiary theme-transition'} shadow-lg theme-transition`}>
+                <span className="text-xs sm:text-sm font-bold">1</span>
               </div>
-              <span className="ml-2 sm:ml-3 text-xs sm:text-sm font-semibold">Informations</span>
+              <span className="ml-1.5 sm:ml-2 text-[10px] sm:text-xs font-semibold whitespace-nowrap">Informations</span>
             </div>
-            <div className="flex-1 h-1.5 sm:h-2 mx-2 sm:mx-4 bg-theme-tertiary rounded-full theme-transition">
+            <div className="flex-1 h-1 sm:h-1.5 mx-2 sm:mx-3 bg-theme-tertiary rounded-full theme-transition max-w-[80px] sm:max-w-[120px]">
               <div className={`h-full bg-primary-500 rounded-full transition-all duration-500 ${currentStep >= 2 ? 'w-full' : 'w-0'}`}></div>
             </div>
             <div className={`flex items-center ${currentStep >= 2 ? 'text-primary-500' : 'text-theme-tertiary theme-transition'}`}>
-              <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-primary-500 text-white' : 'bg-theme-tertiary theme-transition'} shadow-lg theme-transition`}>
-                <span className="text-sm sm:text-base font-bold">2</span>
+              <div className={`w-7 h-7 sm:w-9 sm:h-9 rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-primary-500 text-white' : 'bg-theme-tertiary theme-transition'} shadow-lg theme-transition`}>
+                <span className="text-xs sm:text-sm font-bold">2</span>
               </div>
-              <span className="ml-2 sm:ml-3 text-xs sm:text-sm font-semibold">Sécurité</span>
+              <span className="ml-1.5 sm:ml-2 text-[10px] sm:text-xs font-semibold whitespace-nowrap">Sécurité</span>
             </div>
           </div>
         </div>
@@ -445,20 +445,26 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Date de naissance (optionnel) - TAILLE RÉDUITE */}
+                {/* Date de naissance (optionnel) - SELECT OPTIMISÉ */}
                 <div>
                   <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
                     Date de naissance (optionnel)
                   </label>
-                  <input
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="date"
-                    value={formData.dateOfBirth}
-                    onChange={handleInputChange}
-                    max={new Date().toISOString().split('T')[0]}
-                    className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
-                  />
+                  <div className="relative">
+                    <input
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      type="date"
+                      value={formData.dateOfBirth}
+                      onChange={handleInputChange}
+                      max={new Date().toISOString().split('T')[0]}
+                      className="input-theme w-full px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-sm border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition appearance-none"
+                      style={{ fontSize: '11px' }}
+                    />
+                    <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-theme-tertiary pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
                 </div>
 
                 {/* Téléphone */}
