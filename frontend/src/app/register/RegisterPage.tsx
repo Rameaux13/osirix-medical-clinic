@@ -11,7 +11,6 @@ export default function RegisterPage() {
   const { register, isLoading, error, isAuthenticated, userType, clearError } = useAuthStore();
 
   const [formData, setFormData] = useState<RegisterRequest>({
-    // Informations personnelles obligatoires
     firstName: '',
     lastName: '',
     email: '',
@@ -19,10 +18,9 @@ export default function RegisterPage() {
     phone: '',
     dateOfBirth: '',
     gender: 'male',
-    address: '',
     city: '',
-
-    // Informations médicales optionnelles
+    // Champs obligatoires pour le backend mais vides
+    address: 'Non renseigné',
     bloodType: '',
     allergies: '',
     chronicConditions: '',
@@ -145,7 +143,7 @@ export default function RegisterPage() {
     return () => clearTimeout(delayedPhoneCheck);
   }, [formData.phone]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -159,95 +157,74 @@ export default function RegisterPage() {
 
     switch (step) {
       case 1:
+        // Prénom
         if (!formData.firstName || formData.firstName.length < 2) {
           errors.push('Le prénom doit contenir au moins 2 caractères');
         }
         if (formData.firstName && !/^[a-zA-ZÀ-ÿ\s-']+$/.test(formData.firstName)) {
-          errors.push('Le prénom ne peut contenir que des lettres, espaces, tirets et apostrophes');
+          errors.push('Le prénom ne peut contenir que des lettres');
         }
 
+        // Nom
         if (!formData.lastName || formData.lastName.length < 2) {
           errors.push('Le nom doit contenir au moins 2 caractères');
         }
         if (formData.lastName && !/^[a-zA-ZÀ-ÿ\s-']+$/.test(formData.lastName)) {
-          errors.push('Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes');
+          errors.push('Le nom ne peut contenir que des lettres');
         }
 
-        if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-          errors.push('Format d\'email invalide');
-        }
-        if (emailAvailability === 'taken') {
-          errors.push('Cet email est déjà utilisé par un autre compte');
-        }
-
-        if (!formData.password || formData.password.length < 3) {
-          errors.push('Le mot de passe doit contenir au moins 3 caractères');
-        }
-        if (formData.password && !/^[a-zA-Z0-9]+$/.test(formData.password)) {
-          errors.push('Le mot de passe ne peut contenir que des lettres et des chiffres');
-        }
-
-        if (formData.password !== confirmPassword) {
-          errors.push('Les mots de passe ne correspondent pas');
-        }
-
-        if (!formData.gender) {
-          errors.push('Le genre est obligatoire');
-        }
-        break;
-
-      case 2:
+        // Téléphone
         if (!formData.phone) {
           errors.push('Le téléphone est obligatoire');
         }
         if (formData.phone && !/^(\+225)?[0-9\s-]{8,15}$/.test(formData.phone.replace(/\s/g, ''))) {
-          errors.push('Format de téléphone invalide (format ivoirien attendu : +225 XX XX XX XX XX)');
+          errors.push('Format de téléphone invalide');
         }
         if (phoneAvailability === 'taken') {
-          errors.push('Ce numéro de téléphone est déjà utilisé par un autre compte');
+          errors.push('Ce numéro est déjà utilisé');
         }
 
-        if (!formData.dateOfBirth) {
-          errors.push('La date de naissance est obligatoire');
+        // Email
+        if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+          errors.push('Format d\'email invalide');
         }
+        if (emailAvailability === 'taken') {
+          errors.push('Cet email est déjà utilisé');
+        }
+
+        // Genre
+        if (!formData.gender) {
+          errors.push('Le genre est obligatoire');
+        }
+
+        // Date de naissance (optionnel mais si fourni, doit être valide)
         if (formData.dateOfBirth) {
           const birthDate = new Date(formData.dateOfBirth);
           const today = new Date();
           const age = today.getFullYear() - birthDate.getFullYear();
           if (age < 1 || age > 120) {
-            errors.push('L\'âge doit être compris entre 1 et 120 ans');
+            errors.push('L\'âge doit être entre 1 et 120 ans');
           }
-        }
-
-        if (!formData.address || formData.address.length < 5) {
-          errors.push('L\'adresse doit contenir au moins 5 caractères');
-        }
-
-        if (!formData.city || formData.city.length < 2) {
-          errors.push('La ville doit contenir au moins 2 caractères');
-        }
-
-        if (formData.emergencyContact && formData.emergencyContact.trim() !== '' && formData.emergencyContact.length < 2) {
-          errors.push('Le nom du contact d\'urgence doit contenir au moins 2 caractères');
-        }
-        if (formData.emergencyContactPhone && formData.emergencyContactPhone.trim() !== '' && !/^(\+225)?[0-9\s-]{8,15}$/.test(formData.emergencyContactPhone.replace(/\s/g, ''))) {
-          errors.push('Format de téléphone du contact d\'urgence invalide');
         }
         break;
 
-      case 3:
-        if (!acceptTerms) {
-          errors.push('Vous devez accepter les conditions d\'utilisation');
+      case 2:
+        // Mot de passe
+        if (!formData.password || formData.password.length < 3) {
+          errors.push('Le mot de passe doit contenir au moins 3 caractères');
+        }
+        if (formData.password && !/^[a-zA-Z0-9]+$/.test(formData.password)) {
+          errors.push('Le mot de passe ne peut contenir que des lettres et chiffres');
         }
 
-        if (formData.allergies && formData.allergies.length > 500) {
-          errors.push('Les allergies ne peuvent pas dépasser 500 caractères');
+        // Confirmation mot de passe
+        if (formData.password !== confirmPassword) {
+          errors.push('Les mots de passe ne correspondent pas');
         }
-        if (formData.chronicConditions && formData.chronicConditions.length > 500) {
-          errors.push('Les conditions chroniques ne peuvent pas dépasser 500 caractères');
-        }
-        if (formData.currentMedications && formData.currentMedications.length > 500) {
-          errors.push('Les médicaments actuels ne peuvent pas dépasser 500 caractères');
+
+        // Acceptation des conditions
+        if (!acceptTerms) {
+          errors.push('Vous devez accepter les conditions d\'utilisation');
         }
         break;
     }
@@ -265,7 +242,7 @@ export default function RegisterPage() {
       return;
     }
 
-    setCurrentStep(prev => Math.min(prev + 1, 3));
+    setCurrentStep(prev => Math.min(prev + 1, 2));
   };
 
   const handlePrevStep = () => {
@@ -278,12 +255,10 @@ export default function RegisterPage() {
 
     const step1Validation = await validateStepWithBackend(1);
     const step2Validation = await validateStepWithBackend(2);
-    const step3Validation = await validateStepWithBackend(3);
 
     const allErrors = [
       ...step1Validation.errors,
-      ...step2Validation.errors,
-      ...step3Validation.errors
+      ...step2Validation.errors
     ];
 
     if (allErrors.length > 0) {
@@ -293,96 +268,84 @@ export default function RegisterPage() {
 
     const cleanedFormData = {
       ...formData,
-      bloodType: formData.bloodType?.trim() || undefined,
-      allergies: formData.allergies?.trim() || undefined,
-      chronicConditions: formData.chronicConditions?.trim() || undefined,
-      currentMedications: formData.currentMedications?.trim() || undefined,
-      emergencyContact: formData.emergencyContact?.trim() || undefined,
-      emergencyContactPhone: formData.emergencyContactPhone?.trim() || undefined,
+      city: formData.city?.trim() || 'Non renseigné',
+      dateOfBirth: formData.dateOfBirth || '2000-01-01',
     };
 
     try {
       await register(cleanedFormData);
     } catch (error) {
+      console.error(error);
     }
   };
 
   if (isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#006D65] via-[#005a54] to-[#004d46] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
-          <p className="text-primary-600 text-xs md:text-sm">Redirection en cours...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p className="text-white text-sm">Redirection en cours...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-3 md:py-6 px-3 md:px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-6 px-4">
       <div className="max-w-2xl mx-auto">
 
         {/* Header avec logo */}
-        <div className="text-center mb-4 md:mb-6">
+        <div className="text-center mb-6">
           <Link href="/" className="inline-block group">
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-16 md:h-24 lg:h-28 w-auto mx-auto mb-3 md:mb-4 drop-shadow-xl group-hover:scale-105 transition-transform duration-300"
+              className="h-24 w-auto mx-auto mb-4 drop-shadow-xl group-hover:scale-105 transition-transform duration-300"
             />
           </Link>
-          <h2 className="text-lg md:text-2xl lg:text-3xl font-bold text-primary-800 mb-1 md:mb-2">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
             Créer un compte patient
           </h2>
-          <p className="text-primary-600 text-xs md:text-base">
+          <p className="text-gray-600">
             Rejoignez OSIRIX pour un suivi médical personnalisé
           </p>
         </div>
 
-        {/* Indicateur de progression - CORRIGÉ */}
-        <div className="mb-4 md:mb-6 overflow-x-auto">
-          <div className="flex items-center justify-between mb-3 md:mb-4 min-w-max px-1">
-            <div className={`flex items-center ${currentStep >= 1 ? 'text-primary-600' : 'text-neutral-400'}`}>
-              <div className={`w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center text-[10px] md:text-base ${currentStep >= 1 ? 'bg-primary-500 text-white' : 'bg-neutral-300'} shadow-lg flex-shrink-0`}>
+        {/* Indicateur de progression */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className={`flex items-center ${currentStep >= 1 ? 'text-[#006D65]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= 1 ? 'bg-[#006D65] text-white' : 'bg-gray-300'} shadow-lg`}>
                 1
               </div>
-              <span className="ml-1 md:ml-3 text-[8px] md:text-sm font-semibold whitespace-nowrap">Info. perso.</span>
+              <span className="ml-3 text-sm font-semibold">Informations</span>
             </div>
-            <div className="flex-1 h-1 md:h-2 mx-1 md:mx-4 bg-neutral-200 rounded-full min-w-[20px]">
-              <div className={`h-full bg-primary-500 rounded-full transition-all duration-500 ${currentStep >= 2 ? 'w-full' : 'w-0'}`}></div>
+            <div className="flex-1 h-2 mx-4 bg-gray-200 rounded-full">
+              <div className={`h-full bg-[#006D65] rounded-full transition-all duration-500 ${currentStep >= 2 ? 'w-full' : 'w-0'}`}></div>
             </div>
-            <div className={`flex items-center ${currentStep >= 2 ? 'text-primary-600' : 'text-neutral-400'}`}>
-              <div className={`w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center text-[10px] md:text-base ${currentStep >= 2 ? 'bg-primary-500 text-white' : 'bg-neutral-300'} shadow-lg flex-shrink-0`}>
+            <div className={`flex items-center ${currentStep >= 2 ? 'text-[#006D65]' : 'text-gray-400'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${currentStep >= 2 ? 'bg-[#006D65] text-white' : 'bg-gray-300'} shadow-lg`}>
                 2
               </div>
-              <span className="ml-1 md:ml-3 text-[8px] md:text-sm font-semibold whitespace-nowrap">Contact</span>
-            </div>
-            <div className="flex-1 h-1 md:h-2 mx-1 md:mx-4 bg-neutral-200 rounded-full min-w-[20px]">
-              <div className={`h-full bg-primary-500 rounded-full transition-all duration-500 ${currentStep >= 3 ? 'w-full' : 'w-0'}`}></div>
-            </div>
-            <div className={`flex items-center ${currentStep >= 3 ? 'text-primary-600' : 'text-neutral-400'}`}>
-              <div className={`w-6 h-6 md:w-10 md:h-10 rounded-full flex items-center justify-center text-[10px] md:text-base ${currentStep >= 3 ? 'bg-primary-500 text-white' : 'bg-neutral-300'} shadow-lg flex-shrink-0`}>
-                3
-              </div>
-              <span className="ml-1 md:ml-3 text-[8px] md:text-sm font-semibold whitespace-nowrap">Validation</span>
+              <span className="ml-3 text-sm font-semibold">Sécurité</span>
             </div>
           </div>
         </div>
 
         {/* Formulaire d'inscription */}
-        <div className="bg-white rounded-xl md:rounded-2xl lg:rounded-3xl shadow-2xl border border-primary-100 p-4 md:p-6 lg:p-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
 
           {/* Messages d'erreur */}
           {(error || validationErrors.length > 0) && (
-            <div className="mb-3 md:mb-4 p-2.5 md:p-3 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
+            <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
               <div className="flex items-start">
-                <svg className="w-4 h-4 md:w-5 md:h-5 text-red-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5 text-red-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
                 <div>
-                  {error && <p className="text-red-700 text-[10px] md:text-xs font-semibold mb-1 md:mb-2">{error}</p>}
+                  {error && <p className="text-red-700 text-sm font-semibold mb-2">{error}</p>}
                   {validationErrors.length > 0 && (
-                    <ul className="text-red-700 text-[10px] md:text-xs space-y-0.5 md:space-y-1">
+                    <ul className="text-red-700 text-sm space-y-1">
                       {validationErrors.map((err, index) => (
                         <li key={index}>• {err}</li>
                       ))}
@@ -395,17 +358,17 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit}>
 
-            {/* Étape 1 : Informations personnelles - CORRIGÉ AVEC 2 COLONNES */}
+            {/* Étape 1 : Informations personnelles */}
             {currentStep === 1 && (
-              <div className="space-y-3 md:space-y-5">
-                <h3 className="text-base md:text-xl lg:text-2xl font-bold text-primary-800 mb-3 md:mb-4 text-center">
-                  Informations personnelles
+              <div className="space-y-5">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                  Vos informations
                 </h3>
 
-                {/* Prénom et Nom - 2 COLONNES SUR MOBILE */}
-                <div className="grid grid-cols-2 gap-2 md:gap-4">
+                {/* Prénom et Nom */}
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
+                    <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
                       Prénom *
                     </label>
                     <input
@@ -415,14 +378,13 @@ export default function RegisterPage() {
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
                       placeholder="Prénom"
                     />
-                    <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Min. 2 car.</p>
                   </div>
 
                   <div>
-                    <label htmlFor="lastName" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
+                    <label htmlFor="lastName" className="block text-sm font-semibold text-gray-700 mb-2">
                       Nom *
                     </label>
                     <input
@@ -432,16 +394,80 @@ export default function RegisterPage() {
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
                       placeholder="Nom"
                     />
-                    <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Min. 2 car.</p>
                   </div>
                 </div>
 
-                {/* Email - PLEINE LARGEUR */}
+                {/* Date de naissance (optionnel) */}
                 <div>
-                  <label htmlFor="email" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
+                  <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Date de naissance (optionnel)
+                  </label>
+                  <input
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    type="date"
+                    value={formData.dateOfBirth}
+                    onChange={handleInputChange}
+                    max={new Date().toISOString().split('T')[0]}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
+                  />
+                </div>
+
+                {/* Téléphone */}
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Numéro de téléphone *
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className={`w-full px-4 py-3 pr-12 border-2 rounded-xl focus:outline-none focus:ring-2 transition-all ${
+                        phoneAvailability === 'taken'
+                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                          : phoneAvailability === 'available'
+                            ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
+                            : 'border-gray-300 focus:ring-[#006D65] focus:border-[#006D65]'
+                      }`}
+                      placeholder="+225 XX XX XX XX XX"
+                    />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                      {phoneAvailability === 'checking' && (
+                        <svg className="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                      )}
+                      {phoneAvailability === 'available' && (
+                        <svg className="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                      {phoneAvailability === 'taken' && (
+                        <svg className="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  {phoneAvailability === 'available' && (
+                    <p className="text-xs text-green-600 mt-1">✓ Disponible</p>
+                  )}
+                  {phoneAvailability === 'taken' && (
+                    <p className="text-xs text-red-600 mt-1">✗ Déjà utilisé</p>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                     Adresse email *
                   </label>
                   <div className="relative">
@@ -452,113 +478,48 @@ export default function RegisterPage() {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-2 py-1.5 md:px-3 md:py-2.5 pr-10 md:pr-12 border-2 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 transition-all duration-200 bg-white text-[11px] md:text-sm ${
+                      className={`w-full px-4 py-3 pr-12 border-2 rounded-xl focus:outline-none focus:ring-2 transition-all ${
                         emailAvailability === 'taken'
                           ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
                           : emailAvailability === 'available'
                             ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
-                            : 'border-primary-200 focus:ring-primary-500 focus:border-primary-500'
+                            : 'border-gray-300 focus:ring-[#006D65] focus:border-[#006D65]'
                       }`}
                       placeholder="email@exemple.com"
                     />
-                    <div className="absolute inset-y-0 right-0 pr-2 md:pr-3 flex items-center">
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                       {emailAvailability === 'checking' && (
-                        <svg className="animate-spin h-4 w-4 md:h-5 md:w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                       )}
                       {emailAvailability === 'available' && (
-                        <svg className="h-4 w-4 md:h-5 md:w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
                       {emailAvailability === 'taken' && (
-                        <svg className="h-4 w-4 md:h-5 md:w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       )}
                     </div>
                   </div>
                   {emailAvailability === 'available' && (
-                    <p className="text-[9px] md:text-xs text-green-600 mt-0.5 md:mt-1 flex items-center">
-                      <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      Disponible
-                    </p>
+                    <p className="text-xs text-green-600 mt-1">✓ Disponible</p>
                   )}
                   {emailAvailability === 'taken' && (
-                    <p className="text-[9px] md:text-xs text-red-600 mt-0.5 md:mt-1 flex items-center">
-                      <svg className="w-3 h-3 md:w-4 md:h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                      Déjà utilisé
-                    </p>
+                    <p className="text-xs text-red-600 mt-1">✗ Déjà utilisé</p>
                   )}
                 </div>
 
-                {/* Mot de passe et Confirmation - 2 COLONNES SUR MOBILE */}
-                <div className="grid grid-cols-2 gap-2 md:gap-4">
-                  <div>
-                    <label htmlFor="password" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                      Mot de passe *
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        required
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        className="w-full px-2 py-1.5 md:px-3 md:py-2.5 pr-8 md:pr-10 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                        placeholder="••••••"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-1.5 md:pr-2 flex items-center text-primary-500 hover:text-primary-700 transition-colors"
-                      >
-                        {showPassword ? (
-                          <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
-                    <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Min. 3 car.</p>
-                  </div>
-
-                  <div>
-                    <label htmlFor="confirmPassword" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                      Confirmer *
-                    </label>
-                    <input
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      type={showPassword ? "text" : "password"}
-                      required
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                      placeholder="••••••"
-                    />
-                  </div>
-                </div>
-
-                {/* Genre - 3 COLONNES (DÉJÀ BON) */}
+                {/* Genre */}
                 <div>
-                  <label className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-2 md:mb-3">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
                     Genre *
                   </label>
-                  <div className="grid grid-cols-3 gap-2 md:gap-3">
-                    {/* Option Homme */}
+                  <div className="grid grid-cols-3 gap-3">
                     <div className="relative">
                       <input
                         id="gender-male"
@@ -571,31 +532,20 @@ export default function RegisterPage() {
                       />
                       <label
                         htmlFor="gender-male"
-                        className={`
-                          cursor-pointer block w-full p-2 md:p-3 rounded-lg md:rounded-xl border-2 text-center font-semibold transition-all duration-200 
-                          ${formData.gender === 'male'
-                            ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-lg transform scale-105'
-                            : 'border-primary-200 bg-white text-primary-600 hover:border-primary-300 hover:bg-primary-25'
-                          }
-                        `}
+                        className={`cursor-pointer block w-full p-3 rounded-xl border-2 text-center font-semibold transition-all ${formData.gender === 'male'
+                          ? 'border-[#006D65] bg-[#006D65]/10 text-[#006D65] shadow-lg scale-105'
+                          : 'border-gray-300 bg-white text-gray-700 hover:border-[#006D65]'
+                        }`}
                       >
                         <div className="flex flex-col items-center space-y-1">
-                          <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
-                          <span className="text-[10px] md:text-xs">Homme</span>
+                          <span className="text-xs">Homme</span>
                         </div>
-                        {formData.gender === 'male' && (
-                          <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-4 h-4 md:w-5 md:h-5 bg-primary-500 text-white rounded-full flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 md:w-3 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                        )}
                       </label>
                     </div>
 
-                    {/* Option Femme */}
                     <div className="relative">
                       <input
                         id="gender-female"
@@ -608,31 +558,20 @@ export default function RegisterPage() {
                       />
                       <label
                         htmlFor="gender-female"
-                        className={`
-                          cursor-pointer block w-full p-2 md:p-3 rounded-lg md:rounded-xl border-2 text-center font-semibold transition-all duration-200 
-                          ${formData.gender === 'female'
-                            ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-lg transform scale-105'
-                            : 'border-primary-200 bg-white text-primary-600 hover:border-primary-300 hover:bg-primary-25'
-                          }
-                        `}
+                        className={`cursor-pointer block w-full p-3 rounded-xl border-2 text-center font-semibold transition-all ${formData.gender === 'female'
+                          ? 'border-[#006D65] bg-[#006D65]/10 text-[#006D65] shadow-lg scale-105'
+                          : 'border-gray-300 bg-white text-gray-700 hover:border-[#006D65]'
+                        }`}
                       >
                         <div className="flex flex-col items-center space-y-1">
-                          <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
-                          <span className="text-[10px] md:text-xs">Femme</span>
+                          <span className="text-xs">Femme</span>
                         </div>
-                        {formData.gender === 'female' && (
-                          <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-4 h-4 md:w-5 md:h-5 bg-primary-500 text-white rounded-full flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 md:w-3 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                        )}
                       </label>
                     </div>
 
-                    {/* Option Autre */}
                     <div className="relative">
                       <input
                         id="gender-other"
@@ -645,27 +584,17 @@ export default function RegisterPage() {
                       />
                       <label
                         htmlFor="gender-other"
-                        className={`
-                          cursor-pointer block w-full p-2 md:p-3 rounded-lg md:rounded-xl border-2 text-center font-semibold transition-all duration-200 
-                          ${formData.gender === 'other'
-                            ? 'border-primary-500 bg-primary-50 text-primary-700 shadow-lg transform scale-105'
-                            : 'border-primary-200 bg-white text-primary-600 hover:border-primary-300 hover:bg-primary-25'
-                          }
-                        `}
+                        className={`cursor-pointer block w-full p-3 rounded-xl border-2 text-center font-semibold transition-all ${formData.gender === 'other'
+                          ? 'border-[#006D65] bg-[#006D65]/10 text-[#006D65] shadow-lg scale-105'
+                          : 'border-gray-300 bg-white text-gray-700 hover:border-[#006D65]'
+                        }`}
                       >
                         <div className="flex flex-col items-center space-y-1">
-                          <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-                          <span className="text-[10px] md:text-xs">Autre</span>
+                          <span className="text-xs">Autre</span>
                         </div>
-                        {formData.gender === 'other' && (
-                          <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-4 h-4 md:w-5 md:h-5 bg-primary-500 text-white rounded-full flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 md:w-3 md:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          </div>
-                        )}
                       </label>
                     </div>
                   </div>
@@ -673,241 +602,111 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* Étape 2 : Contact & Adresse - CORRIGÉ AVEC 2 COLONNES */}
+            {/* Étape 2 : Sécurité */}
             {currentStep === 2 && (
-              <div className="space-y-3 md:space-y-5">
-                <h3 className="text-base md:text-xl lg:text-2xl font-bold text-primary-800 mb-3 md:mb-4 text-center">
-                  Contact & Adresse
+              <div className="space-y-5">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                  Sécurité
                 </h3>
 
-                {/* Téléphone - PLEINE LARGEUR SUR MOBILE */}
+                {/* Mot de passe */}
                 <div>
-                  <label htmlFor="phone" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Téléphone *
+                  <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Mot de passe *
                   </label>
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                    placeholder="+225 01 23 45 67 89"
-                  />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Format CI : +225 XX XX XX XX XX</p>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 pr-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
+                      placeholder="••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                    >
+                      {showPassword ? (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Minimum 3 caractères</p>
                 </div>
 
-                {/* Date de naissance - PLEINE LARGEUR SUR MOBILE POUR ÉVITER LE DÉBORDEMENT */}
+                {/* Vérification mot de passe */}
                 <div>
-                  <label htmlFor="dateOfBirth" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Date de naissance *
+                  <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Vérification du mot de passe *
                   </label>
                   <input
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="date"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
                     required
-                    value={formData.dateOfBirth}
-                    onChange={handleInputChange}
-                    max={new Date().toISOString().split('T')[0]}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
+                    placeholder="••••••"
                   />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Âge : 1 à 120 ans</p>
                 </div>
 
-                {/* Adresse - PLEINE LARGEUR */}
+                {/* Ville (optionnel) */}
                 <div>
-                  <label htmlFor="address" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Adresse complète *
-                  </label>
-                  <input
-                    id="address"
-                    name="address"
-                    type="text"
-                    required
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                    placeholder="Votre adresse"
-                  />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">Min. 5 car.</p>
-                </div>
-
-                {/* Ville - PLEINE LARGEUR */}
-                <div>
-                  <label htmlFor="city" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Ville *
+                  <label htmlFor="city" className="block text-sm font-semibold text-gray-700 mb-2">
+                    Ville (optionnel)
                   </label>
                   <input
                     id="city"
                     name="city"
                     type="text"
-                    required
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#006D65] focus:border-[#006D65] transition-all"
                     placeholder="Votre ville"
                   />
                 </div>
 
-                {/* Contact d'urgence - 2 COLONNES SUR MOBILE */}
-                <div className="border-t border-primary-200 pt-3 md:pt-4">
-                  <h4 className="text-xs md:text-base font-bold text-primary-700 mb-2 md:mb-3">
-                    Contact d'urgence (optionnel)
-                  </h4>
-
-                  <div className="grid grid-cols-2 gap-2 md:gap-4">
-                    <div>
-                      <label htmlFor="emergencyContact" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                        Nom contact
-                      </label>
-                      <input
-                        id="emergencyContact"
-                        name="emergencyContact"
-                        type="text"
-                        value={formData.emergencyContact}
-                        onChange={handleInputChange}
-                        className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                        placeholder="Nom"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="emergencyContactPhone" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                        Tél. contact
-                      </label>
-                      <input
-                        id="emergencyContactPhone"
-                        name="emergencyContactPhone"
-                        type="tel"
-                        value={formData.emergencyContactPhone}
-                        onChange={handleInputChange}
-                        className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                        placeholder="+225..."
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Étape 3 : Informations médicales */}
-            {currentStep === 3 && (
-              <div className="space-y-3 md:space-y-5">
-                <h3 className="text-base md:text-xl lg:text-2xl font-bold text-primary-800 mb-3 md:mb-4 text-center">
-                  Informations médicales (optionnelles)
-                </h3>
-
-                <div>
-                  <label htmlFor="bloodType" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Groupe sanguin
-                  </label>
-                  <select
-                    id="bloodType"
-                    name="bloodType"
-                    value={formData.bloodType}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-[11px] md:text-sm"
-                  >
-                    <option value="">Non renseigné</option>
-                    <option value="A+">A+</option>
-                    <option value="A-">A-</option>
-                    <option value="B+">B+</option>
-                    <option value="B-">B-</option>
-                    <option value="AB+">AB+</option>
-                    <option value="AB-">AB-</option>
-                    <option value="O+">O+</option>
-                    <option value="O-">O-</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="allergies" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Allergies connues
-                  </label>
-                  <textarea
-                    id="allergies"
-                    name="allergies"
-                    rows={2}
-                    value={formData.allergies}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white resize-none text-[11px] md:text-sm"
-                    placeholder="Vos allergies..."
-                    maxLength={500}
-                  />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">
-                    Max. 500 car.
-                  </p>
-                </div>
-
-                <div>
-                  <label htmlFor="chronicConditions" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Conditions chroniques
-                  </label>
-                  <textarea
-                    id="chronicConditions"
-                    name="chronicConditions"
-                    rows={2}
-                    value={formData.chronicConditions}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white resize-none text-[11px] md:text-sm"
-                    placeholder="Vos conditions..."
-                    maxLength={500}
-                  />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">
-                    Max. 500 car.
-                  </p>
-                </div>
-
-                <div>
-                  <label htmlFor="currentMedications" className="block text-[10px] md:text-xs font-semibold text-primary-700 mb-1 md:mb-2">
-                    Médicaments actuels
-                  </label>
-                  <textarea
-                    id="currentMedications"
-                    name="currentMedications"
-                    rows={2}
-                    value={formData.currentMedications}
-                    onChange={handleInputChange}
-                    className="w-full px-2 py-1.5 md:px-3 md:py-2.5 border-2 border-primary-200 rounded-lg md:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white resize-none text-[11px] md:text-sm"
-                    placeholder="Vos médicaments..."
-                    maxLength={500}
-                  />
-                  <p className="text-[9px] md:text-xs text-neutral-500 mt-0.5 md:mt-1">
-                    Max. 500 car.
-                  </p>
-                </div>
-
                 {/* Conditions d'utilisation */}
-                <div className="border-t border-primary-200 pt-3 md:pt-4">
-                  <div className="bg-primary-50 p-2.5 md:p-3 rounded-lg md:rounded-xl border border-primary-200 mb-2.5 md:mb-3">
-                    <div className="flex items-center space-x-1.5 md:space-x-2 mb-1.5 md:mb-2">
-                      <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="border-t border-gray-200 pt-4">
+                  <div className="bg-[#006D65]/5 p-4 rounded-xl border border-[#006D65]/20 mb-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <svg className="w-5 h-5 text-[#006D65]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-primary-700 font-semibold text-[10px] md:text-xs">Sécurité & Confidentialité</span>
+                      <span className="text-[#006D65] font-semibold text-sm">Sécurité & Confidentialité</span>
                     </div>
-                    <p className="text-primary-600 text-[9px] md:text-xs">
+                    <p className="text-gray-600 text-xs">
                       Vos données sont protégées. Nous respectons votre vie privée.
                     </p>
                   </div>
 
-                  <div className="flex items-start space-x-2 md:space-x-3">
+                  <div className="flex items-start space-x-3">
                     <input
                       id="acceptTerms"
                       type="checkbox"
                       checked={acceptTerms}
                       onChange={(e) => setAcceptTerms(e.target.checked)}
-                      className="mt-0.5 md:mt-1 h-3.5 w-3.5 md:h-4 md:w-4 text-primary-600 focus:ring-primary-500 border-primary-300 rounded flex-shrink-0"
+                      className="mt-1 h-4 w-4 text-[#006D65] focus:ring-[#006D65] border-gray-300 rounded"
                     />
-                    <label htmlFor="acceptTerms" className="text-[10px] md:text-xs text-primary-700 font-medium">
+                    <label htmlFor="acceptTerms" className="text-sm text-gray-700">
                       J'accepte les{' '}
-                      <Link href="/terms" className="text-primary-600 hover:text-primary-500 font-bold underline">
-                        conditions
+                      <Link href="/terms" className="text-[#006D65] hover:text-[#005a54] font-bold underline">
+                        conditions d'utilisation
                       </Link>{' '}
                       et la{' '}
-                      <Link href="/privacy" className="text-primary-600 hover:text-primary-500 font-bold underline">
+                      <Link href="/privacy" className="text-[#006D65] hover:text-[#005a54] font-bold underline">
                         politique de confidentialité
                       </Link>.
                     </label>
@@ -917,13 +716,13 @@ export default function RegisterPage() {
             )}
 
             {/* Boutons de navigation */}
-            <div className="flex justify-between items-center mt-6 md:mt-8 pt-3 md:pt-4 border-t border-primary-200">
+            <div className="flex justify-between items-center mt-8 pt-6 border-t border-gray-200">
               <div>
                 {currentStep > 1 && (
                   <button
                     type="button"
                     onClick={handlePrevStep}
-                    className="bg-white border-2 border-primary-300 text-primary-700 hover:bg-primary-50 hover:border-primary-400 px-3 md:px-6 py-1.5 md:py-2.5 rounded-lg md:rounded-xl font-bold transition-all duration-200 shadow-md hover:shadow-lg text-[11px] md:text-sm"
+                    className="bg-white border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-xl font-bold transition-all shadow-md hover:shadow-lg"
                   >
                     Précédent
                   </button>
@@ -931,11 +730,11 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                {currentStep < 3 ? (
+                {currentStep < 2 ? (
                   <button
                     type="button"
                     onClick={handleNextStep}
-                    className="bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white px-3 md:px-6 py-1.5 md:py-2.5 rounded-lg md:rounded-xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 text-[11px] md:text-sm"
+                    className="bg-gradient-to-r from-[#E6A930] to-[#d49821] hover:from-[#d49821] hover:to-[#c28a1e] text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                   >
                     Suivant
                   </button>
@@ -943,18 +742,18 @@ export default function RegisterPage() {
                   <button
                     type="submit"
                     disabled={isLoading || !acceptTerms}
-                    className="bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white px-3 md:px-6 py-1.5 md:py-2.5 rounded-lg md:rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none text-[11px] md:text-sm"
+                    className="bg-gradient-to-r from-[#E6A930] to-[#d49821] hover:from-[#d49821] hover:to-[#c28a1e] text-white px-6 py-3 rounded-xl font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center transition-all shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none"
                   >
                     {isLoading ? (
                       <>
-                        <svg className="animate-spin -ml-1 mr-1.5 md:mr-2 h-3.5 w-3.5 md:h-4 md:w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
                         Création...
                       </>
                     ) : (
-                      'Créer compte'
+                      'Créer mon compte'
                     )}
                   </button>
                 )}
@@ -963,12 +762,12 @@ export default function RegisterPage() {
           </form>
 
           {/* Lien vers connexion */}
-          <div className="mt-4 md:mt-6 text-center border-t border-primary-200 pt-4 md:pt-6">
-            <p className="text-primary-600 text-xs md:text-base">
+          <div className="mt-6 text-center border-t border-gray-200 pt-6">
+            <p className="text-gray-600">
               Vous avez déjà un compte ?{' '}
               <Link
                 href="/login"
-                className="text-primary-700 hover:text-primary-600 font-bold underline transition-colors"
+                className="text-[#006D65] hover:text-[#005a54] font-bold underline"
               >
                 Se connecter
               </Link>
@@ -977,25 +776,23 @@ export default function RegisterPage() {
         </div>
 
         {/* Bouton retour à l'accueil */}
-        <div className="mt-4 md:mt-6 flex justify-center">
+        <div className="mt-6 flex justify-center">
           <Link
             href="/"
-            className="inline-flex items-center space-x-1.5 md:space-x-2 bg-white hover:bg-primary-50 text-primary-700 hover:text-primary-600 font-bold py-2 md:py-2.5 px-4 md:px-5 rounded-lg md:rounded-xl border-2 border-primary-200 hover:border-primary-300 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 text-[11px] md:text-sm"
+            className="inline-flex items-center space-x-2 bg-white hover:bg-gray-50 text-gray-700 font-bold py-3 px-5 rounded-xl border-2 border-gray-300 hover:border-gray-400 transition-all shadow-md hover:shadow-lg transform hover:scale-105"
           >
-            <svg className="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            <span>Retour</span>
+            <span>Retour à l'accueil</span>
           </Link>
         </div>
 
         {/* FOOTER */}
-        <div className="w-full py-3 md:py-4 mt-4 md:mt-6">
-          <div className="max-w-2xl mx-auto px-3 md:px-4">
-            <p className="text-center text-[10px] md:text-xs text-neutral-600">
-              © 2025 OSIRIX Clinique Médical. Tous droits réservés.
-            </p>
-          </div>
+        <div className="w-full py-4 mt-6">
+          <p className="text-center text-xs text-gray-600">
+            © 2025 OSIRIX Clinique Médical. Tous droits réservés.
+          </p>
         </div>
       </div>
     </div>
