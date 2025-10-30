@@ -345,7 +345,7 @@ export default function RegisterPage() {
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-12 sm:h-16 w-auto mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg"
+              className="h-5 sm:h-16 w-auto mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg"
             />
           </Link>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-2">
