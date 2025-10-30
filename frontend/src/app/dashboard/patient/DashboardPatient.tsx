@@ -679,10 +679,22 @@ export default function DashboardPatient() {
 
   if (!isAuthenticated || userType !== 'patient') {
     return (
-      <div className="min-h-screen bg-theme-secondary theme-transition flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#006D65] via-[#005a54] to-[#004d46] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#006D65] mx-auto mb-4"></div>
-          <p className="text-theme-secondary theme-transition text-base">{"Vérification de l'authentification..."}</p>
+          {/* Logo OSIRIX en grand */}
+          <div className="mb-8 animate-pulse">
+            <h1 className="text-7xl sm:text-8xl md:text-9xl font-bold text-white tracking-wider drop-shadow-2xl">
+              OSIRIX
+            </h1>
+            <p className="text-white/80 text-xl sm:text-2xl mt-4 font-light">Clinique Médicale</p>
+          </div>
+
+          {/* Spinner de chargement */}
+          <div className="flex justify-center mb-6">
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-white/30 border-t-white"></div>
+          </div>
+
+          <p className="text-white/90 text-lg font-medium">{"Vérification de l'authentification..."}</p>
         </div>
       </div>
     );
@@ -1174,7 +1186,7 @@ export default function DashboardPatient() {
           <div className="flex items-center justify-between h-16">
             {/* Logo Desktop */}
             <div className="hidden lg:flex items-center">
-              <h1 className="text-xl xl:text-2xl font-bold text-gray-900 dark:text-white tracking-wide">
+              <h1 className="text-xl xl:text-2xl font-bold text-theme-primary tracking-wide">
                 OSIRIX
               </h1>
             </div>
@@ -1188,7 +1200,7 @@ export default function DashboardPatient() {
                   className="h-9 w-9 sm:h-10 sm:w-10 object-cover rounded-lg shadow-sm"
                 />
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">OSIRIX</h1>
+                  <h1 className="text-lg sm:text-xl font-bold text-theme-primary">OSIRIX</h1>
                 </div>
               </div>
             </div>
@@ -1416,27 +1428,27 @@ export default function DashboardPatient() {
               {/* Profil */}
               <button
                 onClick={() => setActiveSection('profile')}
-                className="flex items-center space-x-2 lg:space-x-3 p-1 lg:p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors cursor-pointer focus:outline-none"
+                className="flex items-center space-x-2 lg:space-x-3 p-1 lg:p-2 rounded-lg hover:bg-theme-hover transition-colors cursor-pointer focus:outline-none"
                 title="Voir mon profil"
               >
-                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 rounded-full flex items-center justify-center shadow-md">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-full flex items-center justify-center shadow-md">
                   <User className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
                 </div>
                 <div className="hidden md:block text-left">
-                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate max-w-[120px] lg:max-w-none">
+                  <p className="text-xs sm:text-sm font-medium text-theme-primary truncate max-w-[120px] lg:max-w-none">
                     {displayName}
                   </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Patient</p>
+                  <p className="text-xs text-theme-secondary">Patient</p>
                 </div>
               </button>
 
               {/* Déconnexion Desktop */}
               <button
                 onClick={handleLogout}
-                className="hidden md:flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group"
+                className="hidden md:flex items-center p-2 rounded-lg hover:bg-theme-hover transition-colors group"
                 title="Déconnexion"
               >
-                <LogOut className="w-5 h-5 text-gray-700 dark:text-gray-300 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" />
+                <LogOut className="w-5 h-5 text-theme-primary group-hover:text-[#006D65] transition-colors" />
               </button>
 
               {/* Menu hamburger */}
