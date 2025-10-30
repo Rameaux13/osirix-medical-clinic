@@ -536,11 +536,11 @@ export default function MesDocuments() {
   return (
     <div className="space-y-6">
       {/* Début Section : Header Documents */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+      <div className="bg-theme-card theme-transition rounded-xl shadow-theme-sm p-6 border border-theme">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">Mes Documents</h1>
-            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300">
+            <h1 className="text-2xl sm:text-4xl font-bold text-theme-primary theme-transition mb-2 sm:mb-3">Mes Documents</h1>
+            <p className="text-base sm:text-xl text-theme-secondary theme-transition">
               Gérez vos documents médicaux en toute sécurité
             </p>
           </div>
@@ -576,9 +576,9 @@ export default function MesDocuments() {
       {/* Fin Section : Header Documents */}
 
       {/* Début Section : Filtres et Recherche */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+      <div className="bg-theme-card theme-transition rounded-xl shadow-theme-sm p-4 sm:p-6 border border-theme">
         <div className="mb-4 sm:mb-6">
-          <h3 className="text-lg sm:text-2xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Filtrer par type</h3>
+          <h3 className="text-lg sm:text-2xl font-semibold text-theme-primary theme-transition mb-3 sm:mb-4">Filtrer par type</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
             {DOCUMENT_TYPES.map((type) => (
               <button

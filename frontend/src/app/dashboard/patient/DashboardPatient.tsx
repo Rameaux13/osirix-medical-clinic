@@ -503,16 +503,16 @@ export default function DashboardPatient() {
 
   const renderPrescriptionsSection = () => {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900 dark:text-white text-lg sm:text-xl md:text-2xl">Mes Prescriptions</h3>
+          <h3 className="font-semibold text-theme-primary theme-transition text-lg sm:text-xl md:text-2xl">Mes Prescriptions</h3>
           <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
         </div>
 
         {loadingPrescriptions && (
           <div className="animate-pulse space-y-4">
-            <div className="h-20 bg-gray-200 rounded-lg"></div>
-            <div className="h-16 bg-gray-200 rounded-lg"></div>
+            <div className="h-20 bg-theme-tertiary rounded-lg"></div>
+            <div className="h-16 bg-theme-tertiary rounded-lg"></div>
           </div>
         )}
 
@@ -679,10 +679,10 @@ export default function DashboardPatient() {
 
   if (!isAuthenticated || userType !== 'patient') {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-theme-secondary theme-transition flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#006D65] mx-auto mb-4"></div>
-          <p className="text-gray-700 text-base">{"Vérification de l'authentification..."}</p>
+          <p className="text-theme-secondary theme-transition text-base">{"Vérification de l'authentification..."}</p>
         </div>
       </div>
     );
@@ -728,29 +728,29 @@ export default function DashboardPatient() {
     return (
       <div className="space-y-6">
         {/* Section Mes Informations - OPTIMISÉE RESPONSIVE */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-5">Mes Informations</h2>
+        <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
+          <h2 className="text-xl sm:text-2xl font-semibold text-theme-primary theme-transition mb-4 sm:mb-5">Mes Informations</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Informations de base */}
-            <div className="bg-gradient-to-br from-[#006D65]/5 dark:from-[#006D65]/10 to-white dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-[#006D65]/20 dark:border-[#006D65]/30 transition-colors duration-300">
+            <div className="bg-gradient-to-br from-[#006D65]/5 dark:from-[#006D65]/10 to-white dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-[#006D65]/20 dark:border-[#006D65]/30 theme-transition">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-3 sm:mr-4">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Informations Patient</h3>
+                <h3 className="text-lg sm:text-xl font-semibold text-theme-primary theme-transition">Informations Patient</h3>
               </div>
               <div className="space-y-3">
                 <div>
-                  <p className="text-sm sm:text-base text-gray-600 mb-1">Nom complet</p>
-                  <p className="font-semibold text-gray-900 text-base sm:text-lg">{displayName}</p>
+                  <p className="text-sm sm:text-base text-theme-secondary theme-transition mb-1">Nom complet</p>
+                  <p className="font-semibold text-theme-primary theme-transition text-base sm:text-lg">{displayName}</p>
                 </div>
                 <div>
-                  <p className="text-sm sm:text-base text-gray-600 mb-1">Email</p>
-                  <p className="font-semibold text-gray-900 text-base sm:text-lg break-all">{user?.email}</p>
+                  <p className="text-sm sm:text-base text-theme-secondary theme-transition mb-1">Email</p>
+                  <p className="font-semibold text-theme-primary theme-transition text-base sm:text-lg break-all">{user?.email}</p>
                 </div>
                 <div>
-                  <p className="text-sm sm:text-base text-gray-600 mb-1">Téléphone</p>
-                  <p className="font-semibold text-gray-900 text-base sm:text-lg">{user?.phone || 'Non renseigné'}</p>
+                  <p className="text-sm sm:text-base text-theme-secondary theme-transition mb-1">Téléphone</p>
+                  <p className="font-semibold text-theme-primary theme-transition text-base sm:text-lg">{user?.phone || 'Non renseigné'}</p>
                 </div>
               </div>
             </div>
@@ -769,17 +769,17 @@ export default function DashboardPatient() {
               </div>
               {/* Textes */}
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">Bienvenue chez OSIRIX</h3>
-                <p className="text-gray-700 text-base sm:text-lg">Votre santé est notre priorité.</p>
+                <h3 className="text-xl sm:text-2xl font-semibold text-theme-primary theme-transition mb-2">Bienvenue chez OSIRIX</h3>
+                <p className="text-theme-secondary theme-transition text-base sm:text-lg">Votre santé est notre priorité.</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Section Mes Rendez-vous - OPTIMISÉE RESPONSIVE */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white text-lg sm:text-xl md:text-2xl">Mes Rendez-vous</h3>
+            <h3 className="font-semibold text-theme-primary theme-transition text-lg sm:text-xl md:text-2xl">Mes Rendez-vous</h3>
             <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
           </div>
 
@@ -788,25 +788,25 @@ export default function DashboardPatient() {
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={() => navigateMonth('prev')}
-                className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-1 hover:bg-theme-hover rounded-lg theme-transition"
               >
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-theme-secondary theme-transition" />
               </button>
-              <h4 className="font-medium text-gray-900 text-base sm:text-lg md:text-xl">
+              <h4 className="font-medium text-theme-primary theme-transition text-base sm:text-lg md:text-xl">
                 {currentDate.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
               </h4>
               <button
                 onClick={() => navigateMonth('next')}
-                className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-1 hover:bg-theme-hover rounded-lg theme-transition"
               >
-                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-theme-secondary theme-transition" />
               </button>
             </div>
 
             {/* Jours de la semaine */}
             <div className="grid grid-cols-7 gap-1 mb-2">
               {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day, index) => (
-                <div key={index} className="text-xs sm:text-sm md:text-base font-medium text-gray-500 text-center p-1 sm:p-2">
+                <div key={index} className="text-xs sm:text-sm md:text-base font-medium text-theme-tertiary theme-transition text-center p-1 sm:p-2">
                   {day}
                 </div>
               ))}
@@ -932,9 +932,9 @@ export default function DashboardPatient() {
         {renderPrescriptionsSection()}
 
         {/* Section Documents - OPTIMISÉE */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-2xl p-4 sm:p-6 md:p-8 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+        <div className="bg-theme-card theme-transition rounded-xl shadow-theme-md p-4 sm:p-6 md:p-8 border border-theme">
           <div className="flex items-center justify-between mb-6 sm:mb-8">
-            <h3 className="font-semibold text-gray-900 dark:text-white text-xl sm:text-2xl md:text-3xl">Mes Documents</h3>
+            <h3 className="font-semibold text-theme-primary theme-transition text-xl sm:text-2xl md:text-3xl">Mes Documents</h3>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65]/10 rounded-xl flex items-center justify-center">
               <FileText className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[#006D65]" />
             </div>
@@ -942,23 +942,23 @@ export default function DashboardPatient() {
 
           {loadingDocuments ? (
             <div className="animate-pulse space-y-5">
-              <div className="h-20 bg-gray-200 rounded-xl"></div>
+              <div className="h-20 bg-theme-tertiary rounded-xl"></div>
               <div className="flex gap-4">
-                <div className="h-12 bg-gray-200 rounded-lg flex-1"></div>
-                <div className="h-12 bg-gray-200 rounded-lg flex-1"></div>
+                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
+                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
               </div>
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
               {/* Compteur principal */}
-              <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 rounded-xl p-4 sm:p-5 md:p-6 border border-gray-200 shadow-sm">
+              <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 dark:from-[#006D65]/10 dark:via-gray-800 dark:to-[#E6A930]/10 rounded-xl p-4 sm:p-5 md:p-6 border border-theme shadow-theme-sm theme-transition">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-xl flex items-center justify-center shadow-lg">
                       <FileText className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-1 sm:mb-2 font-medium">Documents stockés</p>
+                      <p className="text-sm sm:text-base md:text-lg text-theme-secondary theme-transition mb-1 sm:mb-2 font-medium">Documents stockés</p>
                       <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-[#006D65]">
                         {documentStats?.totalDocuments || 0} document{(documentStats?.totalDocuments || 0) > 1 ? 's' : ''}
                       </p>
@@ -969,7 +969,7 @@ export default function DashboardPatient() {
                       <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full mr-2 animate-pulse"></div>
                       <span className="text-xs sm:text-sm font-semibold">Sécurisé</span>
                     </div>
-                    <p className="text-xs text-gray-500">Chiffrement SSL</p>
+                    <p className="text-xs text-theme-tertiary theme-transition">Chiffrement SSL</p>
                   </div>
                 </div>
               </div>
@@ -996,11 +996,11 @@ export default function DashboardPatient() {
               </div>
 
               {/* Information */}
-              <div className="text-center bg-gray-50 rounded-lg py-3 px-4">
-                <p className="text-xs sm:text-sm text-gray-600 font-medium">
+              <div className="text-center bg-theme-secondary theme-transition rounded-lg py-3 px-4">
+                <p className="text-xs sm:text-sm text-theme-secondary theme-transition font-medium">
                   Formats acceptés : 📄 PDF • 🖼️ Images • 📝 Word • 📊 Excel
                 </p>
-                <p className="text-xs text-gray-500 mt-1">Taille maximale : 10MB par fichier</p>
+                <p className="text-xs text-theme-tertiary theme-transition mt-1">Taille maximale : 10MB par fichier</p>
               </div>
             </div>
           )}
@@ -1008,20 +1008,20 @@ export default function DashboardPatient() {
 
         {/* Prochains RDV - OPTIMISÉ */}
         {dashboardStats?.upcomingAppointments?.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+          <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white">Mes Prochains Rendez-vous</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-theme-primary theme-transition">Mes Prochains Rendez-vous</h3>
               <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {dashboardStats.upcomingAppointments.slice(0, 6).map((appointment) => (
-                <div key={appointment.id} className="border border-gray-200 dark:border-gray-700 rounded-2xl p-4 sm:p-5 hover:shadow-lg dark:hover:shadow-2xl transition-all duration-300 hover:border-[#006D65] bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-800/80">
+                <div key={appointment.id} className="border border-theme rounded-2xl p-4 sm:p-5 hover:shadow-theme-lg theme-transition hover:border-[#006D65] bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-800/80">
                   <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-gray-900 text-base sm:text-lg mb-2">
+                      <h4 className="font-semibold text-theme-primary theme-transition text-base sm:text-lg mb-2">
                         {appointment.consultationType?.name || 'Consultation'}
                       </h4>
-                      <p className="text-sm sm:text-base md:text-lg text-gray-600 font-medium">
+                      <p className="text-sm sm:text-base md:text-lg text-theme-secondary theme-transition font-medium">
                         {appointment.appointmentDate.toLocaleDateString('fr-FR', {
                           weekday: 'long',
                           day: 'numeric',
@@ -1042,11 +1042,11 @@ export default function DashboardPatient() {
                         <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 truncate">
+                        <p className="text-sm sm:text-base md:text-lg font-semibold text-theme-primary theme-transition truncate">
                           Dr. {appointment.doctor.firstName} {appointment.doctor.lastName}
                         </p>
                         {appointment.doctor.speciality && (
-                          <p className="text-xs sm:text-sm md:text-base text-gray-600 truncate">{appointment.doctor.speciality}</p>
+                          <p className="text-xs sm:text-sm md:text-base text-theme-secondary theme-transition truncate">{appointment.doctor.speciality}</p>
                         )}
                       </div>
                     </div>
@@ -1084,8 +1084,8 @@ export default function DashboardPatient() {
         )}
 
         {/* Noter la Clinique - OPTIMISÉ */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+        <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-theme-primary theme-transition mb-4 flex items-center">
             <Star className="w-5 h-5 sm:w-6 sm:h-6 text-[#E6A930] mr-2" />
             Noter la Clinique OSIRIX
           </h3>
@@ -1169,9 +1169,9 @@ export default function DashboardPatient() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-      {/* Navbar FIXE - OPTIMISÉE avec Dark Mode */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
+    <div className="min-h-screen bg-theme-secondary theme-transition">
+      {/* Navbar FIXE - OPTIMISÉE */}
+      <header className="bg-theme-card shadow-theme-sm border-b border-theme sticky top-0 z-50 theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo Desktop */}
