@@ -1202,8 +1202,8 @@ export default function DashboardPatient() {
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
                     className={`flex items-center px-3 xl:px-4 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-200 relative ${activeSection === item.id
-                      ? 'text-gray-900 dark:text-white font-bold'
-                      : 'text-gray-900 dark:text-gray-300 hover:text-[#006D65] dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ? 'text-theme-primary font-bold'
+                      : 'text-theme-primary hover:text-[#006D65] hover:bg-theme-secondary'
                       }`}
                   >
                     <Icon className="w-4 h-4 xl:mr-2" />
