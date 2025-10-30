@@ -29,13 +29,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={handleClick}
-      className="relative p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors border border-gray-300 dark:border-gray-600"
+      className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
       aria-label="Changer de thème"
       title={theme === 'light' ? 'Mode sombre' : 'Mode clair'}
     >
       {theme === 'light' ? (
         // Icône Lune (pour activer le mode sombre)
-        <svg className="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+        <svg className="w-5 h-5 text-gray-700 dark:text-gray-300" fill="currentColor" viewBox="0 0 20 20">
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
         </svg>
       ) : (

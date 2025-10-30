@@ -732,7 +732,7 @@ export default function DashboardPatient() {
           <h2 className="text-xl sm:text-2xl font-semibold text-theme-primary theme-transition mb-4 sm:mb-5">Mes Informations</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Informations de base */}
-            <div className="bg-gradient-to-br from-[#006D65]/5 dark:from-[#006D65]/10 to-white dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-[#006D65]/20 dark:border-[#006D65]/30 theme-transition">
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-700 theme-transition">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-3 sm:mr-4">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -871,16 +871,16 @@ export default function DashboardPatient() {
           </div>
 
           {/* Prochain RDV - TAILLE RÉDUITE */}
-          <div className="border-t border-gray-200 pt-4 sm:pt-5">
-            <h4 className="font-medium text-gray-900 text-base sm:text-lg md:text-xl mb-4">Prochain RDV</h4>
+          <div className="border-t border-theme pt-4 sm:pt-5">
+            <h4 className="font-medium text-theme-primary theme-transition text-base sm:text-lg md:text-xl mb-4">Prochain RDV</h4>
             {dashboardStats?.nextAppointment ? (
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#006D65] shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#006D65] shadow-sm hover:shadow-md transition-shadow theme-transition">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 text-base sm:text-lg mb-2">
+                    <p className="font-medium text-theme-primary theme-transition text-base sm:text-lg mb-2">
                       {dashboardStats.nextAppointment.consultationType?.name || 'Consultation'}
                     </p>
-                    <p className="text-gray-700 text-base sm:text-lg md:text-xl mb-3">
+                    <p className="text-theme-secondary theme-transition text-base sm:text-lg md:text-xl mb-3">
                       {dashboardStats.nextAppointment.appointmentDate.toLocaleDateString('fr-FR', {
                         weekday: 'long',
                         day: 'numeric',
@@ -892,7 +892,7 @@ export default function DashboardPatient() {
                         <div className="w-6 h-6 sm:w-8 sm:h-8 bg-[#006D65] rounded-full flex items-center justify-center">
                           <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                         </div>
-                        <p className="text-gray-700 text-sm sm:text-base md:text-lg font-medium">
+                        <p className="text-theme-secondary theme-transition text-sm sm:text-base md:text-lg font-medium">
                           Dr. {dashboardStats.nextAppointment.doctor.firstName} {dashboardStats.nextAppointment.doctor.lastName}
                         </p>
                       </div>
@@ -912,11 +912,11 @@ export default function DashboardPatient() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-6 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-500" />
+              <div className="text-center py-6 bg-gray-50 dark:bg-gray-700 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 theme-transition">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-500 dark:text-gray-300" />
                 </div>
-                <p className="text-gray-600 mb-4 text-base sm:text-lg md:text-xl">Aucun rendez-vous programmé</p>
+                <p className="text-theme-secondary theme-transition mb-4 text-base sm:text-lg md:text-xl">Aucun rendez-vous programmé</p>
                 <button
                   onClick={() => setActiveSection('new-appointment')}
                   className="bg-[#E6A930] text-white py-2 sm:py-3 px-4 sm:px-6 rounded-xl hover:bg-[#d49821] transition-colors font-semibold text-sm sm:text-base md:text-lg shadow-md hover:shadow-lg"
@@ -932,26 +932,24 @@ export default function DashboardPatient() {
         {renderPrescriptionsSection()}
 
         {/* Section Documents - OPTIMISÉE */}
-        <div className="bg-theme-card theme-transition rounded-xl shadow-theme-md p-4 sm:p-6 md:p-8 border border-theme">
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
-            <h3 className="font-semibold text-theme-primary theme-transition text-xl sm:text-2xl md:text-3xl">Mes Documents</h3>
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65]/10 rounded-xl flex items-center justify-center">
-              <FileText className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[#006D65]" />
-            </div>
+        <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h3 className="font-semibold text-theme-primary theme-transition text-lg sm:text-xl md:text-2xl">Mes Documents</h3>
+            <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
           </div>
 
           {loadingDocuments ? (
-            <div className="animate-pulse space-y-5">
-              <div className="h-20 bg-theme-tertiary rounded-xl"></div>
+            <div className="animate-pulse space-y-4">
+              <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
               <div className="flex gap-4">
-                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
-                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
+                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-1"></div>
+                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-1"></div>
               </div>
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
               {/* Compteur principal */}
-              <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 dark:from-[#006D65]/10 dark:via-gray-800 dark:to-[#E6A930]/10 rounded-xl p-4 sm:p-5 md:p-6 border border-theme shadow-theme-sm theme-transition">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-700 shadow-sm theme-transition">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-xl flex items-center justify-center shadow-lg">
@@ -996,7 +994,7 @@ export default function DashboardPatient() {
               </div>
 
               {/* Information */}
-              <div className="text-center bg-theme-secondary theme-transition rounded-lg py-3 px-4">
+              <div className="text-center bg-gray-50 dark:bg-gray-700 theme-transition rounded-lg py-3 px-4">
                 <p className="text-xs sm:text-sm text-theme-secondary theme-transition font-medium">
                   Formats acceptés : 📄 PDF • 🖼️ Images • 📝 Word • 📊 Excel
                 </p>
@@ -1010,7 +1008,7 @@ export default function DashboardPatient() {
         {dashboardStats?.upcomingAppointments?.length > 0 && (
           <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-theme-primary theme-transition">Mes Prochains Rendez-vous</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-theme-primary theme-transition">Mes Prochains Rendez-vous</h3>
               <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
@@ -1021,7 +1019,7 @@ export default function DashboardPatient() {
                       <h4 className="font-semibold text-theme-primary theme-transition text-base sm:text-lg mb-2">
                         {appointment.consultationType?.name || 'Consultation'}
                       </h4>
-                      <p className="text-sm sm:text-base md:text-lg text-theme-secondary theme-transition font-medium">
+                      <p className="text-sm sm:text-base text-theme-secondary theme-transition font-medium">
                         {appointment.appointmentDate.toLocaleDateString('fr-FR', {
                           weekday: 'long',
                           day: 'numeric',
@@ -1030,7 +1028,7 @@ export default function DashboardPatient() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-lg sm:text-xl md:text-2xl font-bold text-[#006D65] mb-1">
+                      <p className="text-lg sm:text-xl font-bold text-[#006D65] mb-1">
                         {appointment.appointmentTime}
                       </p>
                     </div>
@@ -1042,18 +1040,18 @@ export default function DashboardPatient() {
                         <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm sm:text-base md:text-lg font-semibold text-theme-primary theme-transition truncate">
+                        <p className="text-sm sm:text-base font-semibold text-theme-primary theme-transition truncate">
                           Dr. {appointment.doctor.firstName} {appointment.doctor.lastName}
                         </p>
                         {appointment.doctor.speciality && (
-                          <p className="text-xs sm:text-sm md:text-base text-theme-secondary theme-transition truncate">{appointment.doctor.speciality}</p>
+                          <p className="text-xs sm:text-sm text-theme-secondary theme-transition truncate">{appointment.doctor.speciality}</p>
                         )}
                       </div>
                     </div>
                   )}
 
                   <div className="flex items-center justify-between gap-2">
-                    <span className={`text-xs sm:text-sm md:text-base px-2 sm:px-3 py-1 sm:py-2 rounded-full font-semibold ${appointment.status === 'confirmed'
+                    <span className={`text-xs sm:text-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full font-semibold ${appointment.status === 'confirmed'
                       ? 'bg-green-100 text-green-800 border border-green-200'
                       : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
                       }`}>
@@ -1061,7 +1059,7 @@ export default function DashboardPatient() {
                     </span>
                     <button
                       onClick={() => setActiveSection('appointments')}
-                      className="text-sm sm:text-base md:text-lg text-[#006D65] hover:text-[#005a54] font-bold transition-colors whitespace-nowrap"
+                      className="text-sm sm:text-base text-[#006D65] hover:text-[#005a54] font-bold transition-colors whitespace-nowrap"
                     >
                       Détails →
                     </button>
@@ -1074,7 +1072,7 @@ export default function DashboardPatient() {
               <div className="mt-4 sm:mt-6 text-center">
                 <button
                   onClick={() => setActiveSection('appointments')}
-                  className="text-[#006D65] hover:text-[#005a54] font-bold text-base sm:text-lg md:text-xl transition-colors"
+                  className="text-[#006D65] hover:text-[#005a54] font-bold text-base sm:text-lg transition-colors"
                 >
                   Voir tous mes rendez-vous ({dashboardStats.upcomingAppointments.length})
                 </button>
@@ -1176,7 +1174,7 @@ export default function DashboardPatient() {
           <div className="flex items-center justify-between h-16">
             {/* Logo Desktop */}
             <div className="hidden lg:flex items-center">
-              <h1 className="text-xl xl:text-2xl font-bold text-primary-600 dark:text-primary-400 tracking-wide">
+              <h1 className="text-xl xl:text-2xl font-bold text-gray-900 dark:text-white tracking-wide">
                 OSIRIX
               </h1>
             </div>
@@ -1190,7 +1188,7 @@ export default function DashboardPatient() {
                   className="h-9 w-9 sm:h-10 sm:w-10 object-cover rounded-lg shadow-sm"
                 />
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-primary-600 dark:text-primary-400">OSIRIX</h1>
+                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">OSIRIX</h1>
                 </div>
               </div>
             </div>
@@ -1203,13 +1201,16 @@ export default function DashboardPatient() {
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`flex items-center px-3 xl:px-4 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-200 ${activeSection === item.id
-                      ? 'text-primary-600 dark:text-primary-400 font-bold bg-primary-50 dark:bg-primary-900/20'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    className={`flex items-center px-3 xl:px-4 py-2 rounded-lg text-sm xl:text-base font-medium transition-all duration-200 relative ${activeSection === item.id
+                      ? 'text-gray-900 dark:text-white font-bold'
+                      : 'text-gray-900 dark:text-gray-300 hover:text-[#006D65] dark:hover:text-primary-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
                     <Icon className="w-4 h-4 xl:mr-2" />
                     <span className="hidden xl:block">{item.label}</span>
+                    {activeSection === item.id && (
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#E6A930] rounded-full"></span>
+                    )}
                   </button>
                 );
               })}
@@ -1484,9 +1485,9 @@ export default function DashboardPatient() {
                       setActiveSection(item.id);
                       setIsMobileMenuOpen(false);
                     }}
-                    className={`w-full flex items-center px-4 py-3 text-left transition-all duration-300 rounded-lg ${activeSection === item.id
-                      ? 'bg-primary-500/10 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 font-bold shadow-sm'
-                      : 'text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-primary-600 dark:hover:text-primary-400'
+                    className={`w-full flex items-center px-4 py-3 text-left transition-all duration-300 rounded-lg relative ${activeSection === item.id
+                      ? 'text-gray-900 dark:text-white font-bold shadow-sm border-l-4 border-[#E6A930]'
+                      : 'text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-[#006D65] dark:hover:text-primary-400'
                       }`}
                   >
                     <Icon className="w-5 h-5 mr-3" />
@@ -1519,7 +1520,7 @@ export default function DashboardPatient() {
       </main>
 
       {/* Footer avec Dark Mode */}
-      <div className="w-full py-4 md:py-6 mt-auto border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      <div className="w-full py-4 md:py-6 mt-auto transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <p className="text-center text-xs md:text-sm text-neutral-600 dark:text-neutral-400">
             © 2025 OSIRIX Clinique Médical. Tous droits réservés.
