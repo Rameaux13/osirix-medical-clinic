@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\n✨ Application classes thème CSS - MesAnalyses (Phase 2)\n\n- Ajout des classes de thème à MesAnalyses.tsx\n- bg-theme-card, text-theme-primary, border-theme, shadow-theme-lg\n- Transitions smooth avec theme-transition\n- Composant responsive au basculement de thème\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
