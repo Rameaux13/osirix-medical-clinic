@@ -732,7 +732,7 @@ export default function DashboardPatient() {
           <h2 className="text-xl sm:text-2xl font-semibold text-theme-primary theme-transition mb-4 sm:mb-5">Mes Informations</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Informations de base */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-700 theme-transition">
+            <div className="bg-theme-card rounded-xl p-4 sm:p-5 border border-theme theme-transition">
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-3 sm:mr-4">
                   <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -874,7 +874,7 @@ export default function DashboardPatient() {
           <div className="border-t border-theme pt-4 sm:pt-5">
             <h4 className="font-medium text-theme-primary theme-transition text-base sm:text-lg md:text-xl mb-4">Prochain RDV</h4>
             {dashboardStats?.nextAppointment ? (
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#006D65] shadow-sm hover:shadow-md transition-shadow theme-transition">
+              <div className="bg-theme-secondary rounded-2xl p-4 sm:p-5 border-l-4 border-l-[#006D65] shadow-sm hover:shadow-md transition-shadow theme-transition">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <p className="font-medium text-theme-primary theme-transition text-base sm:text-lg mb-2">
@@ -912,9 +912,9 @@ export default function DashboardPatient() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-6 bg-gray-50 dark:bg-gray-700 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 theme-transition">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-gray-500 dark:text-gray-300" />
+              <div className="text-center py-6 bg-theme-secondary rounded-2xl border-2 border-dashed border-theme-dark theme-transition">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-theme-tertiary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-theme-tertiary" />
                 </div>
                 <p className="text-theme-secondary theme-transition mb-4 text-base sm:text-lg md:text-xl">Aucun rendez-vous programmé</p>
                 <button
@@ -940,16 +940,16 @@ export default function DashboardPatient() {
 
           {loadingDocuments ? (
             <div className="animate-pulse space-y-4">
-              <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+              <div className="h-20 bg-theme-tertiary rounded-lg"></div>
               <div className="flex gap-4">
-                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-1"></div>
-                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-1"></div>
+                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
+                <div className="h-12 bg-theme-tertiary rounded-lg flex-1"></div>
               </div>
             </div>
           ) : (
             <div className="space-y-4 sm:space-y-6">
               {/* Compteur principal */}
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl p-4 sm:p-5 border border-gray-200 dark:border-gray-700 shadow-sm theme-transition">
+              <div className="bg-theme-secondary rounded-xl p-4 sm:p-5 border border-theme shadow-sm theme-transition">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-5">
                     <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-xl flex items-center justify-center shadow-lg">
@@ -994,7 +994,7 @@ export default function DashboardPatient() {
               </div>
 
               {/* Information */}
-              <div className="text-center bg-gray-50 dark:bg-gray-700 theme-transition rounded-lg py-3 px-4">
+              <div className="text-center bg-theme-secondary theme-transition rounded-lg py-3 px-4">
                 <p className="text-xs sm:text-sm text-theme-secondary theme-transition font-medium">
                   Formats acceptés : 📄 PDF • 🖼️ Images • 📝 Word • 📊 Excel
                 </p>
@@ -1013,7 +1013,7 @@ export default function DashboardPatient() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {dashboardStats.upcomingAppointments.slice(0, 6).map((appointment) => (
-                <div key={appointment.id} className="border border-theme rounded-2xl p-4 sm:p-5 hover:shadow-theme-lg theme-transition hover:border-[#006D65] bg-gradient-to-br from-white dark:from-gray-800 to-gray-50 dark:to-gray-800/80">
+                <div key={appointment.id} className="border border-theme rounded-2xl p-4 sm:p-5 hover:shadow-theme-lg theme-transition hover:border-[#006D65] bg-theme-card">
                   <div className="flex items-start justify-between mb-3 sm:mb-4 gap-2">
                     <div className="flex-1">
                       <h4 className="font-semibold text-theme-primary theme-transition text-base sm:text-lg mb-2">
@@ -1244,7 +1244,7 @@ export default function DashboardPatient() {
                     />
 
                     {/* Menu Notifications - RESPONSIVE & MODERNE avec Dark Mode */}
-                   <div className="fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 max-h-[70vh] sm:max-h-96 overflow-hidden transition-colors duration-300">
+                   <div className="fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 bg-theme-card rounded-xl shadow-2xl border border-theme z-50 max-h-[70vh] sm:max-h-96 overflow-hidden transition-colors duration-300">
                       {/* Header avec gradient */}
                       <div className="bg-gradient-to-r from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 text-white p-4 sm:p-5 rounded-t-xl">
                         <div className="flex items-center justify-between">
@@ -1461,10 +1461,10 @@ export default function DashboardPatient() {
 
       {/* Menu Mobile FIXE avec Dark Mode */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed top-16 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg dark:shadow-2xl rounded-b-2xl border-t border-gray-200 dark:border-gray-700 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300">
+        <div className="lg:hidden fixed top-16 left-0 right-0 bg-theme-card shadow-lg rounded-b-2xl border-t border-theme z-40 max-h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300">
           <div className="px-4 py-6 space-y-4">
             {/* Profil mobile */}
-            <div className="flex items-center space-x-3 p-3 bg-gray-100 dark:bg-gray-700/50 rounded-lg mb-4 transition-colors duration-300">
+            <div className="flex items-center space-x-3 p-3 bg-theme-secondary rounded-lg mb-4 transition-colors duration-300">
               <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 rounded-full flex items-center justify-center shadow-md">
                 <User className="w-5 h-5 text-white" />
               </div>
