@@ -168,9 +168,9 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
-/* Navigation Links avec couleurs exactes */
-.nav-link {
-  color: var(--color-neutral-800);
+/* Navigation Links avec couleurs exactes - DARK MODE COMPATIBLE */
+.nav-link-theme {
+  color: var(--text-primary);
   text-decoration: none;
   position: relative;
   padding: 5px 0;
@@ -181,7 +181,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-.nav-link::after {
+.nav-link-theme::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -194,11 +194,15 @@ body {
   transform: translateX(-50%);
 }
 
-.nav-link:hover {
-  color:#006d65;  /* Vert OSIRIX exact */
+.nav-link-theme:hover {
+  color: #006d65;  /* Vert OSIRIX exact */
 }
 
-.nav-link:hover::after {
+.dark .nav-link-theme:hover {
+  color: #2dd4bf;  /* Vert plus clair en mode sombre */
+}
+
+.nav-link-theme:hover::after {
   width: 100%;
   left: 50%;
 }
@@ -255,6 +259,18 @@ body {
   transform: translateY(-2px);
 }
 
+/* Version dark mode du bouton outline */
+.dark .btn-outline {
+  color: #2dd4bf;
+  border-color: #2dd4bf;
+}
+
+.dark .btn-outline:hover {
+  background: #2dd4bf;
+  color: #111827;
+  box-shadow: 0 5px 20px rgba(45, 212, 191, 0.3);
+}
+
 /* Cards médicales */
 .card-medical {
   background-color: white;
@@ -262,6 +278,11 @@ body {
   padding: 24px;
   box-shadow: var(--shadow-medical);
   border: 1px solid var(--color-neutral-200);
+}
+
+.dark .card-medical {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
 }
 
 /* Animation Hero */
@@ -281,11 +302,16 @@ body {
     transform: translateY(0);
   }
 }
+
 /* Styles Footer exactes comme dans l'HTML original */
 footer {
   background: #006d65 !important;
   color: #b0e0dc;
   padding: 3rem 3rem 2rem;
+}
+
+.dark footer {
+  background: #003d39 !important;
 }
 
 .footer-content {
@@ -319,6 +345,7 @@ footer {
 .footer-section a:hover {
   color: #fff;
 }
+
 /* Responsive mobile - Boutons auth */
 @media (max-width: 768px) {
   .auth-buttons-mobile {
@@ -332,5 +359,142 @@ footer {
   .auth-buttons-mobile .btn-primary {
     flex: 1;
     text-align: center;
+  }
+}
+
+/* ============================================
+   AMÉLIORATIONS RESPONSIVE MOBILE
+   ============================================ */
+
+/* Optimisations pour mobile */
+@media (max-width: 640px) {
+  /* Meilleure lisibilité sur mobile */
+  body {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Navigation mobile améliorée */
+  .nav-link-theme {
+    font-size: 1.1rem;
+    padding: 0.75rem 0;
+  }
+
+  /* Boutons plus touchables sur mobile */
+  .btn-primary,
+  .btn-outline {
+    min-height: 48px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Formulaires mieux adaptés */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important; /* Évite le zoom automatique sur iOS */
+  }
+
+  /* Images responsive */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Optimisations tablettes */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .nav-link-theme {
+    font-size: 1rem;
+  }
+}
+
+/* Desktop large screens */
+@media (min-width: 1920px) {
+  .max-w-7xl {
+    max-width: 1536px;
+  }
+}
+
+/* ============================================
+   ANIMATIONS SUPPLÉMENTAIRES
+   ============================================ */
+
+/* Animation pulse pour dark mode toggle */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Delay pour animation pulse */
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+/* Smooth scroll pour tous les navigateurs */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fix pour le menu mobile qui couvre le contenu */
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 80px; /* Hauteur du header mobile */
+  }
+}
+
+@media (min-width: 769px) {
+  section {
+    scroll-margin-top: 96px; /* Hauteur du header desktop */
+  }
+}
+
+/* ============================================
+   ACCESSIBILITÉ
+   ============================================ */
+
+/* Focus visible pour accessibilité */
+*:focus-visible {
+  outline: 2px solid #E6A930;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Réduction du mouvement pour utilisateurs qui le préfèrent */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+  /* Cache les éléments non nécessaires à l'impression */
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Force le thème clair pour l'impression */
+  body {
+    background: white !important;
+    color: black !important;
   }
 }

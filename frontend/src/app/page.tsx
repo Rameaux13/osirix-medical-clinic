@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   // État pour le formulaire d'avis
   const [feedbackForm, setFeedbackForm] = useState({
@@ -16,6 +17,31 @@ export default function HomePage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState('');
+
+  // Initialiser le dark mode depuis localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      setDarkMode(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      setDarkMode(true);
+    }
+  };
 
   // Gestion du formulaire d'avis
   const handleFeedbackChange = (e: any) => {
@@ -61,9 +87,9 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-theme-primary theme-transition">
       {/* Header */}
-      <header className="fixed top-0 w-full bg-white shadow-lg z-50 transition-all duration-300">
+      <header className="fixed top-0 w-full bg-theme-card shadow-theme-lg z-50 theme-transition">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-20 sm:h-24">
             {/* Logo */}
@@ -75,22 +101,39 @@ export default function HomePage() {
                 height={70}
                 className="w-16 h-16 sm:w-20 sm:h-20 lg:w-[80px] lg:h-[80px] rounded-xl shadow-md hover:scale-105 hover:rotate-2 transition-all duration-300"
               />
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-primary-500 uppercase tracking-wider">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-theme-logo uppercase tracking-wider theme-transition">
                 OSIRIX
               </h1>
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="#accueil" className="nav-link text-lg lg:text-xl">Accueil</Link>
-              <Link href="#services" className="nav-link text-lg lg:text-xl">Services</Link>
-              <Link href="#avis" className="nav-link text-lg lg:text-xl">Avis</Link>
-              <Link href="#rendez-vous" className="nav-link text-lg lg:text-xl">Rendez-vous</Link>
-              <Link href="#contact" className="nav-link text-lg lg:text-xl">Contact</Link>
+              <Link href="#accueil" className="nav-link-theme text-lg lg:text-xl">Accueil</Link>
+              <Link href="#services" className="nav-link-theme text-lg lg:text-xl">Services</Link>
+              <Link href="#avis" className="nav-link-theme text-lg lg:text-xl">Avis</Link>
+              <Link href="#rendez-vous" className="nav-link-theme text-lg lg:text-xl">Rendez-vous</Link>
+              <Link href="#contact" className="nav-link-theme text-lg lg:text-xl">Contact</Link>
             </div>
 
-            {/* Auth Buttons Desktop */}
+            {/* Auth Buttons + Dark Mode Toggle Desktop */}
             <div className="hidden md:flex items-center gap-4">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className="p-3 rounded-full bg-theme-secondary hover:bg-theme-hover theme-transition"
+                aria-label="Toggle Dark Mode"
+              >
+                {darkMode ? (
+                  <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/>
+                  </svg>
+                )}
+              </button>
+              
               <Link href="/login" className="btn-outline text-lg lg:text-xl px-6 py-3">
                 Connexion
               </Link>
@@ -99,19 +142,38 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-4xl text-primary-500 p-2 hover:bg-primary-50 rounded-lg transition-colors"
-              aria-label="Menu"
-            >
-              {mobileMenuOpen ? '✕' : '☰'}
-            </button>
+            {/* Mobile menu button + Dark Mode Toggle */}
+            <div className="md:hidden flex items-center gap-3">
+              {/* Dark Mode Toggle Mobile */}
+              <button
+                onClick={toggleDarkMode}
+                className="p-2 rounded-full bg-theme-secondary hover:bg-theme-hover theme-transition"
+                aria-label="Toggle Dark Mode"
+              >
+                {darkMode ? (
+                  <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z"/>
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z"/>
+                  </svg>
+                )}
+              </button>
+
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-4xl text-theme-primary p-2 hover:bg-theme-hover rounded-lg theme-transition"
+                aria-label="Menu"
+              >
+                {mobileMenuOpen ? '✕' : '☰'}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden absolute top-20 sm:top-24 left-0 right-0 bg-white shadow-2xl rounded-b-2xl border-t border-neutral-200">
+            <div className="md:hidden absolute top-20 sm:top-24 left-0 right-0 bg-theme-card shadow-theme-xl rounded-b-2xl border-t border-theme theme-transition">
               <div className="px-6 py-6 space-y-4">
                 <a
                   href="#accueil"
@@ -120,7 +182,7 @@ export default function HomePage() {
                     setMobileMenuOpen(false);
                     document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="block nav-link text-xl py-3 cursor-pointer"
+                  className="block nav-link-theme text-xl py-3 cursor-pointer"
                 >
                   Accueil
                 </a>
@@ -132,7 +194,7 @@ export default function HomePage() {
                     setMobileMenuOpen(false);
                     document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="block nav-link text-xl py-3 cursor-pointer"
+                  className="block nav-link-theme text-xl py-3 cursor-pointer"
                 >
                   Services
                 </a>
@@ -144,9 +206,8 @@ export default function HomePage() {
                     setMobileMenuOpen(false);
                     document.getElementById('avis')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="block nav-link text-xl py-3 cursor-pointer"
+                  className="block nav-link-theme text-xl py-3 cursor-pointer"
                 >
-
                   Avis
                 </a>
 
@@ -157,7 +218,7 @@ export default function HomePage() {
                     setMobileMenuOpen(false);
                     document.getElementById('accueil')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="block nav-link text-xl py-3 cursor-pointer"
+                  className="block nav-link-theme text-xl py-3 cursor-pointer"
                 >
                   Rendez-vous
                 </a>
@@ -169,11 +230,11 @@ export default function HomePage() {
                     setMobileMenuOpen(false);
                     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="block nav-link text-xl py-3 cursor-pointer"
+                  className="block nav-link-theme text-xl py-3 cursor-pointer"
                 >
                   Contact
                 </a>
-                <div className="pt-4 space-y-3 border-t border-neutral-200">
+                <div className="pt-4 space-y-3 border-t border-theme">
                   <Link
                     href="/login"
                     onClick={() => setMobileMenuOpen(false)}
@@ -195,23 +256,22 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* Hero Section - OPTIMISÉ MOBILE */}
+      {/* Hero Section - RESPONSIVE ET DARK MODE */}
       <section
         id="accueil"
-        className="min-h-screen bg-gradient-to-br from-primary-600/90 to-primary-700/90 bg-cover bg-center bg-fixed flex items-center justify-center text-white relative overflow-hidden"
+        className="min-h-screen bg-gradient-to-br from-primary-600/90 to-primary-700/90 bg-cover bg-center flex items-center justify-center text-white relative overflow-hidden pt-20 sm:pt-24"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 109, 101, 0.75), rgba(0, 109, 101, 0.75)), url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
-          backgroundAttachment: 'scroll'
         }}
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center animate-fade-in">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 sm:mb-8 leading-tight drop-shadow-lg tracking-wide">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 sm:mb-8 leading-tight drop-shadow-lg tracking-wide">
             Votre santé, notre priorité
           </h1>
 
-          <p className="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl mb-8 sm:mb-12 opacity-95 leading-relaxed drop-shadow-sm font-medium">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl mb-8 sm:mb-12 opacity-95 leading-relaxed drop-shadow-sm font-medium">
             Une équipe médicale d'excellence à votre service pour des soins de qualité
             dans un environnement moderne et bienveillant.
           </p>
@@ -226,9 +286,9 @@ export default function HomePage() {
       </section>
 
       {/* Section Médecin Souriant */}
-      <section className="py-16 sm:py-20 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="py-16 sm:py-20 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 bg-theme-primary theme-transition">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div className="rounded-3xl overflow-hidden shadow-2xl">
+          <div className="rounded-3xl overflow-hidden shadow-theme-xl">
             <Image
               src="/docteur noir.jpg"
               alt="Docteur souriant de la clinique OSIRIX"
@@ -242,12 +302,12 @@ export default function HomePage() {
               Des soins d'exception par des professionnels dévoués
             </h2>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-700 mb-6 sm:mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary mb-6 sm:mb-8 leading-relaxed theme-transition">
               À la clinique OSIRIX, nous mettons tout en œuvre pour vous offrir des soins médicaux
               de la plus haute qualité. Notre équipe de professionnels expérimentés et bienveillants
               est là pour vous accompagner à chaque étape de votre parcours de santé.
             </p>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-700 mb-8 sm:mb-10 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary mb-8 sm:mb-10 leading-relaxed theme-transition">
               Nous combinons expertise médicale, technologies de pointe et approche humaine pour vous
               garantir une expérience de soin optimale et rassurante.
             </p>
@@ -259,7 +319,7 @@ export default function HomePage() {
       </section>
 
       {/* Section Services */}
-      <section id="services" className="py-16 sm:py-20 md:py-28 px-4 md:px-6 bg-gradient-to-br from-neutral-100 to-white">
+      <section id="services" className="py-16 sm:py-20 md:py-28 px-4 md:px-6 bg-theme-secondary theme-transition">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12 sm:mb-16 md:mb-24">
             <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-primary-100 text-primary-600 rounded-full text-sm sm:text-base md:text-lg font-semibold uppercase tracking-wider mb-4 sm:mb-6">
@@ -270,7 +330,7 @@ export default function HomePage() {
               Services Médicaux d'Excellence
             </h2>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-neutral-700 max-w-5xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-theme-secondary max-w-5xl mx-auto leading-relaxed px-4 theme-transition">
               OSIRIX Clinique Médical vous offre une gamme complète de services médicaux
               avec des équipements de pointe et une équipe qualifiée pour votre bien-être.
             </p>
@@ -278,8 +338,8 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
             {/* Service 1 */}
-            <div className="group bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group bg-theme-card rounded-3xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-500 hover:-translate-y-3 border border-theme relative overflow-hidden theme-transition">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 dark:from-primary-900/20"></div>
 
               <div className="relative z-10 text-center">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -296,18 +356,16 @@ export default function HomePage() {
                   Consultation Générale
                 </h3>
 
-                <p className="text-neutral-700 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl">
+                <p className="text-theme-secondary leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                   Consultations médicales générales avec nos médecins expérimentés
                   pour un suivi personnalisé et complet de votre santé.
                 </p>
-
-                
               </div>
             </div>
 
             {/* Service 2 */}
-            <div className="group bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-secondary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group bg-theme-card rounded-3xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-500 hover:-translate-y-3 border border-theme relative overflow-hidden theme-transition">
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 dark:from-secondary-900/20"></div>
 
               <div className="relative z-10 text-center">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-secondary-500 via-secondary-600 to-secondary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -324,18 +382,16 @@ export default function HomePage() {
                   Analyses Médicales
                 </h3>
 
-                <p className="text-neutral-700 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl">
+                <p className="text-theme-secondary leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                   Laboratoire d'analyses complet avec résultats rapides et fiables
                   pour tous vos examens biologiques et diagnostics précis.
                 </p>
-
-               
               </div>
             </div>
 
             {/* Service 3 */}
-            <div className="group bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-neutral-200 relative overflow-hidden md:col-span-2 lg:col-span-1">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="group bg-theme-card rounded-3xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-500 hover:-translate-y-3 border border-theme relative overflow-hidden md:col-span-2 lg:col-span-1 theme-transition">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 dark:from-primary-900/20"></div>
 
               <div className="relative z-10 text-center">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-primary-500 via-primary-600 to-primary-700 rounded-2xl flex items-center justify-center mx-auto mb-6 sm:mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -352,12 +408,10 @@ export default function HomePage() {
                   Imagerie Médicale
                 </h3>
 
-                <p className="text-neutral-700 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl">
+                <p className="text-theme-secondary leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                   Équipements d'imagerie moderne : radiologie, échographie, scanner
                   pour des diagnostics précis et une prise en charge optimale.
                 </p>
-
-               
               </div>
             </div>
           </div>
@@ -365,20 +419,20 @@ export default function HomePage() {
       </section>
 
       {/* Section Équipe Médicale */}
-      <section className="py-16 sm:py-20 md:py-24 bg-neutral-100">
+      <section className="py-16 sm:py-20 md:py-24 bg-theme-secondary theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 sm:mb-16 md:mb-20">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-500 mb-4 sm:mb-6 tracking-wide">
               Notre Équipe Médicale
             </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-700 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-4 theme-transition">
               Rencontrez nos experts passionnés, dédiés à votre bien-être et à votre santé.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {/* Docteur 1 */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 text-center">
+            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
               <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
                 <Image
                   src="/docteur femme.jpg"
@@ -389,15 +443,15 @@ export default function HomePage() {
                 />
               </div>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Kouame</h3>
-              <p className="text-neutral-600 italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl">Cardiologue</p>
-              <p className="text-neutral-700 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
+              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Cardiologue</p>
+              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
                 Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience
                 et une approche humaine.
               </p>
             </div>
 
             {/* Docteur 2 */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 text-center">
+            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
               <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
                 <Image
                   src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80"
@@ -408,15 +462,15 @@ export default function HomePage() {
                 />
               </div>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Karim Ba</h3>
-              <p className="text-neutral-600 italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl">Radiologue</p>
-              <p className="text-neutral-700 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
+              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Radiologue</p>
+              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
                 Expert en techniques d'imagerie avancées, il assure des diagnostics précis
                 et rapides.
               </p>
             </div>
 
             {/* Docteur 3 */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 text-center">
+            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
               <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
                 <Image
                   src="/docteur homme noir.jpg"
@@ -427,8 +481,8 @@ export default function HomePage() {
                 />
               </div>
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr.Diarra</h3>
-              <p className="text-neutral-600 italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl">Médecin Généraliste</p>
-              <p className="text-neutral-700 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed">
+              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Médecin Généraliste</p>
+              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
                 Une approche douce et personnalisée pour assurer un suivi complet de
                 votre santé.
               </p>
@@ -438,22 +492,22 @@ export default function HomePage() {
       </section>
 
       {/* Section Témoignages */}
-      <section className="py-16 sm:py-20 md:py-24 bg-neutral-100">
+      <section className="py-16 sm:py-20 md:py-24 bg-theme-secondary theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 sm:mb-16 md:mb-20">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-500 mb-4 sm:mb-6 tracking-wide">
               Ce que disent nos patients
             </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-700 max-w-3xl mx-auto leading-relaxed px-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-4 theme-transition">
               La satisfaction de nos patients est notre plus grande récompense
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {/* Témoignage 1 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
+            <div className="bg-theme-card rounded-2xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 relative theme-transition">
               <div className="text-5xl sm:text-6xl md:text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
-              <p className="text-neutral-700 italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl">
+              <p className="text-theme-secondary italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                 Excellent service médical ! L'équipe est très professionnelle et à l'écoute.
                 Les installations sont modernes et l'accueil chaleureux.
               </p>
@@ -463,15 +517,15 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-primary-500 text-base sm:text-lg md:text-xl">Aminata Mbaye</h4>
-                  <p className="text-sm sm:text-base text-neutral-600">Patiente depuis 2 ans</p>
+                  <p className="text-sm sm:text-base text-theme-tertiary theme-transition">Patiente depuis 2 ans</p>
                 </div>
               </div>
             </div>
 
             {/* Témoignage 2 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
+            <div className="bg-theme-card rounded-2xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 relative theme-transition">
               <div className="text-5xl sm:text-6xl md:text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
-              <p className="text-neutral-700 italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl">
+              <p className="text-theme-secondary italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                 Je recommande vivement cette clinique. Les médecins sont compétents et le personnel
                 administratif très efficace pour les rendez-vous.
               </p>
@@ -481,15 +535,15 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-primary-500 text-base sm:text-lg md:text-xl">Kouassi Désirée</h4>
-                  <p className="text-sm sm:text-base text-neutral-600">Patiente depuis 1 an</p>
+                  <p className="text-sm sm:text-base text-theme-tertiary theme-transition">Patiente depuis 1 an</p>
                 </div>
               </div>
             </div>
 
             {/* Témoignage 3 */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 md:p-10 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative">
+            <div className="bg-theme-card rounded-2xl p-6 sm:p-8 md:p-10 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 relative theme-transition">
               <div className="text-5xl sm:text-6xl md:text-7xl text-secondary-500 opacity-60 absolute top-2 left-4 font-serif">"</div>
-              <p className="text-neutral-700 italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl">
+              <p className="text-theme-secondary italic mb-6 sm:mb-8 pt-8 sm:pt-10 leading-relaxed text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                 Une clinique d'excellence ! Les analyses sont rapides et les résultats précis.
                 L'équipe médicale inspire confiance.
               </p>
@@ -499,7 +553,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-primary-500 text-base sm:text-lg md:text-xl">Jean Baptiste</h4>
-                  <p className="text-sm sm:text-base text-neutral-600">Patient depuis 3 ans</p>
+                  <p className="text-sm sm:text-base text-theme-tertiary theme-transition">Patient depuis 3 ans</p>
                 </div>
               </div>
             </div>
@@ -508,31 +562,31 @@ export default function HomePage() {
       </section>
 
       {/* SECTION AVIS */}
-      <section id="avis" className="py-16 sm:py-20 md:py-28 bg-gradient-to-br from-primary-50 to-secondary-50 relative overflow-hidden">
+      <section id="avis" className="py-16 sm:py-20 md:py-28 bg-theme-primary relative overflow-hidden theme-transition">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 rounded-full opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary-200 rounded-full opacity-20 animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-100 rounded-full opacity-10"></div>
+          <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary-200 dark:bg-secondary-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-100 dark:bg-primary-900 rounded-full opacity-10"></div>
         </div>
 
         <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-100 text-secondary-700 rounded-full text-sm sm:text-base md:text-lg font-semibold uppercase tracking-wider mb-4 sm:mb-6">
+            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-100 dark:bg-secondary-900 text-secondary-700 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-semibold uppercase tracking-wider mb-4 sm:mb-6 theme-transition">
               Votre Opinion Compte
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-600 mb-6 sm:mb-8 leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-600 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
               Partagez votre Expérience OSIRIX
             </h2>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-neutral-800 max-w-3xl mx-auto leading-relaxed px-2">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-theme-primary max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
               Votre avis nous aide à améliorer continuellement nos services.
               Partagez votre expérience avec notre équipe et aidez-nous à offrir
               des soins toujours plus adaptés à vos besoins.
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border border-primary-100 relative overflow-hidden">
+          <div className="bg-theme-card rounded-3xl shadow-theme-xl p-6 sm:p-8 md:p-12 border border-theme relative overflow-hidden theme-transition">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
 
             <form onSubmit={handleFeedbackSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
@@ -542,26 +596,26 @@ export default function HomePage() {
                     <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
                   </svg>
                 </div>
-                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-600 mb-2 sm:mb-3">
+                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2 sm:mb-3 theme-transition">
                   Donnez votre Avis
                 </h3>
-                <p className="text-neutral-700 text-sm sm:text-base md:text-lg lg:text-xl">
+                <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                   Votre retour d'expérience est précieux pour nous
                 </p>
               </div>
 
               {submitMessage && (
                 <div className={`p-4 sm:p-5 rounded-xl text-center font-medium text-base sm:text-lg md:text-xl ${submitMessage.includes('Merci')
-                  ? 'bg-green-100 text-green-700 border border-green-200'
-                  : 'bg-red-100 text-red-700 border border-red-200'
-                  }`}>
+                  ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+                  : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
+                  } theme-transition`}>
                   {submitMessage}
                 </div>
               )}
 
               <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
                 <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="name" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700">
+                  <label htmlFor="name" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
                     Nom complet *
                   </label>
                   <input
@@ -571,13 +625,13 @@ export default function HomePage() {
                     value={feedbackForm.name}
                     onChange={handleFeedbackChange}
                     required
-                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-neutral-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-neutral-800 placeholder-neutral-500 text-base sm:text-lg md:text-xl"
+                    className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl theme-transition"
                     placeholder="Votre nom et prénom"
                   />
                 </div>
 
                 <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="email" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700">
+                  <label htmlFor="email" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
                     Adresse email *
                   </label>
                   <input
@@ -587,14 +641,14 @@ export default function HomePage() {
                     value={feedbackForm.email}
                     onChange={handleFeedbackChange}
                     required
-                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-neutral-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-neutral-800 placeholder-neutral-500 text-base sm:text-lg md:text-xl"
+                    className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl theme-transition"
                     placeholder="votre@email.com"
                   />
                 </div>
               </div>
 
               <div className="space-y-4 sm:space-y-5">
-                <label className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700">
+                <label className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
                   Votre évaluation *
                 </label>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
@@ -606,8 +660,8 @@ export default function HomePage() {
                         onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
                         className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center ${star <= feedbackForm.rating
                           ? 'bg-secondary-500 text-white shadow-md hover:bg-secondary-600'
-                          : 'bg-neutral-300 text-neutral-500 hover:bg-neutral-400'
-                          }`}
+                          : 'bg-theme-tertiary text-theme-tertiary hover:bg-theme-hover'
+                          } theme-transition`}
                       >
                         <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
@@ -615,7 +669,7 @@ export default function HomePage() {
                       </button>
                     ))}
                   </div>
-                  <div className="text-base sm:text-lg md:text-xl font-medium text-neutral-700">
+                  <div className="text-base sm:text-lg md:text-xl font-medium text-theme-secondary theme-transition">
                     {feedbackForm.rating === 1 && "Très insatisfait"}
                     {feedbackForm.rating === 2 && "Insatisfait"}
                     {feedbackForm.rating === 3 && "Correct"}
@@ -626,7 +680,7 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-2 sm:space-y-3">
-                <label htmlFor="message" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700">
+                <label htmlFor="message" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
                   Votre impression sur OSIRIX *
                 </label>
                 <textarea
@@ -636,10 +690,10 @@ export default function HomePage() {
                   onChange={handleFeedbackChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-neutral-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-neutral-800 placeholder-neutral-500 resize-none text-base sm:text-lg md:text-xl"
+                  className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 resize-none text-base sm:text-lg md:text-xl theme-transition"
                   placeholder="Partagez votre expérience avec notre clinique : qualité des soins, accueil de l'équipe, installations, suggestions d'amélioration..."
                 ></textarea>
-                <p className="text-sm sm:text-base md:text-lg text-neutral-600">
+                <p className="text-sm sm:text-base md:text-lg text-theme-tertiary theme-transition">
                   Minimum 20 caractères. Partagez vos impressions honnêtes pour nous aider à nous améliorer.
                 </p>
               </div>
@@ -649,7 +703,7 @@ export default function HomePage() {
                   type="submit"
                   disabled={isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20}
                   className={`w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 rounded-xl font-bold text-lg sm:text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
-                    ? 'bg-neutral-400 text-neutral-600 cursor-not-allowed'
+                    ? 'bg-neutral-400 dark:bg-neutral-600 text-neutral-600 dark:text-neutral-400 cursor-not-allowed'
                     : 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white'
                     }`}
                 >
@@ -673,7 +727,7 @@ export default function HomePage() {
               </div>
             </form>
 
-            <div className="mt-8 sm:mt-10 p-5 sm:p-6 bg-primary-50 rounded-xl border border-primary-100">
+            <div className="mt-8 sm:mt-10 p-5 sm:p-6 bg-primary-50 dark:bg-primary-900/30 rounded-xl border border-primary-100 dark:border-primary-800 theme-transition">
               <div className="flex items-start gap-3 sm:gap-4">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                   <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -681,10 +735,10 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-base sm:text-lg md:text-xl font-semibold text-primary-700 mb-1 sm:mb-2">
+                  <h4 className="text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 mb-1 sm:mb-2 theme-transition">
                     Confidentialité assurée
                   </h4>
-                  <p className="text-sm sm:text-base md:text-lg text-primary-700 leading-relaxed">
+                  <p className="text-sm sm:text-base md:text-lg text-primary-700 dark:text-primary-400 leading-relaxed theme-transition">
                     Vos informations sont protégées et utilisées uniquement pour améliorer nos services.
                     Votre avis pourra être publié de manière anonyme avec votre accord préalable.
                   </p>
@@ -696,12 +750,12 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="bg-primary-600 text-neutral-100 py-12 sm:py-16 md:py-20">
+      <footer id="contact" className="bg-primary-600 dark:bg-primary-900 text-neutral-100 dark:text-neutral-300 py-12 sm:py-16 md:py-20 theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
             {/* Section 1 */}
             <div>
-              <h3 className="text-secondary-500 font-bold text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 uppercase tracking-wide">
+              <h3 className="text-secondary-500 dark:text-secondary-400 font-bold text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 uppercase tracking-wide theme-transition">
                 OSIRIX Clinique Médical
               </h3>
               <div className="space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg lg:text-xl">
@@ -714,26 +768,26 @@ export default function HomePage() {
 
             {/* Section 2 */}
             <div>
-              <h3 className="text-secondary-500 font-bold text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 uppercase tracking-wide">
+              <h3 className="text-secondary-500 dark:text-secondary-400 font-bold text-lg sm:text-xl md:text-2xl mb-4 sm:mb-6 uppercase tracking-wide theme-transition">
                 Services
               </h3>
               <div className="space-y-2 sm:space-y-3 text-sm sm:text-base md:text-lg lg:text-xl">
-                <Link href="#services" className="block hover:text-white transition-colors">Consultation générale</Link>
-                <Link href="#services" className="block hover:text-white transition-colors">Analyses médicales</Link>
-                <Link href="#services" className="block hover:text-white transition-colors">Imagerie médicale</Link>
-                <Link href="/login" className="block hover:text-white transition-colors">Urgences 24h/24</Link>
-                <Link href="/login" className="block hover:text-white transition-colors">Prise de rendez-vous</Link>
+                <Link href="#services" className="block hover:text-white dark:hover:text-white transition-colors">Consultation générale</Link>
+                <Link href="#services" className="block hover:text-white dark:hover:text-white transition-colors">Analyses médicales</Link>
+                <Link href="#services" className="block hover:text-white dark:hover:text-white transition-colors">Imagerie médicale</Link>
+                <Link href="/login" className="block hover:text-white dark:hover:text-white transition-colors">Urgences 24h/24</Link>
+                <Link href="/login" className="block hover:text-white dark:hover:text-white transition-colors">Prise de rendez-vous</Link>
               </div>
             </div>
 
             {/* Section 3 - Réseaux Sociaux */}
             <div>
-              <h3 className="text-secondary-500 font-bold text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 uppercase tracking-wide">
+              <h3 className="text-secondary-500 dark:text-secondary-400 font-bold text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 uppercase tracking-wide theme-transition">
                 Suivez-nous
               </h3>
               <div className="flex flex-wrap gap-4 sm:gap-6 mb-6 sm:mb-8">
                 <Link href="#" className="group" aria-label="Facebook">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 rounded-full flex items-center justify-center hover:bg-secondary-600 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 dark:bg-secondary-600 rounded-full flex items-center justify-center hover:bg-secondary-600 dark:hover:bg-secondary-500 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl theme-transition">
                     <Image
                       src="/facebook-logo.png"
                       alt="Facebook"
@@ -744,7 +798,7 @@ export default function HomePage() {
                   </div>
                 </Link>
                 <Link href="#" className="group" aria-label="Instagram">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 rounded-full flex items-center justify-center hover:bg-secondary-600 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 dark:bg-secondary-600 rounded-full flex items-center justify-center hover:bg-secondary-600 dark:hover:bg-secondary-500 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl theme-transition">
                     <Image
                       src="/logo-Instagram.png"
                       alt="Instagram"
@@ -755,7 +809,7 @@ export default function HomePage() {
                   </div>
                 </Link>
                 <Link href="#" className="group" aria-label="WhatsApp">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 rounded-full flex items-center justify-center hover:bg-secondary-600 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 dark:bg-secondary-600 rounded-full flex items-center justify-center hover:bg-secondary-600 dark:hover:bg-secondary-500 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl theme-transition">
                     <Image
                       src="/whatsapp.png"
                       alt="WhatsApp"
