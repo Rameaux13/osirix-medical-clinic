@@ -1471,18 +1471,18 @@ export default function DashboardPatient() {
         </div>
       </header>
 
-      {/* Menu Mobile FIXE avec Dark Mode */}
+      {/* Menu Mobile FIXE - TOUJOURS FOND BLANC */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed top-16 left-0 right-0 bg-theme-card shadow-lg rounded-b-2xl border-t border-theme z-40 max-h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300">
+        <div className="lg:hidden fixed top-16 left-0 right-0 bg-white shadow-lg rounded-b-2xl border-t border-gray-200 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="px-4 py-6 space-y-4">
             {/* Profil mobile */}
-            <div className="flex items-center space-x-3 p-3 bg-theme-secondary rounded-lg mb-4 transition-colors duration-300">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-700 dark:from-primary-500 dark:to-primary-600 rounded-full flex items-center justify-center shadow-md">
+            <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-full flex items-center justify-center shadow-md">
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">{displayName}</p>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Patient OSIRIX</p>
+                <p className="font-medium text-gray-900 text-sm sm:text-base">{displayName}</p>
+                <p className="text-xs sm:text-sm text-gray-600">Patient OSIRIX</p>
               </div>
             </div>
 
@@ -1498,8 +1498,8 @@ export default function DashboardPatient() {
                       setIsMobileMenuOpen(false);
                     }}
                     className={`w-full flex items-center px-4 py-3 text-left transition-all duration-300 rounded-lg relative ${activeSection === item.id
-                      ? 'text-gray-900 dark:text-white font-bold shadow-sm border-l-4 border-[#E6A930]'
-                      : 'text-gray-900 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-[#006D65] dark:hover:text-primary-400'
+                      ? 'text-gray-900 font-bold shadow-sm border-l-4 border-[#E6A930] bg-gray-50'
+                      : 'text-gray-900 hover:bg-gray-100 hover:text-[#006D65]'
                       }`}
                   >
                     <Icon className="w-5 h-5 mr-3" />
@@ -1510,13 +1510,13 @@ export default function DashboardPatient() {
             </div>
 
             {/* Déconnexion Mobile */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+            <div className="border-t border-gray-200 pt-4">
               <button
                 onClick={() => {
                   handleLogout();
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full flex items-center px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-300"
+                className="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300"
               >
                 <LogOut className="w-5 h-5 mr-3" />
                 <span className="font-medium text-sm sm:text-base">Déconnexion</span>
