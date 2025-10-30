@@ -339,19 +339,20 @@ export default function RegisterPage() {
           </button>
         </div>
 
-        {/* Header avec logo - LOGO ENCORE PLUS RÉDUIT */}
-        <div className="text-center mb-4 sm:mb-6">
+        {/* Header avec logo - LOGO TRÈS PETIT MOBILE */}
+        <div className="text-center mb-3 sm:mb-6">
           <Link href="/" className="inline-block group">
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-5 sm:h-16 w-auto mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg"
+              className="h-10 w-10 sm:h-16 sm:w-16 mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
+              style={{ maxHeight: '40px', maxWidth: '40px' }}
             />
           </Link>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-2">
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-1.5 sm:mb-2">
             Créer un compte patient
           </h2>
-          <p className="text-xs sm:text-sm md:text-base text-theme-secondary theme-transition">
+          <p className="text-[11px] sm:text-sm md:text-base text-theme-secondary theme-transition">
             Rejoignez OSIRIX pour un suivi médical personnalisé
           </p>
         </div>
