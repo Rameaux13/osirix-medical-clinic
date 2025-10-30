@@ -64,6 +64,7 @@
   --text-secondary: #4b5563;    /* text-gray-600 - Texte secondaire */
   --text-tertiary: #6b7280;     /* text-gray-500 - Texte tertiaire */
   --text-inverse: #ffffff;      /* Texte blanc sur fond sombre */
+  --text-logo: #006D65;         /* Vert OSIRIX pour le logo en mode clair */
 
   --border-color: #e5e7eb;      /* border-gray-200 - Bordures de l'ancien dashboard */
   --border-light: #f3f4f6;      /* border-gray-100 - Bordures claires */
@@ -93,6 +94,7 @@
   --text-secondary: #d1d5db;
   --text-tertiary: #9ca3af;
   --text-inverse: #111827;
+  --text-logo: #ffffff;         /* Blanc pour le logo en mode sombre */
 
   --border-color: #374151;
   --border-light: #4b5563;
@@ -137,6 +139,7 @@ body {
 .text-theme-secondary { color: var(--text-secondary) !important; }
 .text-theme-tertiary { color: var(--text-tertiary) !important; }
 .text-theme-inverse { color: var(--text-inverse) !important; }
+.text-theme-logo { color: var(--text-logo) !important; }
 
 /* Bordures */
 .border-theme { border-color: var(--border-color) !important; }

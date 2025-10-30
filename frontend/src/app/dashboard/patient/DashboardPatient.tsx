@@ -1186,7 +1186,7 @@ export default function DashboardPatient() {
           <div className="flex items-center justify-between h-16">
             {/* Logo Desktop */}
             <div className="hidden lg:flex items-center">
-              <h1 className="text-xl xl:text-2xl font-bold text-theme-primary tracking-wide">
+              <h1 className="text-xl xl:text-2xl font-bold text-theme-logo tracking-wide">
                 OSIRIX
               </h1>
             </div>
@@ -1200,7 +1200,7 @@ export default function DashboardPatient() {
                   className="h-9 w-9 sm:h-10 sm:w-10 object-cover rounded-lg shadow-sm"
                 />
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-theme-primary">OSIRIX</h1>
+                  <h1 className="text-lg sm:text-xl font-bold text-theme-logo">OSIRIX</h1>
                 </div>
               </div>
             </div>
