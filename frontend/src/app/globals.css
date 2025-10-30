@@ -52,32 +52,32 @@
    VARIABLES CSS POUR THÈME CLAIR/SOMBRE
    ============================================ */
 :root {
-  /* Mode CLAIR (par défaut) */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
-  --bg-hover: #f3f4f6;
-  --bg-card: #ffffff;
-  --bg-modal: #ffffff;
+  /* Mode CLAIR (par défaut) - EXACTEMENT comme l'ancien dashboard */
+  --bg-primary: #f9fafb;        /* bg-gray-100 - Fond général de l'ancien dashboard */
+  --bg-secondary: #f3f4f6;      /* bg-gray-50 - Sections secondaires */
+  --bg-tertiary: #e5e7eb;       /* bg-gray-200 - Éléments tertiaires */
+  --bg-hover: #f3f4f6;          /* bg-gray-100 - Hover states */
+  --bg-card: #ffffff;           /* bg-white - Cartes blanches de l'ancien dashboard */
+  --bg-modal: #ffffff;          /* bg-white - Modales */
 
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-tertiary: #6b7280;
-  --text-inverse: #ffffff;
+  --text-primary: #111827;      /* text-gray-900 - Texte principal noir */
+  --text-secondary: #4b5563;    /* text-gray-600 - Texte secondaire */
+  --text-tertiary: #6b7280;     /* text-gray-500 - Texte tertiaire */
+  --text-inverse: #ffffff;      /* Texte blanc sur fond sombre */
 
-  --border-color: #e5e7eb;
-  --border-light: #f3f4f6;
-  --border-dark: #d1d5db;
+  --border-color: #e5e7eb;      /* border-gray-200 - Bordures de l'ancien dashboard */
+  --border-light: #f3f4f6;      /* border-gray-100 - Bordures claires */
+  --border-dark: #d1d5db;       /* border-gray-300 - Bordures foncées */
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);          /* shadow-sm de l'ancien */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);        /* shadow-md de l'ancien */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);      /* shadow-lg de l'ancien */
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);      /* shadow-xl de l'ancien */
 
-  --input-bg: #ffffff;
-  --input-border: #d1d5db;
-  --input-text: #111827;
-  --input-placeholder: #9ca3af;
+  --input-bg: #ffffff;          /* bg-white - Inputs blancs */
+  --input-border: #d1d5db;      /* border-gray-300 - Bordures inputs */
+  --input-text: #111827;        /* text-gray-900 - Texte inputs */
+  --input-placeholder: #9ca3af; /* text-gray-400 - Placeholders */
 }
 
 .dark {
