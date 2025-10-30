@@ -11,8 +11,6 @@ import MesRDVList from '../../components/MesRDVList';
 import MesDocuments from '../../components/MesDocuments';
 import documentService from '../../../services/documentService';
 import type { DocumentStats } from '../../../services/documentService';
-import prescriptionService from '../../../services/prescriptionService';
-import type { Prescription } from '../../../services/prescriptionService';
 import MesAnalyses from '../../components/MesAnalyses';
 import MonProfil from '../../components/MonProfil';
 import ChatAssistant from '../../components/ChatAssistant';
@@ -163,9 +161,6 @@ export default function DashboardPatient() {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [reviewMessage, setReviewMessage] = useState('');
   const [reviewMessageType, setReviewMessageType] = useState<'success' | 'error' | ''>('');
-  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
-  const [loadingPrescriptions, setLoadingPrescriptions] = useState(true);
-  const [prescriptionError, setPrescriptionError] = useState<string | null>(null);
 
   // État pour le calendrier
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -231,24 +226,6 @@ export default function DashboardPatient() {
     { id: 'analyses', label: 'Analyses', icon: Stethoscope },
     { id: 'documents', label: 'Documents', icon: FileText },
   ];
-
-  // 3. FONCTION DE CHARGEMENT DES PRESCRIPTIONS
-  const loadPrescriptions = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      setLoadingPrescriptions(true);
-      setPrescriptionError(null);
-
-      const response = await prescriptionService.getMyPrescriptions();
-      setPrescriptions(response.data);
-
-    } catch (error: any) {
-      setPrescriptionError(error.message);
-    } finally {
-      setLoadingPrescriptions(false);
-    }
-  }, [user]);
 
   // Fonction pour soumettre un avis clinique
   const handleSubmitClinicReview = async () => {
@@ -413,8 +390,6 @@ export default function DashboardPatient() {
 
     if (notification.type === 'appointment' && notification.appointmentId) {
       setActiveSection('appointments');
-    } else if (notification.type === 'prescription') {
-      setActiveSection('dashboard');
     } else if (notification.type === 'lab_result') {
       setActiveSection('analyses');
     }
@@ -480,12 +455,6 @@ export default function DashboardPatient() {
   //   return () => clearInterval(refreshInterval);
   // }, [activeSection, isAuthenticated, user, refetch]);
 
-  useEffect(() => {
-    if (user) {
-      loadPrescriptions();
-    }
-  }, [user, loadPrescriptions]);
-
   // Connexion WebSocket au montage du composant
   useEffect(() => {
     if (isAuthenticated && token && user) {
@@ -502,147 +471,6 @@ export default function DashboardPatient() {
     }
   }, [isAuthenticated, token, user]);
 
-  const renderPrescriptionsSection = () => {
-    return (
-      <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-theme-primary theme-transition text-lg sm:text-xl md:text-2xl">Mes Prescriptions</h3>
-          <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-[#006D65]" />
-        </div>
-
-        {loadingPrescriptions && (
-          <div className="animate-pulse space-y-4">
-            <div className="h-20 bg-theme-tertiary rounded-lg"></div>
-            <div className="h-16 bg-theme-tertiary rounded-lg"></div>
-          </div>
-        )}
-
-        {prescriptionError && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-            <div className="flex items-center">
-              <svg className="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-              <p className="text-red-700 text-sm sm:text-base">{prescriptionError}</p>
-            </div>
-          </div>
-        )}
-
-        {!loadingPrescriptions && !prescriptionError && (
-          <>
-            {prescriptions.length > 0 ? (
-              <div className="space-y-4">
-                <div className="bg-gradient-to-r from-[#006D65]/5 via-gray-50 to-[#E6A930]/5 rounded-xl p-3 sm:p-4 border border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2 sm:space-x-3">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-xl flex items-center justify-center">
-                        <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-1">Prescriptions actives</p>
-                        <p className="text-lg sm:text-xl md:text-2xl font-semibold text-[#006D65]">
-                          {prescriptions.filter(p => p.isActive).length} prescription{prescriptions.filter(p => p.isActive).length > 1 ? 's' : ''}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center text-green-600 mb-1">
-                        <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full mr-1 sm:mr-2"></div>
-                        <span className="text-xs sm:text-sm font-medium">Médecin vérifié</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <h4 className="font-medium text-gray-900 text-base sm:text-lg mb-3">Prescriptions récentes</h4>
-                  {prescriptions.slice(0, 3).map((prescription) => (
-                    <div key={prescription.id} className="border border-gray-200 rounded-xl p-3 sm:p-4 hover:shadow-md transition-shadow bg-gradient-to-r from-white to-gray-50">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-2">
-                            <p className="text-sm sm:text-base text-gray-600">
-                              {prescriptionService.formatPrescriptionDate(prescription.prescriptionDate)}
-                            </p>
-                            {prescription.doctor && (
-                              <div className="flex items-center space-x-2">
-                                <div className="w-5 h-5 sm:w-6 sm:h-6 bg-[#006D65] rounded-full flex items-center justify-center">
-                                  <User className="w-3 h-3 text-white" />
-                                </div>
-                                <span className="text-xs sm:text-sm text-gray-700 font-medium">
-                                  Dr. {prescription.doctor.firstName} {prescription.doctor.lastName}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="mb-3">
-                            <p className="text-xs sm:text-sm text-gray-600 mb-2">Médicaments prescrits :</p>
-                            <div className="space-y-1">
-                              {prescriptionService.parseMedications(prescription.medications).slice(0, 2).map((med, index) => (
-                                <div key={index} className="text-xs sm:text-sm bg-gray-100 rounded-lg px-2 sm:px-3 py-2">
-                                  <span className="font-medium text-gray-900">{med.name}</span>
-                                  <span className="text-gray-600 ml-2">- {med.dosage} {med.frequency}</span>
-                                </div>
-                              ))}
-                              {prescriptionService.parseMedications(prescription.medications).length > 2 && (
-                                <p className="text-xs text-gray-500 italic">
-                                  +{prescriptionService.parseMedications(prescription.medications).length - 2} autre(s) médicament(s)
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          {prescription.instructions && (
-                            <div className="mb-3">
-                              <p className="text-xs sm:text-sm text-gray-600 mb-1">Instructions :</p>
-                              <p className="text-xs sm:text-sm text-gray-800 bg-blue-50 rounded-lg p-2 border-l-4 border-blue-200">
-                                {prescription.instructions}
-                              </p>
-                            </div>
-                          )}
-
-                          <div className="flex items-center justify-between">
-                            <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${prescription.isActive
-                              ? 'bg-green-100 text-green-800 border border-green-200'
-                              : 'bg-gray-100 text-gray-600 border border-gray-200'
-                              }`}>
-                              {prescription.isActive ? 'Active' : 'Expirée'}
-                            </span>
-
-                            <button className="text-[#006D65] hover:text-[#005a54] text-xs sm:text-sm font-medium transition-colors">
-                              Voir détails →
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-
-                  {prescriptions.length > 3 && (
-                    <div className="text-center mt-4">
-                      <button className="text-[#006D65] hover:text-[#005a54] font-medium text-sm sm:text-base transition-colors">
-                        Voir toutes mes prescriptions ({prescriptions.length})
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Stethoscope className="w-7 h-7 sm:w-8 sm:h-8 text-gray-500" />
-                </div>
-                <p className="text-base sm:text-lg text-gray-600 mb-2">Aucune prescription disponible</p>
-                <p className="text-sm sm:text-base text-gray-500">Vos prescriptions médicales apparaîtront ici</p>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    );
-  };
-
   const handleNotificationRedirect = async (notification: any) => {
     if (!notification.isRead) {
       await markAsRead(notification.id);
@@ -658,9 +486,6 @@ export default function DashboardPatient() {
         if (notification.message.toLowerCase().includes('document')) {
           setActiveSection('documents');
         }
-        break;
-      case 'prescription':
-        setActiveSection('dashboard');
         break;
       case 'lab_result':
         setActiveSection('analyses');
@@ -940,9 +765,6 @@ export default function DashboardPatient() {
             )}
           </div>
         </div>
-
-        {/* Prescriptions */}
-        {renderPrescriptionsSection()}
 
         {/* Section Documents - OPTIMISÉE */}
         <div className="bg-theme-card theme-transition rounded-lg shadow-theme-sm p-4 sm:p-6 border border-theme">
@@ -1307,12 +1129,6 @@ export default function DashboardPatient() {
                                         <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
                                       </div>
                                     );
-                                  case 'prescription':
-                                    return (
-                                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <Stethoscope className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
-                                      </div>
-                                    );
                                   case 'lab_result':
                                     return (
                                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -1338,7 +1154,6 @@ export default function DashboardPatient() {
                               const getTypeBadge = () => {
                                 const badges = {
                                   appointment: { text: 'RDV', color: 'bg-green-100 text-green-800 border-green-200' },
-                                  prescription: { text: 'Prescription', color: 'bg-purple-100 text-purple-800 border-purple-200' },
                                   lab_result: { text: 'Analyses', color: 'bg-blue-100 text-blue-800 border-blue-200' },
                                   general: { text: 'Info', color: 'bg-gray-100 text-gray-800 border-gray-200' },
                                   reminder: { text: 'Rappel', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },

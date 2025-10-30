@@ -136,7 +136,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             {isChatOpen && (
                 <div
                     className={`
-                      fixed bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-700 z-50 flex flex-col transition-colors duration-300
+                      fixed bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-600 z-50 flex flex-col transition-colors duration-300
                          ${isMobile
                             ? 'bottom-32 left-4 right-4 h-[50vh] max-w-md mx-auto rounded-2xl'
                             : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
@@ -163,18 +163,18 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     </div>
 
                     {/* Messages du chat */}
-                    <div className="flex-1 p-4 overflow-y-auto space-y-3">
+                    <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
                         {chatMessages.map((msg) => (
                             <div key={msg.id}>
                                 <div className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div
-                                        className={`max-w-[75%] p-3 rounded-lg text-sm ${msg.type === 'user'
-                                            ? 'bg-[#006D65] text-white rounded-br-none'
-                                            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
+                                        className={`max-w-[75%] p-3 rounded-lg text-sm transition-colors duration-300 ${msg.type === 'user'
+                                            ? 'bg-[#006D65] text-white rounded-br-none shadow-md'
+                                            : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-600'
                                             }`}
                                     >
                                         <p className="whitespace-pre-line">{msg.message}</p>
-                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500 dark:text-gray-400'}`}>
+                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500 dark:text-gray-300'}`}>
                                             {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
@@ -188,7 +188,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                                 key={index}
                                                 onClick={() => handleSuggestionClick(suggestion)}
                                                 disabled={chatLoading}
-                                                className="text-xs bg-[#006D65]/10 text-[#006D65] px-3 py-1 rounded-full hover:bg-[#006D65]/20 transition-colors border border-[#006D65]/30 disabled:opacity-50"
+                                                className="text-xs bg-[#006D65]/10 dark:bg-[#006D65]/20 text-[#006D65] dark:text-[#00c4b8] px-3 py-1 rounded-full hover:bg-[#006D65]/20 dark:hover:bg-[#006D65]/30 transition-colors border border-[#006D65]/30 dark:border-[#006D65]/50 disabled:opacity-50"
                                             >
                                                 {suggestion}
                                             </button>
@@ -201,11 +201,11 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                         {/* Indicateur de chargement */}
                         {chatLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg rounded-bl-none">
+                                <div className="bg-white dark:bg-gray-700 p-3 rounded-lg rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-600 transition-colors duration-300">
                                     <div className="flex space-x-1">
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"></div>
+                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     </div>
 
                     {/* Input du chat */}
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300">
+                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
                         <div className="flex space-x-2">
                             <input
                                 type="text"
@@ -224,12 +224,12 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                 onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                                 placeholder="Tapez votre message..."
                                 disabled={chatLoading}
-                                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] focus:border-transparent disabled:opacity-50 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300"
+                                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#00c4b8] focus:border-transparent disabled:opacity-50 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 transition-colors duration-300"
                             />
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!chatMessage.trim() || chatLoading}
-                                className="bg-[#006D65] text-white p-2 rounded-lg hover:bg-[#005a54] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="bg-[#006D65] dark:bg-[#007a71] text-white p-2 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
                             >
                                 {chatLoading ? (
                                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
