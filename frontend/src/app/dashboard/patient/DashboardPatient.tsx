@@ -468,16 +468,17 @@ export default function DashboardPatient() {
     }
   }, [webSocketNotifications, user, refetch]);
 
-  useEffect(() => {
-    if (activeSection !== 'dashboard' || !isAuthenticated || !user) return;
+  // Auto-refresh désactivé pour éviter les actualisations intempestives
+  // useEffect(() => {
+  //   if (activeSection !== 'dashboard' || !isAuthenticated || !user) return;
 
-    const refreshInterval = setInterval(() => {
-      refetch();
-      documentService.getDocumentStats().then(setDocumentStats).catch(() => {});
-    }, 60000);
+  //   const refreshInterval = setInterval(() => {
+  //     refetch();
+  //     documentService.getDocumentStats().then(setDocumentStats).catch(() => {});
+  //   }, 60000);
 
-    return () => clearInterval(refreshInterval);
-  }, [activeSection, isAuthenticated, user, refetch]);
+  //   return () => clearInterval(refreshInterval);
+  // }, [activeSection, isAuthenticated, user, refetch]);
 
   useEffect(() => {
     if (user) {
