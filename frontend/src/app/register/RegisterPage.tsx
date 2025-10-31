@@ -20,7 +20,6 @@ export default function RegisterPage() {
     dateOfBirth: '',
     gender: 'male',
     city: '',
-    // Champs obligatoires pour le backend mais vides
     address: 'Non renseigné',
     bloodType: '',
     allergies: '',
@@ -36,7 +35,6 @@ export default function RegisterPage() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
-  // États pour la vérification en temps réel
   const [emailAvailability, setEmailAvailability] = useState<'checking' | 'available' | 'taken' | null>(null);
   const [phoneAvailability, setPhoneAvailability] = useState<'checking' | 'available' | 'taken' | null>(null);
 
@@ -183,7 +181,6 @@ export default function RegisterPage() {
 
     switch (step) {
       case 1:
-        // Prénom
         if (!formData.firstName || formData.firstName.length < 2) {
           errors.push('Le prénom doit contenir au moins 2 caractères');
         }
@@ -191,7 +188,6 @@ export default function RegisterPage() {
           errors.push('Le prénom ne peut contenir que des lettres');
         }
 
-        // Nom
         if (!formData.lastName || formData.lastName.length < 2) {
           errors.push('Le nom doit contenir au moins 2 caractères');
         }
@@ -199,7 +195,6 @@ export default function RegisterPage() {
           errors.push('Le nom ne peut contenir que des lettres');
         }
 
-        // Téléphone
         if (!formData.phone) {
           errors.push('Le téléphone est obligatoire');
         }
@@ -210,7 +205,6 @@ export default function RegisterPage() {
           errors.push('Ce numéro est déjà utilisé');
         }
 
-        // Email
         if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
           errors.push('Format d\'email invalide');
         }
@@ -218,12 +212,10 @@ export default function RegisterPage() {
           errors.push('Cet email est déjà utilisé');
         }
 
-        // Genre
         if (!formData.gender) {
           errors.push('Le genre est obligatoire');
         }
 
-        // Date de naissance (optionnel mais si fourni, doit être valide)
         if (formData.dateOfBirth) {
           const birthDate = new Date(formData.dateOfBirth);
           const today = new Date();
@@ -235,7 +227,6 @@ export default function RegisterPage() {
         break;
 
       case 2:
-        // Mot de passe
         if (!formData.password || formData.password.length < 3) {
           errors.push('Le mot de passe doit contenir au moins 3 caractères');
         }
@@ -243,12 +234,10 @@ export default function RegisterPage() {
           errors.push('Le mot de passe ne peut contenir que des lettres et chiffres');
         }
 
-        // Confirmation mot de passe
         if (formData.password !== confirmPassword) {
           errors.push('Les mots de passe ne correspondent pas');
         }
 
-        // Acceptation des conditions
         if (!acceptTerms) {
           errors.push('Vous devez accepter les conditions d\'utilisation');
         }
@@ -260,14 +249,11 @@ export default function RegisterPage() {
 
   const handleNextStep = async () => {
     setValidationErrors([]);
-
     const validation = await validateStepWithBackend(currentStep);
-
     if (!validation.isValid) {
       setValidationErrors(validation.errors);
       return;
     }
-
     setCurrentStep(prev => Math.min(prev + 1, 2));
   };
 
@@ -282,10 +268,7 @@ export default function RegisterPage() {
     const step1Validation = await validateStepWithBackend(1);
     const step2Validation = await validateStepWithBackend(2);
 
-    const allErrors = [
-      ...step1Validation.errors,
-      ...step2Validation.errors
-    ];
+    const allErrors = [...step1Validation.errors, ...step2Validation.errors];
 
     if (allErrors.length > 0) {
       setValidationErrors(allErrors);
@@ -320,65 +303,43 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-theme-primary theme-transition py-4 sm:py-6 px-3 sm:px-4">
       <div className="max-w-2xl mx-auto">
 
-       {/* Dark Mode Toggle - Aligné avec le formulaire sur desktop */}
-        {/* Header avec logo + Dark Mode intégré - VERSION FINALE */}
-<div className="flex flex-col sm:flex-row items-center justify-between mb-3 sm:mb-6 gap-3 sm:gap-0">
-  {/* Logo + Titre (gauche) */}
-  <div className="text-center sm:text-left">
-    <Link href="/" className="inline-block group">
-      <img
-        src="/logo.jpg"
-        alt="OSIRIX Clinique Médical"
-        className="h-14 w-14 sm:h-18 sm:w-18 mx-auto sm:mx-0 mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
-        style={{ maxHeight: '56px', maxWidth: '56px' }}
-      />
-    </Link>
-    <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-1.5 sm:mb-2">
-      Créer un compte patient
-    </h2>
-    <p className="text-[11px] sm:text-sm md:text-base text-theme-secondary theme-transition">
-      Rejoignez OSIRIX pour un suivi médical personnalisé
-    </p>
-  </div>
+        {/* Dark Mode Toggle - Mobile (fixed) */}
+        <div className="fixed top-4 right-4 z-50 sm:hidden">
+          <button
+            onClick={toggleDarkMode}
+            className="p-3 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme"
+            aria-label="Toggle Dark Mode"
+          >
+            {darkMode ? (
+              <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
+              </svg>
+            )}
+          </button>
+        </div>
 
-  {/* Dark Mode Toggle - Desktop (intégré) */}
-  <div className="hidden sm:block">
-    <button
-      onClick={toggleDarkMode}
-      className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
-      aria-label="Toggle Dark Mode"
-    >
-      {darkMode ? (
-        <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
-        </svg>
-      ) : (
-        <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
-        </svg>
-      )}
-    </button>
-  </div>
+        {/* Header avec logo */}
+        <div className="text-center mb-3 sm:mb-6">
+          <Link href="/" className="inline-block group">
+            <img
+              src="/logo.jpg"
+              alt="OSIRIX Clinique Médical"
+              className="h-14 w-14 sm:h-18 sm:w-18 mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
+              style={{ maxHeight: '56px', maxWidth: '56px' }}
+            />
+          </Link>
+          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-1.5 sm:mb-2">
+            Créer un compte patient
+          </h2>
+          <p className="text-[11px] sm:text-sm md:text-base text-theme-secondary theme-transition">
+            Rejoignez OSIRIX pour un suivi médical personnalisé
+          </p>
+        </div>
 
-  {/* Dark Mode Toggle - Mobile (fixed) */}
-  <div className="fixed top-4 right-4 z-50 sm:hidden">
-    <button
-      onClick={toggleDarkMode}
-      className="p-3 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme"
-      aria-label="Toggle Dark Mode"
-    >
-      {darkMode ? (
-        <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
-        </svg>
-      ) : (
-        <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
-        </svg>
-      )}
-    </button>
-  </div>
-</div>
         {/* Indicateur de progression */}
         <div className="mb-4 sm:mb-6">
           <div className="flex items-center justify-between mb-3 sm:mb-4 px-2">
@@ -428,9 +389,29 @@ export default function RegisterPage() {
             {/* Étape 1 : Informations personnelles */}
             {currentStep === 1 && (
               <div className="space-y-4 sm:space-y-5">
-                <h3 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition mb-3 sm:mb-4 text-center">
-                  Vos informations
-                </h3>
+                {/* Titre + Dark Mode (Étape 1 SEULEMENT) */}
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <h3 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition">
+                    Vos informations
+                  </h3>
+                  <div className="hidden sm:block">
+                    <button
+                      onClick={toggleDarkMode}
+                      className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
+                      aria-label="Toggle Dark Mode"
+                    >
+                      {darkMode ? (
+                        <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
 
                 {/* Prénom et Nom */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -467,7 +448,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Date de naissance (optionnel) - SELECT OPTIMISÉ */}
+                {/* Date de naissance (optionnel) */}
                 <div>
                   <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
                     Date de naissance (optionnel)
@@ -530,10 +511,10 @@ export default function RegisterPage() {
                     </div>
                   </div>
                   {phoneAvailability === 'available' && (
-                    <p className="text-xs text-green-600 dark:text-green-400 mt-1">✓ Disponible</p>
+                    <p className="text-xs text-green-600 dark:text-green-400 mt-1">Disponible</p>
                   )}
                   {phoneAvailability === 'taken' && (
-                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">✗ Déjà utilisé</p>
+                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">Déjà utilisé</p>
                   )}
                 </div>
 
@@ -578,14 +559,14 @@ export default function RegisterPage() {
                     </div>
                   </div>
                   {emailAvailability === 'available' && (
-                    <p className="text-xs text-green-600 dark:text-green-400 mt-1">✓ Disponible</p>
+                    <p className="text-xs text-green-600 dark:text-green-400 mt-1">Disponible</p>
                   )}
                   {emailAvailability === 'taken' && (
-                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">✗ Déjà utilisé</p>
+                    <p className="text-xs text-red-600 dark:text-red-400 mt-1">Déjà utilisé</p>
                   )}
                 </div>
 
-                {/* Genre - RESPONSIVE */}
+                {/* Genre */}
                 <div>
                   <label className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-2 sm:mb-3">
                     Genre *
@@ -723,98 +704,93 @@ export default function RegisterPage() {
                   />
                 </div>
 
-               {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ - VERSION DESKTOP AMÉLIORÉE */}
-<div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
-  {/* Version mobile (inchangée) */}
-  <div className="block md:hidden">
-    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
-      <div className="flex items-center space-x-3 mb-3">
-        <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <span className="text-gray-900 dark:text-gray-100 font-bold text-sm">
-          Sécurité & Confidentialité
-        </span>
-      </div>
-      <p className="text-gray-800 dark:text-gray-300 text-xs font-medium leading-relaxed theme-transition">
-        Vos données sont protégées. Nous respectons votre vie privée.
-      </p>
-    </div>
+                {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ */}
+                <div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
+                  <div className="block md:hidden">
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-900 dark:text-gray-100 font-bold text-sm">
+                          Sécurité & Confidentialité
+                        </span>
+                      </div>
+                      <p className="text-gray-800 dark:text-gray-300 text-xs font-medium leading-relaxed theme-transition">
+                        Vos données sont protégées. Nous respectons votre vie privée.
+                      </p>
+                    </div>
 
-    <div className="flex items-start space-x-2">
-      <input
-        id="acceptTerms"
-        type="checkbox"
-        checked={acceptTerms}
-        onChange={(e) => setAcceptTerms(e.target.checked)}
-        className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
-      />
-      <label htmlFor="acceptTerms" className="text-xs text-gray-900 dark:text-gray-100 theme-transition">
-        J'accepte les{' '}
-        <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
-          conditions d'utilisation
-        </Link>{' '}
-        et la{' '}
-        <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
-          politique de confidentialité
-        </Link>.
-      </label>
-    </div>
-  </div>
+                    <div className="flex items-start space-x-2">
+                      <input
+                        id="acceptTerms"
+                        type="checkbox"
+                        checked={acceptTerms}
+                        onChange={(e) => setAcceptTerms(e.target.checked)}
+                        className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
+                      />
+                      <label htmlFor="acceptTerms" className="text-xs text-gray-900 dark:text-gray-100 theme-transition">
+                        J'accepte les{' '}
+                        <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
+                          conditions d'utilisation
+                        </Link>{' '}
+                        et la{' '}
+                        <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
+                          politique de confidentialité
+                        </Link>.
+                      </label>
+                    </div>
+                  </div>
 
-  {/* Version DESKTOP uniquement - Améliorée */}
-  <div className="hidden md:block">
-    <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
-      <div className="flex items-start space-x-4">
-        {/* Icône premium */}
-        <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
-          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-        </div>
+                  <div className="hidden md:block">
+                    <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
 
-        <div className="flex-1">
-          <h4 className="text-lg font-bold text-theme-primary mb-2 flex items-center gap-2">
-            <span>Sécurité & Confidentialité</span>
-            <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
-          </h4>
-          <p className="text-theme-secondary text-sm leading-relaxed mb-4">
-            Vos données médicales sont chiffrées et protégées selon les normes HIPAA. 
-            Nous ne partageons jamais vos informations sans votre consentement explicite.
-          </p>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-bold text-theme-primary mb-2 flex items-center gap-2">
+                            <span>Sécurité & Confidentialité</span>
+                            <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+                          </h4>
+                          <p className="text-theme-secondary text-sm leading-relaxed mb-4">
+                            Vos données médicales sont chiffrées et protégées selon les normes HIPAA. 
+                            Nous ne partageons jamais vos informations sans votre consentement explicite.
+                          </p>
 
-          {/* Checkbox premium */}
-          <div className="flex items-start space-x-3">
-            <input
-              id="acceptTerms"
-              type="checkbox"
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-0.5 h-5 w-5 text-primary-500 focus:ring-primary-500 border-theme rounded-lg theme-transition cursor-pointer"
-            />
-            <label htmlFor="acceptTerms" className="text-sm text-theme-primary cursor-pointer select-none">
-              J'accepte les{' '}
-              <Link href="/terms" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
-                conditions d'utilisation
-              </Link>{' '}
-              et la{' '}
-              <Link href="/privacy" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
-                politique de confidentialité
-              </Link>.
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-                {/* ===== FIN DE LA SECTION ===== */}
+                          <div className="flex items-start space-x-3">
+                            <input
+                              id="acceptTerms"
+                              type="checkbox"
+                              checked={acceptTerms}
+                              onChange={(e) => setAcceptTerms(e.target.checked)}
+                              className="mt-0.5 h-5 w-5 text-primary-500 focus:ring-primary-500 border-theme rounded-lg theme-transition cursor-pointer"
+                            />
+                            <label htmlFor="acceptTerms" className="text-sm text-theme-primary cursor-pointer select-none">
+                              J'accepte les{' '}
+                              <Link href="/terms" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                                conditions d'utilisation
+                              </Link>{' '}
+                              et la{' '}
+                              <Link href="/privacy" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                                politique de confidentialité
+                              </Link>.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* Boutons de navigation - RESPONSIVE */}
+            {/* Boutons de navigation */}
             <div className="flex justify-between items-center mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-theme theme-transition">
               <div>
                 {currentStep > 1 && (
@@ -874,7 +850,7 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Bouton retour à l'accueil - RESPONSIVE */}
+        {/* Bouton retour à l'accueil */}
         <div className="mt-4 sm:mt-6 flex justify-center">
           <Link
             href="/"
