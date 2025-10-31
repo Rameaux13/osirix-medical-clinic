@@ -437,8 +437,8 @@ export default function HomePage() {
                 <Image
                   src="/docteur femme.jpg"
                   alt="Dr. Kouame"
-                  width={128}
-                  height={128}
+                  width={112}
+                  height={112}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -475,8 +475,8 @@ export default function HomePage() {
                 <Image
                   src="/docteur homme noir.jpg"
                   alt="Dr. Aminata Diarra"
-                  width={128}
-                  height={128}
+                  width={112}
+                  height={112}
                   className="w-full h-full object-cover"
                 />
               </div>
