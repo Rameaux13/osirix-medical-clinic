@@ -433,7 +433,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {/* Docteur 1 */}
             <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
-              <div className="w-10 h-10 sm:w-3 sm:h-10 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
                 <Image
                   src="/docteur femme.jpg"
                   alt="Dr. Kouame"
