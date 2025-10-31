@@ -794,17 +794,6 @@ export default function HomePage() {
                     />
                   </div>
                 </Link>
-                <Link href="#" className="group" aria-label="Instagram">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 dark:bg-secondary-600 rounded-full flex items-center justify-center hover:bg-secondary-600 dark:hover:bg-secondary-500 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl theme-transition">
-                    <Image
-                      src="/logo-Instagram.png"
-                      alt="Instagram"
-                      width={48}
-                      height={48}
-                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
-                    />
-                  </div>
-                </Link>
                 <Link href="#" className="group" aria-label="WhatsApp">
                   <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-secondary-500 dark:bg-secondary-600 rounded-full flex items-center justify-center hover:bg-secondary-600 dark:hover:bg-secondary-500 transition-all duration-300 hover:scale-110 shadow-xl hover:shadow-2xl theme-transition">
                     <Image
