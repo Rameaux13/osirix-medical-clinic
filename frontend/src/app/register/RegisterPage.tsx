@@ -701,49 +701,93 @@ export default function RegisterPage() {
                   />
                 </div>
 
-               {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ SIMPLIFIÉE - FOND BLANC */}
-                <div className="border-t border-gray-300 dark:border-gray-700 pt-3 sm:pt-4 theme-transition">
-                  {/* Encadré simple avec fond blanc/gris clair */}
-                  <div className="bg-gray-50 dark:bg-gray-900/50 p-4 sm:p-5 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 sm:mb-5 theme-transition">
-                    <div className="flex items-center space-x-3 mb-3">
-                      {/* Icône simple avec fond */}
-                      <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      {/* Titre en noir simple */}
-                      <span className="text-gray-900 dark:text-gray-100 font-bold text-sm sm:text-base">
-                        Sécurité & Confidentialité
-                      </span>
-                    </div>
-                    {/* Texte en noir simple */}
-                    <p className="text-gray-800 dark:text-gray-300 text-xs sm:text-sm font-medium leading-relaxed theme-transition">
-                      Vos données sont protégées. Nous respectons votre vie privée.
-                    </p>
-                  </div>
+               {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ - VERSION DESKTOP AMÉLIORÉE */}
+<div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
+  {/* Version mobile (inchangée) */}
+  <div className="block md:hidden">
+    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
+      <div className="flex items-center space-x-3 mb-3">
+        <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <span className="text-gray-900 dark:text-gray-100 font-bold text-sm">
+          Sécurité & Confidentialité
+        </span>
+      </div>
+      <p className="text-gray-800 dark:text-gray-300 text-xs font-medium leading-relaxed theme-transition">
+        Vos données sont protégées. Nous respectons votre vie privée.
+      </p>
+    </div>
 
-                  {/* Checkbox avec label */}
-                  <div className="flex items-start space-x-2 sm:space-x-3">
-                    <input
-                      id="acceptTerms"
-                      type="checkbox"
-                      checked={acceptTerms}
-                      onChange={(e) => setAcceptTerms(e.target.checked)}
-                      className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
-                    />
-                    <label htmlFor="acceptTerms" className="text-xs sm:text-sm text-gray-900 dark:text-gray-100 theme-transition">
-                      J'accepte les{' '}
-                      <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
-                        conditions d'utilisation
-                      </Link>{' '}
-                      et la{' '}
-                      <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
-                        politique de confidentialité
-                      </Link>.
-                    </label>
-                  </div>
-                </div>
+    <div className="flex items-start space-x-2">
+      <input
+        id="acceptTerms"
+        type="checkbox"
+        checked={acceptTerms}
+        onChange={(e) => setAcceptTerms(e.target.checked)}
+        className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
+      />
+      <label htmlFor="acceptTerms" className="text-xs text-gray-900 dark:text-gray-100 theme-transition">
+        J'accepte les{' '}
+        <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
+          conditions d'utilisation
+        </Link>{' '}
+        et la{' '}
+        <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
+          politique de confidentialité
+        </Link>.
+      </label>
+    </div>
+  </div>
+
+  {/* Version DESKTOP uniquement - Améliorée */}
+  <div className="hidden md:block">
+    <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
+      <div className="flex items-start space-x-4">
+        {/* Icône premium */}
+        <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+
+        <div className="flex-1">
+          <h4 className="text-lg font-bold text-theme-primary mb-2 flex items-center gap-2">
+            <span>Sécurité & Confidentialité</span>
+            <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+          </h4>
+          <p className="text-theme-secondary text-sm leading-relaxed mb-4">
+            Vos données médicales sont chiffrées et protégées selon les normes HIPAA. 
+            Nous ne partageons jamais vos informations sans votre consentement explicite.
+          </p>
+
+          {/* Checkbox premium */}
+          <div className="flex items-start space-x-3">
+            <input
+              id="acceptTerms"
+              type="checkbox"
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              className="mt-0.5 h-5 w-5 text-primary-500 focus:ring-primary-500 border-theme rounded-lg theme-transition cursor-pointer"
+            />
+            <label htmlFor="acceptTerms" className="text-sm text-theme-primary cursor-pointer select-none">
+              J'accepte les{' '}
+              <Link href="/terms" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                conditions d'utilisation
+              </Link>{' '}
+              et la{' '}
+              <Link href="/privacy" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                politique de confidentialité
+              </Link>.
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
                 {/* ===== FIN DE LA SECTION ===== */}
               </div>
             )}
