@@ -403,7 +403,6 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit}>
-
             {/* Étape 1 : Informations personnelles */}
             {currentStep === 1 && (
               <div className="space-y-4 sm:space-y-5">
@@ -702,16 +701,17 @@ export default function RegisterPage() {
                   />
                 </div>
 
-                {/* Conditions d'utilisation */}
+                {/* ===== SECTION CORRIGÉE : MEILLEURE VISIBILITÉ EN MODE CLAIR ===== */}
                 <div className="border-t border-theme pt-3 sm:pt-4 theme-transition">
-                  <div className="bg-primary-50 dark:bg-primary-900/20 p-3 sm:p-4 rounded-lg sm:rounded-xl border border-primary-200 dark:border-primary-800 mb-3 sm:mb-4 theme-transition">
+                  {/* Encadré Sécurité avec fond plus visible et texte contrasté */}
+                  <div className="bg-teal-100 dark:bg-primary-900/20 p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 border-teal-400 dark:border-primary-800 mb-3 sm:mb-4 theme-transition">
                     <div className="flex items-center space-x-2 mb-2">
-                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-teal-700 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span className="text-primary-700 dark:text-primary-400 font-semibold text-xs sm:text-sm">Sécurité & Confidentialité</span>
+                      <span className="text-teal-900 dark:text-primary-300 font-bold text-xs sm:text-sm">Sécurité & Confidentialité</span>
                     </div>
-                    <p className="text-gray-700 dark:text-gray-300 text-xs theme-transition">
+                    <p className="text-gray-900 dark:text-gray-300 text-xs font-medium theme-transition">
                       Vos données sont protégées. Nous respectons votre vie privée.
                     </p>
                   </div>
@@ -736,6 +736,7 @@ export default function RegisterPage() {
                     </label>
                   </div>
                 </div>
+                {/* ===== FIN DE LA SECTION CORRIGÉE ===== */}
               </div>
             )}
 
@@ -821,4 +822,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-}   
+}
