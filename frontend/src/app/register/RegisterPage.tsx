@@ -323,21 +323,24 @@ export default function RegisterPage() {
         </div>
 
         {/* Header avec logo */}
-        <div className="text-center mb-3 sm:mb-6">
-          <Link href="/" className="inline-block group">
-            <img
-              src="/logo.jpg"
-              alt="OSIRIX Clinique Médical"
-              className="h-14 w-14 sm:h-18 sm:w-18 mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
-              style={{ maxHeight: '56px', maxWidth: '56px' }}
-            />
-          </Link>
-          <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-theme-primary theme-transition mb-1.5 sm:mb-2">
-            Créer un compte patient
-          </h2>
-          <p className="text-[11px] sm:text-sm md:text-base text-theme-secondary theme-transition">
-            Rejoignez OSIRIX pour un suivi médical personnalisé
-          </p>
+        <div className="w-full py-3 sm:py-5">
+          <div className="text-center">
+            <Link href="/" className="inline-block group">
+              <img
+                src="/logo.jpg"
+                alt="OSIRIX Clinique Médical"
+                className="h-14 w-14 sm:h-18 sm:w-18 mx-auto mb-2 sm:mb-3 drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
+                style={{ maxHeight: '56px', maxWidth: '56px' }}
+              />
+            </Link>
+            <div className="mt-1 sm:mt-2">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-light text-theme-primary theme-transition tracking-wide">
+                <span className="font-bold text-primary-700">OSIRIX</span>
+                <span className="ml-1 sm:ml-1.5 text-theme-secondary text-sm sm:text-base">CLINIQUE MÉDICAL</span>
+              </h1>
+              <p className="text-xs text-theme-tertiary theme-transition mt-0.5">Votre santé, notre priorité</p>
+            </div>
+          </div>
         </div>
 
         {/* Indicateur de progression */}
@@ -449,41 +452,41 @@ export default function RegisterPage() {
                 </div>
 
                 {/* Date de naissance (optionnel) - SANS DOUBLON CALENDRIER */}
-<div>
-  <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
-    Date de naissance (optionnel)
-  </label>
-  <div className="relative">
-    <input
-      id="dateOfBirth"
-      name="dateOfBirth"
-      type="text"
-      value={formData.dateOfBirth}
-      onChange={handleInputChange}
-      placeholder="jj/mm/aaaa"
-      maxLength={10}
-      className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
-      style={{ fontSize: '14px' }} // Évite le zoom iOS
-    />
-    {/* Icône calendrier cliquable (ouvre picker natif) */}
-    <button
-      type="button"
-      onClick={() => {
-        const input = document.getElementById('dateOfBirth') as HTMLInputElement;
-        input.type = 'date';
-        input.showPicker(); // Ouvre le calendrier natif
-        input.type = 'text'; // Revient en text après
-      }}
-      className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-tertiary hover:text-primary-500 theme-transition cursor-pointer"
-    >
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-    </button>
-  </div>
-  {/* Helper text pour format */}
-  <p className="text-xs text-theme-tertiary mt-1">Format : jj/mm/aaaa</p>
-</div>
+                <div>
+                  <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
+                    Date de naissance (optionnel)
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      type="text"
+                      value={formData.dateOfBirth}
+                      onChange={handleInputChange}
+                      placeholder="jj/mm/aaaa"
+                      maxLength={10}
+                      className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
+                      style={{ fontSize: '14px' }} // Évite le zoom iOS
+                    />
+                    {/* Icône calendrier cliquable (ouvre picker natif) */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const input = document.getElementById('dateOfBirth') as HTMLInputElement;
+                        input.type = 'date';
+                        input.showPicker(); // Ouvre le calendrier natif
+                        input.type = 'text'; // Revient en text après
+                      }}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-tertiary hover:text-primary-500 theme-transition cursor-pointer"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                  </div>
+                  {/* Helper text pour format */}
+                  <p className="text-xs text-theme-tertiary mt-1">Format : jj/mm/aaaa</p>
+                </div>
 
                 {/* Téléphone */}
                 <div>
@@ -499,10 +502,10 @@ export default function RegisterPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={`input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 transition-all theme-transition ${phoneAvailability === 'taken'
-                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                          : phoneAvailability === 'available'
-                            ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
-                            : 'focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                        : phoneAvailability === 'available'
+                          ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
+                          : 'focus:ring-primary-500 focus:border-primary-500'
                         }`}
                       placeholder="+225 XX XX XX XX XX"
                     />
@@ -547,10 +550,10 @@ export default function RegisterPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       className={`input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 transition-all theme-transition ${emailAvailability === 'taken'
-                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                          : emailAvailability === 'available'
-                            ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
-                            : 'focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                        : emailAvailability === 'available'
+                          ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
+                          : 'focus:ring-primary-500 focus:border-primary-500'
                         }`}
                       placeholder="email@exemple.com"
                     />
@@ -774,7 +777,7 @@ export default function RegisterPage() {
                             <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
                           </h4>
                           <p className="text-theme-secondary text-sm leading-relaxed mb-4">
-                            Vos données médicales sont chiffrées et protégées selon les normes HIPAA. 
+                            Vos données médicales sont chiffrées et protégées selon les normes HIPAA.
                             Nous ne partageons jamais vos informations sans votre consentement explicite.
                           </p>
 
