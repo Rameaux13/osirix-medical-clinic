@@ -701,21 +701,29 @@ export default function RegisterPage() {
                   />
                 </div>
 
-                {/* ===== SECTION CORRIGÉE : MEILLEURE VISIBILITÉ EN MODE CLAIR ===== */}
+                 {/* ===== SECTION SÉCURITÉ & CONFIDENTIALITÉ - CONTRASTE MAXIMUM ===== */}
                 <div className="border-t border-theme pt-3 sm:pt-4 theme-transition">
-                  {/* Encadré Sécurité avec fond plus visible et texte contrasté */}
-                  <div className="bg-teal-100 dark:bg-primary-900/20 p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 border-teal-400 dark:border-primary-800 mb-3 sm:mb-4 theme-transition">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-teal-700 dark:text-primary-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                      <span className="text-teal-900 dark:text-primary-300 font-bold text-xs sm:text-sm">Sécurité & Confidentialité</span>
+                  {/* Encadré avec fond très visible et bordure épaisse */}
+                  <div className="bg-gradient-to-br from-teal-50 to-cyan-50 dark:bg-primary-900/20 p-4 sm:p-5 rounded-xl sm:rounded-2xl border-4 border-teal-500 dark:border-primary-800 mb-4 sm:mb-5 theme-transition shadow-lg">
+                    <div className="flex items-center space-x-3 mb-3">
+                      {/* Icône avec fond coloré */}
+                      <div className="w-8 h-8 bg-teal-600 dark:bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      {/* Titre en gras avec couleur très foncée */}
+                      <span className="text-gray-900 dark:text-primary-300 font-black text-sm sm:text-base tracking-wide">
+                        Sécurité & Confidentialité
+                      </span>
                     </div>
-                    <p className="text-gray-900 dark:text-gray-300 text-xs font-medium theme-transition">
+                    {/* Texte description en noir */}
+                    <p className="text-gray-900 dark:text-gray-300 text-xs sm:text-sm font-semibold leading-relaxed pl-11 theme-transition">
                       Vos données sont protégées. Nous respectons votre vie privée.
                     </p>
                   </div>
 
+                  {/* Checkbox avec label */}
                   <div className="flex items-start space-x-2 sm:space-x-3">
                     <input
                       id="acceptTerms"
@@ -736,7 +744,7 @@ export default function RegisterPage() {
                     </label>
                   </div>
                 </div>
-                {/* ===== FIN DE LA SECTION CORRIGÉE ===== */}
+                {/* ===== FIN DE LA SECTION ===== */}
               </div>
             )}
 
