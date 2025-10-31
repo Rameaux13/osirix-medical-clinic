@@ -422,6 +422,46 @@ footer {
     text-align: center;
   }
 }
+/* ============================================
+   DARK MODE TOGGLE - VISIBILITÉ DESKTOP
+   ============================================ */
+@media (min-width: 768px) {
+  /* Ajustement du bouton dark mode sur desktop */
+  .fixed.top-4.right-4 {
+    top: 1.5rem;     /* Plus d'espace en haut */
+    right: 2rem;     /* Éloigné du bord droit */
+  }
+
+  /* Optionnel : un peu plus grand et avec ombre douce */
+  .fixed.top-4.right-4 button {
+    width: 3.25rem;
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    transition: all 0.3s ease;
+  }
+
+  .fixed.top-4.right-4 button:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Icône légèrement plus grande sur desktop */
+  .fixed.top-4.right-4 svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+/* Mobile : on ne touche à RIEN */
+@media (max-width: 767px) {
+  .fixed.top-4.right-4 {
+    top: 1rem;
+    right: 1rem;
+  }
+}
 
 /* ============================================
    AMÉLIORATIONS RESPONSIVE MOBILE
@@ -558,4 +598,5 @@ html {
     background: white !important;
     color: black !important;
   }
+  
 }
