@@ -448,27 +448,42 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Date de naissance (optionnel) */}
-                <div>
-                  <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
-                    Date de naissance (optionnel)
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="dateOfBirth"
-                      name="dateOfBirth"
-                      type="date"
-                      value={formData.dateOfBirth}
-                      onChange={handleInputChange}
-                      max={new Date().toISOString().split('T')[0]}
-                      className="input-theme w-full px-3 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-sm border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition appearance-none"
-                      style={{ fontSize: '11px' }}
-                    />
-                    <svg className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-theme-tertiary pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
+                {/* Date de naissance (optionnel) - SANS DOUBLON CALENDRIER */}
+<div>
+  <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
+    Date de naissance (optionnel)
+  </label>
+  <div className="relative">
+    <input
+      id="dateOfBirth"
+      name="dateOfBirth"
+      type="text"
+      value={formData.dateOfBirth}
+      onChange={handleInputChange}
+      placeholder="jj/mm/aaaa"
+      maxLength={10}
+      className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
+      style={{ fontSize: '14px' }} // Évite le zoom iOS
+    />
+    {/* Icône calendrier cliquable (ouvre picker natif) */}
+    <button
+      type="button"
+      onClick={() => {
+        const input = document.getElementById('dateOfBirth') as HTMLInputElement;
+        input.type = 'date';
+        input.showPicker(); // Ouvre le calendrier natif
+        input.type = 'text'; // Revient en text après
+      }}
+      className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-tertiary hover:text-primary-500 theme-transition cursor-pointer"
+    >
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  {/* Helper text pour format */}
+  <p className="text-xs text-theme-tertiary mt-1">Format : jj/mm/aaaa</p>
+</div>
 
                 {/* Téléphone */}
                 <div>
