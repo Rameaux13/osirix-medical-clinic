@@ -320,19 +320,19 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-theme-primary theme-transition py-4 sm:py-6 px-3 sm:px-4">
       <div className="max-w-2xl mx-auto">
 
-        {/* Dark Mode Toggle - Position fixe en haut à droite */}
-        <div className="fixed top-4 right-4 z-50">
+        {/* Dark Mode Toggle - Aligné avec le formulaire sur desktop */}
+        <div className="fixed top-6 right-6 z-50 max-sm:hidden">
           <button
             onClick={toggleDarkMode}
-            className="p-3 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme"
+            className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
             aria-label="Toggle Dark Mode"
           >
             {darkMode ? (
-              <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
               </svg>
             ) : (
-              <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
               </svg>
             )}
@@ -481,10 +481,10 @@ export default function RegisterPage() {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={`input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 transition-all theme-transition ${phoneAvailability === 'taken'
-                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                          : phoneAvailability === 'available'
-                            ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
-                            : 'focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                        : phoneAvailability === 'available'
+                          ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
+                          : 'focus:ring-primary-500 focus:border-primary-500'
                         }`}
                       placeholder="+225 XX XX XX XX XX"
                     />
@@ -529,10 +529,10 @@ export default function RegisterPage() {
                       value={formData.email}
                       onChange={handleInputChange}
                       className={`input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 transition-all theme-transition ${emailAvailability === 'taken'
-                          ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
-                          : emailAvailability === 'available'
-                            ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
-                            : 'focus:ring-primary-500 focus:border-primary-500'
+                        ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                        : emailAvailability === 'available'
+                          ? 'border-green-300 focus:ring-green-500 focus:border-green-500'
+                          : 'focus:ring-primary-500 focus:border-primary-500'
                         }`}
                       placeholder="email@exemple.com"
                     />
@@ -701,93 +701,93 @@ export default function RegisterPage() {
                   />
                 </div>
 
-               {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ - VERSION DESKTOP AMÉLIORÉE */}
-<div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
-  {/* Version mobile (inchangée) */}
-  <div className="block md:hidden">
-    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
-      <div className="flex items-center space-x-3 mb-3">
-        <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <span className="text-gray-900 dark:text-gray-100 font-bold text-sm">
-          Sécurité & Confidentialité
-        </span>
-      </div>
-      <p className="text-gray-800 dark:text-gray-300 text-xs font-medium leading-relaxed theme-transition">
-        Vos données sont protégées. Nous respectons votre vie privée.
-      </p>
-    </div>
+                {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ - VERSION DESKTOP AMÉLIORÉE */}
+                <div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
+                  {/* Version mobile (inchangée) */}
+                  <div className="block md:hidden">
+                    <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-8 h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <span className="text-gray-900 dark:text-gray-100 font-bold text-sm">
+                          Sécurité & Confidentialité
+                        </span>
+                      </div>
+                      <p className="text-gray-800 dark:text-gray-300 text-xs font-medium leading-relaxed theme-transition">
+                        Vos données sont protégées. Nous respectons votre vie privée.
+                      </p>
+                    </div>
 
-    <div className="flex items-start space-x-2">
-      <input
-        id="acceptTerms"
-        type="checkbox"
-        checked={acceptTerms}
-        onChange={(e) => setAcceptTerms(e.target.checked)}
-        className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
-      />
-      <label htmlFor="acceptTerms" className="text-xs text-gray-900 dark:text-gray-100 theme-transition">
-        J'accepte les{' '}
-        <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
-          conditions d'utilisation
-        </Link>{' '}
-        et la{' '}
-        <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
-          politique de confidentialité
-        </Link>.
-      </label>
-    </div>
-  </div>
+                    <div className="flex items-start space-x-2">
+                      <input
+                        id="acceptTerms"
+                        type="checkbox"
+                        checked={acceptTerms}
+                        onChange={(e) => setAcceptTerms(e.target.checked)}
+                        className="mt-1 h-4 w-4 text-primary-500 focus:ring-primary-500 border-gray-300 dark:border-gray-600 rounded theme-transition flex-shrink-0"
+                      />
+                      <label htmlFor="acceptTerms" className="text-xs text-gray-900 dark:text-gray-100 theme-transition">
+                        J'accepte les{' '}
+                        <Link href="/terms" className="text-primary-500 hover:text-primary-600 font-bold underline">
+                          conditions d'utilisation
+                        </Link>{' '}
+                        et la{' '}
+                        <Link href="/privacy" className="text-primary-500 hover:text-primary-600 font-bold underline">
+                          politique de confidentialité
+                        </Link>.
+                      </label>
+                    </div>
+                  </div>
 
-  {/* Version DESKTOP uniquement - Améliorée */}
-  <div className="hidden md:block">
-    <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
-      <div className="flex items-start space-x-4">
-        {/* Icône premium */}
-        <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
-          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-        </div>
+                  {/* Version DESKTOP uniquement - Améliorée */}
+                  <div className="hidden md:block">
+                    <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
+                      <div className="flex items-start space-x-4">
+                        {/* Icône premium */}
+                        <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                          <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                          </svg>
+                        </div>
 
-        <div className="flex-1">
-          <h4 className="text-lg font-bold text-theme-primary mb-2 flex items-center gap-2">
-            <span>Sécurité & Confidentialité</span>
-            <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
-          </h4>
-          <p className="text-theme-secondary text-sm leading-relaxed mb-4">
-            Vos données médicales sont chiffrées et protégées selon les normes HIPAA. 
-            Nous ne partageons jamais vos informations sans votre consentement explicite.
-          </p>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-bold text-theme-primary mb-2 flex items-center gap-2">
+                            <span>Sécurité & Confidentialité</span>
+                            <span className="inline-block w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+                          </h4>
+                          <p className="text-theme-secondary text-sm leading-relaxed mb-4">
+                            Vos données médicales sont chiffrées et protégées selon les normes HIPAA.
+                            Nous ne partageons jamais vos informations sans votre consentement explicite.
+                          </p>
 
-          {/* Checkbox premium */}
-          <div className="flex items-start space-x-3">
-            <input
-              id="acceptTerms"
-              type="checkbox"
-              checked={acceptTerms}
-              onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-0.5 h-5 w-5 text-primary-500 focus:ring-primary-500 border-theme rounded-lg theme-transition cursor-pointer"
-            />
-            <label htmlFor="acceptTerms" className="text-sm text-theme-primary cursor-pointer select-none">
-              J'accepte les{' '}
-              <Link href="/terms" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
-                conditions d'utilisation
-              </Link>{' '}
-              et la{' '}
-              <Link href="/privacy" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
-                politique de confidentialité
-              </Link>.
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+                          {/* Checkbox premium */}
+                          <div className="flex items-start space-x-3">
+                            <input
+                              id="acceptTerms"
+                              type="checkbox"
+                              checked={acceptTerms}
+                              onChange={(e) => setAcceptTerms(e.target.checked)}
+                              className="mt-0.5 h-5 w-5 text-primary-500 focus:ring-primary-500 border-theme rounded-lg theme-transition cursor-pointer"
+                            />
+                            <label htmlFor="acceptTerms" className="text-sm text-theme-primary cursor-pointer select-none">
+                              J'accepte les{' '}
+                              <Link href="/terms" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                                conditions d'utilisation
+                              </Link>{' '}
+                              et la{' '}
+                              <Link href="/privacy" className="font-bold text-primary-500 hover:text-primary-600 underline decoration-primary-500/50">
+                                politique de confidentialité
+                              </Link>.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {/* ===== FIN DE LA SECTION ===== */}
               </div>
             )}
