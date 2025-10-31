@@ -561,7 +561,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SECTION AVIS */}
+      {/* SECTION AVIS SIMPLIFIÉE - FOND BLANC PROPRE */}
       <section id="avis" className="py-16 sm:py-20 md:py-28 bg-theme-primary relative overflow-hidden theme-transition">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 animate-pulse"></div>
@@ -571,22 +571,23 @@ export default function HomePage() {
 
         <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-100 dark:bg-secondary-900 text-secondary-700 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-semibold uppercase tracking-wider mb-4 sm:mb-6 theme-transition">
+            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-200 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-bold uppercase tracking-wider mb-4 sm:mb-6 theme-transition border-2 border-secondary-400 dark:border-secondary-700">
               Votre Opinion Compte
             </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-600 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-700 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
               Partagez votre Expérience OSIRIX
             </h2>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-theme-primary max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-800 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
               Votre avis nous aide à améliorer continuellement nos services.
               Partagez votre expérience avec notre équipe et aidez-nous à offrir
               des soins toujours plus adaptés à vos besoins.
             </p>
           </div>
 
-          <div className="bg-theme-card rounded-3xl shadow-theme-xl p-6 sm:p-8 md:p-12 border border-theme relative overflow-hidden theme-transition">
+          {/* FORMULAIRE SIMPLIFIÉ - FOND BLANC PROPRE */}
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border-2 border-gray-200 dark:border-gray-700 relative overflow-hidden theme-transition">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
 
             <form onSubmit={handleFeedbackSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
@@ -596,18 +597,18 @@ export default function HomePage() {
                     <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
                   </svg>
                 </div>
-                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2 sm:mb-3 theme-transition">
+                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2 sm:mb-3 theme-transition">
                   Donnez votre Avis
                 </h3>
-                <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
+                <p className="text-gray-700 dark:text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
                   Votre retour d'expérience est précieux pour nous
                 </p>
               </div>
 
               {submitMessage && (
                 <div className={`p-4 sm:p-5 rounded-xl text-center font-medium text-base sm:text-lg md:text-xl ${submitMessage.includes('Merci')
-                  ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
-                  : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
+                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-2 border-green-300 dark:border-green-800'
+                  : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-2 border-red-300 dark:border-red-800'
                   } theme-transition`}>
                   {submitMessage}
                 </div>
@@ -615,7 +616,7 @@ export default function HomePage() {
 
               <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
                 <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="name" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
+                  <label htmlFor="name" className="block text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 theme-transition">
                     Nom complet *
                   </label>
                   <input
@@ -625,13 +626,13 @@ export default function HomePage() {
                     value={feedbackForm.name}
                     onChange={handleFeedbackChange}
                     required
-                    className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl theme-transition"
+                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
                     placeholder="Votre nom et prénom"
                   />
                 </div>
 
                 <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="email" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
+                  <label htmlFor="email" className="block text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 theme-transition">
                     Adresse email *
                   </label>
                   <input
@@ -641,14 +642,14 @@ export default function HomePage() {
                     value={feedbackForm.email}
                     onChange={handleFeedbackChange}
                     required
-                    className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl theme-transition"
+                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
                     placeholder="votre@email.com"
                   />
                 </div>
               </div>
 
               <div className="space-y-4 sm:space-y-5">
-                <label className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
+                <label className="block text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 theme-transition">
                   Votre évaluation *
                 </label>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
@@ -658,9 +659,9 @@ export default function HomePage() {
                         key={star}
                         type="button"
                         onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
-                        className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center ${star <= feedbackForm.rating
-                          ? 'bg-secondary-500 text-white shadow-md hover:bg-secondary-600'
-                          : 'bg-theme-tertiary text-theme-tertiary hover:bg-theme-hover'
+                        className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center border-2 ${star <= feedbackForm.rating
+                          ? 'bg-secondary-500 border-secondary-600 text-white shadow-lg hover:bg-secondary-600'
+                          : 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-600'
                           } theme-transition`}
                       >
                         <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
@@ -669,7 +670,7 @@ export default function HomePage() {
                       </button>
                     ))}
                   </div>
-                  <div className="text-base sm:text-lg md:text-xl font-medium text-theme-secondary theme-transition">
+                  <div className="text-base sm:text-lg md:text-xl font-bold text-gray-800 dark:text-gray-200 theme-transition">
                     {feedbackForm.rating === 1 && "Très insatisfait"}
                     {feedbackForm.rating === 2 && "Insatisfait"}
                     {feedbackForm.rating === 3 && "Correct"}
@@ -680,7 +681,7 @@ export default function HomePage() {
               </div>
 
               <div className="space-y-2 sm:space-y-3">
-                <label htmlFor="message" className="block text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 theme-transition">
+                <label htmlFor="message" className="block text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 theme-transition">
                   Votre impression sur OSIRIX *
                 </label>
                 <textarea
@@ -690,10 +691,10 @@ export default function HomePage() {
                   onChange={handleFeedbackChange}
                   required
                   rows={5}
-                  className="input-theme w-full px-4 py-3 sm:px-5 sm:py-4 border-2 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 resize-none text-base sm:text-lg md:text-xl theme-transition"
+                  className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 resize-none text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
                   placeholder="Partagez votre expérience avec notre clinique : qualité des soins, accueil de l'équipe, installations, suggestions d'amélioration..."
                 ></textarea>
-                <p className="text-sm sm:text-base md:text-lg text-theme-tertiary theme-transition">
+                <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 theme-transition">
                   Minimum 20 caractères. Partagez vos impressions honnêtes pour nous aider à nous améliorer.
                 </p>
               </div>
@@ -703,7 +704,7 @@ export default function HomePage() {
                   type="submit"
                   disabled={isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20}
                   className={`w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 rounded-xl font-bold text-lg sm:text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
-                    ? 'bg-neutral-400 dark:bg-neutral-600 text-neutral-600 dark:text-neutral-400 cursor-not-allowed'
+                    ? 'bg-gray-400 dark:bg-gray-600 text-gray-600 dark:text-gray-400 cursor-not-allowed'
                     : 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white'
                     }`}
                 >
@@ -727,18 +728,19 @@ export default function HomePage() {
               </div>
             </form>
 
-            <div className="mt-8 sm:mt-10 p-5 sm:p-6 bg-primary-50 dark:bg-primary-900/30 rounded-xl border border-primary-100 dark:border-primary-800 theme-transition">
+            {/* ENCADRÉ CONFIDENTIALITÉ SIMPLIFIÉ - FOND BLANC */}
+            <div className="mt-8 sm:mt-10 p-5 sm:p-6 bg-gray-50 dark:bg-gray-900/50 rounded-xl border-2 border-gray-300 dark:border-gray-700 theme-transition">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                   <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="text-base sm:text-lg md:text-xl font-semibold text-primary-700 dark:text-primary-300 mb-1 sm:mb-2 theme-transition">
+                  <h4 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 theme-transition">
                     Confidentialité assurée
                   </h4>
-                  <p className="text-sm sm:text-base md:text-lg text-primary-700 dark:text-primary-400 leading-relaxed theme-transition">
+                  <p className="text-sm sm:text-base md:text-lg text-gray-800 dark:text-gray-300 leading-relaxed theme-transition">
                     Vos informations sont protégées et utilisées uniquement pour améliorer nos services.
                     Votre avis pourra être publié de manière anonyme avec votre accord préalable.
                   </p>
