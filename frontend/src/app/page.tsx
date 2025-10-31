@@ -561,193 +561,203 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="avis" className="py-16 sm:py-20 md:py-28 bg-white dark:bg-theme-primary relative overflow-hidden theme-transition">
-        <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
-          {/* Titre */}
-          <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-200 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-bold uppercase tracking-wider mb-4 sm:mb-6 theme-transition border-2 border-secondary-400 dark:border-secondary-700">
-              Votre Opinion Compte
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-700 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
-              Partagez votre Expérience OSIRIX
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-black dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
-              Votre avis nous aide à améliorer continuellement nos services.
-              Partagez votre expérience avec notre équipe et aidez-nous à offrir des soins toujours plus adaptés à vos besoins.
-            </p>
+      {/* ============================== SECTION AVIS - MODE CLAIR PARFAIT ============================== */}
+<section id="avis" className="py-16 sm:py-20 md:py-28 bg-white relative overflow-hidden">
+  <div className="max-w-5xl mx-auto px-4 md:px-6">
+
+    {/* Titre */}
+    <div className="text-center mb-12 sm:mb-16 md:mb-20">
+      <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-200 text-secondary-800 rounded-full text-sm sm:text-base md:text-lg font-bold uppercase tracking-wider mb-4 sm:mb-6 border-2 border-secondary-400">
+        Votre Opinion Compte
+      </div>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-700 mb-6 sm:mb-8 leading-tight">
+        Partagez votre Expérience OSIRIX
+      </h2>
+      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-800 max-w-3xl mx-auto leading-relaxed px-2">
+        Votre avis nous aide à améliorer continuellement nos services.
+        Partagez votre expérience avec notre équipe et aidez-nous à offrir des soins toujours plus adaptés à vos besoins.
+      </p>
+    </div>
+
+    {/* Formulaire d'avis - Fond blanc, texte noir/bleu foncé */}
+    <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 border-2 border-gray-200 relative overflow-hidden">
+      {/* Barre colorée en haut */}
+      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
+      
+      <form onSubmit={handleFeedbackSubmit} className="space-y-6 md:space-y-8">
+        {/* Titre du formulaire */}
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl md:text-3xl font-bold text-primary-700 mb-2">
+            Donnez votre Avis
+          </h3>
+          <p className="text-gray-700 text-base">
+            Votre retour d'expérience est précieux pour nous
+          </p>
+        </div>
+
+        {/* Message de confirmation */}
+        {submitMessage && (
+          <div className={`p-4 rounded-xl text-center font-medium text-base ${
+            submitMessage.includes('Merci') 
+              ? 'bg-green-100 text-green-700 border border-green-200' 
+              : 'bg-red-100 text-red-700 border border-red-200'
+          }`}>
+            {submitMessage}
+          </div>
+        )}
+
+        {/* Champs Nom et Email */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Nom complet */}
+          <div className="space-y-2">
+            <label htmlFor="name" className="block text-base font-semibold text-primary-700">
+              Nom complet *
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={feedbackForm.name}
+              onChange={handleFeedbackChange}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-gray-900 placeholder-gray-500 text-base bg-white"
+              placeholder="Votre nom et prénom"
+            />
           </div>
 
-          {/* Formulaire - Fond blanc en clair, gris foncé en sombre */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border-2 border-gray-200 dark:border-gray-700 relative overflow-hidden theme-transition">
-            {/* Barre colorée en haut */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
+          {/* Email */}
+          <div className="space-y-2">
+            <label htmlFor="email" className="block text-base font-semibold text-primary-700">
+              Adresse email *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={feedbackForm.email}
+              onChange={handleFeedbackChange}
+              required
+              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-gray-900 placeholder-gray-500 text-base bg-white"
+              placeholder="votre@email.com"
+            />
+          </div>
+        </div>
 
-            <form onSubmit={handleFeedbackSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
-              {/* Icône + Titre */}
-              <div className="text-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg">
-                  <svg className="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+        {/* Note */}
+        <div className="space-y-4">
+          <label className="block text-base font-semibold text-primary-700">
+            Votre évaluation *
+          </label>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            {/* Étoiles */}
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
+                  className={`w-10 h-10 rounded-full transition-all duration-200 flex items-center justify-center ${
+                    star <= feedbackForm.rating
+                      ? 'bg-secondary-500 text-white shadow-md hover:bg-secondary-600'
+                      : 'bg-gray-200 text-gray-500 hover:bg-gray-300'
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
                   </svg>
-                </div>
-                <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-gray-100 mb-2 sm:mb-3 theme-transition">
-                  Donnez votre Avis
-                </h3>
-                <p className="text-black dark:text-gray-300 text-sm sm:text-base md:text-lg lg:text-xl theme-transition">
-                  Votre retour d'expérience est précieux pour nous
-                </p>
-              </div>
-
-              {/* Message de succès/erreur */}
-              {submitMessage && (
-                <div className={`p-4 sm:p-5 rounded-xl text-center font-medium text-base sm:text-lg md:text-xl ${submitMessage.includes('Merci')
-                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 border-2 border-green-300 dark:border-green-800'
-                  : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 border-2 border-red-300 dark:border-red-800'
-                  } theme-transition`}>
-                  {submitMessage}
-                </div>
-              )}
-
-              {/* Champs Nom et Email */}
-              <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
-                <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="name" className="block text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-100 theme-transition">
-                    Nom complet *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={feedbackForm.name}
-                    onChange={handleFeedbackChange}
-                    required
-                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-black dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
-                    placeholder="Votre nom et prénom"
-                  />
-                </div>
-
-                <div className="space-y-2 sm:space-y-3">
-                  <label htmlFor="email" className="block text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-100 theme-transition">
-                    Adresse email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={feedbackForm.email}
-                    onChange={handleFeedbackChange}
-                    required
-                    className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-black dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
-                    placeholder="votre@email.com"
-                  />
-                </div>
-              </div>
-
-              {/* Étoiles d'évaluation */}
-              <div className="space-y-4 sm:space-y-5">
-                <label className="block text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-100 theme-transition">
-                  Votre évaluation *
-                </label>
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                  <div className="flex gap-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setFeedbackForm(prev => ({ ...prev, rating: star }))}
-                        className={`w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full transition-all duration-200 flex items-center justify-center border-2 ${star <= feedbackForm.rating
-                          ? 'bg-secondary-500 border-secondary-600 text-white shadow-lg hover:bg-secondary-600'
-                          : 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-600'
-                          } theme-transition`}
-                      >
-                        <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" />
-                        </svg>
-                      </button>
-                    ))}
-                  </div>
-                  <div className="text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-200 theme-transition">
-                    {feedbackForm.rating === 1 && "Très insatisfait"}
-                    {feedbackForm.rating === 2 && "Insatisfait"}
-                    {feedbackForm.rating === 3 && "Correct"}
-                    {feedbackForm.rating === 4 && "Satisfait"}
-                    {feedbackForm.rating === 5 && "Très satisfait"}
-                  </div>
-                </div>
-              </div>
-
-              {/* Message */}
-              <div className="space-y-2 sm:space-y-3">
-                <label htmlFor="message" className="block text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-100 theme-transition">
-                  Votre impression sur OSIRIX *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={feedbackForm.message}
-                  onChange={handleFeedbackChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800 transition-all duration-200 resize-none text-base sm:text-lg md:text-xl bg-white dark:bg-gray-700 text-black dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 theme-transition"
-                  placeholder="Partagez votre expérience avec notre clinique : qualité des soins, accueil de l'équipe, installations, suggestions d'amélioration..."
-                ></textarea>
-                <p className="text-sm sm:text-base md:text-lg text-black dark:text-gray-400 theme-transition">
-                  Minimum 20 caractères. Partagez vos impressions honnêtes pour nous aider à nous améliorer.
-                </p>
-              </div>
-
-              {/* Bouton Envoyer */}
-              <div className="text-center pt-4 sm:pt-6">
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20}
-                  className={`w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 rounded-xl font-bold text-lg sm:text-xl md:text-2xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
-                    ? 'bg-gray-400 dark:bg-gray-600 text-gray-600 dark:text-gray-400 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white'
-                    }`}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center gap-2 sm:gap-3">
-                      <svg className="animate-spin h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Envoi en cours...
-                    </span>
-                  ) : (
-                    <span className="flex items-center justify-center gap-2 sm:gap-3">
-                      <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" />
-                      </svg>
-                      Envoyer mon avis
-                    </span>
-                  )}
                 </button>
-              </div>
-            </form>
-
-            {/* Confidentialité */}
-            <div className="mt-8 sm:mt-10 p-5 sm:p-6 bg-gray-100 dark:bg-gray-900/50 rounded-xl border-2 border-gray-300 dark:border-gray-700 theme-transition">
-              <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-600 dark:bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="text-base sm:text-lg md:text-xl font-bold text-black dark:text-gray-100 mb-1 sm:mb-2 theme-transition">
-                    Confidentialité assurée
-                  </h4>
-                  <p className="text-sm sm:text-base md:text-lg text-black dark:text-gray-300 leading-relaxed theme-transition">
-                    Vos informations sont protégées et utilisées uniquement pour améliorer nos services.
-                    Votre avis pourra être publié de manière anonyme avec votre accord préalable.
-                  </p>
-                </div>
-              </div>
+              ))}
+            </div>
+            {/* Texte de l'évaluation */}
+            <div className="text-base font-medium text-gray-700">
+              {feedbackForm.rating === 1 && "Très insatisfait"}
+              {feedbackForm.rating === 2 && "Insatisfait"}
+              {feedbackForm.rating === 3 && "Correct"}
+              {feedbackForm.rating === 4 && "Satisfait"}
+              {feedbackForm.rating === 5 && "Très satisfait"}
             </div>
           </div>
         </div>
-      </section>
+
+        {/* Message */}
+        <div className="space-y-2">
+          <label htmlFor="message" className="block text-base font-semibold text-primary-700">
+            Votre impression sur OSIRIX *
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={feedbackForm.message}
+            onChange={handleFeedbackChange}
+            required
+            rows={5}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition-all duration-200 text-gray-900 placeholder-gray-500 resize-none text-base bg-white"
+            placeholder="Partagez votre expérience avec notre clinique : qualité des soins, accueil de l'équipe, installations, suggestions d'amélioration..."
+          ></textarea>
+          <p className="text-sm text-gray-600">
+            Minimum 20 caractères. Partagez vos impressions honnêtes pour nous aider à nous améliorer.
+          </p>
+        </div>
+
+        {/* Bouton d'envoi */}
+        <div className="text-center pt-4">
+          <button
+            type="submit"
+            disabled={isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20}
+            className={`w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+              isSubmitting || !feedbackForm.name || !feedbackForm.email || !feedbackForm.message || feedbackForm.message.length < 20
+                ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                : 'bg-gradient-to-r from-secondary-500 to-secondary-600 hover:from-secondary-600 hover:to-secondary-700 text-white'
+            }`}
+          >
+            {isSubmitting ? (
+              <span className="flex items-center justify-center gap-3">
+                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Envoi en cours...
+              </span>
+            ) : (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M2.01 21L23 12L2.01 3L2 10L17 12L2 14L2.01 21Z" />
+                </svg>
+                Envoyer mon avis
+              </span>
+            )}
+          </button>
+        </div>
+      </form>
+
+      {/* Informations de confidentialité */}
+      <div className="mt-8 p-4 bg-primary-50 rounded-xl border border-primary-100">
+        <div className="flex items-start gap-3">
+          <div className="w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M10 17L6 13L7.41 11.59L10 14.17L16.59 7.58L18 9L10 17Z" />
+            </svg>
+          </div>
+          <div>
+            <h4 className="text-base font-semibold text-primary-700 mb-1">
+              Confidentialité assurée
+            </h4>
+            <p className="text-sm text-primary-700 leading-relaxed">
+              Vos informations sont protégées et utilisées uniquement pour améliorer nos services. 
+              Votre avis pourra être publié de manière anonyme avec votre accord préalable.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
       {/* Footer */}
       <footer id="contact" className="bg-primary-600 dark:bg-primary-900 text-neutral-100 dark:text-neutral-300 py-12 sm:py-16 md:py-20 theme-transition">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
