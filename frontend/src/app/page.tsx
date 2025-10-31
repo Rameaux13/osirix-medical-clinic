@@ -562,33 +562,34 @@ export default function HomePage() {
       </section>
 
       {/* SECTION AVIS SIMPLIFIÉE - FOND BLANC PROPRE */}
-      <section id="avis" className="py-16 sm:py-20 md:py-28 bg-theme-primary relative overflow-hidden theme-transition">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary-200 dark:bg-secondary-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-100 dark:bg-primary-900 rounded-full opacity-10"></div>
-        </div>
+      
+      <section id="avis" className="py-16 sm:py-20 md:py-28 bg-theme-card relative overflow-hidden theme-transition">
+  <div className="absolute inset-0 pointer-events-none">
+    <div className="absolute top-20 left-10 w-32 h-32 bg-primary-200 dark:bg-primary-800 rounded-full opacity-20 animate-pulse"></div>
+    <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary-200 dark:bg-secondary-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-100 dark:bg-primary-900 rounded-full opacity-10"></div>
+  </div>
 
-        <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-200 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-bold uppercase tracking-wider mb-4 sm:mb-6 theme-transition border-2 border-secondary-400 dark:border-secondary-700">
-              Votre Opinion Compte
-            </div>
+  <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
+    <div className="text-center mb-12 sm:mb-16 md:mb-20">
+      <div className="inline-block px-6 sm:px-8 py-2 sm:py-3 bg-secondary-200 dark:bg-secondary-900 text-secondary-800 dark:text-secondary-300 rounded-full text-sm sm:text-base md:text-lg font-bold uppercase tracking-wider mb-4 sm:mb-6 theme-transition border-2 border-secondary-400 dark:border-secondary-700">
+        Votre Opinion Compte
+      </div>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-700 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
-              Partagez votre Expérience OSIRIX
-            </h2>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-700 dark:text-primary-400 mb-6 sm:mb-8 leading-tight theme-transition">
+        Partagez votre Expérience OSIRIX
+      </h2>
 
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-gray-800 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
-              Votre avis nous aide à améliorer continuellement nos services.
+      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-2 theme-transition">
+      Votre avis nous aide à améliorer continuellement nos services.
               Partagez votre expérience avec notre équipe et aidez-nous à offrir
               des soins toujours plus adaptés à vos besoins.
-            </p>
-          </div>
+      </p>
+    </div>
 
-          {/* FORMULAIRE SIMPLIFIÉ - FOND BLANC PROPRE */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border-2 border-gray-200 dark:border-gray-700 relative overflow-hidden theme-transition">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
+     {/* FORMULAIRE SIMPLIFIÉ - FOND BLANC PROPRE */}
+    <div className="bg-theme-card rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 border-2 border-theme relative overflow-hidden theme-transition">
+      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500"></div>
 
             <form onSubmit={handleFeedbackSubmit} className="space-y-6 sm:space-y-8 md:space-y-10">
               <div className="text-center">
