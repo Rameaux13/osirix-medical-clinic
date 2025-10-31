@@ -346,6 +346,67 @@ footer {
   color: #fff;
 }
 
+/* SECTION CONFIDENTIALITÉ - MODE CLAIR : FOND BLANC + TEXTE NOIR */
+.confidentiality-box {
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+/* Icône check verte */
+.confidentiality-box .icon-check {
+  width: 1.75rem;
+  height: 1.75rem;
+  background-color: #006D65;
+  color: white;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Texte en NOIR (mode clair) */
+.confidentiality-box h4 {
+  color: #111827 !important;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.confidentiality-box p {
+  color: #111827 !important;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* MODE SOMBRE : on garde un style propre (fond sombre + texte clair) */
+.dark .confidentiality-box {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .confidentiality-box h4 {
+  color: #f3f4f6 !important; /* Gris très clair */
+}
+
+.dark .confidentiality-box p {
+  color: #d1d5db !important; /* Gris clair */
+}
+
+.dark .confidentiality-box .icon-check {
+  background-color: #2dd4bf !important; /* Vert clair en dark mode */
+}
+
 /* Responsive mobile - Boutons auth */
 @media (max-width: 768px) {
   .auth-buttons-mobile {
