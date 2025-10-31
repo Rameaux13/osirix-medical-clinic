@@ -116,10 +116,10 @@ export default function LoginPage() {
         <div className="text-center">
           <Link href="/" className="inline-block group">
             <img
-              src="/logo.jpg"
-              alt="OSIRIX Clinique Médical"
-              className="h-12 sm:h-16 md:h-20 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover"
-            />
+  src="/logo.jpg"
+  alt="OSIRIX Clinique Médical"
+  className="h-8 sm:h-11 md:h-14 lg:h-16 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover mb-1 sm:mb-2"
+/>
           </Link>
           <div className="mt-2 sm:mt-3">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-light text-theme-primary theme-transition tracking-wide">
@@ -360,7 +360,7 @@ export default function LoginPage() {
       </div>
 
       {/* Footer */}
-      <div className="w-full py-3 sm:py-4 mt-auto border-t border-theme">
+      <div className="w-full py-3 sm:py-4 mt-auto ">
         <p className="text-center text-xs text-theme-tertiary theme-transition">
           © 2025 OSIRIX Clinique Médical. Tous droits réservés.
         </p>
