@@ -418,78 +418,93 @@ export default function HomePage() {
         </div>
       </section>
 
+      
       {/* Section Équipe Médicale */}
-      <section className="py-16 sm:py-20 md:py-24 bg-theme-secondary theme-transition">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 sm:mb-16 md:mb-20">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-500 mb-4 sm:mb-6 tracking-wide">
-              Notre Équipe Médicale
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-4 theme-transition">
-              Rencontrez nos experts passionnés, dédiés à votre bien-être et à votre santé.
-            </p>
-          </div>
+<section className="py-16 sm:py-20 md:py-24 bg-theme-secondary theme-transition">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="text-center mb-12 sm:mb-16 md:mb-20">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-primary-500 mb-4 sm:mb-6 tracking-wide">
+        Notre Équipe Médicale
+      </h2>
+      <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-4 theme-transition">
+        Rencontrez nos experts passionnés, dédiés à votre bien-être et à votre santé.
+      </p>
+    </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-            {/* Docteur 1 */}
-            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
-                <Image
-                  src="/docteur femme.jpg"
-                  alt="Dr. Kouame"
-                  width={112}
-                  height={112}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Kouame</h3>
-              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Cardiologue</p>
-              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
-                Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience
-                et une approche humaine.
-              </p>
-            </div>
-
-            {/* Docteur 2 */}
-            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
-                <Image
-                  src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80"
-                  alt="Dr. Karim Ba"
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Karim Ba</h3>
-              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Radiologue</p>
-              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
-                Expert en techniques d'imagerie avancées, il assure des diagnostics précis
-                et rapides.
-              </p>
-            </div>
-
-            {/* Docteur 3 */}
-            <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
-                <Image
-                  src="/docteur homme noir.jpg"
-                  alt="Dr. Aminata Diarra"
-                  width={112}
-                  height={112}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr.Diarra</h3>
-              <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Médecin Généraliste</p>
-              <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
-                Une approche douce et personnalisée pour assurer un suivi complet de
-                votre santé.
-              </p>
-            </div>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+      {/* Docteur 1 - Dr. Kouame */}
+      <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
+        <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
+          <Image
+            src="/docteur femme.jpg"
+            alt="Dr. Kouame - Cardiologue"
+            width={128}
+            height={128}
+            className="w-full h-full object-cover"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8Alt4d1S1g5Z2x2pK1p4f2a2lR0gq2p5f9n//Z"
+          />
+          {/* Fallback si image manquante */}
+          <div className="absolute inset-0 bg-gray-200 rounded-full flex items-center justify-center text-3xl">
+            [Woman Doctor]
           </div>
         </div>
-      </section>
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Kouame</h3>
+        <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Cardiologue</p>
+        <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
+          Spécialiste en maladies cardiovasculaires avec plus de 15 ans d'expérience
+          et une approche humaine.
+        </p>
+      </div>
+
+      {/* Docteur 2 - Dr. Karim Ba */}
+      <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
+        <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
+          <Image
+            src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1064&q=80"
+            alt="Dr. Karim Ba - Radiologue"
+            width={128}
+            height={128}
+            className="w-full h-full object-cover"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8Alt4d1S1g5Z2x2pK1p4f2a2lR0gq2p5f9n//Z"
+          />
+        </div>
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Karim Ba</h3>
+        <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Radiologue</p>
+        <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
+          Expert en techniques d'imagerie avancées, il assure des diagnostics précis
+          et rapides.
+        </p>
+      </div>
+
+      {/* Docteur 3 - Dr. Diarra */}
+      <div className="bg-theme-card rounded-3xl p-6 sm:p-8 shadow-theme-lg hover:shadow-theme-xl transition-all duration-300 hover:-translate-y-2 text-center theme-transition">
+        <div className="relative w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 mx-auto mb-6 sm:mb-8 rounded-full overflow-hidden border-4 border-secondary-500 shadow-lg">
+          <Image
+            src="/docteur homme noir.jpg"
+            alt="Dr. Diarra - Médecin Généraliste"
+            width={128}
+            height={128}
+            className="w-full h-full object-cover"
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8Alt4d1S1g5Z2x2pK1p4f2a2lR0gq2p5f9n//Z"
+          />
+          {/* Fallback si image manquante */}
+          <div className="absolute inset-0 bg-gray-200 rounded-full flex items-center justify-center text-3xl">
+            [Man Doctor]
+          </div>
+        </div>
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary-500 mb-2 sm:mb-3 tracking-wide">Dr. Diarra</h3>
+        <p className="text-theme-tertiary italic font-medium mb-4 sm:mb-6 text-base sm:text-lg md:text-xl theme-transition">Médecin Généraliste</p>
+        <p className="text-theme-secondary text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed theme-transition">
+          Une approche douce et personnalisée pour assurer un suivi complet de
+          votre santé.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Section Témoignages */}
       <section className="py-16 sm:py-20 md:py-24 bg-theme-secondary theme-transition">
