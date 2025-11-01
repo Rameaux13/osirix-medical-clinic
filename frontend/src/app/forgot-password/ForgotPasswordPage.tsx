@@ -96,9 +96,9 @@ export default function ForgotPasswordPage() {
       {/* ========================================== */}
       {/* CONTENU PRINCIPAL - CENTRÉ VERTICALEMENT */}
       {/* Sur mobile : centrage standard */}
-      {/* Sur desktop : légèrement remonté avec items-start + padding-top */}
+      {/* Sur desktop : remonté avec padding-top minimal */}
       {/* ========================================== */}
-      <div className="flex-1 flex items-center sm:items-start sm:pt-16 md:pt-15 justify-center px-4 py-6">
+      <div className="flex-1 flex items-center sm:items-start sm:pt-8 md:pt-10 lg:pt-12 justify-center px-4 py-6">
         <div className="max-w-md w-full">
 
           {/* ========================================== */}
