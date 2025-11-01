@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
             </Link>
 
             {/* TEXTE "OSIRIX" - VISIBLE SUR TOUS LES ÉCRANS */}
-            <div className="mb-4">
+            <div className="mb-4 sm:mb-6">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-light text-theme-primary theme-transition tracking-wide text-center">
                 <span className="font-bold text-primary-700">OSIRIX</span>
                 <span className="ml-1.5 md:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
@@ -122,18 +122,10 @@ export default function ForgotPasswordPage() {
                 Votre santé, notre priorité
               </p>
             </div>
-
-            {/* TITRE DE LA PAGE */}
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-theme-primary theme-transition">
-              Mot de passe oublié ?
-            </h2>
-            <p className="text-theme-secondary theme-transition mt-2 text-sm md:text-base">
-              Entrez votre email pour recevoir un lien de réinitialisation
-            </p>
           </div>
 
           {/* ========================================== */}
-          {/* FORMULAIRE */}
+          {/* FORMULAIRE AVEC TITRE INTÉGRÉ */}
           {/* ========================================== */}
           <div className="bg-theme-card rounded-xl sm:rounded-2xl shadow-theme-xl border border-theme p-5 sm:p-6 md:p-8 theme-transition">
 
@@ -155,6 +147,18 @@ export default function ForgotPasswordPage() {
                   </svg>
                 )}
               </button>
+            </div>
+
+            {/* ========================================== */}
+            {/* TITRE ET DESCRIPTION - INTÉGRÉS DANS LE BLOC */}
+            {/* ========================================== */}
+            <div className="text-center mb-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-theme-primary theme-transition">
+                Mot de passe oublié ?
+              </h2>
+              <p className="text-theme-secondary theme-transition mt-2 text-sm md:text-base">
+                Entrez votre email pour recevoir un lien de réinitialisation
+              </p>
             </div>
 
             {/* ========================================== */}
