@@ -272,11 +272,10 @@ export default function MonProfil() {
     <div className="space-y-6">
       {/* Messages de feedback */}
       {(error || successMessage) && (
-        <div className={`p-4 rounded-lg border flex items-start justify-between theme-transition ${
-          error
+        <div className={`p-4 rounded-lg border flex items-start justify-between theme-transition ${error
             ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
             : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
-        }`}>
+          }`}>
           <div className="flex items-center">
             {error ? (
               <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -320,9 +319,8 @@ export default function MonProfil() {
                 id="firstName"
                 value={profileForm.firstName}
                 onChange={(e) => handleProfileChange('firstName', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
-                  validationErrors.firstName ? 'border-red-300 dark:border-red-600' : ''
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${validationErrors.firstName ? 'border-red-300 dark:border-red-600' : ''
+                  }`}
                 placeholder="Votre prénom"
               />
               {validationErrors.firstName && (
@@ -340,9 +338,8 @@ export default function MonProfil() {
                 id="lastName"
                 value={profileForm.lastName}
                 onChange={(e) => handleProfileChange('lastName', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
-                  validationErrors.lastName ? 'border-red-300 dark:border-red-600' : ''
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${validationErrors.lastName ? 'border-red-300 dark:border-red-600' : ''
+                  }`}
                 placeholder="Votre nom"
               />
               {validationErrors.lastName && (
@@ -360,9 +357,8 @@ export default function MonProfil() {
                 id="phone"
                 value={profileForm.phone}
                 onChange={(e) => handleProfileChange('phone', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
-                  validationErrors.phone ? 'border-red-300 dark:border-red-600' : ''
-                }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${validationErrors.phone ? 'border-red-300 dark:border-red-600' : ''
+                  }`}
                 placeholder="+225 01 23 45 67 89"
               />
               {validationErrors.phone && (
@@ -381,7 +377,7 @@ export default function MonProfil() {
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
                 className="w-full px-3 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme"
-                style={{ 
+                style={{
                   WebkitAppearance: 'none',
                   MozAppearance: 'none',
                   appearance: 'none',
@@ -403,7 +399,7 @@ export default function MonProfil() {
                 id="email"
                 value={userProfile?.email || ''}
                 disabled
-                className="w-full px-4 py-3 border border-theme rounded-lg bg-gray-100 dark:bg-gray-700 text-theme-tertiary cursor-not-allowed text-base theme-transition"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed text-base theme-transition"
               />
             </div>
           </div>
@@ -491,9 +487,8 @@ export default function MonProfil() {
                   id="newPassword"
                   value={passwordForm.newPassword}
                   onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${
-                    validationErrors.newPassword ? 'border-red-300 dark:border-red-600' : ''
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${validationErrors.newPassword ? 'border-red-300 dark:border-red-600' : ''
+                    }`}
                   placeholder="Minimum 3 caractères (lettres et chiffres)"
                 />
                 <button
@@ -520,9 +515,8 @@ export default function MonProfil() {
                   id="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${
-                    validationErrors.confirmPassword ? 'border-red-300 dark:border-red-600' : ''
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${validationErrors.confirmPassword ? 'border-red-300 dark:border-red-600' : ''
+                    }`}
                   placeholder="Confirmez votre nouveau mot de passe"
                 />
                 <button
