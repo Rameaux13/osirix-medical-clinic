@@ -38,7 +38,9 @@ export default function RegisterPage() {
   const [emailAvailability, setEmailAvailability] = useState<'checking' | 'available' | 'taken' | null>(null);
   const [phoneAvailability, setPhoneAvailability] = useState<'checking' | 'available' | 'taken' | null>(null);
 
-  // Initialiser le dark mode depuis localStorage
+  // ==========================================
+  // INITIALISATION DU DARK MODE
+  // ==========================================
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -50,7 +52,9 @@ export default function RegisterPage() {
     }
   }, []);
 
-  // Toggle dark mode
+  // ==========================================
+  // FONCTION TOGGLE DARK MODE
+  // ==========================================
   const toggleDarkMode = () => {
     if (darkMode) {
       document.documentElement.classList.remove('dark');
@@ -63,7 +67,9 @@ export default function RegisterPage() {
     }
   };
 
-  // Redirection si déjà connecté
+  // ==========================================
+  // REDIRECTION SI DÉJÀ CONNECTÉ
+  // ==========================================
   useEffect(() => {
     if (isAuthenticated && userType) {
       switch (userType) {
@@ -80,7 +86,9 @@ export default function RegisterPage() {
     }
   }, [isAuthenticated, userType, router]);
 
-  // Effacer les erreurs au changement de champ
+  // ==========================================
+  // EFFACER LES ERREURS AU CHANGEMENT DE CHAMP
+  // ==========================================
   useEffect(() => {
     if (error) {
       clearError();
@@ -90,7 +98,9 @@ export default function RegisterPage() {
     }
   }, [formData, clearError]);
 
-  // Vérification de disponibilité de l'email
+  // ==========================================
+  // VÉRIFICATION DISPONIBILITÉ EMAIL
+  // ==========================================
   const checkEmailAvailability = async (email: string) => {
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailAvailability(null);
@@ -118,7 +128,9 @@ export default function RegisterPage() {
     }
   };
 
-  // Vérification de disponibilité du téléphone
+  // ==========================================
+  // VÉRIFICATION DISPONIBILITÉ TÉLÉPHONE
+  // ==========================================
   const checkPhoneAvailability = async (phone: string) => {
     if (!phone || phone.length < 8) {
       setPhoneAvailability(null);
@@ -146,7 +158,9 @@ export default function RegisterPage() {
     }
   };
 
-  // Debounced functions pour éviter trop d'appels API
+  // ==========================================
+  // DEBOUNCED FUNCTIONS POUR ÉVITER TROP D'APPELS API
+  // ==========================================
   useEffect(() => {
     const delayedEmailCheck = setTimeout(() => {
       if (formData.email) {
@@ -167,6 +181,9 @@ export default function RegisterPage() {
     return () => clearTimeout(delayedPhoneCheck);
   }, [formData.phone]);
 
+  // ==========================================
+  // GESTION DES CHANGEMENTS D'INPUT
+  // ==========================================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -175,7 +192,9 @@ export default function RegisterPage() {
     }));
   };
 
-  // Validation renforcée par étapes
+  // ==========================================
+  // VALIDATION RENFORCÉE PAR ÉTAPES
+  // ==========================================
   const validateStepWithBackend = async (step: number): Promise<{ isValid: boolean; errors: string[] }> => {
     const errors: string[] = [];
 
@@ -247,6 +266,9 @@ export default function RegisterPage() {
     return { isValid: errors.length === 0, errors };
   };
 
+  // ==========================================
+  // NAVIGATION VERS L'ÉTAPE SUIVANTE
+  // ==========================================
   const handleNextStep = async () => {
     setValidationErrors([]);
     const validation = await validateStepWithBackend(currentStep);
@@ -257,11 +279,17 @@ export default function RegisterPage() {
     setCurrentStep(prev => Math.min(prev + 1, 2));
   };
 
+  // ==========================================
+  // NAVIGATION VERS L'ÉTAPE PRÉCÉDENTE
+  // ==========================================
   const handlePrevStep = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1));
     setValidationErrors([]);
   };
 
+  // ==========================================
+  // SOUMISSION DU FORMULAIRE
+  // ==========================================
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -288,6 +316,9 @@ export default function RegisterPage() {
     }
   };
 
+  // ==========================================
+  // AFFICHAGE PENDANT LA REDIRECTION
+  // ==========================================
   if (isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#006D65] via-[#005a54] to-[#004d46] flex items-center justify-center">
@@ -303,7 +334,9 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-theme-primary theme-transition py-4 sm:py-6 px-3 sm:px-4">
       <div className="max-w-2xl mx-auto">
 
-        {/* Dark Mode Toggle - Mobile (fixed) */}
+        {/* ========================================== */}
+        {/* BOUTON DARK MODE - VERSION MOBILE (FIXE) */}
+        {/* ========================================== */}
         <div className="fixed top-4 right-4 z-50 sm:hidden">
           <button
             onClick={toggleDarkMode}
@@ -322,7 +355,9 @@ export default function RegisterPage() {
           </button>
         </div>
 
-        {/* Header avec logo */}
+        {/* ========================================== */}
+        {/* HEADER AVEC LOGO */}
+        {/* ========================================== */}
         <div className="w-full py-3 sm:py-5">
           <div className="text-center">
             <Link href="/" className="inline-block group">
@@ -343,7 +378,9 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Indicateur de progression */}
+        {/* ========================================== */}
+        {/* INDICATEUR DE PROGRESSION */}
+        {/* ========================================== */}
         <div className="mb-4 sm:mb-6">
           <div className="flex items-center justify-between mb-3 sm:mb-4 px-2">
             <div className={`flex items-center ${currentStep >= 1 ? 'text-primary-500' : 'text-theme-tertiary theme-transition'}`}>
@@ -364,10 +401,14 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Formulaire d'inscription */}
+        {/* ========================================== */}
+        {/* FORMULAIRE D'INSCRIPTION */}
+        {/* ========================================== */}
         <div className="bg-theme-card rounded-xl sm:rounded-2xl shadow-theme-xl border border-theme p-4 sm:p-6 md:p-8 theme-transition">
 
-          {/* Messages d'erreur */}
+          {/* ========================================== */}
+          {/* MESSAGES D'ERREUR */}
+          {/* ========================================== */}
           {(error || validationErrors.length > 0) && (
             <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-600 rounded-r-lg theme-transition">
               <div className="flex items-start">
@@ -389,17 +430,21 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit}>
-            {/* Étape 1 : Informations personnelles */}
+            {/* ========================================== */}
+            {/* ÉTAPE 1 : INFORMATIONS PERSONNELLES */}
+            {/* ========================================== */}
             {currentStep === 1 && (
               <div className="space-y-4 sm:space-y-5">
-                {/* Titre + Dark Mode (Étape 1 SEULEMENT) */}
+                {/* Titre + Dark Mode (Desktop uniquement pour cette étape) */}
                 <div className="flex items-center justify-between mb-3 sm:mb-4">
                   <h3 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition">
                     Vos informations
                   </h3>
+                  {/* BOUTON DARK MODE DESKTOP - ÉTAPE 1 */}
                   <div className="hidden sm:block">
                     <button
                       onClick={toggleDarkMode}
+                      type="button"
                       className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
                       aria-label="Toggle Dark Mode"
                     >
@@ -451,7 +496,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                {/* Date de naissance (optionnel) - SANS DOUBLON CALENDRIER */}
+                {/* Date de naissance (optionnel) */}
                 <div>
                   <label htmlFor="dateOfBirth" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5 sm:mb-2">
                     Date de naissance (optionnel)
@@ -466,16 +511,15 @@ export default function RegisterPage() {
                       placeholder="jj/mm/aaaa"
                       maxLength={10}
                       className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
-                      style={{ fontSize: '14px' }} // Évite le zoom iOS
+                      style={{ fontSize: '14px' }}
                     />
-                    {/* Icône calendrier cliquable (ouvre picker natif) */}
                     <button
                       type="button"
                       onClick={() => {
                         const input = document.getElementById('dateOfBirth') as HTMLInputElement;
                         input.type = 'date';
-                        input.showPicker(); // Ouvre le calendrier natif
-                        input.type = 'text'; // Revient en text après
+                        input.showPicker();
+                        input.type = 'text';
                       }}
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-tertiary hover:text-primary-500 theme-transition cursor-pointer"
                     >
@@ -484,7 +528,6 @@ export default function RegisterPage() {
                       </svg>
                     </button>
                   </div>
-                  {/* Helper text pour format */}
                   <p className="text-xs text-theme-tertiary mt-1">Format : jj/mm/aaaa</p>
                 </div>
 
@@ -646,12 +689,36 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* Étape 2 : Sécurité */}
+            {/* ========================================== */}
+            {/* ÉTAPE 2 : SÉCURITÉ */}
+            {/* ========================================== */}
             {currentStep === 2 && (
               <div className="space-y-4 sm:space-y-5">
-                <h3 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition mb-3 sm:mb-4 text-center">
-                  Sécurité
-                </h3>
+                {/* Titre + Dark Mode (Desktop) - MAINTENANT VISIBLE AUSSI DANS L'ÉTAPE 2 */}
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <h3 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition">
+                    Sécurité
+                  </h3>
+                  {/* BOUTON DARK MODE DESKTOP - ÉTAPE 2 (AJOUTÉ ICI) */}
+                  <div className="hidden sm:block">
+                    <button
+                      onClick={toggleDarkMode}
+                      type="button"
+                      className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
+                      aria-label="Toggle Dark Mode"
+                    >
+                      {darkMode ? (
+                        <svg className="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C15.3137 6 18 8.68629 18 12C18 15.3137 15.3137 18 12 18ZM12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM11 1H13V4H11V1ZM11 20H13V23H11V20ZM3.51472 4.92893L4.92893 3.51472L7.05025 5.63604L5.63604 7.05025L3.51472 4.92893ZM16.9497 18.364L18.364 16.9497L20.4853 19.0711L19.0711 20.4853L16.9497 18.364ZM19.0711 3.51472L20.4853 4.92893L18.364 7.05025L16.9497 5.63604L19.0711 3.51472ZM5.63604 16.9497L7.05025 18.364L4.92893 20.4853L3.51472 19.0711L5.63604 16.9497ZM23 11V13H20V11H23ZM4 11V13H1V11H4Z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-6 h-6 text-secondary-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M10 7C10 10.866 13.134 14 17 14C18.9584 14 20.729 13.1957 21.9995 11.8995C22 11.933 22 11.9665 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C12.0335 2 12.067 2 12.1005 2.00049C10.8043 3.27098 10 5.04157 10 7ZM4 12C4 16.4183 7.58172 20 12 20C15.0583 20 17.7158 18.2839 19.062 15.7621C18.3945 15.9187 17.7035 16 17 16C12.0294 16 8 11.9706 8 7C8 6.29648 8.08133 5.60547 8.2379 4.938C5.71611 6.28423 4 8.9417 4 12Z" />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>
 
                 {/* Mot de passe */}
                 <div>
@@ -722,8 +789,11 @@ export default function RegisterPage() {
                   />
                 </div>
 
+                {/* ========================================== */}
                 {/* SECTION SÉCURITÉ & CONFIDENTIALITÉ */}
+                {/* ========================================== */}
                 <div className="border-t border-theme pt-4 sm:pt-5 theme-transition">
+                  {/* Version Mobile */}
                   <div className="block md:hidden">
                     <div className="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border-2 border-gray-300 dark:border-gray-700 mb-4 theme-transition">
                       <div className="flex items-center space-x-3 mb-3">
@@ -762,6 +832,7 @@ export default function RegisterPage() {
                     </div>
                   </div>
 
+                  {/* Version Desktop */}
                   <div className="hidden md:block">
                     <div className="bg-theme-card border border-theme-light rounded-2xl p-6 shadow-theme-lg theme-transition">
                       <div className="flex items-start space-x-4">
@@ -808,7 +879,9 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* Boutons de navigation */}
+            {/* ========================================== */}
+            {/* BOUTONS DE NAVIGATION */}
+            {/* ========================================== */}
             <div className="flex justify-between items-center mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-theme theme-transition">
               <div>
                 {currentStep > 1 && (
@@ -854,7 +927,9 @@ export default function RegisterPage() {
             </div>
           </form>
 
-          {/* Lien vers connexion */}
+          {/* ========================================== */}
+          {/* LIEN VERS CONNEXION */}
+          {/* ========================================== */}
           <div className="mt-4 sm:mt-6 text-center border-t border-theme pt-4 sm:pt-6 theme-transition">
             <p className="text-sm sm:text-base text-theme-secondary theme-transition">
               Vous avez déjà un compte ?{' '}
@@ -868,7 +943,9 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Bouton retour à l'accueil */}
+        {/* ========================================== */}
+        {/* BOUTON RETOUR À L'ACCUEIL */}
+        {/* ========================================== */}
         <div className="mt-4 sm:mt-6 flex justify-center">
           <Link
             href="/"
@@ -881,7 +958,9 @@ export default function RegisterPage() {
           </Link>
         </div>
 
+        {/* ========================================== */}
         {/* FOOTER */}
+        {/* ========================================== */}
         <div className="w-full py-3 sm:py-4 mt-4 sm:mt-6">
           <p className="text-center text-xs text-theme-tertiary theme-transition">
             © 2025 OSIRIX Clinique Médical. Tous droits réservés.
