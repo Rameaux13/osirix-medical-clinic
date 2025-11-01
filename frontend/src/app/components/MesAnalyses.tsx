@@ -245,7 +245,7 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
               </p>
 
               {/* Contenu des instructions */}
-              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-gradient-to-r from-[#006D65]/10 to-[#006D65]/5 dark:from-primary-700/40 dark:to-primary-800/30 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-primary-400 break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
+              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-gradient-to-r from-[#006D65]/10 to-[#006D65]/5 md:from-[#006D65]/20 md:to-[#006D65]/10 dark:from-primary-700/40 dark:to-primary-800/30 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-primary-400 break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
                 {analysis.instructions}
               </div>
             </div>
