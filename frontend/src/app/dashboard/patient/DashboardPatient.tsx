@@ -157,8 +157,8 @@ export default function DashboardPatient() {
   useEffect(() => {
     const checkDarkMode = () => {
       // Vérifier si la classe 'dark' est présente sur le html ou body
-      const isDark = document.documentElement.classList.contains('dark') || 
-                    document.body.classList.contains('dark');
+      const isDark = document.documentElement.classList.contains('dark') ||
+        document.body.classList.contains('dark');
       setIsDarkMode(isDark);
     };
 
@@ -465,7 +465,7 @@ export default function DashboardPatient() {
           refetch();
         } else if (lastNotification.type === 'general' &&
           lastNotification.message.toLowerCase().includes('document')) {
-          documentService.getDocumentStats().then(setDocumentStats).catch(() => {});
+          documentService.getDocumentStats().then(setDocumentStats).catch(() => { });
         }
       }, 800);
 
@@ -1091,11 +1091,10 @@ export default function DashboardPatient() {
               <div className="relative">
                 <button
                   onClick={() => setNotificationMenuOpen(!notificationMenuOpen)}
-                  className={`p-2 rounded-full transition-colors relative ${
-                    isDarkMode 
+                  className={`p-2 rounded-full transition-colors relative ${isDarkMode
                       ? 'hover:bg-gray-700 text-gray-300 hover:text-gray-100'
                       : 'hover:bg-gray-100 text-gray-700 hover:text-gray-900'
-                  }`}
+                    }`}
                 >
                   <Bell className="w-5 h-5" />
                   {unreadCount > 0 && (
@@ -1114,11 +1113,10 @@ export default function DashboardPatient() {
                     />
 
                     {/* Menu Notifications - RESPONSIVE & MODERNE avec Dark Mode SYNCHRONISÉ */}
-                    <div className={`fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 rounded-xl shadow-2xl border z-50 max-h-[70vh] sm:max-h-96 overflow-hidden transition-all duration-300 ${
-                      isDarkMode
+                    <div className={`fixed left-1/2 -translate-x-1/2 sm:absolute sm:left-auto sm:right-0 sm:translate-x-0 top-20 sm:top-12 w-[75vw] sm:w-80 md:w-96 rounded-xl shadow-2xl border z-50 max-h-[70vh] sm:max-h-96 overflow-hidden transition-all duration-300 ${isDarkMode
                         ? 'bg-gray-800 border-gray-700'
                         : 'bg-white border-gray-200'
-                    }`}>
+                      }`}>
                       {/* Header avec gradient */}
                       <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 sm:p-5 rounded-t-xl">
                         <div className="flex items-center justify-between">
@@ -1138,11 +1136,10 @@ export default function DashboardPatient() {
 
                       {/* Bouton "Marquer tout comme lu" */}
                       {unreadCount > 0 && (
-                        <div className={`p-3 sm:p-4 border-b transition-colors duration-300 ${
-                          isDarkMode
+                        <div className={`p-3 sm:p-4 border-b transition-colors duration-300 ${isDarkMode
                             ? 'border-gray-700 bg-gray-900/50'
                             : 'border-gray-200 bg-gray-50'
-                        }`}>
+                          }`}>
                           <button
                             onClick={() => {
                               markAllAsRead();
@@ -1168,33 +1165,29 @@ export default function DashboardPatient() {
                                 switch (notification.type) {
                                   case 'appointment':
                                     return (
-                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                                        isDarkMode ? 'bg-green-900/30' : 'bg-green-100'
-                                      }`}>
+                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${isDarkMode ? 'bg-green-900/30' : 'bg-green-100'
+                                        }`}>
                                         <Calendar className={`w-5 h-5 sm:w-6 sm:h-6 ${isDarkMode ? 'text-green-400' : 'text-green-600'}`} />
                                       </div>
                                     );
                                   case 'lab_result':
                                     return (
-                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                                        isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'
-                                      }`}>
+                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${isDarkMode ? 'bg-blue-900/30' : 'bg-blue-100'
+                                        }`}>
                                         <Activity className={`w-5 h-5 sm:w-6 sm:h-6 ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`} />
                                       </div>
                                     );
                                   case 'general':
                                     return (
-                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                                        isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                                      }`}>
+                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                                        }`}>
                                         <FileText className={`w-5 h-5 sm:w-6 sm:h-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
                                       </div>
                                     );
                                   default:
                                     return (
-                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${
-                                        isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                                      }`}>
+                                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                                        }`}>
                                         <Bell className={`w-5 h-5 sm:w-6 sm:h-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`} />
                                       </div>
                                     );
@@ -1204,32 +1197,31 @@ export default function DashboardPatient() {
                               // Fonction pour obtenir le badge selon le type
                               const getTypeBadge = () => {
                                 const badges = {
-                                  appointment: { 
-                                    text: 'RDV', 
+                                  appointment: {
+                                    text: 'RDV',
                                     colorLight: 'bg-green-100 text-green-800 border-green-200',
                                     colorDark: 'bg-green-900/30 text-green-300 border-green-700'
                                   },
-                                  lab_result: { 
-                                    text: 'Analyses', 
+                                  lab_result: {
+                                    text: 'Analyses',
                                     colorLight: 'bg-blue-100 text-blue-800 border-blue-200',
                                     colorDark: 'bg-blue-900/30 text-blue-300 border-blue-700'
                                   },
-                                  general: { 
-                                    text: 'Info', 
+                                  general: {
+                                    text: 'Info',
                                     colorLight: 'bg-gray-100 text-gray-800 border-gray-200',
                                     colorDark: 'bg-gray-700 text-gray-300 border-gray-600'
                                   },
-                                  reminder: { 
-                                    text: 'Rappel', 
+                                  reminder: {
+                                    text: 'Rappel',
                                     colorLight: 'bg-yellow-100 text-yellow-800 border-yellow-200',
                                     colorDark: 'bg-yellow-900/30 text-yellow-300 border-yellow-700'
                                   },
                                 };
                                 const badge = badges[notification.type as keyof typeof badges] || badges.general;
                                 return (
-                                  <span className={`px-2 py-0.5 sm:py-1 rounded-full text-xs font-semibold border transition-colors duration-300 ${
-                                    isDarkMode ? badge.colorDark : badge.colorLight
-                                  }`}>
+                                  <span className={`px-2 py-0.5 sm:py-1 rounded-full text-xs font-semibold border transition-colors duration-300 ${isDarkMode ? badge.colorDark : badge.colorLight
+                                    }`}>
                                     {badge.text}
                                   </span>
                                 );
@@ -1239,19 +1231,17 @@ export default function DashboardPatient() {
                                 <div
                                   key={notification.id}
                                   onClick={() => handleNotificationRedirect(notification)}
-                                  className={`p-3 sm:p-4 cursor-pointer transition-all duration-200 ${
-                                    isDarkMode
+                                  className={`p-3 sm:p-4 cursor-pointer transition-all duration-200 ${isDarkMode
                                       ? 'hover:bg-gray-700/50'
                                       : 'hover:bg-gray-50'
-                                  } ${
-                                    !notification.isRead 
+                                    } ${!notification.isRead
                                       ? isDarkMode
                                         ? 'bg-blue-900/20 border-l-4 border-l-blue-400'
                                         : 'bg-blue-50/50 border-l-4 border-l-blue-500'
                                       : isDarkMode
                                         ? 'bg-gray-800'
                                         : 'bg-white'
-                                  }`}
+                                    }`}
                                 >
                                   <div className="flex items-start space-x-3 sm:space-x-4">
                                     {/* Icône */}
@@ -1261,32 +1251,28 @@ export default function DashboardPatient() {
                                     <div className="flex-1 min-w-0">
                                       {/* Titre + Badge non lu */}
                                       <div className="flex items-start justify-between mb-1 sm:mb-2 gap-2">
-                                        <h4 className={`font-semibold text-sm sm:text-base leading-tight transition-colors duration-300 ${
-                                          !notification.isRead 
+                                        <h4 className={`font-semibold text-sm sm:text-base leading-tight transition-colors duration-300 ${!notification.isRead
                                             ? isDarkMode ? 'text-blue-200' : 'text-blue-900'
                                             : isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                                        }`}>
+                                          }`}>
                                           {notification.title}
                                         </h4>
                                         {!notification.isRead && (
-                                          <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0 mt-1 animate-pulse ${
-                                            isDarkMode ? 'bg-blue-400' : 'bg-blue-500'
-                                          }`}></div>
+                                          <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full flex-shrink-0 mt-1 animate-pulse ${isDarkMode ? 'bg-blue-400' : 'bg-blue-500'
+                                            }`}></div>
                                         )}
                                       </div>
 
                                       {/* Message */}
-                                      <p className={`text-xs sm:text-sm line-clamp-2 mb-2 sm:mb-3 transition-colors duration-300 ${
-                                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                                      }`}>
+                                      <p className={`text-xs sm:text-sm line-clamp-2 mb-2 sm:mb-3 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                                        }`}>
                                         {notification.message}
                                       </p>
 
                                       {/* Footer : Date + Badge type */}
                                       <div className="flex items-center justify-between gap-2 flex-wrap">
-                                        <span className={`text-xs flex items-center transition-colors duration-300 ${
-                                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                                        }`}>
+                                        <span className={`text-xs flex items-center transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                          }`}>
                                           <Clock className="w-3 h-3 mr-1 flex-shrink-0" />
                                           <span className="whitespace-nowrap">
                                             {new Date(notification.createdAt).toLocaleDateString('fr-FR', {
@@ -1308,19 +1294,16 @@ export default function DashboardPatient() {
                         ) : (
                           // État vide
                           <div className="p-8 sm:p-12 text-center">
-                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${
-                              isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                            }`}>
+                            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
+                              }`}>
                               <Bell className={`w-8 h-8 sm:w-10 sm:h-10 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} />
                             </div>
-                            <p className={`font-medium text-sm sm:text-base mb-2 transition-colors duration-300 ${
-                              isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                            }`}>
+                            <p className={`font-medium text-sm sm:text-base mb-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                              }`}>
                               Aucune notification
                             </p>
-                            <p className={`text-xs sm:text-sm transition-colors duration-300 ${
-                              isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                            }`}>
+                            <p className={`text-xs sm:text-sm transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                              }`}>
                               Vous serez notifié des mises à jour importantes
                             </p>
                           </div>
@@ -1329,14 +1312,12 @@ export default function DashboardPatient() {
 
                       {/* Footer : Compteur si plus de 10 notifications */}
                       {webSocketNotifications && webSocketNotifications.length > 10 && (
-                        <div className={`p-3 sm:p-4 border-t text-center transition-colors duration-300 ${
-                          isDarkMode
+                        <div className={`p-3 sm:p-4 border-t text-center transition-colors duration-300 ${isDarkMode
                             ? 'border-gray-700 bg-gray-900/50'
                             : 'border-gray-200 bg-gray-50'
-                        }`}>
-                          <p className={`text-xs sm:text-sm font-medium transition-colors duration-300 ${
-                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
                           }`}>
+                          <p className={`text-xs sm:text-sm font-medium transition-colors duration-300 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                            }`}>
                             +{webSocketNotifications.length - 10} autre{webSocketNotifications.length - 10 > 1 ? 's' : ''} notification{webSocketNotifications.length - 10 > 1 ? 's' : ''}
                           </p>
                         </div>
@@ -1394,16 +1375,16 @@ export default function DashboardPatient() {
 
       {/* Menu Mobile FIXE avec Dark Mode */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed top-16 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-2xl border-t border-gray-200 dark:border-gray-600 z-40 max-h-[calc(100vh-4rem)] overflow-y-auto transition-colors duration-300">
+        <div className="lg:hidden fixed top-16 left-0 right-0 bg-theme-card shadow-lg rounded-b-2xl border-t border-theme z-40 max-h-[calc(100vh-4rem)] overflow-y-auto theme-transition">
           <div className="px-4 py-6 space-y-4">
             {/* Profil mobile */}
-            <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4 transition-colors duration-300">
+            <div className="flex items-center space-x-3 p-3 bg-theme-secondary rounded-lg mb-4 theme-transition">
               <div className="w-10 h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded-full flex items-center justify-center shadow-md">
                 <User className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">{displayName}</p>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Patient OSIRIX</p>
+                <p className="font-medium text-theme-primary text-sm sm:text-base">{displayName}</p>
+                <p className="text-xs sm:text-sm text-theme-secondary">Patient OSIRIX</p>
               </div>
             </div>
 
@@ -1419,8 +1400,8 @@ export default function DashboardPatient() {
                       setIsMobileMenuOpen(false);
                     }}
                     className={`w-full flex items-center px-4 py-3 text-left transition-all duration-300 rounded-lg relative ${activeSection === item.id
-                      ? 'text-gray-900 dark:text-white font-bold shadow-sm border-l-4 border-[#E6A930] bg-gray-50 dark:bg-gray-700'
-                      : 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#006D65] dark:hover:text-[#E6A930]'
+                        ? 'text-theme-primary font-bold shadow-sm border-l-4 border-[#E6A930] bg-theme-secondary'
+                        : 'text-theme-primary hover:bg-theme-hover hover:text-[#006D65]'
                       }`}
                   >
                     <Icon className="w-5 h-5 mr-3" />
@@ -1431,7 +1412,7 @@ export default function DashboardPatient() {
             </div>
 
             {/* Déconnexion Mobile */}
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+            <div className="border-t border-theme pt-4">
               <button
                 onClick={() => {
                   handleLogout();
