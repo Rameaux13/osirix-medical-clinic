@@ -251,14 +251,14 @@ export default function MonProfil() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div className="bg-theme-card border border-theme rounded-lg shadow-theme-sm p-6 theme-transition">
           <div className="animate-pulse">
-            <div className="h-6 bg-gray-200 rounded w-1/4 mb-4"></div>
+            <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/4 mb-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                  <div className="h-10 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                  <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded"></div>
                 </div>
               ))}
             </div>
@@ -272,10 +272,11 @@ export default function MonProfil() {
     <div className="space-y-6">
       {/* Messages de feedback */}
       {(error || successMessage) && (
-        <div className={`p-4 rounded-lg border flex items-start justify-between ${error
-          ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
-          : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
-          }`}>
+        <div className={`p-4 rounded-lg border flex items-start justify-between theme-transition ${
+          error
+            ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
+            : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
+        }`}>
           <div className="flex items-center">
             {error ? (
               <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
@@ -286,7 +287,7 @@ export default function MonProfil() {
           </div>
           <button
             onClick={clearMessages}
-            className="text-current hover:bg-black/5 rounded p-1"
+            className="text-current hover:bg-black/5 dark:hover:bg-white/5 rounded p-1 theme-transition"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -296,14 +297,14 @@ export default function MonProfil() {
       )}
 
       {/* Section Informations Personnelles */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      <div className="bg-theme-card border border-theme rounded-lg shadow-theme-sm p-6 theme-transition">
         <div className="flex items-center mb-6">
-          <div className="w-12 h-12 bg-[#006D65] rounded-full flex items-center justify-center mr-4">
+          <div className="w-12 h-12 bg-[#006D65] dark:bg-[#2dd4bf] rounded-full flex items-center justify-center mr-4 theme-transition">
             <User className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Mon Profil Patient</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-300">Gérez vos informations personnelles</p>
+            <h2 className="text-xl font-semibold text-theme-primary">Mon Profil Patient</h2>
+            <p className="text-sm text-theme-secondary">Gérez vos informations personnelles</p>
           </div>
         </div>
 
@@ -311,7 +312,7 @@ export default function MonProfil() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* Prénom */}
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="firstName" className="block text-sm font-medium text-theme-primary mb-2">
                 Prénom
               </label>
               <input
@@ -319,18 +320,19 @@ export default function MonProfil() {
                 id="firstName"
                 value={profileForm.firstName}
                 onChange={(e) => handleProfileChange('firstName', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.firstName ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
-                  }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
+                  validationErrors.firstName ? 'border-red-300 dark:border-red-600' : ''
+                }`}
                 placeholder="Votre prénom"
               />
               {validationErrors.firstName && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.firstName}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.firstName}</p>
               )}
             </div>
 
             {/* Nom */}
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="lastName" className="block text-sm font-medium text-theme-primary mb-2">
                 Nom
               </label>
               <input
@@ -338,18 +340,19 @@ export default function MonProfil() {
                 id="lastName"
                 value={profileForm.lastName}
                 onChange={(e) => handleProfileChange('lastName', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base ${validationErrors.lastName ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
+                  validationErrors.lastName ? 'border-red-300 dark:border-red-600' : ''
+                }`}
                 placeholder="Votre nom"
               />
               {validationErrors.lastName && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.lastName}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.lastName}</p>
               )}
             </div>
 
             {/* Téléphone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="phone" className="block text-sm font-medium text-theme-primary mb-2">
                 Téléphone
               </label>
               <input
@@ -357,18 +360,19 @@ export default function MonProfil() {
                 id="phone"
                 value={profileForm.phone}
                 onChange={(e) => handleProfileChange('phone', e.target.value)}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base ${validationErrors.phone ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme ${
+                  validationErrors.phone ? 'border-red-300 dark:border-red-600' : ''
+                }`}
                 placeholder="+225 01 23 45 67 89"
               />
               {validationErrors.phone && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.phone}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.phone}</p>
               )}
             </div>
 
-            {/* Date de naissance - CORRIGÉ POUR MOBILE */}
+            {/* Date de naissance */}
             <div className="w-full">
-              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="dateOfBirth" className="block text-sm font-medium text-theme-primary mb-2">
                 Date de naissance
               </label>
               <input
@@ -376,7 +380,7 @@ export default function MonProfil() {
                 id="dateOfBirth"
                 value={profileForm.dateOfBirth}
                 onChange={(e) => handleProfileChange('dateOfBirth', e.target.value)}
-                className="w-full px-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base input-theme"
                 style={{ 
                   WebkitAppearance: 'none',
                   MozAppearance: 'none',
@@ -391,7 +395,7 @@ export default function MonProfil() {
 
             {/* Email (non modifiable) */}
             <div className="md:col-span-2">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-theme-primary mb-2">
                 Email (non modifiable pour sécurité)
               </label>
               <input
@@ -399,13 +403,13 @@ export default function MonProfil() {
                 id="email"
                 value={userProfile?.email || ''}
                 disabled
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed text-base"
+                className="w-full px-4 py-3 border border-theme rounded-lg bg-gray-100 dark:bg-gray-700 text-theme-tertiary cursor-not-allowed text-base theme-transition"
               />
             </div>
           </div>
 
           {/* Boutons d'action */}
-          <div className="flex justify-end space-x-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => {
@@ -418,17 +422,14 @@ export default function MonProfil() {
                 setValidationErrors({});
                 clearMessages();
               }}
-
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-sm"
+              className="w-full sm:w-auto px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-sm theme-transition"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={saving || Object.keys(validationErrors).length > 0}
-
-              className="px-4 py-2 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-
+              className="w-full sm:w-auto px-6 py-2.5 bg-[#006D65] hover:bg-[#005a54] text-white rounded-lg transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center theme-transition"
             >
               {saving ? (
                 <>
@@ -447,17 +448,17 @@ export default function MonProfil() {
       </div>
 
       {/* Section Changement de Mot de Passe */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-2xl p-6 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+      <div className="bg-theme-card border border-theme rounded-lg shadow-theme-sm p-6 theme-transition">
         <div className="mb-6">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Changer mon mot de passe</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Minimum 3 caractères, lettres et chiffres seulement</p>
+          <h3 className="text-xl font-semibold text-theme-primary mb-2">Changer mon mot de passe</h3>
+          <p className="text-sm text-theme-secondary">Minimum 3 caractères, lettres et chiffres seulement</p>
         </div>
 
         <form onSubmit={handleSubmitPassword}>
           <div className="space-y-6">
             {/* Ancien mot de passe */}
             <div>
-              <label htmlFor="oldPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="oldPassword" className="block text-sm font-medium text-theme-primary mb-2">
                 Mot de passe actuel
               </label>
               <div className="relative">
@@ -466,13 +467,13 @@ export default function MonProfil() {
                   id="oldPassword"
                   value={passwordForm.oldPassword}
                   onChange={(e) => handlePasswordChange('oldPassword', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme"
                   placeholder="Votre mot de passe actuel"
                 />
                 <button
                   type="button"
                   onClick={() => setShowOldPassword(!showOldPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-theme-secondary hover:text-theme-primary theme-transition"
                 >
                   {showOldPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -481,7 +482,7 @@ export default function MonProfil() {
 
             {/* Nouveau mot de passe */}
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="newPassword" className="block text-sm font-medium text-theme-primary mb-2">
                 Nouveau mot de passe
               </label>
               <div className="relative">
@@ -490,26 +491,27 @@ export default function MonProfil() {
                   id="newPassword"
                   value={passwordForm.newPassword}
                   onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.newPassword ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
-                    }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${
+                    validationErrors.newPassword ? 'border-red-300 dark:border-red-600' : ''
+                  }`}
                   placeholder="Minimum 3 caractères (lettres et chiffres)"
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-theme-secondary hover:text-theme-primary theme-transition"
                 >
                   {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
               {validationErrors.newPassword && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.newPassword}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.newPassword}</p>
               )}
             </div>
 
             {/* Confirmation mot de passe */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-theme-primary mb-2">
                 Confirmer le nouveau mot de passe
               </label>
               <div className="relative">
@@ -518,26 +520,27 @@ export default function MonProfil() {
                   id="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent transition-colors text-base pr-12 bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${validationErrors.confirmPassword ? 'border-red-300' : 'border-gray-300 dark:border-gray-600'
-                    }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent theme-transition text-base pr-12 input-theme ${
+                    validationErrors.confirmPassword ? 'border-red-300 dark:border-red-600' : ''
+                  }`}
                   placeholder="Confirmez votre nouveau mot de passe"
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-theme-secondary hover:text-theme-primary theme-transition"
                 >
                   {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
               {validationErrors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.confirmPassword}</p>
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{validationErrors.confirmPassword}</p>
               )}
             </div>
           </div>
 
           {/* Boutons d'action */}
-          <div className="flex justify-end space-x-4 mt-6">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 mt-6">
             <button
               type="button"
               onClick={() => {
@@ -549,14 +552,14 @@ export default function MonProfil() {
                 setValidationErrors({});
                 clearMessages();
               }}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors font-medium text-base"
+              className="w-full sm:w-auto px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-base theme-transition"
             >
               Annuler
             </button>
             <button
               type="submit"
               disabled={changingPassword || !passwordForm.oldPassword || !passwordForm.newPassword || !passwordForm.confirmPassword || Object.keys(validationErrors).length > 0}
-              className="px-4 py-2 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="w-full sm:w-auto px-6 py-2.5 bg-[#E6A930] hover:bg-[#d49821] text-white rounded-lg transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center theme-transition"
             >
               {changingPassword ? (
                 <>
