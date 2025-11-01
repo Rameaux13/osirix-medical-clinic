@@ -129,25 +129,17 @@ export default function LoginPage() {
       </div>
 
       {/* ========================================== */}
-      {/* HEADER AVEC LOGO - MASQUÉ SUR MOBILE */}
-      {/* Le logo n'est affiché qu'à partir de la taille tablet (sm: 640px) */}
-      {/* Sur mobile, le logo est complètement caché pour gagner de l'espace */}
+      {/* HEADER - VERSION MOBILE ET DESKTOP */}
       {/* ========================================== */}
-      <div className="hidden sm:block w-full py-4 md:py-6">
+      <div className="w-full py-3 sm:py-4 md:py-6">
         <div className="text-center">
-          <Link href="/" className="inline-block group">
+          {/* LOGO IMAGE - MASQUÉ SUR MOBILE, VISIBLE SUR TABLET+ */}
+          <Link href="/" className="hidden sm:inline-block group">
             {/* 
               LOGO RESPONSIVE - AFFICHÉ UNIQUEMENT SUR TABLET ET DESKTOP :
               - Tablet (640px - 768px) : h-12 (48px) - Taille petite
               - Desktop (768px - 1024px) : h-16 (64px) - Taille normale desktop
               - Large Desktop (> 1024px) : h-18 (72px) - Taille grande desktop
-              
-              w-auto permet au logo de garder son ratio
-              object-cover assure un bon rendu de l'image
-              rounded-lg donne des coins arrondis
-              drop-shadow-lg ajoute une ombre portée
-              group-hover:scale-105 fait un zoom léger au survol
-              transition-transform duration-300 anime le zoom
             */}
             <img
               src="/logo.jpg"
@@ -157,21 +149,19 @@ export default function LoginPage() {
           </Link>
           
           {/* 
-            TEXTE DU LOGO - RESPONSIVE :
-            Tablet : text-lg (18px)
-            Desktop : text-xl (20px)
-            Large Desktop : text-2xl (24px)
+            TEXTE DU LOGO - VISIBLE SUR TOUS LES ÉCRANS (MOBILE + DESKTOP)
+            Bien centré avec text-center
           */}
           <div className="mt-2">
-            <h1 className="text-lg md:text-xl lg:text-2xl font-light text-theme-primary theme-transition tracking-wide">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-theme-primary theme-transition tracking-wide text-center">
               <span className="font-bold text-primary-700">OSIRIX</span>
-              <span className="ml-1.5 md:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
+              <span className="ml-1 sm:ml-1.5 md:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
             </h1>
             {/* 
-              SLOGAN - RESPONSIVE :
-              Tablet et + : text-xs (12px)
+              SLOGAN - VISIBLE SUR TOUS LES ÉCRANS
+              Bien centré avec text-center
             */}
-            <p className="text-xs text-theme-tertiary theme-transition mt-0.5">
+            <p className="text-xs sm:text-sm text-theme-tertiary theme-transition mt-1 text-center">
               Votre santé, notre priorité
             </p>
           </div>
