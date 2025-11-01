@@ -170,8 +170,9 @@ export default function LoginPage() {
 
       {/* ========================================== */}
       {/* CONTENU PRINCIPAL */}
+      {/* Margin-top ajouté sur mobile pour descendre le formulaire */}
       {/* ========================================== */}
-      <div className="flex-1 max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
+      <div className="flex-1 max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full mt-8 sm:mt-0">
         <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-stretch">
 
           {/* ========================================== */}
