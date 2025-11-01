@@ -132,18 +132,20 @@ export default function ForgotPasswordPage() {
           <div className="bg-theme-card rounded-xl sm:rounded-2xl shadow-theme-xl border border-theme p-5 sm:p-6 md:p-8 theme-transition">
 
             {/* ========================================== */}
-            {/* EN-TÊTE : TITRE + BOUTON DARK MODE (ALIGNÉS SUR DESKTOP) */}
+            {/* EN-TÊTE : TITRE + BOUTON DARK MODE (ALIGNÉS SUR DESKTOP, TEXTE CENTRÉ) */}
             {/* ========================================== */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-              <div className="text-center sm:text-left flex-1">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-theme-primary theme-transition">
+              {/* Titre + Description - CENTRÉ sur mobile ET desktop */}
+              <div className="text-center flex-1">
+                <h2 className="text-base sm:text-lg md:text-xl font-bold text-theme-primary theme-transition">
                   Mot de passe oublié ?
                 </h2>
-                <p className="text-theme-secondary theme-transition mt-1 text-sm md:text-base">
+                <p className="text-theme-secondary theme-transition mt-1 text-xs sm:text-sm md:text-base">
                   Entrez votre email pour recevoir un lien de réinitialisation
                 </p>
               </div>
 
+              {/* Bouton Dark Mode - visible uniquement sur desktop */}
               <div className="hidden sm:block">
                 <button
                   onClick={toggleDarkMode}
