@@ -1,9 +1,8 @@
-import { Transform } from 'class-transformer/types/decorators/transform.decorator';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  MinLength,
+import { 
+  IsEmail, 
+  IsNotEmpty, 
+  IsOptional, 
+  MinLength, 
   MaxLength,
   Matches,
   IsPhoneNumber,
@@ -11,6 +10,8 @@ import {
   IsIn,
   ValidateIf
 } from 'class-validator';
+
+import { Transform } from 'class-transformer'; // ✅ IMPORT AJOUTÉ
 
 export class RegisterDto {
   @IsEmail({}, { message: 'Format d\'email invalide' })
@@ -49,7 +50,7 @@ export class RegisterDto {
   @IsPhoneNumber('CI', { message: 'Format de téléphone invalide (ex: +225 01 02 03 04 05)' })
   phone: string;
 
-  @IsOptional()
+  @IsOptional() // ✅ DATE OPTIONNELLE
   @Matches(/^(\d{2}\/\d{2}\/\d{4}|\d{4}-\d{2}-\d{2})$/, {
     message: 'La date doit être au format jj/mm/aaaa ou YYYY-MM-DD'
   })
@@ -61,7 +62,7 @@ export class RegisterDto {
     }
     return value;
   })
-  dateOfBirth?: string;
+  dateOfBirth?: string; // ✅ OPTIONNEL
 
   @IsNotEmpty({ message: 'Le genre est obligatoire' })
   @IsIn(['male', 'female', 'other'], { message: 'Le genre doit être male, female ou other' })
