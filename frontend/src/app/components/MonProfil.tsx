@@ -273,8 +273,8 @@ export default function MonProfil() {
       {/* Messages de feedback */}
       {(error || successMessage) && (
         <div className={`p-4 rounded-lg border flex items-start justify-between theme-transition ${error
-            ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
-            : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
+          ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-800 dark:text-red-400'
+          : 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 text-green-800 dark:text-green-400'
           }`}>
           <div className="flex items-center">
             {error ? (
@@ -399,7 +399,7 @@ export default function MonProfil() {
                 id="email"
                 value={userProfile?.email || ''}
                 disabled
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed text-base theme-transition"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-400 cursor-not-allowed text-base theme-transition opacity-60"
               />
             </div>
           </div>
