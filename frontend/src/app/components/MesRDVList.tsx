@@ -450,14 +450,14 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   // Loading state
   if (loading && filteredAppointments.upcoming.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-theme-primary theme-transition">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center py-16">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-[#006D65] rounded-full mb-6">
               <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Chargement de vos rendez-vous...</h3>
-            <p className="text-gray-600">Veuillez patienter quelques instants</p>
+            <h3 className="text-xl font-semibold text-theme-primary mb-2">Chargement de vos rendez-vous...</h3>
+            <p className="text-theme-secondary">Veuillez patienter quelques instants</p>
           </div>
         </div>
       </div>
@@ -467,14 +467,14 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-theme-primary theme-transition">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center py-16">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-6">
               <AlertTriangle className="w-8 h-8 text-red-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Erreur de chargement</h3>
-            <p className="text-gray-600 mb-6">{error}</p>
+            <h3 className="text-xl font-semibold text-theme-primary mb-2">Erreur de chargement</h3>
+            <p className="text-theme-secondary mb-6">{error}</p>
             <button
               onClick={refetch}
               className="inline-flex items-center px-6 py-3 bg-[#006D65] text-white rounded-lg hover:bg-[#005a54] transition-colors font-medium shadow-sm"
@@ -491,12 +491,12 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   }
 
   const AppointmentCard = ({ appointment }: { appointment: any }) => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md dark:hover:shadow-2xl transition-all duration-200">
+    <div className="bg-theme-card border-theme hover:border-theme-dark shadow-theme-sm hover:shadow-theme-md theme-transition rounded-lg">
       <div className="p-4 sm:p-6">
         {/* En-tête avec informations médecin - TEXTE RÉDUIT MOBILE */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-900 dark:text-white mb-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-theme-primary mb-1">
               {appointment.doctor
                 ? `Dr. ${appointment.doctor.firstName} ${appointment.doctor.lastName}`
                 : ''
@@ -544,26 +544,26 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* Informations de rendez-vous - TAILLE RÉDUITE MOBILE */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-4">
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-theme-tertiary" />
             <div>
-              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Date</p>
-              <p className="text-sm sm:text-base font-semibold text-gray-900">{formatDate(appointment.appointmentDate)}</p>
+              <p className="text-xs sm:text-sm text-theme-tertiary uppercase tracking-wide font-medium">Date</p>
+              <p className="text-sm sm:text-base font-semibold text-theme-primary">{formatDate(appointment.appointmentDate)}</p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-theme-tertiary" />
             <div>
-              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Heure</p>
-              <p className="text-sm sm:text-base font-semibold text-gray-900">{formatTime(appointment.appointmentTime)}</p>
+              <p className="text-xs sm:text-sm text-theme-tertiary uppercase tracking-wide font-medium">Heure</p>
+              <p className="text-sm sm:text-base font-semibold text-theme-primary">{formatTime(appointment.appointmentTime)}</p>
             </div>
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-3">
-            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+            <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-theme-tertiary" />
             <div>
-              <p className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide font-medium">Lieu</p>
-              <p className="text-sm sm:text-base font-semibold text-gray-900">OSIRIX Clinique</p>
+              <p className="text-xs sm:text-sm text-theme-tertiary uppercase tracking-wide font-medium">Lieu</p>
+              <p className="text-sm sm:text-base font-semibold text-theme-primary">OSIRIX Clinique</p>
             </div>
           </div>
         </div>
@@ -572,12 +572,12 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {(appointment.chiefComplaint || (appointment.notes && !appointment.notes.includes('Non assuré') && !appointment.notes.includes('NON_RENSEIGNE'))) && (
           <div className="space-y-3 mb-4">
             {appointment.chiefComplaint && (
-              <div className="p-3 sm:p-4 bg-gray-50 rounded-lg border-l-4 border-[#006D65]">
-                <p className="text-sm sm:text-base text-gray-700">
-                  <span className="font-semibold text-gray-900">Motif :</span> {appointment.chiefComplaint}
+              <div className="p-3 sm:p-4 bg-theme-secondary rounded-lg border-l-4 border-[#006D65]">
+                <p className="text-sm sm:text-base text-theme-primary">
+                  <span className="font-semibold text-theme-primary">Motif :</span> {appointment.chiefComplaint}
                 </p>
                 {appointment.urgencyLevel !== 'normal' && (
-                  <p className="text-sm sm:text-base text-gray-600 mt-2">
+                  <p className="text-sm sm:text-base text-theme-secondary mt-2">
                     <span className="font-semibold">Urgence :</span>
                     <span className="ml-2 px-2 sm:px-3 py-1 bg-red-100 text-red-800 rounded text-xs sm:text-sm font-semibold">
                       {appointment.urgencyLevel}
@@ -597,12 +597,12 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           </div>
         )}
 
-        {/* Actions avec boutons stylisés - TAILLE RÉDUITE MOBILE */}
+        {/* Actions avec boutons stylisés - CORRECTION DU PROBLÈME DE CLIC */}
         {activeTab === 'upcoming' && (
-          <div className="flex flex-col sm:flex-row items-center justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row items-center justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4 border-t border-theme">
             <button
               onClick={() => openEditModal(appointment)}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-[#006D65] bg-[#006D65]/5 hover:bg-[#006D65]/10 rounded-lg border border-[#006D65]/20 hover:border-[#006D65]/30 transition-all duration-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-[#006D65] bg-[#006D65]/5 hover:bg-[#006D65]/10 rounded-lg border border-[#006D65]/20 hover:border-[#006D65]/30 transition-all duration-200 active:bg-[#006D65]/15"
             >
               <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               Modifier
@@ -611,7 +611,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
             <button
               onClick={() => openCancelModal(appointment)}
               disabled={cancellingId === appointment.id}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 rounded-lg border border-amber-200 hover:border-amber-300 transition-all duration-200 disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 rounded-lg border border-amber-200 hover:border-amber-300 transition-all duration-200 disabled:opacity-50 active:bg-amber-200"
             >
               <X className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               {cancellingId === appointment.id ? 'Annulation...' : 'Annuler'}
@@ -621,11 +621,11 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
         {/* BOUTON - Supprimer définitivement pour les RDV annulés - TAILLE RÉDUITE MOBILE */}
         {activeTab === 'cancelled' && (
-          <div className="flex items-center justify-end pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end pt-4 border-t border-theme">
             <button
               onClick={() => openDeleteModal(appointment)}
               disabled={deletingId === appointment.id}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-gray-300 transition-all duration-200 disabled:opacity-50"
+              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-theme-secondary bg-theme-secondary hover:bg-theme-hover rounded-lg border border-theme hover:border-theme-dark transition-all duration-200 disabled:opacity-50 active:bg-theme-tertiary"
             >
               <Trash className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
               {deletingId === appointment.id ? 'Suppression...' : 'Supprimer définitivement'}
@@ -642,7 +642,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
   const hasMoreAppointments = currentAppointments.length > currentDisplayLimit;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-theme-primary theme-transition">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* En-tête simple et élégant - RESPONSIVE */}
@@ -650,8 +650,8 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
           <div className="inline-flex items-center justify-center w-16 h-16 bg-[#006D65] rounded-full mb-4">
             <Calendar className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-3">Mes Rendez-vous</h1>
-          <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-theme-primary mb-3">Mes Rendez-vous</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-theme-secondary max-w-2xl mx-auto">
             Gérez facilement tous vos rendez-vous médicaux en un seul endroit
           </p>
         </div>
@@ -659,7 +659,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* Barre d'actions avec onglets et bouton nouveau RDV - RESPONSIVE */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-8">
           {/* Onglets - RESPONSIVE */}
-          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+          <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-theme-card rounded-lg p-1 shadow-theme-sm border border-theme theme-transition">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -669,7 +669,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   className={`flex items-center justify-center px-3 sm:px-4 py-2 sm:py-3 rounded-md font-semibold text-sm sm:text-base transition-colors ${
                     activeTab === tab.id
                       ? 'bg-[#006D65] text-white'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
+                      : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-hover'
                   }`}
                 >
                   <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
@@ -713,7 +713,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     // Bouton "Afficher moins"
                     <button
                       onClick={() => setDisplayLimits(prev => ({ ...prev, [activeTab]: 10 }))}
-                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors font-semibold text-sm sm:text-base shadow-sm"
+                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-theme-secondary text-theme-primary border border-theme rounded-lg hover:bg-theme-hover transition-colors font-semibold text-sm sm:text-base shadow-theme-sm"
                     >
                       <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -725,7 +725,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3">
                       <button
                         onClick={() => loadMoreAppointments(activeTab)}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-white text-[#006D65] border border-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors font-semibold text-sm sm:text-base shadow-sm"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-theme-card text-[#006D65] border border-[#006D65] rounded-lg hover:bg-[#006D65] hover:text-white transition-colors font-semibold text-sm sm:text-base shadow-theme-sm"
                       >
                         <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                         Voir plus (+10)
@@ -733,7 +733,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
                       <button
                         onClick={() => setDisplayLimits(prev => ({ ...prev, [activeTab]: currentAppointments.length }))}
-                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-sm sm:text-base shadow-sm"
+                        className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-5 py-2 sm:py-3 bg-[#E6A930] text-white rounded-lg hover:bg-[#d49821] transition-colors font-semibold text-sm sm:text-base shadow-theme-sm"
                       >
                         <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -743,7 +743,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     </div>
                   )}
 
-                  <p className="text-sm sm:text-base text-gray-500 mt-3">
+                  <p className="text-sm sm:text-base text-theme-secondary mt-3">
                     {hasMoreAppointments
                       ? `Affichage de ${displayedAppointments.length} sur ${currentAppointments.length} rendez-vous`
                       : `Tous vos ${currentAppointments.length} rendez-vous sont affichés`
@@ -753,16 +753,16 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
               )}
             </>
           ) : (
-            <div className="text-center py-16 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors duration-300">
+            <div className="text-center py-16 bg-theme-card rounded-lg border border-theme theme-transition">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
                 <Calendar className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              <h3 className="text-xl font-semibold text-theme-primary mb-3">
                 {activeTab === 'upcoming' && 'Aucun rendez-vous à venir'}
                 {activeTab === 'past' && 'Aucun rendez-vous passé'}
                 {activeTab === 'cancelled' && 'Aucun rendez-vous annulé'}
               </h3>
-              <p className="text-base text-gray-600 dark:text-gray-300 mb-6 max-w-sm mx-auto">
+              <p className="text-base text-theme-secondary mb-6 max-w-sm mx-auto">
                 {activeTab === 'upcoming' && 'Prenez votre premier rendez-vous pour commencer votre suivi médical'}
                 {activeTab === 'past' && 'Votre historique de consultations apparaîtra ici'}
                 {activeTab === 'cancelled' && 'Les rendez-vous annulés s\'afficheront dans cette section'}
@@ -783,15 +783,15 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* Modal d'annulation épuré */}
         {showCancelModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30">
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 max-w-md w-full">
+            <div className="bg-theme-modal rounded-lg shadow-theme-xl border border-theme max-w-md w-full theme-transition">
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
                     <AlertTriangle className="w-5 h-5 text-red-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">Annuler le rendez-vous</h3>
-                    <p className="text-sm text-gray-600">Cette action est définitive</p>
+                    <h3 className="text-lg font-semibold text-theme-primary">Annuler le rendez-vous</h3>
+                    <p className="text-sm text-theme-secondary">Cette action est définitive</p>
                   </div>
                   <button
                     onClick={() => {
@@ -799,36 +799,36 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setSelectedAppointmentForCancel(null);
                       setCancelReason('');
                     }}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-theme-tertiary hover:text-theme-primary"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
                 {selectedAppointmentForCancel && (
-                  <div className="mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                    <p className="text-sm text-gray-900 font-medium">
+                  <div className="mb-4 p-3 bg-theme-secondary rounded-lg border border-theme">
+                    <p className="text-sm text-theme-primary font-medium">
                       RDV du {formatDate(selectedAppointmentForCancel.appointmentDate)}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-theme-secondary">
                       à {formatTime(selectedAppointmentForCancel.appointmentTime)} - {selectedAppointmentForCancel.consultationType?.name}
                     </p>
                   </div>
                 )}
 
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-theme-primary mb-2">
                     Motif d'annulation <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}
                     placeholder="Veuillez indiquer le motif d'annulation..."
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none"
+                    className="input-theme w-full p-3 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none theme-transition"
                     rows={4}
                     required
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-theme-tertiary mt-1">
                     Cette information nous aide à améliorer nos services
                   </p>
                 </div>
@@ -840,7 +840,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setSelectedAppointmentForCancel(null);
                       setCancelReason('');
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                    className="flex-1 px-4 py-2 border border-theme text-theme-primary rounded-lg hover:bg-theme-hover transition-colors font-medium"
                   >
                     Conserver
                   </button>
@@ -860,7 +860,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* Modal de modification avec GRILLE DE CRÉNEAUX */}
         {showEditModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 overflow-y-auto">
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-theme-modal rounded-lg shadow-theme-xl border border-theme max-w-4xl w-full max-h-[90vh] overflow-y-auto theme-transition">
               <div className="p-4 sm:p-6">
                 {/* Header */}
                 <div className="flex items-center mb-4 sm:mb-6">
@@ -868,8 +868,8 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     <Edit className="w-5 h-5 text-[#006D65]" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-base sm:text-lg font-semibold text-gray-900">Modifier le rendez-vous</h3>
-                    <p className="text-xs sm:text-sm text-gray-600">Choisissez un nouveau créneau disponible</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-theme-primary">Modifier le rendez-vous</h3>
+                    <p className="text-xs sm:text-sm text-theme-secondary">Choisissez un nouveau créneau disponible</p>
                   </div>
                   <button
                     onClick={() => {
@@ -878,7 +878,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setEditError('');
                       setUnavailableSlots([]);
                     }}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-theme-tertiary hover:text-theme-primary"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -886,13 +886,13 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
                 {/* Info RDV actuel */}
                 {selectedAppointmentForEdit && (
-                  <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-[#006D65]/5 to-gray-50 rounded-lg border border-[#006D65]/20">
-                    <p className="text-xs sm:text-sm text-gray-600 mb-1">Rendez-vous actuel</p>
-                    <p className="text-sm sm:text-base font-semibold text-gray-900">
+                  <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-gradient-to-r from-[#006D65]/5 to-theme-secondary rounded-lg border border-[#006D65]/20">
+                    <p className="text-xs sm:text-sm text-theme-secondary mb-1">Rendez-vous actuel</p>
+                    <p className="text-sm sm:text-base font-semibold text-theme-primary">
                       {selectedAppointmentForEdit.consultationType?.name}
                     </p>
                     {selectedAppointmentForEdit.doctor && (
-                      <p className="text-xs sm:text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-theme-secondary">
                         Dr. {selectedAppointmentForEdit.doctor.firstName} {selectedAppointmentForEdit.doctor.lastName}
                       </p>
                     )}
@@ -911,7 +911,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
                 {/* Sélection de la date */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-theme-primary mb-2">
                     Nouvelle date
                   </label>
                   <input
@@ -919,18 +919,18 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                     value={editFormData.appointmentDate}
                     onChange={(e) => handleDateChange(e.target.value)}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent text-sm sm:text-base"
+                    className="input-theme w-full p-2 sm:p-3 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent text-sm sm:text-base theme-transition"
                   />
                 </div>
 
                 {/* GRILLE DE CRÉNEAUX */}
                 <div className="mb-6">
                   <div className="flex items-center justify-between mb-3">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-theme-primary">
                       Choisissez un créneau horaire
                     </label>
                     {loadingSlots && (
-                      <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                      <div className="flex items-center text-xs sm:text-sm text-theme-tertiary">
                         <div className="animate-spin w-4 h-4 border-2 border-[#006D65] border-t-transparent rounded-full mr-2"></div>
                         Chargement...
                       </div>
@@ -938,23 +938,23 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   </div>
 
                   {/* Légende */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 p-3 bg-gray-50 rounded-lg text-xs sm:text-sm">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 p-3 bg-theme-secondary rounded-lg text-xs sm:text-sm">
                     <div className="flex items-center">
-                      <div className="w-4 h-4 bg-white border-2 border-gray-300 rounded mr-2 shadow-sm"></div>
-                      <span className="text-gray-700">Disponible</span>
+                      <div className="w-4 h-4 bg-theme-card border-2 border-theme rounded mr-2 shadow-sm"></div>
+                      <span className="text-theme-primary">Disponible</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-4 h-4 bg-gradient-to-br from-[#006D65] to-[#005a54] rounded mr-2 shadow-sm"></div>
-                      <span className="text-gray-700">Sélectionné</span>
+                      <span className="text-theme-primary">Sélectionné</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-4 h-4 bg-gray-100 border-2 border-gray-200 rounded mr-2"></div>
-                      <span className="text-gray-700">Occupé</span>
+                      <span className="text-theme-primary">Occupé</span>
                     </div>
                   </div>
 
                   {/* Grille responsive */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 max-h-96 overflow-y-auto p-2 border border-gray-200 rounded-lg bg-gray-50">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 max-h-96 overflow-y-auto p-2 border border-theme rounded-lg bg-theme-secondary">
                     {generateAllTimeSlots().map((timeSlot) => {
                       const isAvailable = isSlotAvailable(timeSlot);
                       const isSelected = editFormData.appointmentTime === timeSlot;
@@ -975,7 +975,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                             ${isSelected 
                               ? 'bg-gradient-to-br from-[#006D65] to-[#005a54] text-white shadow-lg transform scale-105 ring-2 ring-[#006D65] ring-offset-2' 
                               : isAvailable
-                                ? 'bg-white text-gray-700 border-2 border-gray-300 hover:border-[#006D65] hover:shadow-md hover:scale-105'
+                                ? 'bg-theme-card text-theme-primary border-2 border-theme hover:border-[#006D65] hover:shadow-md hover:scale-105'
                                 : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed opacity-50'
                             }
                           `}
@@ -1000,17 +1000,17 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                   </div>
 
                   {/* Info créneaux */}
-                  <div className="mt-3 text-xs sm:text-sm text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                  <div className="mt-3 text-xs sm:text-sm text-theme-secondary bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
                     <div className="flex items-start">
-                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                       </svg>
                       <div>
-                        <p className="font-semibold text-blue-800 mb-1">Horaires de la clinique</p>
-                        <p className="text-blue-700">
+                        <p className="font-semibold text-blue-800 dark:text-blue-300 mb-1">Horaires de la clinique</p>
+                        <p className="text-blue-700 dark:text-blue-400">
                           Lundi - Dimanche : 8h00 - 18h30 • Créneaux de 30 minutes
                         </p>
-                        <p className="text-blue-700 mt-1">
+                        <p className="text-blue-700 dark:text-blue-400 mt-1">
                           {unavailableSlots.length} créneau{unavailableSlots.length > 1 ? 'x' : ''} occupé{unavailableSlots.length > 1 ? 's' : ''} pour ce service
                         </p>
                       </div>
@@ -1020,14 +1020,14 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
 
                 {/* Notes (optionnel) */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-theme-primary mb-2">
                     Notes (optionnel)
                   </label>
                   <textarea
                     value={editFormData.notes}
                     onChange={(e) => setEditFormData({ ...editFormData, notes: e.target.value })}
                     placeholder="Informations supplémentaires..."
-                    className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none text-sm sm:text-base"
+                    className="input-theme w-full p-2 sm:p-3 rounded-lg focus:ring-2 focus:ring-[#006D65] focus:border-transparent resize-none text-sm sm:text-base theme-transition"
                     rows={3}
                   />
                 </div>
@@ -1041,7 +1041,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setEditError('');
                       setUnavailableSlots([]);
                     }}
-                    className="flex-1 px-4 py-2 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium text-sm sm:text-base"
+                    className="flex-1 px-4 py-2 sm:py-3 border border-theme text-theme-primary rounded-lg hover:bg-theme-hover transition-colors font-medium text-sm sm:text-base"
                   >
                     Annuler
                   </button>
@@ -1068,14 +1068,14 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
         {/* NOUVEAU MODAL - Suppression définitive */}
         {showDeleteModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30">
-            <div className="bg-white rounded-lg shadow-xl border border-gray-200 max-w-md w-full">
+            <div className="bg-theme-modal rounded-lg shadow-theme-xl border border-theme max-w-md w-full theme-transition">
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
                     <Trash className="w-5 h-5 text-red-600" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900">Suppression définitive</h3>
+                    <h3 className="text-lg font-semibold text-theme-primary">Suppression définitive</h3>
                     <p className="text-sm text-red-600">⚠️ Cette action est irréversible</p>
                   </div>
                   <button
@@ -1083,7 +1083,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setShowDeleteModal(false);
                       setSelectedAppointmentForDelete(null);
                     }}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-theme-tertiary hover:text-theme-primary"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -1112,7 +1112,7 @@ export default function MesRendezVous({ onNavigateToNewAppointment, onNavigateTo
                       setShowDeleteModal(false);
                       setSelectedAppointmentForDelete(null);
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                    className="flex-1 px-4 py-2 border border-theme text-theme-primary rounded-lg hover:bg-theme-hover transition-colors font-medium"
                   >
                     Conserver
                   </button>
