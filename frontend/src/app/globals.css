@@ -168,6 +168,50 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
+/* ============================================
+   LOGO RESPONSIVE - CLASSE UTILITAIRE
+   ============================================ */
+/* 
+  Cette classe permet d'avoir un logo parfaitement adapté à chaque taille d'écran :
+  - Mobile (< 640px) : 48px de hauteur (compact)
+  - Tablet (640px - 768px) : 56px de hauteur (moyen)
+  - Desktop (768px - 1024px) : 64px de hauteur (normal)
+  - Large Desktop (> 1024px) : 72px de hauteur (grand)
+*/
+.logo-responsive {
+  height: 3rem; /* 48px par défaut (mobile) */
+  width: auto;
+  object-fit: cover;
+  border-radius: 0.5rem; /* rounded-lg */
+  transition: transform 0.3s ease;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .logo-responsive {
+    height: 3.5rem; /* 56px */
+  }
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .logo-responsive {
+    height: 4rem; /* 64px */
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1024px) {
+  .logo-responsive {
+    height: 4.5rem; /* 72px */
+  }
+}
+
+/* Effet hover sur le logo */
+.logo-responsive:hover {
+  transform: scale(1.05);
+}
+
 /* Navigation Links avec couleurs exactes - DARK MODE COMPATIBLE */
 .nav-link-theme {
   color: var(--text-primary);
@@ -407,21 +451,6 @@ footer {
   background-color: #2dd4bf !important; /* Vert clair en dark mode */
 }
 
-/* Responsive mobile - Boutons auth */
-@media (max-width: 768px) {
-  .auth-buttons-mobile {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .auth-buttons-mobile .btn-outline,
-  .auth-buttons-mobile .btn-primary {
-    flex: 1;
-    text-align: center;
-  }
-}
 /* ============================================
    DARK MODE TOGGLE - VISIBILITÉ DESKTOP
    ============================================ */
@@ -466,6 +495,22 @@ footer {
 /* ============================================
    AMÉLIORATIONS RESPONSIVE MOBILE
    ============================================ */
+
+/* Responsive mobile - Boutons auth */
+@media (max-width: 768px) {
+  .auth-buttons-mobile {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .auth-buttons-mobile .btn-outline,
+  .auth-buttons-mobile .btn-primary {
+    flex: 1;
+    text-align: center;
+  }
+}
 
 /* Optimisations pour mobile */
 @media (max-width: 640px) {

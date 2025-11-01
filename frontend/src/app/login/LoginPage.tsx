@@ -18,7 +18,9 @@ export default function LoginPage() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // Initialiser le dark mode depuis localStorage
+  // ==========================================
+  // INITIALISATION DU DARK MODE DEPUIS LOCALSTORAGE
+  // ==========================================
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -30,7 +32,9 @@ export default function LoginPage() {
     }
   }, []);
 
-  // Toggle dark mode
+  // ==========================================
+  // FONCTION TOGGLE DARK MODE
+  // ==========================================
   const toggleDarkMode = () => {
     if (darkMode) {
       document.documentElement.classList.remove('dark');
@@ -43,7 +47,9 @@ export default function LoginPage() {
     }
   };
 
-  // Redirection si déjà connecté
+  // ==========================================
+  // REDIRECTION SI DÉJÀ CONNECTÉ
+  // ==========================================
   useEffect(() => {
     if (isAuthenticated && userType) {
       switch (userType) {
@@ -60,18 +66,26 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, userType, router]);
 
-  // Effacer erreurs au changement
+  // ==========================================
+  // EFFACER LES ERREURS AU CHANGEMENT DE CHAMPS
+  // ==========================================
   useEffect(() => {
     if (error && (formData.email || formData.password)) {
       clearError();
     }
   }, [formData.email, formData.password]);
 
+  // ==========================================
+  // GESTION DES CHANGEMENTS D'INPUT
+  // ==========================================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // ==========================================
+  // SOUMISSION DU FORMULAIRE DE CONNEXION
+  // ==========================================
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading || !formData.email || !formData.password) return;
@@ -92,10 +106,13 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-theme-primary theme-transition flex flex-col">
 
-      {/* Dark Mode Toggle - Mobile (fixed) */}
+      {/* ========================================== */}
+      {/* BOUTON DARK MODE - VERSION MOBILE (FIXE) */}
+      {/* ========================================== */}
       <div className="fixed top-4 right-4 z-50 sm:hidden">
         <button
           onClick={toggleDarkMode}
+          type="button"
           className="p-3 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme"
           aria-label="Toggle Dark Mode"
         >
@@ -111,42 +128,79 @@ export default function LoginPage() {
         </button>
       </div>
 
-      {/* Header avec logo */}
+      {/* ========================================== */}
+      {/* HEADER AVEC LOGO - RESPONSIVE */}
+      {/* ========================================== */}
       <div className="w-full py-4 sm:py-6">
         <div className="text-center">
           <Link href="/" className="inline-block group">
+            {/* 
+              LOGO RESPONSIVE :
+              - Mobile (< 640px) : h-12 (48px) - Taille réduite pour mobile
+              - Tablet (640px - 768px) : h-14 (56px) - Taille moyenne
+              - Desktop (> 768px) : h-16 (64px) - Taille normale desktop
+              - Large Desktop (> 1024px) : h-18 (72px) - Taille grande desktop
+              
+              w-auto permet au logo de garder son ratio
+              object-cover assure un bon rendu de l'image
+              rounded-lg donne des coins arrondis
+              drop-shadow-xl ajoute une ombre portée
+              group-hover:scale-105 fait un zoom léger au survol
+              transition-transform duration-300 anime le zoom
+            */}
             <img
-  src="/logo.jpg"
-  alt="OSIRIX Clinique Médical"
-  className="h-8 sm:h-11 md:h-14 lg:h-16 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover mb-1 sm:mb-2"
-/>
+              src="/logo.jpg"
+              alt="OSIRIX Clinique Médical"
+              className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover mb-1 sm:mb-2"
+            />
           </Link>
+          
+          {/* 
+            TEXTE DU LOGO - RESPONSIVE :
+            Mobile : text-lg (18px)
+            Tablet : text-xl (20px)
+            Desktop : text-2xl (24px)
+            Large Desktop : text-3xl (30px)
+          */}
           <div className="mt-2 sm:mt-3">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-light text-theme-primary theme-transition tracking-wide">
+            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-theme-primary theme-transition tracking-wide">
               <span className="font-bold text-primary-700">OSIRIX</span>
-              <span className="ml-1.5 sm:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
+              <span className="ml-1 sm:ml-1.5 md:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
             </h1>
-            <p className="text-xs sm:text-sm text-theme-tertiary theme-transition mt-1">Votre santé, notre priorité</p>
+            {/* 
+              SLOGAN - RESPONSIVE :
+              Mobile : text-xs (12px)
+              Tablet et + : text-sm (14px)
+            */}
+            <p className="text-xs sm:text-sm text-theme-tertiary theme-transition mt-1">
+              Votre santé, notre priorité
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Contenu principal */}
+      {/* ========================================== */}
+      {/* CONTENU PRINCIPAL */}
+      {/* ========================================== */}
       <div className="flex-1 max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 w-full">
         <div className="grid lg:grid-cols-12 gap-6 md:gap-8 items-stretch">
 
-          {/* Formulaire de connexion */}
+          {/* ========================================== */}
+          {/* FORMULAIRE DE CONNEXION (GAUCHE) */}
+          {/* ========================================== */}
           <div className="lg:col-span-6">
             <div className="bg-theme-card rounded-xl sm:rounded-2xl shadow-theme-xl border border-theme p-4 sm:p-6 md:p-8 h-full flex flex-col theme-transition">
 
-              {/* Titre + Dark Mode Desktop */}
+              {/* TITRE + DARK MODE DESKTOP */}
               <div className="flex items-center justify-between mb-4 sm:mb-6">
                 <div className="flex items-center space-x-3">
+                  {/* Icône de connexion */}
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-600 to-primary-700 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg">
                     <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                     </svg>
                   </div>
+                  {/* Titre et sous-titre */}
                   <div>
                     <h2 className="text-xl sm:text-2xl font-bold text-theme-primary theme-transition">
                       Connexion
@@ -157,10 +211,11 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* Dark Mode Desktop + Tooltip */}
+                {/* BOUTON DARK MODE DESKTOP + TOOLTIP */}
                 <div className="hidden sm:block relative group">
                   <button
                     onClick={toggleDarkMode}
+                    type="button"
                     className="p-3.5 rounded-full bg-theme-card hover:bg-theme-hover shadow-theme-lg theme-transition border border-theme flex items-center justify-center"
                     aria-label="Toggle Dark Mode"
                   >
@@ -174,7 +229,7 @@ export default function LoginPage() {
                       </svg>
                     )}
                   </button>
-                  {/* Tooltip */}
+                  {/* Tooltip au survol */}
                   <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200">
                     <div className="bg-theme-primary text-theme-inverse text-xs font-medium px-3 py-1.5 rounded-lg shadow-theme-lg whitespace-nowrap">
                       Mode sombre
@@ -184,7 +239,9 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* Erreur */}
+              {/* ========================================== */}
+              {/* MESSAGE D'ERREUR */}
+              {/* ========================================== */}
               {error && (
                 <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-600 rounded-r-lg theme-transition">
                   <div className="flex items-start">
@@ -199,9 +256,12 @@ export default function LoginPage() {
                 </div>
               )}
 
+              {/* ========================================== */}
+              {/* FORMULAIRE */}
+              {/* ========================================== */}
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 flex-1">
 
-                {/* Email */}
+                {/* CHAMP EMAIL */}
                 <div>
                   <label htmlFor="email" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5">
                     Adresse email
@@ -218,7 +278,7 @@ export default function LoginPage() {
                   />
                 </div>
 
-                {/* Mot de passe */}
+                {/* CHAMP MOT DE PASSE */}
                 <div>
                   <label htmlFor="password" className="block text-xs sm:text-sm font-semibold text-theme-primary theme-transition mb-1.5">
                     Mot de passe
@@ -234,6 +294,7 @@ export default function LoginPage() {
                       className="input-theme w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 text-sm sm:text-base border-2 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all theme-transition"
                       placeholder="••••••"
                     />
+                    {/* Bouton pour afficher/masquer le mot de passe */}
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
@@ -253,7 +314,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* Options */}
+                {/* OPTIONS : SE SOUVENIR + MOT DE PASSE OUBLIÉ */}
                 <div className="flex items-center justify-between text-xs">
                   <label className="flex items-center cursor-pointer">
                     <input type="checkbox" className="w-4 h-4 text-primary-500 rounded focus:ring-primary-500" />
@@ -264,8 +325,11 @@ export default function LoginPage() {
                   </Link>
                 </div>
 
-                {/* Boutons */}
+                {/* ========================================== */}
+                {/* BOUTONS D'ACTION */}
+                {/* ========================================== */}
                 <div className="space-y-3">
+                  {/* BOUTON SE CONNECTER */}
                   <button
                     type="submit"
                     disabled={isLoading || !formData.email || !formData.password}
@@ -289,6 +353,7 @@ export default function LoginPage() {
                     )}
                   </button>
 
+                  {/* BOUTON CRÉER UN COMPTE */}
                   <Link
                     href="/register"
                     className="w-full bg-theme-card border-2 border-theme hover:bg-theme-hover text-theme-primary font-bold py-3 sm:py-3.5 rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2"
@@ -301,7 +366,7 @@ export default function LoginPage() {
                 </div>
               </form>
 
-              {/* Retour */}
+              {/* LIEN RETOUR À L'ACCUEIL */}
               <div className="mt-4 text-center">
                 <Link href="/" className="inline-flex items-center space-x-2 text-theme-secondary hover:text-primary-500 font-medium text-sm">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -313,21 +378,29 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Témoignage (desktop only) */}
+          {/* ========================================== */}
+          {/* TÉMOIGNAGE (DESKTOP UNIQUEMENT - DROITE) */}
+          {/* ========================================== */}
           <div className="lg:col-span-6 space-y-6 hidden lg:block">
+            {/* IMAGE AVEC BADGES */}
             <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src="https://rainbow-sante.com/wp-content/uploads/2024/02/shutterstock_2267075473-scaled.webp"
                 alt="Infirmière OSIRIX"
                 className="w-full h-full object-cover"
               />
+              {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 via-transparent to-transparent"></div>
+              
+              {/* Badge "Équipe OSIRIX" en bas à gauche */}
               <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-xl">
                 <div className="flex items-center space-x-3">
                   <div className="w-3 h-3 bg-primary-500 rounded-full animate-pulse"></div>
                   <span className="text-base font-bold text-primary-700">Équipe OSIRIX</span>
                 </div>
               </div>
+              
+              {/* Badge "5.0" en haut à droite */}
               <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl px-4 py-3 shadow-xl">
                 <div className="flex items-center space-x-2">
                   <span className="text-base font-bold text-secondary-600">5.0</span>
@@ -338,6 +411,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* CITATION DU TÉMOIGNAGE */}
             <div className="space-y-6">
               <blockquote className="text-lg font-light text-theme-secondary pl-6 relative">
                 <svg className="absolute -top-3 -left-3 w-8 h-8 text-primary-300" fill="currentColor" viewBox="0 0 24 24">
@@ -345,6 +419,8 @@ export default function LoginPage() {
                 </svg>
                 Depuis que je suis suivi à OSIRIX, ma qualité de vie s'est considérablement améliorée.
               </blockquote>
+              
+              {/* PROFIL DU TÉMOIN */}
               <div className="flex items-center space-x-4 pl-6">
                 <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-theme-light shadow-lg">
                   <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Marc Kouassi" className="w-full h-full object-cover" />
@@ -359,8 +435,10 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="w-full py-3 sm:py-4 mt-auto ">
+      {/* ========================================== */}
+      {/* FOOTER */}
+      {/* ========================================== */}
+      <div className="w-full py-3 sm:py-4 mt-auto">
         <p className="text-center text-xs text-theme-tertiary theme-transition">
           © 2025 OSIRIX Clinique Médical. Tous droits réservés.
         </p>
