@@ -29,9 +29,14 @@ interface ChatAssistantProps {
 
 export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
     // ============================================
-    // 📱 NOUVEAU : Détection taille écran
+    // 📱 Détection taille écran
     // ============================================
     const [isMobile, setIsMobile] = useState(false);
+
+    // ============================================
+    // 🌓 NOUVEAU : Détection du mode sombre
+    // ============================================
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -42,6 +47,34 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    // ============================================
+    // 🌓 Détection et synchronisation du thème
+    // ============================================
+    useEffect(() => {
+        const checkDarkMode = () => {
+            // Vérifier si la classe 'dark' est présente sur le html ou body
+            const isDark = document.documentElement.classList.contains('dark') || 
+                          document.body.classList.contains('dark');
+            setIsDarkMode(isDark);
+        };
+
+        // Vérification initiale
+        checkDarkMode();
+
+        // Observer les changements de classe sur le document
+        const observer = new MutationObserver(checkDarkMode);
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
     }, []);
 
     const [isChatOpen, setIsChatOpen] = useState(false);
@@ -136,12 +169,16 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
             {isChatOpen && (
                 <div
                     className={`
-                      fixed bg-white dark:bg-gray-800 shadow-2xl dark:shadow-gray-900/50 border border-gray-200 dark:border-gray-600 z-50 flex flex-col transition-colors duration-300
+                      fixed shadow-2xl border z-50 flex flex-col transition-all duration-300
                          ${isMobile
                             ? 'bottom-32 left-4 right-4 h-[50vh] max-w-md mx-auto rounded-2xl'
                             : 'bottom-24 right-6 w-96 h-[500px] rounded-2xl'
-                                }
-                            `}
+                        }
+                        ${isDarkMode 
+                            ? 'bg-gray-800 border-gray-600 shadow-gray-900/50' 
+                            : 'bg-white border-gray-200'
+                        }
+                    `}
                 >
                     {/* Header du chat */}
                     <div className="bg-gradient-to-r from-[#006D65] to-[#00806E] text-white p-4 rounded-t-2xl flex items-center justify-between">
@@ -163,18 +200,27 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     </div>
 
                     {/* Messages du chat */}
-                    <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+                    <div className={`flex-1 p-4 overflow-y-auto space-y-3 transition-colors duration-300 ${
+                        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+                    }`}>
                         {chatMessages.map((msg) => (
                             <div key={msg.id}>
                                 <div className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                                     <div
-                                        className={`max-w-[75%] p-3 rounded-lg text-sm transition-colors duration-300 ${msg.type === 'user'
-                                            ? 'bg-[#006D65] text-white rounded-br-none shadow-md'
-                                            : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-600'
-                                            }`}
+                                        className={`max-w-[75%] p-3 rounded-lg text-sm transition-colors duration-300 ${
+                                            msg.type === 'user'
+                                                ? 'bg-[#006D65] text-white rounded-br-none shadow-md'
+                                                : isDarkMode
+                                                    ? 'bg-gray-700 text-gray-100 rounded-bl-none shadow-sm border border-gray-600'
+                                                    : 'bg-white text-gray-800 rounded-bl-none shadow-sm border border-gray-200'
+                                        }`}
                                     >
                                         <p className="whitespace-pre-line">{msg.message}</p>
-                                        <p className={`text-xs mt-1 ${msg.type === 'user' ? 'text-green-200' : 'text-gray-500 dark:text-gray-300'}`}>
+                                        <p className={`text-xs mt-1 ${
+                                            msg.type === 'user' 
+                                                ? 'text-green-200' 
+                                                : isDarkMode ? 'text-gray-300' : 'text-gray-500'
+                                        }`}>
                                             {msg.timestamp.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                                         </p>
                                     </div>
@@ -188,7 +234,11 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                                 key={index}
                                                 onClick={() => handleSuggestionClick(suggestion)}
                                                 disabled={chatLoading}
-                                                className="text-xs bg-[#006D65]/10 dark:bg-[#006D65]/20 text-[#006D65] dark:text-[#00c4b8] px-3 py-1 rounded-full hover:bg-[#006D65]/20 dark:hover:bg-[#006D65]/30 transition-colors border border-[#006D65]/30 dark:border-[#006D65]/50 disabled:opacity-50"
+                                                className={`text-xs px-3 py-1 rounded-full transition-colors border disabled:opacity-50 ${
+                                                    isDarkMode
+                                                        ? 'bg-[#006D65]/20 text-[#00c4b8] hover:bg-[#006D65]/30 border-[#006D65]/50'
+                                                        : 'bg-[#006D65]/10 text-[#006D65] hover:bg-[#006D65]/20 border-[#006D65]/30'
+                                                }`}
                                             >
                                                 {suggestion}
                                             </button>
@@ -201,11 +251,21 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                         {/* Indicateur de chargement */}
                         {chatLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-white dark:bg-gray-700 p-3 rounded-lg rounded-bl-none shadow-sm border border-gray-200 dark:border-gray-600 transition-colors duration-300">
+                                <div className={`p-3 rounded-lg rounded-bl-none shadow-sm border transition-colors duration-300 ${
+                                    isDarkMode
+                                        ? 'bg-gray-700 border-gray-600'
+                                        : 'bg-white border-gray-200'
+                                }`}>
                                     <div className="flex space-x-1">
-                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce"></div>
-                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                                        <div className={`w-2 h-2 rounded-full animate-bounce ${
+                                            isDarkMode ? 'bg-gray-500' : 'bg-gray-400'
+                                        }`}></div>
+                                        <div className={`w-2 h-2 rounded-full animate-bounce ${
+                                            isDarkMode ? 'bg-gray-500' : 'bg-gray-400'
+                                        }`} style={{ animationDelay: '0.1s' }}></div>
+                                        <div className={`w-2 h-2 rounded-full animate-bounce ${
+                                            isDarkMode ? 'bg-gray-500' : 'bg-gray-400'
+                                        }`} style={{ animationDelay: '0.2s' }}></div>
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +275,11 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                     </div>
 
                     {/* Input du chat */}
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
+                    <div className={`p-4 border-t transition-colors duration-300 ${
+                        isDarkMode 
+                            ? 'border-gray-700 bg-gray-800' 
+                            : 'border-gray-200 bg-white'
+                    }`}>
                         <div className="flex space-x-2">
                             <input
                                 type="text"
@@ -224,12 +288,20 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                                 onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
                                 placeholder="Tapez votre message..."
                                 disabled={chatLoading}
-                                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#00c4b8] focus:border-transparent disabled:opacity-50 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 transition-colors duration-300"
+                                className={`flex-1 px-3 py-2 border rounded-lg text-sm focus:ring-2 focus:border-transparent disabled:opacity-50 transition-colors duration-300 ${
+                                    isDarkMode
+                                        ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-[#00c4b8]'
+                                        : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400 focus:ring-[#006D65]'
+                                }`}
                             />
                             <button
                                 onClick={handleSendMessage}
                                 disabled={!chatMessage.trim() || chatLoading}
-                                className="bg-[#006D65] dark:bg-[#007a71] text-white p-2 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                                className={`p-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-md ${
+                                    isDarkMode
+                                        ? 'bg-[#007a71] hover:bg-[#005a54] text-white'
+                                        : 'bg-[#006D65] hover:bg-[#005a54] text-white'
+                                }`}
                             >
                                 {chatLoading ? (
                                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -242,7 +314,7 @@ export default function ChatAssistant({ onNavigate }: ChatAssistantProps) {
                 </div>
             )}
 
-            {/* Bouton flottant du chat - MODIFIÉ POUR RESPONSIVE */}
+            {/* Bouton flottant du chat */}
             <button
                 onClick={() => setIsChatOpen(!isChatOpen)}
                 className={`
