@@ -61,7 +61,7 @@ interface MesAnalysesProps {
 // COMPOSANT PRINCIPAL - Mes Analyses Médicales
 // ============================================
 export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesProps) {
-  
+
   // ============================================
   // HOOK - Récupération de l'utilisateur connecté
   // ============================================
@@ -70,19 +70,19 @@ export default function MesAnalyses({ onNavigateToNewAppointment }: MesAnalysesP
   // ============================================
   // ÉTATS - Gestion de l'état du composant
   // ============================================
-  
+
   // Liste des analyses médicales
   const [analyses, setAnalyses] = useState<LabOrder[]>([]);
-  
+
   // Statistiques (nombre total d'analyses)
   const [stats, setStats] = useState<AnalysesStats | null>(null);
-  
+
   // État de chargement
   const [loading, setLoading] = useState(true);
-  
+
   // Message d'erreur éventuel
   const [error, setError] = useState<string | null>(null);
-  
+
   // Ordre de tri (récent en premier ou plus ancien en premier)
   const [sortOrder, setSortOrder] = useState<'recent' | 'oldest'>('recent');
 
@@ -178,24 +178,24 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
   // FONCTION - Rendu d'une carte d'analyse
   // ============================================
   const renderAnalysisItem = (analysis: LabOrder) => (
-    <div 
-      key={analysis.id} 
+    <div
+      key={analysis.id}
       className="bg-theme-card border border-theme rounded-xl p-4 md:p-6 hover:shadow-theme-lg hover:border-[#006D65]/40 dark:hover:border-primary-400/40 transition-all duration-300 theme-transition overflow-hidden group"
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1 min-w-0">
-          
+
           {/* ============================================
               EN-TÊTE - Type d'examen et date
               ============================================ */}
           <div className="flex items-center mb-3 min-w-0">
             <div className="flex items-center space-x-3 min-w-0 flex-1">
-              
+
               {/* Icône de l'analyse */}
               <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#006D65] to-[#005a54] dark:from-primary-400 dark:to-primary-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
                 <Stethoscope className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
-              
+
               {/* Type d'examen et date */}
               <div className="min-w-0 flex-1">
                 <h4 className="font-bold text-theme-primary text-sm md:text-base lg:text-xl break-words group-hover:text-[#006D65] dark:group-hover:text-primary-400 transition-colors">
@@ -214,12 +214,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
               ============================================ */}
           {analysis.doctor && (
             <div className="flex items-center space-x-3 mb-4 bg-gradient-to-r from-[#006D65]/10 to-[#006D65]/5 dark:from-primary-500/20 dark:to-primary-500/10 rounded-xl p-3 md:p-4 min-w-0 border border-[#006D65]/20 dark:border-primary-400/30 shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
-              
+
               {/* Icône médecin */}
               <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-[#006D65] to-[#005a54] dark:from-primary-400 dark:to-primary-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
                 <User className="w-4 h-4 md:w-5 md:h-5 text-white" />
               </div>
-              
+
               {/* Nom du médecin */}
               <div className="min-w-0 flex-1">
                 <p className="text-xs md:text-sm lg:text-base font-bold text-theme-primary truncate">
@@ -243,9 +243,9 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                 <span>📋</span>
                 Instructions médicales :
               </p>
-              
+
               {/* Contenu des instructions */}
-              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-primary-400 break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
+              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-gradient-to-r from-[#006D65]/10 to-[#006D65]/5 dark:from-primary-700/40 dark:to-primary-800/30 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-primary-400 break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
                 {analysis.instructions}
               </div>
             </div>
@@ -256,17 +256,17 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
               ============================================ */}
           {analysis.resultFiles && Array.isArray(analysis.resultFiles) && analysis.resultFiles.length > 0 && (
             <div className="mb-4 min-w-0">
-              
+
               {/* Titre de la section avec compteur */}
               <p className="text-xs md:text-sm text-theme-primary font-bold mb-3 flex items-center gap-2">
                 <span>📎</span>
                 Fichiers joints ({analysis.resultFiles.length}) :
               </p>
-              
+
               {/* Liste des fichiers */}
               <div className="space-y-2 md:space-y-3">
                 {analysis.resultFiles.map((filePath: any, index: number) => {
-                  
+
                   // Extraire l'URL et le nom du fichier
                   const fileUrl = typeof filePath === 'string' ? filePath : filePath.url;
                   const fileName = typeof filePath === 'string'
@@ -314,13 +314,13 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                       <div className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-[#E6A930] to-[#d49821] dark:from-secondary-400 dark:to-secondary-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300">
                         <FileText className="w-4 h-4 md:w-5 md:h-5 lg:w-6 lg:h-6 text-white" />
                       </div>
-                      
+
                       {/* Nom et type du fichier */}
                       <div className="flex-1 min-w-0 overflow-hidden">
                         <p className="text-xs md:text-sm font-bold text-theme-primary truncate">{fileName}</p>
                         <p className="text-[10px] md:text-xs text-[#E6A930] dark:text-secondary-400 font-medium">{fileType}</p>
                       </div>
-                      
+
                       {/* Bouton de téléchargement */}
                       <button
                         onClick={handleDownload}
@@ -347,24 +347,24 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
   if (loading) {
     return (
       <div className="bg-theme-card rounded-xl shadow-theme-lg p-4 md:p-6 lg:p-8 border border-theme theme-transition">
-        
+
         {/* Animation de chargement (skeleton) */}
         <div className="animate-pulse space-y-6">
-          
+
           {/* Header skeleton */}
           <div className="flex items-center justify-between">
             <div className="h-6 md:h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/2 md:w-1/3"></div>
             <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-200 dark:bg-gray-700 rounded-xl"></div>
           </div>
-          
+
           {/* Stats skeleton */}
           <div className="h-20 md:h-24 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-2xl"></div>
-          
+
           {/* Analyses skeleton */}
           <div className="space-y-3 md:space-y-4">
             {[1, 2, 3].map((i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="h-28 md:h-32 lg:h-36 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-xl"
               ></div>
             ))}
@@ -379,18 +379,18 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
   // ============================================
   return (
     <div className="bg-theme-card theme-transition rounded-xl shadow-theme-lg p-4 md:p-8 border border-theme">
-      
+
       {/* ============================================
           HEADER - Titre de la section
           ============================================ */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 pb-4 border-b-2 border-theme gap-3">
-        
+
         {/* Titre avec emoji */}
         <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-theme-primary theme-transition flex items-center gap-2 md:gap-3">
           <span className="text-2xl md:text-3xl">🩺</span>
           <span>Mes Analyses Médicales</span>
         </h2>
-        
+
         {/* Icône décorative */}
         <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#006D65] to-[#005a54] dark:from-primary-400 dark:to-primary-600 rounded-xl flex items-center justify-center shadow-md hover:scale-110 transition-transform duration-300">
           <Stethoscope className="w-5 h-5 md:w-6 md:h-6 text-white" />
@@ -416,12 +416,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
         <div className="bg-gradient-to-br from-[#006D65]/10 via-theme-card to-[#E6A930]/10 dark:from-primary-500/20 dark:to-secondary-500/20 rounded-2xl p-6 md:p-8 mb-6 md:mb-8 border-2 border-[#006D65]/20 dark:border-primary-400/30 shadow-theme-lg hover:shadow-theme-xl transition-shadow duration-300 theme-transition">
           <div className="flex justify-center">
             <div className="text-center">
-              
+
               {/* Cercle avec le nombre total */}
               <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-[#006D65] to-[#005a54] dark:from-primary-400 dark:to-primary-600 rounded-full mb-3 md:mb-4 shadow-xl hover:scale-110 transition-transform duration-300">
                 <p className="text-2xl md:text-3xl font-black text-white">{stats.total}</p>
               </div>
-              
+
               {/* Label */}
               <p className="text-sm md:text-base lg:text-lg text-theme-primary font-bold mt-2">
                 <span className="mr-2">📊</span>
@@ -436,12 +436,12 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
           TRI - Sélecteur d'ordre de tri
           ============================================ */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
-        
+
         {/* Label */}
         <label htmlFor="sortOrder" className="text-sm md:text-base text-theme-primary font-medium">
           Trier par :
         </label>
-        
+
         {/* Menu déroulant de tri */}
         <select
           id="sortOrder"
@@ -470,27 +470,27 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
           return sortedAnalyses.length > 0 ? (
             sortedAnalyses.map(renderAnalysisItem)
           ) : (
-            
+
             /* ============================================
                ÉTAT VIDE - Aucune analyse disponible
                ============================================ */
             <div className="text-center py-12 md:py-16 px-4">
-              
+
               {/* Icône vide */}
               <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-lg">
                 <Stethoscope className="w-8 h-8 md:w-10 md:h-10 text-gray-500 dark:text-gray-400" />
               </div>
-              
+
               {/* Message principal */}
               <p className="text-lg md:text-xl lg:text-2xl text-theme-primary font-bold mb-2">
                 Aucune analyse disponible
               </p>
-              
+
               {/* Message secondaire */}
               <p className="text-sm md:text-base text-theme-secondary mb-6 max-w-md mx-auto">
                 Vos analyses médicales apparaîtront ici une fois prescrites par votre médecin
               </p>
-              
+
               {/* Bouton pour prendre RDV (si la fonction est fournie) */}
               {onNavigateToNewAppointment && (
                 <button
