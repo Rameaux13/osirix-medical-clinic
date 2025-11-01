@@ -537,6 +537,8 @@ export default function MesDocuments() {
     <div className="space-y-6">
       {/* ===================================================================
           SECTION : HEADER DOCUMENTS - MODE CLAIR/SOMBRE UNIFORME
+          🎨 Desktop: Vert OSIRIX #006D65 en mode sombre
+          📱 Mobile: Turquoise #2dd4bf en mode sombre (plus lisible)
           =================================================================== */}
       <div className="bg-theme-card theme-transition rounded-xl shadow-theme-sm p-6 border border-theme">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -551,15 +553,15 @@ export default function MesDocuments() {
           
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Badge compteur - Adaptatif au thème */}
-            <div className="bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-center theme-transition">
+            <div className="bg-[#006D65] dark:bg-[#006D65] text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-center theme-transition">
               <div className="font-bold text-xl sm:text-2xl">{totalDocuments}</div>
               <div className="text-sm sm:text-lg opacity-90">Documents</div>
             </div>
 
-            {/* 📸 BOUTON SCANNER - ADAPTATIF MODE SOMBRE */}
+            {/* 📸 BOUTON SCANNER - VERT OSIRIX SUR DESKTOP EN MODE SOMBRE */}
             <button
               onClick={openScanModal}
-              className="bg-[#006D65] hover:bg-[#005a54] dark:bg-[#2dd4bf] dark:hover:bg-[#14b8a6] text-white dark:text-gray-900 px-4 py-2 sm:px-8 sm:py-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-xl"
+              className="bg-[#006D65] hover:bg-[#005a54] dark:bg-[#006D65] dark:hover:bg-[#005a54] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-xl"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
@@ -569,10 +571,10 @@ export default function MesDocuments() {
               <span className="sm:hidden">Scanner</span>
             </button>
 
-            {/* 📄 BOUTON AJOUTER - ADAPTATIF MODE SOMBRE */}
+            {/* 📄 BOUTON AJOUTER - ORANGE OSIRIX (reste identique) */}
             <button
               onClick={() => setShowUpload(true)}
-              className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#fbbf24] dark:hover:bg-[#f59e0b] text-white dark:text-gray-900 px-4 py-2 sm:px-8 sm:py-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-xl"
+              className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#E6A930] dark:hover:bg-[#d4941a] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-xl"
             >
               <span className="hidden sm:inline">Ajouter un document</span>
               <span className="sm:hidden">Ajouter</span>
@@ -589,7 +591,7 @@ export default function MesDocuments() {
           {/* Titre de section - Adaptatif */}
           <h3 className="text-lg sm:text-2xl font-semibold text-theme-primary theme-transition mb-3 sm:mb-4">Filtrer par type</h3>
           
-          {/* Grille de filtres - Adaptatifs */}
+          {/* Grille de filtres - Adaptatifs avec VERT OSIRIX sur desktop */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
             {DOCUMENT_TYPES.map((type) => (
               <button
@@ -598,8 +600,8 @@ export default function MesDocuments() {
                 className={`
                   p-3 sm:p-5 rounded-lg border-2 transition-all duration-200 text-center theme-transition
                   ${selectedType === type.value
-                    ? 'border-[#006D65] bg-[#006D65] dark:border-[#2dd4bf] dark:bg-[#2dd4bf] text-white dark:text-gray-900'
-                    : 'border-theme bg-theme-card hover:border-[#006D65] dark:hover:border-[#2dd4bf] hover:bg-theme-hover text-theme-primary'
+                    ? 'border-[#006D65] bg-[#006D65] dark:border-[#006D65] dark:bg-[#006D65] text-white'
+                    : 'border-theme bg-theme-card hover:border-[#006D65] dark:hover:border-[#006D65] hover:bg-theme-hover text-theme-primary'
                   }
                 `}
               >
@@ -609,7 +611,7 @@ export default function MesDocuments() {
           </div>
         </div>
 
-        {/* Barre de recherche - Adaptative */}
+        {/* Barre de recherche - Adaptative avec VERT OSIRIX */}
         <form onSubmit={handleSearch} className="flex gap-2 sm:gap-3">
           <div className="flex-1 relative">
             <input
@@ -617,11 +619,11 @@ export default function MesDocuments() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Rechercher dans mes documents..."
-              className="w-full px-4 py-3 pr-12 sm:px-6 sm:py-4 sm:pr-16 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#2dd4bf] focus:border-[#006D65] dark:focus:border-[#2dd4bf] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
+              className="w-full px-4 py-3 pr-12 sm:px-6 sm:py-4 sm:pr-16 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#006D65] focus:border-[#006D65] dark:focus:border-[#006D65] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
             />
             <button
               type="submit"
-              className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 p-2 text-theme-tertiary hover:text-[#006D65] dark:hover:text-[#2dd4bf] theme-transition"
+              className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 p-2 text-theme-tertiary hover:text-[#006D65] dark:hover:text-[#006D65] theme-transition"
             >
               <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -663,7 +665,7 @@ export default function MesDocuments() {
             </div>
 
             <form onSubmit={handleUpload} className="p-6 sm:p-8 space-y-6 sm:space-y-8">
-              {/* Zone de drag & drop */}
+              {/* Zone de drag & drop - VERT OSIRIX */}
               <div
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -672,8 +674,8 @@ export default function MesDocuments() {
                 className={`
                   border-2 border-dashed rounded-lg p-8 sm:p-12 text-center transition-all duration-200 theme-transition
                   ${dragActive
-                    ? 'border-[#006D65] dark:border-[#2dd4bf] bg-[#006D65]/5 dark:bg-[#2dd4bf]/10'
-                    : 'border-theme hover:border-[#006D65] dark:hover:border-[#2dd4bf]'
+                    ? 'border-[#006D65] dark:border-[#006D65] bg-[#006D65]/5 dark:bg-[#006D65]/10'
+                    : 'border-theme hover:border-[#006D65] dark:hover:border-[#006D65]'
                   }
                 `}
               >
@@ -710,7 +712,7 @@ export default function MesDocuments() {
                     />
                     <label
                       htmlFor="file-upload"
-                      className="inline-block bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#14b8a6] transition-all cursor-pointer text-base sm:text-xl theme-transition"
+                      className="inline-block bg-[#006D65] dark:bg-[#006D65] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-all cursor-pointer text-base sm:text-xl theme-transition"
                     >
                       Sélectionner un fichier
                     </label>
@@ -729,7 +731,7 @@ export default function MesDocuments() {
                       type="text"
                       value={uploadTitle}
                       onChange={(e) => setUploadTitle(e.target.value)}
-                      className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#2dd4bf] focus:border-[#006D65] dark:focus:border-[#2dd4bf] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
+                      className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#006D65] focus:border-[#006D65] dark:focus:border-[#006D65] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
                       placeholder="Titre descriptif..."
                     />
                   </div>
@@ -743,12 +745,12 @@ export default function MesDocuments() {
                       value={uploadDescription}
                       onChange={(e) => setUploadDescription(e.target.value)}
                       rows={4}
-                      className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#2dd4bf] focus:border-[#006D65] dark:focus:border-[#2dd4bf] text-base sm:text-xl resize-none bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
+                      className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#006D65] focus:border-[#006D65] dark:focus:border-[#006D65] text-base sm:text-xl resize-none bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
                       placeholder="Informations complémentaires..."
                     />
                   </div>
 
-                  {/* Barre de progression */}
+                  {/* Barre de progression - VERT OSIRIX */}
                   {uploading && (
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex justify-between text-base sm:text-xl text-theme-primary theme-transition">
@@ -757,7 +759,7 @@ export default function MesDocuments() {
                       </div>
                       <div className="w-full bg-theme-tertiary rounded-full h-3 sm:h-4 theme-transition">
                         <div
-                          className="bg-[#006D65] dark:bg-[#2dd4bf] h-3 sm:h-4 rounded-full transition-all duration-300"
+                          className="bg-[#006D65] dark:bg-[#006D65] h-3 sm:h-4 rounded-full transition-all duration-300"
                           style={{ width: `${uploadProgress}%` }}
                         ></div>
                       </div>
@@ -769,7 +771,7 @@ export default function MesDocuments() {
                     <button
                       type="submit"
                       disabled={uploading || !uploadFile}
-                      className="flex-1 bg-[#E6A930] dark:bg-[#fbbf24] text-white dark:text-gray-900 py-3 px-6 sm:py-4 sm:px-8 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#f59e0b] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-xl theme-transition"
+                      className="flex-1 bg-[#E6A930] dark:bg-[#E6A930] text-white py-3 px-6 sm:py-4 sm:px-8 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#d4941a] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-xl theme-transition"
                     >
                       {uploading ? 'Upload en cours...' : 'Enregistrer le document'}
                     </button>
@@ -822,6 +824,7 @@ export default function MesDocuments() {
 
       {/* ===================================================================
           MODAL : SCAN DE DOCUMENT - MODE CLAIR/SOMBRE UNIFORME
+          🎨 Tous les boutons en VERT OSIRIX #006D65 sur desktop
           =================================================================== */}
       {showScanModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
@@ -843,9 +846,7 @@ export default function MesDocuments() {
               {/* Canvas caché - disponible pour TOUTES les étapes */}
               <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-              {/* ===================================================================
-                  ÉTAPE 1 : CAMÉRA - VERSION ADAPTÉE MODE SOMBRE
-                  =================================================================== */}
+              {/* ÉTAPE 1 : CAMÉRA */}
               {scanStep === 'camera' && (
                 <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
@@ -854,7 +855,6 @@ export default function MesDocuments() {
                     </p>
                   </div>
 
-                  {/* Vidéo en direct */}
                   <div 
                     className="relative rounded-lg overflow-hidden" 
                     style={{ 
@@ -871,18 +871,16 @@ export default function MesDocuments() {
                       className="w-full h-full object-cover"
                     />
 
-                    {/* Overlay guide */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="border-2 sm:border-4 border-[#E6A930] dark:border-[#fbbf24] border-dashed rounded-lg w-[85%] sm:w-[90%] h-[80%] sm:h-[85%]"></div>
+                      <div className="border-2 sm:border-4 border-[#E6A930] dark:border-[#E6A930] border-dashed rounded-lg w-[85%] sm:w-[90%] h-[80%] sm:h-[85%]"></div>
                     </div>
                   </div>
 
-                  {/* Bouton Capturer */}
                   <div className="flex justify-center pt-2 sm:pt-4">
                     <button
                       onClick={capturePhoto}
                       disabled={!videoStream}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#fbbf24] dark:hover:bg-[#f59e0b] text-white dark:text-gray-900 px-6 py-2.5 sm:px-12 sm:py-5 rounded-full font-bold text-base sm:text-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#E6A930] dark:hover:bg-[#d4941a] text-white px-6 py-2.5 sm:px-12 sm:py-5 rounded-full font-bold text-base sm:text-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                     >
                       📷 Capturer
                     </button>
@@ -899,9 +897,7 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ===================================================================
-                  ÉTAPE 2 : PRÉVISUALISATION - VERSION ADAPTÉE MODE SOMBRE
-                  =================================================================== */}
+              {/* ÉTAPE 2 : PRÉVISUALISATION */}
               {scanStep === 'preview' && capturedImage && (
                 <div className="space-y-3 sm:space-y-6">
                   <div className="text-center">
@@ -910,7 +906,6 @@ export default function MesDocuments() {
                     </p>
                   </div>
 
-                  {/* Image capturée */}
                   <div className="bg-theme-tertiary theme-transition rounded-lg p-2 sm:p-4">
                     <div 
                       className="mx-auto overflow-hidden rounded-lg shadow-theme-lg"
@@ -933,11 +928,10 @@ export default function MesDocuments() {
                     </div>
                   </div>
 
-                  {/* Boutons */}
                   <div className="flex gap-2 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={retakePhoto}
-                      className="px-4 py-2 sm:px-8 sm:py-4 border-2 border-[#006D65] dark:border-[#2dd4bf] text-[#006D65] dark:text-[#2dd4bf] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#2dd4bf] hover:text-white dark:hover:text-gray-900 transition-all text-sm sm:text-xl font-medium"
+                      className="px-4 py-2 sm:px-8 sm:py-4 border-2 border-[#006D65] dark:border-[#006D65] text-[#006D65] dark:text-[#006D65] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#006D65] hover:text-white dark:hover:text-white transition-all text-sm sm:text-xl font-medium"
                     >
                       🔄 Reprendre
                     </button>
@@ -946,7 +940,7 @@ export default function MesDocuments() {
                         setEditedImage(capturedImage);
                         setScanStep('edit');
                       }}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#fbbf24] dark:hover:bg-[#f59e0b] text-white dark:text-gray-900 px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-xl font-medium"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#E6A930] dark:hover:bg-[#d4941a] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-xl font-medium"
                     >
                       ✏️ Éditer
                     </button>
@@ -954,9 +948,7 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ===================================================================
-                  ÉTAPE 2.5 : ÉDITION AVEC ZOOM - VERSION ADAPTÉE MODE SOMBRE
-                  =================================================================== */}
+              {/* ÉTAPE 2.5 : ÉDITION AVEC ZOOM */}
               {scanStep === 'edit' && editedImage && (
                 <div className="space-y-2 sm:space-y-6">
                   <div className="text-center">
@@ -965,7 +957,6 @@ export default function MesDocuments() {
                     </p>
                   </div>
 
-                  {/* Image avec zoom et pan */}
                   <div className="bg-theme-tertiary theme-transition rounded-lg p-1 sm:p-4 overflow-hidden">
                     <div
                       className="flex justify-center relative cursor-move"
@@ -1028,7 +1019,6 @@ export default function MesDocuments() {
                         draggable={false}
                       />
 
-                      {/* Indicateur de zoom */}
                       {zoomLevel > 1 && (
                         <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs sm:text-base">
                           {Math.round(zoomLevel * 100)}%
@@ -1092,7 +1082,7 @@ export default function MesDocuments() {
                       </div>
                       {zoomLevel > 1 && (
                         <p className="text-[9px] sm:text-sm text-theme-tertiary theme-transition mt-1">
-                          💡 {window.innerWidth < 640 ? 'Glissez pour déplacer' : 'Glissez pour déplacer'}
+                          💡 Glissez pour déplacer
                         </p>
                       )}
                     </div>
@@ -1109,7 +1099,7 @@ export default function MesDocuments() {
                         >
                           ↶ -90°
                         </button>
-                        <span className="text-xs sm:text-xl font-bold text-[#006D65] dark:text-[#2dd4bf] min-w-[35px] sm:min-w-[80px] text-center theme-transition">
+                        <span className="text-xs sm:text-xl font-bold text-[#006D65] dark:text-[#006D65] min-w-[35px] sm:min-w-[80px] text-center theme-transition">
                           {rotation}°
                         </span>
                         <button
@@ -1179,7 +1169,6 @@ export default function MesDocuments() {
                       </div>
                     </div>
 
-                    {/* Bouton réinitialisation globale */}
                     {(brightness !== 100 || contrast !== 100 || rotation !== 0 || zoomLevel !== 1) && (
                       <button
                         onClick={() => {
@@ -1196,7 +1185,7 @@ export default function MesDocuments() {
                     )}
                   </div>
 
-                  {/* Boutons navigation */}
+                  {/* Boutons navigation - VERT OSIRIX */}
                   <div className="flex gap-2 sm:gap-4 justify-center pt-2 sm:pt-4">
                     <button
                       onClick={() => {
@@ -1217,7 +1206,7 @@ export default function MesDocuments() {
                         await new Promise(resolve => setTimeout(resolve, 100));
                         setScanStep('save');
                       }}
-                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#fbbf24] dark:hover:bg-[#f59e0b] text-white dark:text-gray-900 px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-xl font-medium"
+                      className="bg-[#E6A930] hover:bg-[#d4941a] dark:bg-[#E6A930] dark:hover:bg-[#d4941a] text-white px-4 py-2 sm:px-8 sm:py-4 rounded-lg transition-all text-sm sm:text-xl font-medium"
                     >
                       ✅ Terminer
                     </button>
@@ -1225,9 +1214,7 @@ export default function MesDocuments() {
                 </div>
               )}
 
-              {/* ===================================================================
-                  ÉTAPE 3 : ENREGISTREMENT - VERSION ADAPTÉE MODE SOMBRE
-                  =================================================================== */}
+              {/* ÉTAPE 3 : ENREGISTREMENT */}
               {scanStep === 'save' && capturedImage && (
                 <div className="space-y-4 sm:space-y-6">
                   <div className="text-center mb-4 sm:mb-6">
@@ -1236,7 +1223,6 @@ export default function MesDocuments() {
                     </p>
                   </div>
 
-                  {/* Aperçu miniature */}
                   <div className="flex justify-center mb-4 sm:mb-6">
                     <img
                       src={capturedImage}
@@ -1245,7 +1231,6 @@ export default function MesDocuments() {
                     />
                   </div>
 
-                  {/* Formulaire */}
                   <div className="space-y-4 sm:space-y-6">
                     <div>
                       <label className="block text-base sm:text-xl font-medium text-theme-primary theme-transition mb-2 sm:mb-3">
@@ -1256,7 +1241,7 @@ export default function MesDocuments() {
                         value={scanFileName}
                         onChange={(e) => setScanFileName(e.target.value)}
                         placeholder="Ex: Ordonnance Dr Kouassi"
-                        className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#2dd4bf] focus:border-[#006D65] dark:focus:border-[#2dd4bf] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
+                        className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#006D65] focus:border-[#006D65] dark:focus:border-[#006D65] text-base sm:text-xl bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
                         autoFocus
                       />
                     </div>
@@ -1269,25 +1254,23 @@ export default function MesDocuments() {
                         value={scanDescription}
                         onChange={(e) => setScanDescription(e.target.value)}
                         rows={3}
-                        className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#2dd4bf] focus:border-[#006D65] dark:focus:border-[#2dd4bf] text-base sm:text-xl resize-none bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
+                        className="w-full px-4 py-3 sm:px-6 sm:py-4 border border-theme rounded-lg focus:ring-2 focus:ring-[#006D65] dark:focus:ring-[#006D65] focus:border-[#006D65] dark:focus:border-[#006D65] text-base sm:text-xl resize-none bg-theme-card text-theme-primary theme-transition placeholder:text-theme-tertiary"
                         placeholder="Informations complémentaires..."
                       />
                     </div>
 
-                    {/* Barre de progression si upload en cours */}
                     {uploading && (
                       <div className="space-y-2 sm:space-y-3">
                         <div className="flex justify-between text-base sm:text-xl text-theme-primary theme-transition">
                           <span>Enregistrement en cours...</span>
-                          <span className="font-bold text-[#006D65] dark:text-[#2dd4bf]">⏳</span>
+                          <span className="font-bold text-[#006D65] dark:text-[#006D65]">⏳</span>
                         </div>
                         <div className="w-full bg-theme-tertiary rounded-full h-3 sm:h-4">
-                          <div className="bg-[#006D65] dark:bg-[#2dd4bf] h-3 sm:h-4 rounded-full transition-all duration-300 animate-pulse" style={{ width: '70%' }}></div>
+                          <div className="bg-[#006D65] dark:bg-[#006D65] h-3 sm:h-4 rounded-full transition-all duration-300 animate-pulse" style={{ width: '70%' }}></div>
                         </div>
                       </div>
                     )}
 
-                    {/* Boutons */}
                     <div className="flex gap-3 sm:gap-4 pt-4 sm:pt-6">
                       <button
                         type="button"
@@ -1301,7 +1284,7 @@ export default function MesDocuments() {
                         type="button"
                         onClick={saveScanDocument}
                         disabled={uploading || !scanFileName.trim()}
-                        className="flex-1 bg-[#E6A930] dark:bg-[#fbbf24] text-white dark:text-gray-900 py-3 px-6 sm:py-4 sm:px-8 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#f59e0b] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-xl"
+                        className="flex-1 bg-[#E6A930] dark:bg-[#E6A930] text-white py-3 px-6 sm:py-4 sm:px-8 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#d4941a] transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-xl"
                       >
                         {uploading ? '💾 Enregistrement...' : '💾 Enregistrer le document'}
                       </button>
@@ -1315,11 +1298,10 @@ export default function MesDocuments() {
       )}
 
       {/* ===================================================================
-          MODAL : PRÉVISUALISATION SÉCURISÉE - MODE CLAIR/SOMBRE UNIFORME
+          MODAL : PRÉVISUALISATION SÉCURISÉE - VERT OSIRIX SUR DESKTOP
           =================================================================== */}
       {previewDocument && (
         <div className="fixed inset-0 bg-theme-primary theme-transition z-50 flex flex-col">
-          {/* Header de prévisualisation */}
           <div className="bg-theme-card theme-transition border-b border-theme px-4 py-3 sm:px-6 sm:py-4 flex-shrink-0">
             <div className="flex items-center justify-between">
               <h2 className="text-lg sm:text-2xl font-bold text-theme-primary theme-transition truncate">{previewDocument.title}</h2>
@@ -1337,7 +1319,7 @@ export default function MesDocuments() {
               <div className="max-w-6xl mx-auto bg-theme-card theme-transition rounded-lg shadow-theme-lg p-4 sm:p-8 border border-theme">
                 {loadingPreview ? (
                   <div className="flex items-center justify-center py-12 sm:py-16">
-                    <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-[#006D65] dark:border-[#2dd4bf]"></div>
+                    <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-[#006D65] dark:border-[#006D65]"></div>
                     <span className="ml-4 text-base sm:text-xl text-theme-secondary theme-transition">Chargement de la prévisualisation...</span>
                   </div>
                 ) : previewDocument.fileType.includes('image') ? (
@@ -1370,7 +1352,7 @@ export default function MesDocuments() {
                       />
                     ) : (
                       <div className="space-y-3 sm:space-y-4">
-                        <div className="text-6xl sm:text-8xl text-[#006D65] dark:text-[#2dd4bf]">📄</div>
+                        <div className="text-6xl sm:text-8xl text-[#006D65] dark:text-[#006D65]">📄</div>
                         <div className="space-y-2 sm:space-y-3">
                           <h3 className="text-2xl sm:text-3xl font-bold text-theme-primary theme-transition">Document PDF</h3>
                           <p className="text-base sm:text-xl text-theme-secondary theme-transition">{previewDocument.fileName}</p>
@@ -1383,7 +1365,7 @@ export default function MesDocuments() {
                   </div>
                 ) : (
                   <div className="text-center space-y-4 sm:space-y-6">
-                    <div className="text-6xl sm:text-8xl text-[#006D65] dark:text-[#2dd4bf]">{getFileExtension(previewDocument.fileName)}</div>
+                    <div className="text-6xl sm:text-8xl text-[#006D65] dark:text-[#006D65]">{getFileExtension(previewDocument.fileName)}</div>
                     <div className="space-y-2 sm:space-y-3">
                       <h3 className="text-2xl sm:text-3xl font-bold text-theme-primary theme-transition">{previewDocument.title}</h3>
                       <p className="text-base sm:text-xl text-theme-secondary theme-transition">{previewDocument.fileName}</p>
@@ -1420,7 +1402,7 @@ export default function MesDocuments() {
                 <div className="flex gap-3 sm:gap-4 justify-center pt-6 sm:pt-8 border-t border-theme mt-4 sm:mt-6">
                   <button
                     onClick={() => handleDownload(previewDocument.id)}
-                    className="bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#14b8a6] transition-all text-base sm:text-xl font-medium flex items-center gap-2"
+                    className="bg-[#006D65] dark:bg-[#006D65] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-all text-base sm:text-xl font-medium flex items-center gap-2"
                   >
                     <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -1441,7 +1423,7 @@ export default function MesDocuments() {
       )}
 
       {/* ===================================================================
-          SECTION : LISTE DES DOCUMENTS - MODE CLAIR/SOMBRE UNIFORME
+          SECTION : LISTE DES DOCUMENTS - VERT OSIRIX SUR DESKTOP
           =================================================================== */}
       <div className="bg-theme-card theme-transition rounded-xl shadow-theme-sm border border-theme">
         {error && (
@@ -1453,7 +1435,7 @@ export default function MesDocuments() {
 
         {loading ? (
           <div className="flex items-center justify-center py-12 sm:py-16">
-            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-[#006D65] dark:border-[#2dd4bf]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-[#006D65] dark:border-[#006D65]"></div>
             <span className="ml-4 text-base sm:text-xl text-theme-secondary theme-transition">Chargement...</span>
           </div>
         ) : documents.length === 0 ? (
@@ -1465,7 +1447,7 @@ export default function MesDocuments() {
             </p>
             <button
               onClick={() => setShowUpload(true)}
-              className="bg-[#E6A930] dark:bg-[#fbbf24] text-white dark:text-gray-900 px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#f59e0b] transition-all text-base sm:text-xl"
+              className="bg-[#E6A930] dark:bg-[#E6A930] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg hover:bg-[#d4941a] dark:hover:bg-[#d4941a] transition-all text-base sm:text-xl"
             >
               Ajouter un document
             </button>
@@ -1478,16 +1460,15 @@ export default function MesDocuments() {
               </h3>
               <div className="flex items-center gap-3 sm:gap-4">
                 {selectedType !== 'all' && (
-                  <span className="bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg theme-transition">
+                  <span className="bg-[#006D65] dark:bg-[#006D65] text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full text-sm sm:text-lg theme-transition">
                     {DOCUMENT_TYPES.find(t => t.value === selectedType)?.label}
                   </span>
                 )}
-                {/* Boutons Grille/Liste : cachés sur mobile, visibles sur tablette+ */}
                 <div className="hidden sm:flex border border-theme rounded-lg theme-transition">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`px-6 py-3 text-xl font-medium transition-all theme-transition ${viewMode === 'grid'
-                      ? 'bg-[#E6A930] dark:bg-[#fbbf24] text-white dark:text-gray-900'
+                      ? 'bg-[#E6A930] dark:bg-[#E6A930] text-white'
                       : 'text-theme-primary hover:bg-theme-hover'
                       }`}
                   >
@@ -1496,7 +1477,7 @@ export default function MesDocuments() {
                   <button
                     onClick={() => setViewMode('list')}
                     className={`px-6 py-3 text-xl font-medium transition-all theme-transition ${viewMode === 'list'
-                      ? 'bg-[#E6A930] dark:bg-[#fbbf24] text-white dark:text-gray-900'
+                      ? 'bg-[#E6A930] dark:bg-[#E6A930] text-white'
                       : 'text-theme-primary hover:bg-theme-hover'
                       }`}
                   >
@@ -1506,13 +1487,12 @@ export default function MesDocuments() {
               </div>
             </div>
 
-            {/* Vue GRILLE */}
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
                 {documents.map((document) => (
                   <div
                     key={document.id}
-                    className="border border-theme rounded-xl p-4 sm:p-6 hover:shadow-theme-lg transition-all duration-200 hover:border-[#006D65] dark:hover:border-[#2dd4bf] bg-gradient-to-br from-theme-card to-theme-secondary theme-transition"
+                    className="border border-theme rounded-xl p-4 sm:p-6 hover:shadow-theme-lg transition-all duration-200 hover:border-[#006D65] dark:hover:border-[#006D65] bg-gradient-to-br from-theme-card to-theme-secondary theme-transition"
                   >
                     <div className="flex items-start justify-between mb-3 sm:mb-4">
                       <div className="text-2xl sm:text-3xl">{getFileExtension(document.fileName)}</div>
@@ -1543,13 +1523,13 @@ export default function MesDocuments() {
                     <div className="flex gap-2 sm:gap-3">
                       <button
                         onClick={() => handlePreview(document)}
-                        className="flex-1 bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 py-2 px-3 sm:py-3 sm:px-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#14b8a6] transition-all text-sm sm:text-lg font-medium"
+                        className="flex-1 bg-[#006D65] dark:bg-[#006D65] text-white py-2 px-3 sm:py-3 sm:px-4 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-all text-sm sm:text-lg font-medium"
                       >
                         Voir
                       </button>
                       <button
                         onClick={() => handleDownload(document.id)}
-                        className="px-3 py-2 sm:px-4 sm:py-3 border border-[#006D65] dark:border-[#2dd4bf] text-[#006D65] dark:text-[#2dd4bf] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#2dd4bf] hover:text-white dark:hover:text-gray-900 transition-all text-sm sm:text-lg"
+                        className="px-3 py-2 sm:px-4 sm:py-3 border border-[#006D65] dark:border-[#006D65] text-[#006D65] dark:text-[#006D65] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#006D65] hover:text-white dark:hover:text-white transition-all text-sm sm:text-lg"
                         title="Télécharger"
                       >
                         <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1570,12 +1550,11 @@ export default function MesDocuments() {
                 ))}
               </div>
             ) : (
-              /* Vue LISTE */
               <div className="space-y-3 sm:space-y-4">
                 {documents.map((document) => (
                   <div
                     key={document.id}
-                    className="border border-theme rounded-lg p-4 sm:p-6 hover:shadow-theme-md transition-all duration-200 hover:border-[#006D65] dark:hover:border-[#2dd4bf] theme-transition"
+                    className="border border-theme rounded-lg p-4 sm:p-6 hover:shadow-theme-md transition-all duration-200 hover:border-[#006D65] dark:hover:border-[#006D65] theme-transition"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3 sm:space-x-6 flex-1 min-w-0">
@@ -1594,13 +1573,13 @@ export default function MesDocuments() {
                       <div className="flex gap-2 sm:gap-3 ml-3 sm:ml-6 flex-shrink-0">
                         <button
                           onClick={() => handlePreview(document)}
-                          className="bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900 px-3 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#14b8a6] transition-all text-sm sm:text-lg whitespace-nowrap"
+                          className="bg-[#006D65] dark:bg-[#006D65] text-white px-3 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-[#005a54] dark:hover:bg-[#005a54] transition-all text-sm sm:text-lg whitespace-nowrap"
                         >
                           Voir
                         </button>
                         <button
                           onClick={() => handleDownload(document.id)}
-                          className="px-2 py-2 sm:px-4 sm:py-2 border border-[#006D65] dark:border-[#2dd4bf] text-[#006D65] dark:text-[#2dd4bf] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#2dd4bf] hover:text-white dark:hover:text-gray-900 transition-all text-sm sm:text-lg"
+                          className="px-2 py-2 sm:px-4 sm:py-2 border border-[#006D65] dark:border-[#006D65] text-[#006D65] dark:text-[#006D65] rounded-lg hover:bg-[#006D65] dark:hover:bg-[#006D65] hover:text-white dark:hover:text-white transition-all text-sm sm:text-lg"
                           title="Télécharger"
                         >
                           <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1623,7 +1602,6 @@ export default function MesDocuments() {
               </div>
             )}
 
-            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center space-x-2 sm:space-x-3 mt-8 sm:mt-12">
                 <button
@@ -1642,7 +1620,7 @@ export default function MesDocuments() {
                         key={pageNumber}
                         onClick={() => handlePageChange(pageNumber)}
                         className={`px-3 py-2 sm:px-5 sm:py-3 rounded-lg text-sm sm:text-xl theme-transition ${currentPage === pageNumber
-                          ? 'bg-[#006D65] dark:bg-[#2dd4bf] text-white dark:text-gray-900'
+                          ? 'bg-[#006D65] dark:bg-[#006D65] text-white'
                           : 'border border-theme hover:bg-theme-hover text-theme-primary'
                           }`}
                       >
