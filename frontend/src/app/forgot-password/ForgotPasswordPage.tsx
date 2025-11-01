@@ -154,7 +154,7 @@ export default function ForgotPasswordPage() {
             {/* ========================================== */}
             {/* TITRE ET DESCRIPTION - INTÉGRÉS DANS LE BLOC */}
             {/* ========================================== */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-2">
               <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-theme-primary theme-transition">
                 Mot de passe oublié ?
               </h2>
