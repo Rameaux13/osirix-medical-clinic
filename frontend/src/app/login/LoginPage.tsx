@@ -129,50 +129,51 @@ export default function LoginPage() {
       </div>
 
       {/* ========================================== */}
-      {/* HEADER AVEC LOGO - RESPONSIVE */}
+      {/* HEADER AVEC LOGO - RESPONSIVE COMPACT */}
+      {/* Padding réduit sur mobile pour économiser de l'espace */}
       {/* ========================================== */}
-      <div className="w-full py-4 sm:py-6">
+      <div className="w-full py-2 sm:py-4 md:py-6">
         <div className="text-center">
           <Link href="/" className="inline-block group">
             {/* 
-              LOGO RESPONSIVE :
-              - Mobile (< 640px) : h-12 (48px) - Taille réduite pour mobile
-              - Tablet (640px - 768px) : h-14 (56px) - Taille moyenne
-              - Desktop (> 768px) : h-16 (64px) - Taille normale desktop
+              LOGO RESPONSIVE - OPTIMISÉ MOBILE :
+              - Mobile (< 640px) : h-10 (40px) - Taille COMPACTE pour mobile
+              - Tablet (640px - 768px) : h-12 (48px) - Taille petite
+              - Desktop (768px - 1024px) : h-16 (64px) - Taille normale desktop
               - Large Desktop (> 1024px) : h-18 (72px) - Taille grande desktop
               
               w-auto permet au logo de garder son ratio
               object-cover assure un bon rendu de l'image
               rounded-lg donne des coins arrondis
-              drop-shadow-xl ajoute une ombre portée
+              drop-shadow-lg ajoute une ombre portée (réduite sur mobile)
               group-hover:scale-105 fait un zoom léger au survol
               transition-transform duration-300 anime le zoom
             */}
             <img
               src="/logo.jpg"
               alt="OSIRIX Clinique Médical"
-              className="h-12 sm:h-14 md:h-16 lg:h-18 w-auto mx-auto drop-shadow-xl group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover mb-1 sm:mb-2"
+              className="h-10 sm:h-12 md:h-16 lg:h-18 w-auto mx-auto drop-shadow-lg group-hover:scale-105 transition-transform duration-300 rounded-lg object-cover mb-1 sm:mb-2"
             />
           </Link>
           
           {/* 
-            TEXTE DU LOGO - RESPONSIVE :
-            Mobile : text-lg (18px)
-            Tablet : text-xl (20px)
-            Desktop : text-2xl (24px)
-            Large Desktop : text-3xl (30px)
+            TEXTE DU LOGO - RESPONSIVE COMPACT :
+            Mobile : text-base (16px) - Plus compact
+            Tablet : text-lg (18px)
+            Desktop : text-xl (20px)
+            Large Desktop : text-2xl (24px)
           */}
-          <div className="mt-2 sm:mt-3">
-            <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-light text-theme-primary theme-transition tracking-wide">
+          <div className="mt-1 sm:mt-2">
+            <h1 className="text-base sm:text-lg md:text-xl lg:text-2xl font-light text-theme-primary theme-transition tracking-wide">
               <span className="font-bold text-primary-700">OSIRIX</span>
               <span className="ml-1 sm:ml-1.5 md:ml-2 text-theme-secondary">CLINIQUE MÉDICAL</span>
             </h1>
             {/* 
-              SLOGAN - RESPONSIVE :
-              Mobile : text-xs (12px)
-              Tablet et + : text-sm (14px)
+              SLOGAN - RESPONSIVE COMPACT :
+              Mobile : text-[10px] (10px) - Très petit sur mobile
+              Tablet et + : text-xs (12px)
             */}
-            <p className="text-xs sm:text-sm text-theme-tertiary theme-transition mt-1">
+            <p className="text-[10px] sm:text-xs text-theme-tertiary theme-transition mt-0.5">
               Votre santé, notre priorité
             </p>
           </div>

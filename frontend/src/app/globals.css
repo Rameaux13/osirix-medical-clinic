@@ -169,17 +169,17 @@ body {
 }
 
 /* ============================================
-   LOGO RESPONSIVE - CLASSE UTILITAIRE
+   LOGO RESPONSIVE - CLASSE UTILITAIRE OPTIMISÉE
    ============================================ */
 /* 
   Cette classe permet d'avoir un logo parfaitement adapté à chaque taille d'écran :
-  - Mobile (< 640px) : 48px de hauteur (compact)
-  - Tablet (640px - 768px) : 56px de hauteur (moyen)
+  - Mobile (< 640px) : 40px de hauteur (TRÈS COMPACT pour mobile)
+  - Tablet (640px - 768px) : 48px de hauteur (compact)
   - Desktop (768px - 1024px) : 64px de hauteur (normal)
   - Large Desktop (> 1024px) : 72px de hauteur (grand)
 */
 .logo-responsive {
-  height: 3rem; /* 48px par défaut (mobile) */
+  height: 2.5rem; /* 40px par défaut (mobile) - RÉDUIT */
   width: auto;
   object-fit: cover;
   border-radius: 0.5rem; /* rounded-lg */
@@ -189,7 +189,7 @@ body {
 /* Tablet */
 @media (min-width: 640px) {
   .logo-responsive {
-    height: 3.5rem; /* 56px */
+    height: 3rem; /* 48px - RÉDUIT */
   }
 }
 
