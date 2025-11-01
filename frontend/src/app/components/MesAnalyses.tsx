@@ -236,7 +236,7 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
           {/* ============================================
               INSTRUCTIONS MÉDICALES - Si disponibles
               ============================================ */}
-          {analysis.instructions && (
+            {analysis.instructions && (
             <div className="mb-4">
               {/* Titre de la section */}
               <p className="text-xs md:text-sm text-theme-primary mb-2 font-bold flex items-center gap-2">
@@ -244,8 +244,8 @@ Document généré automatiquement par OSIRIX CLINIQUE MÉDICAL
                 Instructions médicales :
               </p>
 
-              {/* Contenu des instructions */}
-              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-gradient-to-r from-[#006D65]/8 to-[#006D65]/4 md:from-[#006D65]/25 md:to-[#006D65]/15 dark:from-primary-700/40 dark:to-primary-800/30 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-primary-400 break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
+              {/* Contenu des instructions - FOND TRÈS CLAIR EN MODE CLAIR */}
+              <div className="text-xs md:text-sm lg:text-base text-theme-primary bg-[#006D65]/8 md:bg-[#006D65]/12 dark:bg-[#006D65]/40 rounded-xl p-3 md:p-4 border-l-4 border-[#006D65] dark:border-[#006D65] break-words overflow-wrap-anywhere shadow-sm hover:shadow-md transition-shadow duration-300 theme-transition">
                 {analysis.instructions}
               </div>
             </div>
